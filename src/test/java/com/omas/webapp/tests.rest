@@ -1,0 +1,32 @@
+### reg test 1
+POST http://localhost:8080/api/reg/new
+content-type: application/json
+
+{
+    "username": "Suorittaja42",
+    "name": "Johan Peura",
+    "teamID": "0",
+    "password": "sala"
+}
+
+### log test 1 - correct password
+POST http://localhost:8080/api/login
+content-type: application/json
+
+{
+    "username": "Suorittaja42",
+    "name": "Johan Peura",
+    "teamID": "0",
+    "password": "sala"
+}
+
+### log test 2 - wrong password
+POST http://localhost:8080/api/login
+content-type: application/json
+
+{
+    "username": "Suorittaja42",
+    "name": "Johan Peura",
+    "teamID": "0",
+    "password": "väärä"
+}
