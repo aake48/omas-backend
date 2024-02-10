@@ -2,23 +2,21 @@ package com.omas.webapp.service;
 
 import io.jsonwebtoken.Claims; 
 import io.jsonwebtoken.Jwts; 
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders; 
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails; 
 import org.springframework.stereotype.Component; 
-import java.security.Key; 
 import java.util.Date; 
 import java.util.HashMap; 
 import java.util.Map; 
 import java.util.function.Function;
+
 import org.springframework.beans.factory.annotation.Value;
 
 @Component
 public class JwtService { 
 	
 	@Value("${jwt.secret}")
-	public String SECRET; 
+	private String secret; 
 	
 	public String generateToken(String userName) { 
 		Map<String, Object> claims = new HashMap<>(); 
@@ -31,12 +29,7 @@ public class JwtService {
 				.subject(userName) 
 				.issuedAt(new Date(System.currentTimeMillis())) 
 				.expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 8))// 1000 * 60 * 60 = 1h 
-				.signWith(getSignKey(), SignatureAlgorithm.HS256).compact(); 
-	} 
-
-	private Key getSignKey() { 
-		byte[] keyBytes= Decoders.BASE64.decode(SECRET); 
-		return Keys.hmacShaKeyFor(keyBytes); 
+				. signWith(Keys.hmacShaKeyFor(secret.getBytes())).compact(); 
 	} 
 
 	public String extractUsername(String token) { 
@@ -53,8 +46,7 @@ public class JwtService {
 	} 
 
 	private Claims extractAllClaims(String token) { 
-		return Jwts.parser().setSigningKey(SECRET).build().parseClaimsJws(token).getBody();
-
+		return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parseSignedClaims(token).getPayload();		
 	} 
 
 	private Boolean isTokenExpired(String token) { 
