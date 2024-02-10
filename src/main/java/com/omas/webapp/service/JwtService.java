@@ -5,21 +5,21 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders; 
 import io.jsonwebtoken.security.Keys;
-
 import org.springframework.security.core.userdetails.UserDetails; 
 import org.springframework.stereotype.Component; 
-
 import java.security.Key; 
 import java.util.Date; 
 import java.util.HashMap; 
 import java.util.Map; 
-import java.util.function.Function; 
-
+import java.util.function.Function;
+import org.springframework.beans.factory.annotation.Value;
 
 @Component
 public class JwtService { 
-
-	public static final String SECRET = "5364326B597033733676397532523F45284243256251655468576D5A71347437"; 
+	
+	@Value("${jwt.secret}")
+	public String SECRET; 
+	
 	public String generateToken(String userName) { 
 		Map<String, Object> claims = new HashMap<>(); 
 		return createToken(claims, userName); 
