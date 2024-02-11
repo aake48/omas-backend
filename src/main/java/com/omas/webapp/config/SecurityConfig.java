@@ -33,17 +33,18 @@ public class SecurityConfig {
         return new UserService();
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf.disable())
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { 
+		return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/api/reg", "/api/login").permitAll())
+                .authorizeHttpRequests(requests -> requests.requestMatchers("/api/auth/**").authenticated())
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-    }
+                .build(); 
+	} 
 
     @Bean
     public PasswordEncoder passwordEncoder() {
