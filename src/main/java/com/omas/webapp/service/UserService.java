@@ -31,15 +31,19 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
     }
 
-    public String registerUser(User user) {
+    public boolean registerUser(User user) {
 
-        if (user.getName().length() < 4 || user.getPassword().length() < 4
-                || repository.findByName(user.getName()).isPresent()) {
-            return "User not added due to problem with either username or password";
+        // checks whether a user with this username already exists in the db
+        if (repository.findByName(user.getName()).isPresent()) {
+            return false;
         }
+        // hash and salt password before saving it to db
         user.setPassword(encoder.encode(user.getPassword()));
-        repository.save(user);
-        return "User Added Successfully";
+        try {
+            repository.save(user);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
-
 }
