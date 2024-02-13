@@ -5,19 +5,17 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
 import com.omas.webapp.entity.AuthRequest;
 import com.omas.webapp.service.JwtService;
 import com.omas.webapp.service.UserService;
 import com.omas.webapp.table.User;
-
 import jakarta.validation.Valid;
 
 @RestController
@@ -34,22 +32,23 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/reg")
-    public String addNewUser(@Valid @RequestBody User userInfo) {
+    public ResponseEntity<String> addNewUser(@Valid @RequestBody User userInfo) {
         if (service.registerUser(userInfo)) {
-            return "User Added Successfully";
+            return new ResponseEntity<>("User added.", HttpStatus.OK);
         } else {
-            return "User not added.";
+            return new ResponseEntity<>("User not added.", HttpStatus.FORBIDDEN);
         }
     }
 
-    @PostMapping("/login")
-    public String authenticateAndGetToken(@Valid @RequestBody AuthRequest authRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(authRequest.getUsername());
-        } else {
-            return("invalid user request!");
+    @PostMapping(value = "/login" ) 
+    public ResponseEntity<String> authenticateAndGetToken(@Valid @RequestBody AuthRequest authRequest) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+            String token = jwtService.generateToken(authRequest.getUsername());
+            return new ResponseEntity<>(token, HttpStatus.OK);
+        } catch (AuthenticationException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
     }
 
