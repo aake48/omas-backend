@@ -21,7 +21,7 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
-	private int id; 
+	private long id; 
 	@NotEmpty(message = "Username cannot be empty")
 	@Size(max = 20,  message = "Username cannot be larger than 20 characters")
 	@Size(min = 3, message = "Username cannot be fewer than 3.")
