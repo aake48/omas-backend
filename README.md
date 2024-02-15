@@ -88,7 +88,7 @@ returns either created club -JSON or list of validation violations -JSON
 ### Get club by Id
 
 ```
-Post http://localhost:8080/api/auth/club/{club'sname}
+Post http://localhost:8080/api/club/{club'sname}
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
 content-type: application/json
 
@@ -96,20 +96,20 @@ content-type: application/json
     "clubName": "Seuraajien seura"
 }
 ```
-Retuns club JSON
+returns club JSON
 ### Get all clubs
 
 ```
-GET http://localhost:8080/api/auth/club/all
+GET http://localhost:8080/api/club/all
 ```
-Retuns List of clubs -JSON
+returns List of clubs -JSON
 
 ### Search club with pagination
 
 ```
 GET http://localhost:8080/api/club/query?search=${search}&page=${page}&size=${size}
 ```
-Retuns [Page](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html) of Clubs in JSON
+returns [Page](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html) of Clubs in JSON
 
 ## Competition related
 ### Create new Competition
@@ -128,20 +128,20 @@ returns either created competition -JSON or list of validation violations -JSON
 ### Get competition by Id
 
 ```
-Post http://localhost:8080/api/auth/competition/{competition's name}
+Post http://localhost:8080/api/competition/{competition's name}
 content-type: application/json
 ```
-Retuns competition in JSON
+returns competition in JSON
 ### Get all competitions
 
 ```
-GET http://localhost:8080/api/auth/competition/all
+GET http://localhost:8080/api/competition/all
 ```
-Retuns List of competitions in -JSON
+returns List of competitions in -JSON
 
 ### Search for competitions with pagination
 
 ```
 GET http://localhost:8080/api/competition/query?search=${search}&page=${page}&size=${size}
 ```
-Retuns [Page](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html) of competitions in JSON
+returns [Page](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html) of competitions in JSON
