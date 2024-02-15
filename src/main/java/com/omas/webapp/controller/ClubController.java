@@ -46,7 +46,7 @@ public class ClubController {
 
     }
 
-    @GetMapping("auth/club/{name}")
+    @GetMapping("club/{name}")
     public ResponseEntity<?> getClub(@PathVariable String name) {
         try {
             return new ResponseEntity<>(service.getClub(name), HttpStatus.FOUND);
@@ -55,7 +55,7 @@ public class ClubController {
         }
     }
 
-    @GetMapping("auth/club/all")
+    @GetMapping("club/all")
     public ResponseEntity<List<Club>> getAll() {
             return new ResponseEntity<>(service.getall(), HttpStatus.FOUND);
 
