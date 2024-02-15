@@ -39,16 +39,15 @@ public class ClubController {
                 .registerClub(
                         new Club(club.getClubName(), new Date(Instant.now().toEpochMilli()), userDetails.getId()));
         if (createdClub != null) {
-            return new ResponseEntity<>(club, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdClub, HttpStatus.CREATED);
         }
         return new ResponseEntity<>("the club name: " + club.getClubName() + "  is already taken.",
                 HttpStatus.BAD_REQUEST);
 
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("auth/club/{name}")
-    public ResponseEntity<?> newClub(@PathVariable String name) {
+    public ResponseEntity<?> getClub(@PathVariable String name) {
         try {
             return new ResponseEntity<>(service.getClub(name), HttpStatus.FOUND);
         } catch (Exception e) {
@@ -62,7 +61,7 @@ public class ClubController {
 
     }
 
-    @GetMapping(params = { "page", "size", "search" }, value = "/query")
+    @GetMapping(params = { "page", "size", "search" }, value = "club/query")
     public Page<Club> queryClubs(@RequestParam("page") int page, @RequestParam("size") int size,
             @RequestParam("search") String search) throws Exception {
 

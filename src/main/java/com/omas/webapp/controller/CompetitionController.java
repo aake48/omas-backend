@@ -16,14 +16,14 @@ import com.omas.webapp.entity.CompetitionRequest;
 import com.omas.webapp.service.CompetitionService;
 
 @RestController
-@RequestMapping("/api/competition")
+@RequestMapping("/api/")
 public class CompetitionController {
 
     @Autowired
     CompetitionService service;
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PostMapping("/auth/new")
+    @PostMapping("/auth/competition/new")
     public ResponseEntity<?> addCompetition(@Valid @RequestBody CompetitionRequest CompetitionRequest) {
 
         Competition comp = service.addCompetition(
@@ -36,7 +36,7 @@ public class CompetitionController {
 
     }
 
-    @GetMapping(params = { "page", "size", "search" }, value = "/query")
+    @GetMapping(params = { "page", "size", "search" }, value = "competition/query")
     public Page<Competition> queryCompetitions(@RequestParam("page") int page, @RequestParam("size") int size,
             @RequestParam("search") String search) throws Exception {
 
@@ -57,7 +57,16 @@ public class CompetitionController {
         return resultPage;
     }
 
-    @GetMapping("/all")
+    @GetMapping("competition/{name}")
+    public ResponseEntity<?> getCompetition(@PathVariable String name) {
+        try {
+            return new ResponseEntity<>(service.getCompetition(name), HttpStatus.FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>("No club found", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("competition/all")
     public List<Competition> getCompetitions() {
         return service.getAllCompetitions();
     }
