@@ -42,8 +42,8 @@ public class RepoTests {
 	}
 
 	@Test
-	public void testAddTeam() {
-		Club club = new Club("seura1", new Date(Instant.now().toEpochMilli()));
+	public void testAddTeamClubAndComp() {
+		Club club = new Club("seura1", new Date(Instant.now().toEpochMilli()),1);
 
 		club = clubRepository.save(club);
 
@@ -56,25 +56,9 @@ public class RepoTests {
 		team.setCompetitionId(comp.getName());
 
 		team = teamRepository.save(team);
+		assertThat(club).isNotNull();
 		assertThat(team).isNotNull();
+		assertThat(comp).isNotNull();
 	}
-
-	@Test
-	public void addteam() {
-
-		Team team = new Team();
-		team.setClubId("club");
-		team.setCompetitionId("comp");
-
-
-		
-		try {
-			Team res = teamRepository.save(team);
-			assertThat(res).isNotNull();
-		} catch (Exception e) {
-			return;
-		} 
-	}
-
 
 }

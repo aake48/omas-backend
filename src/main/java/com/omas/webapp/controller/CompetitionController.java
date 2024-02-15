@@ -40,13 +40,12 @@ public class CompetitionController {
     public Page<Competition> queryCompetitions(@RequestParam("page") int page, @RequestParam("size") int size,
             @RequestParam("search") String search) throws Exception {
 
-        if (!search.isBlank() && search.equals(null)) {
+        if (search.equals(null) || !search.isBlank()) {
             Page<Competition> resultPage = service.findWithPaginatedSearch(page, size, search);
 
             if (page > resultPage.getTotalPages()) {
                 throw new Exception();
             }
-
             return resultPage;
         }
 

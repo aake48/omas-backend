@@ -19,5 +19,6 @@ public class Club {
 	@Id
 	private String name; 
 	private Date creationDate;
+	private long idCreator;
  
 } 
