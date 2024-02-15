@@ -101,7 +101,6 @@ Retuns club JSON
 
 ```
 GET http://localhost:8080/api/auth/club/all
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
 ```
 Retuns List of clubs -JSON
 
@@ -129,24 +128,18 @@ returns either created competition -JSON or list of validation violations -JSON
 ### Get competition by Id
 
 ```
-Post http://localhost:8080/api/auth/club/{competition's name}
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
+Post http://localhost:8080/api/auth/competition/{competition's name}
 content-type: application/json
-
-{
-    "competitionName": "kilpa"
-}
 ```
 Retuns competition in JSON
-### Get all clubs
+### Get all competitions
 
 ```
-GET http://localhost:8080/api/auth/club/all
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
+GET http://localhost:8080/api/auth/competition/all
 ```
-Retuns List of clubs -JSON
+Retuns List of competitions in -JSON
 
-### Search for competition with pagination
+### Search for competitions with pagination
 
 ```
 GET http://localhost:8080/api/competition/query?search=${search}&page=${page}&size=${size}
