@@ -1,5 +1,7 @@
 package com.omas.webapp.controller;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +15,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import com.omas.webapp.entity.AuthRequest;
+import com.omas.webapp.entity.RegistrationRequest;
 import com.omas.webapp.service.JwtService;
 import com.omas.webapp.service.UserService;
 import com.omas.webapp.table.User;
@@ -32,8 +35,17 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/reg")
-    public ResponseEntity<String> addNewUser(@Valid @RequestBody User userInfo) {
-        if (service.registerUser(userInfo)) {
+    public ResponseEntity<String> addNewUser(@Valid @RequestBody RegistrationRequest request) {
+
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setLegalname(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setCreationDate(new Date(Instant.now().toEpochMilli()));
+        user.setRoles("ROLE_USER");
+
+        if (service.registerUser(user)) {
             return new ResponseEntity<>("User added.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("User not added.", HttpStatus.FORBIDDEN);

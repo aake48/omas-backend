@@ -24,7 +24,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<User> user = repository.findByName(username);
+        Optional<User> user = repository.findByUsername(username);
 
         // Converting user to UserDetails
         return user.map(UserInfoDetails::new)
@@ -32,9 +32,10 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean registerUser(User user) {
+        System.out.println("user on : "+user);
 
         // checks whether a user with this username already exists in the db
-        if (repository.findByName(user.getName()).isPresent()) {
+        if (repository.findByUsername(user.getUsername()).isPresent()) {
             return false;
         }
         // hash and salt password before saving it to db
@@ -42,6 +43,7 @@ public class UserService implements UserDetailsService {
         try {
             repository.save(user);
         } catch (Exception e) {
+            System.out.println("ex : "+e);
             return false;
         }
         return true;

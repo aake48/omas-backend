@@ -6,21 +6,33 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.omas.webapp.table.User;
 
+import lombok.Getter;
+
+import java.sql.Date;
 import java.util.Arrays; 
 import java.util.Collection; 
 import java.util.List; 
 import java.util.stream.Collectors; 
 
+
 public class UserInfoDetails implements UserDetails { 
 
-	private String name; 
+	private String username; 
+	private @Getter String legalName;
 	private String password; 
+	private @Getter String email;
+	private @Getter Long id;
+	private @Getter Date creationDate;
 	private List<GrantedAuthority> authorities; 
 
-	public UserInfoDetails(User userInfo) { 
-		name = userInfo.getName(); 
-		password = userInfo.getPassword(); 
-		authorities = Arrays.stream(userInfo.getRoles().split(",")) 
+	public UserInfoDetails(User user) { 
+		username = user.getUsername(); 
+		legalName = user.getLegalname();
+		password = user.getPassword(); 
+		email = user.getEmail();
+		id = user.getId();
+		creationDate = user.getCreationDate();
+		authorities = Arrays.stream(user.getRoles().split(",")) 
 				.map(SimpleGrantedAuthority::new) 
 				.collect(Collectors.toList()); 
 	} 
@@ -37,7 +49,7 @@ public class UserInfoDetails implements UserDetails {
 
 	@Override
 	public String getUsername() { 
-		return name; 
+		return username; 
 	} 
 
 	@Override
