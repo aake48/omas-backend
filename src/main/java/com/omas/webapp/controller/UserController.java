@@ -46,9 +46,9 @@ public class UserController {
         user.setRoles("ROLE_USER");
 
         if (service.registerUser(user)) {
-            return new ResponseEntity<>("User added.", HttpStatus.OK);
+            return new ResponseEntity<>("{\"message\":\"User added\"}", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("User not added.", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("{\"message\":\"Username has already been taken\"}", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -58,9 +58,9 @@ public class UserController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
             String token = jwtService.generateToken(authRequest.getUsername());
-            return new ResponseEntity<>(token, HttpStatus.OK);
+            return new ResponseEntity<>("{\"token\":\""+token+"\"}", HttpStatus.OK);
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("{\"message\":\""+e.getMessage()+"\"}", HttpStatus.FORBIDDEN);
         }
     }
 

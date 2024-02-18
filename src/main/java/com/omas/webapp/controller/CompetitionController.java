@@ -16,7 +16,7 @@ import com.omas.webapp.entity.CompetitionRequest;
 import com.omas.webapp.service.CompetitionService;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api")
 public class CompetitionController {
 
     @Autowired
@@ -31,38 +31,43 @@ public class CompetitionController {
         if (comp.equals(null)) {
             return new ResponseEntity<>(comp, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>("the name: " + comp.getName() + "  is already taken.",
+        return new ResponseEntity<>("{\"message\":\"Competition name has already been taken\"}",
                 HttpStatus.BAD_REQUEST);
 
     }
 
-    @GetMapping(params = { "page", "size", "search" }, value = "competition/query")
-    public Page<Competition> queryCompetitions(@RequestParam("page") int page, @RequestParam("size") int size,
+    @GetMapping(params = { "page", "size", "search" }, value = "competition/query/")
+    public ResponseEntity<?> queryCompetitions(@RequestParam("page") int page, @RequestParam("size") int size,
             @RequestParam("search") String search) throws Exception {
-
+                
         if (search.equals(null) || !search.isBlank()) {
             Page<Competition> resultPage = service.findWithPaginatedSearch(page, size, search);
 
             if (page > resultPage.getTotalPages()) {
-                throw new Exception();
+                return new ResponseEntity<>("{\"message\":\"Requested page does not exist.\"}",
+                        HttpStatus.BAD_REQUEST);
             }
-            return resultPage;
+            return new ResponseEntity<>(resultPage,
+                    HttpStatus.OK);
         }
 
         Page<Competition> resultPage = service.firstPaginated(page, size);
 
         if (page > resultPage.getTotalPages()) {
-            throw new Exception();
+            return new ResponseEntity<>("{\"message\":\"Requested page does not exist.\"}",
+                    HttpStatus.BAD_REQUEST);
         }
-        return resultPage;
+        return new ResponseEntity<>(resultPage,
+                HttpStatus.OK);
     }
 
-    @GetMapping("competition/{name}")
+    @GetMapping("competition/id/{name}")
     public ResponseEntity<?> getCompetition(@PathVariable String name) {
         try {
             return new ResponseEntity<>(service.getCompetition(name), HttpStatus.FOUND);
         } catch (Exception e) {
-            return new ResponseEntity<>("No club found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("{\"message\":\"No competition found with the given name\"}",
+                    HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -41,7 +41,7 @@ public class ClubController {
         if (createdClub != null) {
             return new ResponseEntity<>(createdClub, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>("the club name: " + club.getClubName() + "  is already taken.",
+        return new ResponseEntity<>("{\"message\":\"Club name has already been taken.\"}",
                 HttpStatus.BAD_REQUEST);
 
     }
@@ -51,7 +51,7 @@ public class ClubController {
         try {
             return new ResponseEntity<>(service.getClub(name), HttpStatus.FOUND);
         } catch (Exception e) {
-            return new ResponseEntity<>("No club found", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("{\"message\":\"No club found with the given name.\"}", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -62,24 +62,29 @@ public class ClubController {
     }
 
     @GetMapping(params = { "page", "size", "search" }, value = "club/query")
-    public Page<Club> queryClubs(@RequestParam("page") int page, @RequestParam("size") int size,
+    public ResponseEntity<?> queryClubs(@RequestParam("page") int page, @RequestParam("size") int size,
             @RequestParam("search") String search) throws Exception {
 
         if (search.equals(null) || !search.isBlank()) {
             Page<Club> resultPage = service.findWithPaginatedSearch(page, size, search);
 
             if (page > resultPage.getTotalPages()) {
-                throw new Exception();
+                return new ResponseEntity<>("{\"message\":\"Requested page does not exist.\"}",
+                HttpStatus.BAD_REQUEST);
             }
-            return resultPage;
+            return new ResponseEntity<>(resultPage,
+            HttpStatus.OK);
         }
 
         Page<Club> resultPage = service.firstPaginated(page, size);
 
         if (page > resultPage.getTotalPages()) {
-            throw new Exception();
+            return new ResponseEntity<>("{\"message\":\"Requested page does not exist.\"}",
+            HttpStatus.BAD_REQUEST);
+
         }
-        return resultPage;
+        return new ResponseEntity<>(resultPage,
+        HttpStatus.OK);
     }
 
 

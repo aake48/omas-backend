@@ -1,23 +1,56 @@
-### reg test 1
+### reg 
 POST http://localhost:8080/api/reg
 content-type: application/json
 
 {
-    "name": "Username",
+    "name": "pekka",
     "password": "password",
     "email": "temp@email.com",
-    "roles": "ROLE_USER"
+    "username": "user"
 }
 
-### log test 1 - correct password
+### login 
 POST http://localhost:8080/api/login
 content-type: application/json
 
 {
-    "username": "Username",
+    "username": "user",
     "password": "password"
 }
-### 3
-GET http://localhost:8080/api/auth/user
+### add new club
+Post http://localhost:8080/api/auth/club/new
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNzA4MjkyMzY0LCJleHAiOjE3MDgzMjExNjR9.yL2XVAeK1MLNkrIE2aecdAXiWG16JVwGtR-J1sgIFaQ
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzYxMjA5NSwiZXhwIjoxNzA3NjQwODk1fQ.RdVJ7mngL1TiKTV4gw3lKrw_vKNEbHCLf_3z6wMHIrChw-q96WaajMrpWBFp7jWwOEzoEwqS9udHkyx-lQqstQ
+
+{
+    "clubName": "SeuraajienSeura"
+}
+
+### Get club by Id
+
+```
+GET http://localhost:8080/api/club/{SeuraajienSeura}
+
+
+### get all clubs
+GET http://localhost:8080/api/club/all
+
+### search clubs
+GET http://localhost:8080/api/club/query/?search=&page=0&size=10
+
+### add new club
+Post http://localhost:8080/api/auth/competition/new
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNzA4MjkxNTEyLCJleHAiOjE3MDgzMjAzMTJ9.riIzFmGshx5im92rGquzq5y-GlV5C--iG1p1fU7J8Vs
+content-type: application/json
+
+{
+    "competitionName": "kilpa"
+}
+
+
+### search competitions
+
+GET http://localhost:8080/api/competition/query/?search=""page=0&size=10
+
+### get comp by ID
+GET http://localhost:8080/api/competition/{compName}

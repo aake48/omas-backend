@@ -39,13 +39,6 @@ content-type: application/json
     "email": "temp@email.com"
 }
 ```
-Ylläoleva palauttaa joko String message tai JSON:in, jossa on validointivirheet merkattu seuraavasti, ja seuraavissa POST syötteissä validointivirheet tulevat samankaitaisessa JSON-palautteena. 
-
-403 = use not added / username is taken
-
-200 => user added 
-
-400 => JSON 
 ```
 {
   "password": "Password cannot be fewer than 6 characters",
@@ -63,7 +56,7 @@ content-type: application/json
     "username": "Username",
     "password": "password"
 }
-returns string message /
+returns  string:message JSON
 ```
 ## Club related
 ### Create new Club
@@ -88,13 +81,8 @@ returns either created club -JSON or list of validation violations -JSON
 ### Get club by Id
 
 ```
-Post http://localhost:8080/api/club/{club'sname}
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
-content-type: application/json
+GET http://localhost:8080/api/club/?id=${compName}
 
-{
-    "clubName": "Seuraajien seura"
-}
 ```
 returns club JSON
 ### Get all clubs
@@ -109,7 +97,47 @@ returns List of clubs -JSON
 ```
 GET http://localhost:8080/api/club/query?search=${search}&page=${page}&size=${size}
 ```
-returns [Page](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html) of Clubs in JSON
+returns [Page](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html) of Clubs in JSON =>
+```{
+  "content": [
+    {
+      "name": "SeuraajienSeura",
+      "creationDate": "2024-02-18",
+      "idCreator": 1
+    },
+    {
+      "name": "SeuraajienSeura2",
+      "creationDate": "2024-02-18",
+      "idCreator": 2
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 10,
+    "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+    },
+    "offset": 0,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalPages": 1,
+  "totalElements": 1,
+  "size": 10,
+  "number": 0,
+  "sort": {
+    "empty": true,
+    "sorted": false,
+    "unsorted": true
+  },
+  "first": true,
+  "numberOfElements": 1,
+  "empty": false
+}
+```
 
 ## Competition related
 ### Create new Competition
@@ -128,8 +156,7 @@ returns either created competition -JSON or list of validation violations -JSON
 ### Get competition by Id
 
 ```
-Post http://localhost:8080/api/competition/{competition's name}
-content-type: application/json
+GET http://localhost:8080/api/competition/{competition's name}
 ```
 returns competition in JSON
 ### Get all competitions
