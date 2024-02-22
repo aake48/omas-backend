@@ -1,5 +1,9 @@
 # omas-backend - how to get started with dev
 ## 1st Setup PostgreSQL database
+
+### 1st method: postgres docker container
+With docker installed, use ```docker-compose up```
+### 2nd method: local install
 Install  and setup the lastest version of [PostgreSQL](https://www.postgresql.org/download/).  
 Go with the defaults when installing postgres. No additional dependencies or software are needed. 
 Next create a postgres database either in SQL shell (psql) or pgadmin.
@@ -10,7 +14,6 @@ create database omas;
 ```
 To check that omas db was created, type: \l
 
-
 ## 2nd create env.properties 
 Create env.properties file in the root of the project.
 
@@ -18,7 +21,7 @@ env.properties should contain the following:
 ```
 DB-URL=jdbc:postgresql://localhost:5432/omas
 DB-USERNAME=postgres
-DB-PASSWORD=yourPostgresPassword
+DB-PASSWORD=password
 SECRET=48794134879942idontlikedogs1323572342328789
 ```
 ## 3rd run 
