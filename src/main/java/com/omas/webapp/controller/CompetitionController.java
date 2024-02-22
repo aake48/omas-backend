@@ -36,11 +36,11 @@ public class CompetitionController {
 
     }
 
-    @GetMapping(params = { "page", "size", "search" }, value = "competition/query/")
+    @GetMapping(params = { "page", "size", "search" }, value = "competition/query")
     public ResponseEntity<?> queryCompetitions(@RequestParam("page") int page, @RequestParam("size") int size,
             @RequestParam("search") String search) throws Exception {
                 
-        if (search.equals(null) || !search.isBlank()) {
+        if (!search.equals(null) || !search.isBlank()) {
             Page<Competition> resultPage = service.findWithPaginatedSearch(page, size, search);
 
             if (page > resultPage.getTotalPages()) {
