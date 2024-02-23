@@ -28,7 +28,7 @@ public class CompetitionController {
 
         Competition comp = service.addCompetition(
                 new Competition(CompetitionRequest.getCompetitionName(), new Date(Instant.now().toEpochMilli())));
-        if (comp.equals(null)) {
+        if (comp!=null) {
             return new ResponseEntity<>(comp, HttpStatus.CREATED);
         }
         return new ResponseEntity<>("{\"message\":\"Competition name has already been taken\"}",
