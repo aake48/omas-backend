@@ -61,7 +61,7 @@ public class CompetitionController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("competition/id/{name}")
+    @GetMapping("competition/{name}")
     public ResponseEntity<?> getCompetition(@PathVariable String name) {
         try {
             return new ResponseEntity<>(service.getCompetition(name), HttpStatus.FOUND);
