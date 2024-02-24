@@ -8,6 +8,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.sql.Date;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -16,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table
 @IdClass(TeamMemberId.class)
-public class TeamScore {
+public class TeamMemberScore {
 
     @Id
     @Column(nullable = false)
@@ -33,16 +34,29 @@ public class TeamScore {
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID uuid;
 
-    private double score;
+    private double sum;
+
+    private String scorePerShot;
 
     @Column(nullable = false)
     private Date creationDate = new Date(Instant.now().toEpochMilli());
 
-    public TeamScore(TeamMemberId teamMemberId, double score) {
+    public TeamMemberScore(TeamMemberId teamMemberId, double sum, List<Double> scorePerShot) {
+
+        if (scorePerShot != null) {
+            sum = 0;
+            for (Double double1 : scorePerShot) {
+                sum += double1;
+            }
+            this.scorePerShot = scorePerShot.toString();
+        } else {
+            scorePerShot = null;
+        }
         this.userId = teamMemberId.getUserId();
         this.clubId = teamMemberId.getClubId();
         this.competitionId = teamMemberId.getCompetitionId();
-        this.score = score;
+        this.sum = sum;
+
     }
 
 }
