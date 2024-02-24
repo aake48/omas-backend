@@ -35,28 +35,31 @@ public class TeamMemberScore {
     private UUID uuid;
 
     private double sum;
-
+    private int bullsEyeCount;
     private String scorePerShot;
 
     @Column(nullable = false)
     private Date creationDate = new Date(Instant.now().toEpochMilli());
 
-    public TeamMemberScore(TeamMemberId teamMemberId, double sum, List<Double> scorePerShot) {
+    public TeamMemberScore(TeamMemberId teamMemberId, List<Double> scores) {
 
-        if (scorePerShot != null) {
-            sum = 0;
-            for (Double double1 : scorePerShot) {
-                sum += double1;
+        this.sum = 0;
+        this.bullsEyeCount = 0;
+
+        for (double score : scores) {
+
+            this.sum += score;
+
+            if (score == 10.9D) {
+                this.bullsEyeCount++;
             }
-            this.scorePerShot = scorePerShot.toString();
-        } else {
-            scorePerShot = null;
         }
+
+        this.scorePerShot = scores.toString();
+
         this.userId = teamMemberId.getUserId();
         this.clubId = teamMemberId.getClubId();
         this.competitionId = teamMemberId.getCompetitionId();
-        this.sum = sum;
-
     }
 
 }
