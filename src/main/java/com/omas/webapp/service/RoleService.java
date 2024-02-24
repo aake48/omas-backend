@@ -25,4 +25,16 @@ public class RoleService {
         return repository.save(userRole);
     }
 
+    public Role addAdminRole(long id) {
+        Role userRole = new Role();
+        userRole.setRole("ROLE_ADMIN");
+        userRole.setUserId(id);
+        return repository.save(userRole);
+    }
+
+    //not implemented yet
+    public Boolean removeRoles(long id) {
+        return null;
+    }
+
 }

@@ -26,9 +26,7 @@ public class UserService implements UserDetailsService {
     private PasswordEncoder encoder;
 
     @Autowired
-    RoleService roleService;
-
-    // ...
+    private RoleService roleService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -1,6 +1,5 @@
 package com.omas.webapp.controller;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,24 +32,24 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/reg")
-    public ResponseEntity<String> addNewUser(@Valid @RequestBody RegistrationRequest request) {
+    public ResponseEntity<Map<String, String>> addNewUser(@Valid @RequestBody RegistrationRequest request) {
 
         if (service.registerUser(request)) {
-            return new ResponseEntity<>("{\"message\":\"User added\"}", HttpStatus.OK);
+            return new ResponseEntity<>(Map.of("message", "user added"), HttpStatus.ACCEPTED);
         } else {
-            return new ResponseEntity<>("{\"message\":\"Username has already been taken\"}", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(Map.of("message", "Username has already been taken."), HttpStatus.FORBIDDEN);
         }
     }
 
-    @PostMapping(value = "/login" ) 
-    public ResponseEntity<String> authenticateAndGetToken(@Valid @RequestBody AuthRequest authRequest) {
+    @PostMapping(value = "/login")
+    public ResponseEntity<Map<String, String>> authenticateAndGetToken(@Valid @RequestBody AuthRequest authRequest) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
             String token = jwtService.generateToken(authRequest.getUsername());
-            return new ResponseEntity<>("{\"token\":\""+token+"\"}", HttpStatus.OK);
+            return new ResponseEntity<>(Map.of("token", token), HttpStatus.ACCEPTED);
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>("{\"message\":\""+e.getMessage()+"\"}", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.FORBIDDEN);
         }
     }
 
