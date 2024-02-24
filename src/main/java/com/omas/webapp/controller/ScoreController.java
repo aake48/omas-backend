@@ -1,18 +1,16 @@
 package com.omas.webapp.controller;
 
-import com.omas.webapp.entity.data.TeamScorePayload;
 import com.omas.webapp.entity.data.Message;
+import com.omas.webapp.entity.data.TeamScorePayload;
 import com.omas.webapp.service.ScoreService;
 import com.omas.webapp.table.TeamId;
-import com.omas.webapp.table.TeamScore;
+import com.omas.webapp.table.TeamMemberScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -20,12 +18,6 @@ public class ScoreController {
 
     @Autowired
     ScoreService service;
-
-    @DeleteMapping("/score")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void deleteScore(@RequestBody UUID uuid) {
-        service.deleteScore(uuid);
-    }
 
     //@PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/score")
@@ -37,7 +29,7 @@ public class ScoreController {
     @GetMapping("/score")
     public ResponseEntity<?> getScores(@RequestBody TeamId teamId) {
 
-        List<TeamScore> scores = service.getTeamScores(teamId);
+        List<TeamMemberScore> scores = service.getTeamScores(teamId);
 
         // Notify client if there are no scores for this team id
         if (scores.isEmpty()) {
@@ -49,7 +41,7 @@ public class ScoreController {
 
     @GetMapping("/score/all")
     @ResponseStatus(HttpStatus.OK)
-    public List<TeamScore> getAllScores() {
+    public List<TeamMemberScore> getAllScores() {
         return service.getAllScores();
     }
 
