@@ -19,16 +19,12 @@ public class RoleService {
     }
 
     public Role addUserRole(long id) {
-        Role userRole = new Role();
-        userRole.setRole("ROLE_USER");
-        userRole.setUserId(id);
+        Role userRole = new Role(id, "ROLE_USER");
         return repository.save(userRole);
     }
 
     public Role addAdminRole(long id) {
-        Role userRole = new Role();
-        userRole.setRole("ROLE_ADMIN");
-        userRole.setUserId(id);
+        Role userRole = new Role(id, "ROLE_ADMIN");
         return repository.save(userRole);
     }
 
