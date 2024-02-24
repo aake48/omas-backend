@@ -175,3 +175,21 @@ returns List of competitions in -JSON
 GET http://localhost:8080/api/competition/query?search=${search}&page=${page}&size=${size}
 ```
 returns [Page](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html) of competitions in JSON
+
+### Post scores 
+```
+POST http://localhost:8080/api/score
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
+Content-Type: application/json
+
+{
+  "teamMemberId": {
+    "userId": 98125621,
+    "clubId": "Esimerkkiseura",
+    "competitionId": "Esimerkkikilpailu"
+  },
+  "scoreList": [
+    10.9, 10.9, 10.9
+  ]
+}
+```
