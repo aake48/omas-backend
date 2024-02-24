@@ -49,13 +49,13 @@ public class JwtService {
 		return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parseSignedClaims(token).getPayload();		
 	} 
 
-	private Boolean isTokenExpired(String token) { 
-		return extractExpiration(token).before(new Date()); 
+	private Boolean isTokenExpired(String token) {
+		return extractExpiration(token).before(new Date());
 	} 
 
-	public Boolean validateToken(String token, UserDetails userDetails) { 
+	public Boolean validateToken(String token, UserDetails userDetails) {
 		final String username = extractUsername(token); 
-		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token)); 
+		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	} 
 
 

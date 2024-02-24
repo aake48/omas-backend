@@ -13,4 +13,5 @@ public class TeamId implements Serializable {
 
     private String clubId;
     private String competitionId;
+
 }

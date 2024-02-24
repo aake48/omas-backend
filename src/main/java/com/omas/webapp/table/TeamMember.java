@@ -29,7 +29,5 @@ public class TeamMember {
 
     private double sumScore;
 
-
-
 } 
 

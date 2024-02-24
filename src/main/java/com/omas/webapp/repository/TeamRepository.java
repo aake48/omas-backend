@@ -5,6 +5,6 @@ import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
 
 
-public interface TeamRepository extends JpaRepository<Team, TeamId> { 
-    
+public interface TeamRepository extends JpaRepository<Team, TeamId> {
+
 }

@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
 
+import com.omas.webapp.repository.TeamRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -15,7 +16,6 @@ import org.springframework.test.annotation.Rollback;
 
 import com.omas.webapp.repository.ClubRepository;
 import com.omas.webapp.repository.CompetitionRepository;
-import com.omas.webapp.repository.TeamRepository;
 import com.omas.webapp.table.Club;
 import com.omas.webapp.table.Competition;
 import com.omas.webapp.table.Team;

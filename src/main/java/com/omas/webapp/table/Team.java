@@ -7,6 +7,8 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Entity
 @Data
 @Table

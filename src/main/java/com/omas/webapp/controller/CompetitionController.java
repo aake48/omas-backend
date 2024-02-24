@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
 
+import com.omas.webapp.entity.data.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -28,37 +29,35 @@ public class CompetitionController {
 
         Competition comp = service.addCompetition(
                 new Competition(CompetitionRequest.getCompetitionName(), new Date(Instant.now().toEpochMilli())));
-        if (comp.equals(null)) {
+
+        if (comp != null) {
             return new ResponseEntity<>(comp, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>("{\"message\":\"Competition name has already been taken\"}",
-                HttpStatus.BAD_REQUEST);
 
+        return new ResponseEntity<>(new Message("Competition name has already been taken"), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(params = { "page", "size", "search" }, value = "competition/query")
     public ResponseEntity<?> queryCompetitions(@RequestParam("page") int page, @RequestParam("size") int size,
             @RequestParam("search") String search) throws Exception {
-                
+
         if (!search.equals(null) || !search.isBlank()) {
             Page<Competition> resultPage = service.findWithPaginatedSearch(page, size, search);
 
             if (page > resultPage.getTotalPages()) {
-                return new ResponseEntity<>("{\"message\":\"Requested page does not exist.\"}",
-                        HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new Message("Requested page does not exist."), HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<>(resultPage,
-                    HttpStatus.OK);
+
+            return new ResponseEntity<>(resultPage, HttpStatus.OK);
         }
 
         Page<Competition> resultPage = service.firstPaginated(page, size);
 
         if (page > resultPage.getTotalPages()) {
-            return new ResponseEntity<>("{\"message\":\"Requested page does not exist.\"}",
-                    HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("{\"message\":\"Requested page does not exist.\"}", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(resultPage,
-                HttpStatus.OK);
+
+        return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
     @GetMapping("competition/id/{name}")
@@ -66,8 +65,7 @@ public class CompetitionController {
         try {
             return new ResponseEntity<>(service.getCompetition(name), HttpStatus.FOUND);
         } catch (Exception e) {
-            return new ResponseEntity<>("{\"message\":\"No competition found with the given name\"}",
-                    HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Message("No competition found with the given name"), HttpStatus.BAD_REQUEST);
         }
     }
 

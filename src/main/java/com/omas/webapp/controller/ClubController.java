@@ -41,9 +41,9 @@ public class ClubController {
         if (createdClub != null) {
             return new ResponseEntity<>(createdClub, HttpStatus.CREATED);
         }
+
         return new ResponseEntity<>("{\"message\":\"Club name has already been taken.\"}",
                 HttpStatus.BAD_REQUEST);
-
     }
 
     @GetMapping("club/{name}")
@@ -57,8 +57,7 @@ public class ClubController {
 
     @GetMapping("club/all")
     public ResponseEntity<List<Club>> getAll() {
-            return new ResponseEntity<>(service.getall(), HttpStatus.FOUND);
-
+        return new ResponseEntity<>(service.getall(), HttpStatus.FOUND);
     }
 
     @GetMapping(params = { "page", "size", "search" }, value = "club/query")
@@ -72,8 +71,8 @@ public class ClubController {
                 return new ResponseEntity<>("{\"message\":\"Requested page does not exist.\"}",
                 HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<>(resultPage,
-            HttpStatus.OK);
+
+            return new ResponseEntity<>(resultPage, HttpStatus.OK);
         }
 
         Page<Club> resultPage = service.firstPaginated(page, size);
@@ -83,8 +82,8 @@ public class ClubController {
             HttpStatus.BAD_REQUEST);
 
         }
-        return new ResponseEntity<>(resultPage,
-        HttpStatus.OK);
+
+        return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
 
