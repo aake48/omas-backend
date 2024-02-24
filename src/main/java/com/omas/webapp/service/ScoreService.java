@@ -3,6 +3,7 @@ package com.omas.webapp.service;
 import com.omas.webapp.entity.data.TeamScorePayload;
 import com.omas.webapp.repository.ScoreRepository;
 import com.omas.webapp.table.TeamId;
+import com.omas.webapp.table.TeamMemberId;
 import com.omas.webapp.table.TeamScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,10 @@ public class ScoreService {
         List<Double> scoreList = request.getScoreList();
         List<TeamScore> teamScores = new ArrayList<>(scoreList.size());
 
-        TeamId teamId = request.getTeamId();
+        TeamMemberId teamMemberId = request.getTeamMemberId();
 
         for (Double score : scoreList) {
-            teamScores.add(new TeamScore(teamId, score));
+            teamScores.add(new TeamScore(teamMemberId, score));
         }
 
         repository.saveAll(teamScores);

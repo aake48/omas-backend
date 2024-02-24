@@ -38,9 +38,10 @@ public class TeamScore {
     @Column(nullable = false)
     private Date creationDate = new Date(Instant.now().toEpochMilli());
 
-    public TeamScore(TeamId teamId, double score) {
-        this.clubId = teamId.getClubId();
-        this.competitionId = teamId.getCompetitionId();
+    public TeamScore(TeamMemberId teamMemberId, double score) {
+        this.userId = teamMemberId.getUserId();
+        this.clubId = teamMemberId.getClubId();
+        this.competitionId = teamMemberId.getCompetitionId();
         this.score = score;
     }
 
