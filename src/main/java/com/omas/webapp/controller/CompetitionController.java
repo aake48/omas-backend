@@ -29,8 +29,7 @@ public class CompetitionController {
 
         Competition comp = service.addCompetition(
                 new Competition(CompetitionRequest.getCompetitionName(), new Date(Instant.now().toEpochMilli())));
-
-        if (comp != null) {
+        if (comp!=null) {
             return new ResponseEntity<>(comp, HttpStatus.CREATED);
         }
 
@@ -60,7 +59,7 @@ public class CompetitionController {
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
-    @GetMapping("competition/id/{name}")
+    @GetMapping("competition/{name}")
     public ResponseEntity<?> getCompetition(@PathVariable String name) {
         try {
             return new ResponseEntity<>(service.getCompetition(name), HttpStatus.FOUND);

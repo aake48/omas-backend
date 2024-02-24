@@ -34,22 +34,17 @@ public class SecurityConfig {
     }
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception { 
-		return http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(
-                            "/api/reg",
-                            "/api/login",
-                            "/api/club/**",
-                            "/api/competition/**",
-                            "/api/score/**").permitAll())
-                .authorizeHttpRequests(requests -> requests.requestMatchers("/api/auth/**").authenticated())
-                .sessionManagement(management -> management
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-                .build(); 
-	} 
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(requests -> requests
+                .requestMatchers("/api/reg", "/api/login", "/api/club/**", "/api/competition/**", "/api/score/**").permitAll())
+            .authorizeHttpRequests(requests -> requests.requestMatchers("/api/auth/club/**", "/api/auth/competition/**").authenticated())
+            .sessionManagement(management -> management
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authenticationProvider(authenticationProvider())
+            .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
