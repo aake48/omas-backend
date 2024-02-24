@@ -8,6 +8,7 @@ import com.omas.webapp.table.TeamMemberScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,11 +20,10 @@ public class ScoreController {
     @Autowired
     ScoreService service;
 
-    //@PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/score")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void addScores(@RequestBody TeamScorePayload request) {
-        service.addScoresFromPayload(request);
+    public ResponseEntity<?> addScores(@RequestBody TeamScorePayload request) {
+        return service.addScoresFromPayload(request);
     }
 
     @GetMapping("/score")

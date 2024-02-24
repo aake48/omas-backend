@@ -15,4 +15,10 @@ public class TeamMemberId implements Serializable {
     private String clubId;
     private String competitionId;
 
+    public TeamMemberId(Long userId, TeamId teamId) {
+        this.userId = userId;
+        this.clubId = teamId.getClubId();
+        this.competitionId = teamId.getCompetitionId();
+    }
+
 }
