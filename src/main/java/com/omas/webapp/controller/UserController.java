@@ -35,7 +35,7 @@ public class UserController {
     public ResponseEntity<Map<String, String>> addNewUser(@Valid @RequestBody RegistrationRequest request) {
 
         if (service.registerUser(request)) {
-            return new ResponseEntity<>(Map.of("message", "user added"), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(Map.of("message", "user added"), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(Map.of("message", "Username has already been taken."), HttpStatus.FORBIDDEN);
         }
@@ -47,7 +47,7 @@ public class UserController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
             String token = jwtService.generateToken(authRequest.getUsername());
-            return new ResponseEntity<>(Map.of("token", token), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(Map.of("token", token), HttpStatus.OK);
         } catch (AuthenticationException e) {
             return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.FORBIDDEN);
         }
