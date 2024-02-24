@@ -1,7 +1,6 @@
 package com.omas.webapp.controller;
 
-import java.sql.Date;
-import java.time.Instant;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +17,6 @@ import com.omas.webapp.entity.AuthRequest;
 import com.omas.webapp.entity.RegistrationRequest;
 import com.omas.webapp.service.JwtService;
 import com.omas.webapp.service.UserService;
-import com.omas.webapp.table.User;
 import jakarta.validation.Valid;
 
 @RestController
@@ -37,15 +35,7 @@ public class UserController {
     @PostMapping("/reg")
     public ResponseEntity<String> addNewUser(@Valid @RequestBody RegistrationRequest request) {
 
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setLegalname(request.getName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setCreationDate(new Date(Instant.now().toEpochMilli()));
-        user.setRoles("ROLE_USER");
-
-        if (service.registerUser(user)) {
+        if (service.registerUser(request)) {
             return new ResponseEntity<>("{\"message\":\"User added\"}", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("{\"message\":\"Username has already been taken\"}", HttpStatus.FORBIDDEN);
