@@ -1,5 +1,6 @@
 package com.omas.webapp.service;
 
+import com.omas.webapp.entity.RegistrationRequest;
 import com.omas.webapp.repository.UserRepository;
 import com.omas.webapp.table.User;
 
@@ -10,7 +11,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.Optional;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -21,18 +25,30 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder encoder;
 
+    @Autowired
+    private RoleService roleService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Optional<User> user = repository.findByUsername(username);
 
-        // Converting user to UserDetails
-        return user.map(UserInfoDetails::new)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
+        if (user.isPresent()) {
+            User foundUser = user.get();
+            List<String> roles = roleService.FindUsersRoles(foundUser.getId());
+            return new UserInfoDetails(foundUser, roles);
+        }
+        throw new UsernameNotFoundException("User not found " + username);
     }
 
-    public boolean registerUser(User user) {
-        System.out.println("user on : "+user);
+    public boolean registerUser(RegistrationRequest request) {
+
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setLegalname(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setCreationDate(new Date(Instant.now().toEpochMilli()));
 
         // checks whether a user with this username already exists in the db
         if (repository.findByUsername(user.getUsername()).isPresent()) {
@@ -41,9 +57,10 @@ public class UserService implements UserDetailsService {
         // hash and salt password before saving it to db
         user.setPassword(encoder.encode(user.getPassword()));
         try {
-            repository.save(user);
+            User createdUser = repository.save(user);
+            roleService.addUserRole(createdUser.getId());
         } catch (Exception e) {
-            System.out.println("ex : "+e);
+            System.out.println("ex : " + e);
             return false;
         }
         return true;
