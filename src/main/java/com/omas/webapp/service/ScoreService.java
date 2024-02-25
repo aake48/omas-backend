@@ -1,7 +1,7 @@
 package com.omas.webapp.service;
 
 import com.omas.webapp.entity.data.TeamScorePayload;
-import com.omas.webapp.repository.ScoreRepository;
+import com.omas.webapp.repository.TeamMemberScoreRepository;
 import com.omas.webapp.repository.TeamMemberRepository;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMember;
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class ScoreService {
 
     @Autowired
-    private ScoreRepository repository;
+    private TeamMemberScoreRepository teamMemberScoreRepository;
 
     @Autowired
     private TeamMemberRepository teamMemberRepository;
@@ -41,15 +41,15 @@ public class ScoreService {
             return null;
         }
 
-        return repository.save(new TeamMemberScore(teamMemberId, request.getScoreList()));
+        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, request.getScoreList()));
     }
 
     public List<TeamMemberScore> getAllScores() {
-        return repository.findAll();
+        return teamMemberScoreRepository.findAll();
     }
 
     public List<TeamMemberScore> getTeamScores(TeamId teamId) {
-        return repository.findByTeamId(teamId);
+        return teamMemberScoreRepository.findByTeamId(teamId);
     }
 
 }

@@ -4,8 +4,6 @@ import com.omas.webapp.entity.CompetitionRequest;
 import com.omas.webapp.entity.data.Message;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.table.Competition;
-import com.omas.webapp.table.TeamId;
-import com.omas.webapp.table.TeamMemberId;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,17 +36,6 @@ public class CompetitionController {
         return new ResponseEntity<>(new Message("Competition name has already been taken"), HttpStatus.BAD_REQUEST);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PostMapping("competition/team/new")
-    public ResponseEntity<?> addTeam(@RequestBody TeamId teamId) {
-        return service.createTeam(teamId);
-    }
-
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PostMapping("competition/team/add")
-    public ResponseEntity<?> addTeamMember(@RequestBody TeamMemberId teamMemberId) {
-        return service.addTeamMember(teamMemberId);
-    }
 
     @GetMapping(params = { "page", "size", "search" }, value = "competition/query")
     public ResponseEntity<?> queryCompetitions(@RequestParam("page") int page, @RequestParam("size") int size,
