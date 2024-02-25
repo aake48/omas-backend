@@ -2,6 +2,7 @@ package com.omas.webapp.service;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.omas.webapp.table.User;
@@ -14,6 +15,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserInfoDetails implements UserDetails {
+
+	public static UserInfoDetails getDetails() {
+		return (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	}
 
 	private String username;
 	private @Getter String legalName;
