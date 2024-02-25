@@ -23,7 +23,14 @@ public class ScoreController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/score")
     public ResponseEntity<?> addScores(@RequestBody TeamScorePayload request) {
-        return service.addScoresFromPayload(request);
+
+        TeamMemberScore score = service.addScoresFromPayload(request);
+
+        if (score == null) {
+            return new ResponseEntity<>(new Message("Team membership not found"), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(score, HttpStatus.CREATED);
     }
 
     @GetMapping("/score")

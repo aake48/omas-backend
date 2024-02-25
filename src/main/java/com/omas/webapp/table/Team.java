@@ -1,13 +1,7 @@
 package com.omas.webapp.table;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.UUID;
 
 @Entity
 @Data
@@ -22,5 +16,14 @@ public class Team {
     @Id
     @Column(nullable = false)
     private String competitionId;
+
+    public Team(TeamId teamId) {
+        this.clubId = teamId.getClubId();
+        this.competitionId = teamId.getCompetitionId();
+    }
+
+    public TeamId getTeamId() {
+        return new TeamId(clubId, competitionId);
+    }
 
 }

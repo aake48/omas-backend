@@ -19,17 +19,9 @@ import java.util.UUID;
 @IdClass(TeamMemberId.class)
 public class TeamMemberScore {
 
-    @Id
-    @Column(nullable = false)
-    private Long userId;
-
-    @Id
-    @Column(nullable = false)
-    private String clubId;
-
-    @Id
-    @Column(nullable = false)
-    private String competitionId;
+    private @Id Long userId;
+    private @Id String clubId;
+    private @Id String competitionId;
 
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID uuid;
@@ -37,9 +29,7 @@ public class TeamMemberScore {
     private double sum;
     private int bullsEyeCount;
     private String scorePerShot;
-
-    @Column(nullable = false)
-    private Date creationDate = new Date(Instant.now().toEpochMilli());
+    private Date creationDate;
 
     public TeamMemberScore(TeamMemberId teamMemberId, List<Double> scores) {
 
@@ -60,6 +50,7 @@ public class TeamMemberScore {
         this.userId = teamMemberId.getUserId();
         this.clubId = teamMemberId.getClubId();
         this.competitionId = teamMemberId.getCompetitionId();
+        this.creationDate = new Date(Instant.now().toEpochMilli());
     }
 
 }

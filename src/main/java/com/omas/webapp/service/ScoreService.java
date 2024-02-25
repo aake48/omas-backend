@@ -1,12 +1,13 @@
 package com.omas.webapp.service;
 
-import com.omas.webapp.entity.data.Message;
 import com.omas.webapp.entity.data.TeamScorePayload;
-import com.omas.webapp.repository.*;
-import com.omas.webapp.table.*;
+import com.omas.webapp.repository.ScoreRepository;
+import com.omas.webapp.repository.TeamMemberRepository;
+import com.omas.webapp.table.TeamId;
+import com.omas.webapp.table.TeamMember;
+import com.omas.webapp.table.TeamMemberId;
+import com.omas.webapp.table.TeamMemberScore;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class ScoreService {
     @Autowired
     private TeamMemberRepository teamMemberRepository;
 
-    public ResponseEntity<?> addScoresFromPayload(TeamScorePayload request) {
+    public TeamMemberScore addScoresFromPayload(TeamScorePayload request) {
 
         UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -37,12 +38,10 @@ public class ScoreService {
         // This check should cover the checks for the existence of the team and club as
         // it is impossible for a team member to exist without the two
         if (member.isPresent()) {
-            return new ResponseEntity<>(new Message("No team found for user with ID " + userId), HttpStatus.BAD_REQUEST);
+            return null;
         }
 
-        TeamMemberScore score = repository.save(new TeamMemberScore(teamMemberId, request.getScoreList()));
-
-        return new ResponseEntity<>(score, HttpStatus.CREATED);
+        return repository.save(new TeamMemberScore(teamMemberId, request.getScoreList()));
     }
 
     public List<TeamMemberScore> getAllScores() {

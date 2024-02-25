@@ -21,4 +21,8 @@ public class TeamMemberId implements Serializable {
         this.competitionId = teamId.getCompetitionId();
     }
 
+    public TeamId getTeamId() {
+        return new TeamId(clubId, competitionId);
+    }
+
 }
