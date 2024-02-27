@@ -1,12 +1,6 @@
 package com.omas.webapp.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import com.omas.webapp.entity.data.Message;
 import com.omas.webapp.repository.TeamMemberRepository;
 import com.omas.webapp.repository.TeamRepository;
 import com.omas.webapp.table.Team;
@@ -23,53 +17,49 @@ public class TeamService {
     private TeamMemberRepository teamMemberRepository;
 
     // Authorization for this method is handled in CompetitionController
-    public ResponseEntity<?> createTeam(TeamId teamId) {
+    public Team addTeam(String CompetitionToJoin, String ClubJoining) {
 
-        Optional<Team> team = teamRepository.findById(teamId);
+        Team savedTeam = teamRepository.save(new Team(new TeamId(CompetitionToJoin, ClubJoining)));
 
-        if (team.isPresent()) {
-            return new ResponseEntity<>(new Message("Team already exists"), HttpStatus.BAD_REQUEST);
-        }
-
-        Team savedTeam = teamRepository.save(new Team(teamId));
-
-        return new ResponseEntity<>(savedTeam, HttpStatus.CREATED);
+        return savedTeam;
     }
 
-    public ResponseEntity<?> addTeamMember(TeamMemberId teamMemberId) {
+    public TeamMember addTeamMember(TeamMemberId teamMemberId) throws Exception{
 
-        Optional<Team> team = teamRepository.findById(teamMemberId.getTeamId());
+        
+        if(isTeamPartOfThisComp(teamMemberId.getClubId() ,teamMemberId.getCompetitionId())){
+            return teamMemberRepository.save(new TeamMember(teamMemberId));
+        }
+        throw new Exception("this team does not exist");
 
-        if (team.isEmpty()) {
-            return new ResponseEntity<>(new Message("Team does not exist"), HttpStatus.BAD_REQUEST);
+    }
+
+    public TeamMemberId thisUserIsValidMember(UserInfoDetails userDetails, String competitionName) throws Exception {
+
+        String club = userDetails.getPartOfClub();
+        if (club == null || club.isEmpty()) {
+            throw new Exception("error: this user is not in club");
         }
 
-        UserInfoDetails userDetails = UserInfoDetails.getDetails();
-
-        // TODO: Add check to see if user is an admin as they would probably be allowed
-        // to do this
-        // Create a TeamMemberId for the authenticated user to find them in the
-        // TeamMemberRepository
-        // and see if they are part of any team
-        TeamMemberId userId = new TeamMemberId(userDetails.getId(), teamMemberId.getClubId(),
-                teamMemberId.getCompetitionId());
-
-        Optional<TeamMember> user = teamMemberRepository.findById(userId);
-
-        if (user.isEmpty()) {
-            return new ResponseEntity<>(new Message("You are not allowed to add members to this team"),
-                    HttpStatus.BAD_REQUEST);
+        if (!isTeamPartOfThisComp(club, competitionName)) {
+            throw new Exception("error: this user's club is not participating in this event / Team does not exist");
         }
 
-        // Check if the given user is already part of the given team
-        Optional<TeamMember> member = teamMemberRepository.findById(teamMemberId);
-
-        if (member.isPresent()) {
-            return new ResponseEntity<>(new Message("User is already on the team"), HttpStatus.BAD_REQUEST);
+        if (!isPartOfThisTeam(userDetails.getId(), new TeamId(userDetails.getPartOfClub(), competitionName))) {
+            throw new Exception("error: this user is is not part of the team");
         }
 
-        teamMemberRepository.save(new TeamMember(teamMemberId));
+        return new TeamMemberId(userDetails.getId(), new TeamId(club, competitionName));
+    }
 
-        return new ResponseEntity<>(new Message("User was added to the team"), HttpStatus.ACCEPTED);
+    // not implemented yet
+    public boolean isPartOfThisTeam(long userId, TeamId teamId) {
+        return false;
+    }
+
+    // not implemented yet
+    public boolean isTeamPartOfThisComp(String clubParticipating, String activeCompetition) {
+
+        return false;
     }
 }
