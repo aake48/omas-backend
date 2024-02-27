@@ -26,6 +26,7 @@ public class UserInfoDetails implements UserDetails {
 	private @Getter String email;
 	private @Getter Long id;
 	private @Getter Date creationDate;
+	private @Getter String partOfClub;
 	private List<GrantedAuthority> authorities;
 
 	public UserInfoDetails(User user, List<String> roles) {
@@ -35,6 +36,7 @@ public class UserInfoDetails implements UserDetails {
 		password = user.getPassword();
 		email = user.getEmail();
 		id = user.getId();
+		partOfClub = user.getPartOfClub();
 		creationDate = user.getCreationDate();
 		authorities = roles.stream()
 				.map(SimpleGrantedAuthority::new)
