@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.omas.webapp.repository.TeamMemberScoreRepository;
-import com.omas.webapp.table.Role;
+import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMemberId;
 import com.omas.webapp.table.TeamMemberScore;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -61,8 +60,7 @@ public class TeamMemberScoreRepoTests {
                 repo.save(otherScore2);
 
 
-                
-                List<TeamMemberScore> scores = repo.findByClubIdAndCompetitionId("Clubi1","kilpa1");
+                List<TeamMemberScore> scores = repo.findByTeamId(new TeamId("Clubi1", "kilpa1"));
 
                 assertEquals(5, scores.size(), "Scores list should have 5 elements");
         }

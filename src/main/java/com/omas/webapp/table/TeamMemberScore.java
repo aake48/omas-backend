@@ -28,6 +28,7 @@ public class TeamMemberScore {
 
     private double sum;
     private int bullsEyeCount;
+    @Column(length = 1200)
     private String scorePerShot;
     private Date creationDate;
 
