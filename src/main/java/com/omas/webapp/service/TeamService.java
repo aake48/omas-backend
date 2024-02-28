@@ -24,7 +24,7 @@ public class TeamService {
 
     // Authorization for this method is handled in CompetitionController
     public Team addTeam(String CompetitionToJoin, String ClubJoining) {
-        
+
         Team savedTeam = teamRepository.save(new Team(new TeamId(ClubJoining, CompetitionToJoin)));
 
         return savedTeam;
@@ -44,14 +44,6 @@ public class TeamService {
         String club = userDetails.getPartOfClub();
         if (club == null || club.isEmpty()) {
             throw new Exception("error: this user is not in club");
-        }
-
-        if (!isTeamPartOfThisComp(club, competitionName)) {
-            throw new Exception("error: this user's club is not participating in this event / Team does not exist");
-        }
-
-        if (!isUsertPartOfThisTeam(userDetails.getId(), new TeamId(userDetails.getPartOfClub(), competitionName))) {
-            throw new Exception("error: this user is is not part of the team");
         }
 
         return new TeamMemberId(userDetails.getId(), new TeamId(club, competitionName));

@@ -60,4 +60,27 @@ public class TestUtils {
         
     }
 
+    public static void addTeam(MockMvc mockMvc, String competitionName, String userToken) throws Exception {
+
+         final String url = "/api/competition/team/new";
+
+
+         mockMvc.perform(MockMvcRequestBuilders.post(url)
+         .contentType(MediaType.APPLICATION_JSON)
+         .header("Authorization", "Bearer " + userToken)
+         .content("{" + "\"competitionName\":\"" + competitionName + "\"" + "}"))
+         .andExpect(status().isOk());
+}
+
+public static void addCompetition(MockMvc mockMvc, String competitionName, String userToken) throws Exception {
+
+        final String url = "/api/auth/competition/new";
+
+        mockMvc.perform(MockMvcRequestBuilders.post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
+                .content("{" + "\"competitionName\":\""+competitionName+"\"" + "}"))
+                .andExpect(status().isCreated());
+}
+
 }

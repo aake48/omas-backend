@@ -30,4 +30,8 @@ public class TeamMemberScoreService {
         return teamMemberScoreRepository.findByTeamId(teamId);
     }
 
+    public List<TeamMemberScore> getUsersScore(long id, String competitionName) {
+        return teamMemberScoreRepository.findByUserIdAndCompetitionId(id, competitionName);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.omas.webapp.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.omas.webapp.entity.AddTeamMemberScoreRequest;
+import com.omas.webapp.entity.CompetitionRequest;
 import com.omas.webapp.entity.TeamMemberScoreRequest;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
@@ -22,6 +24,8 @@ import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.TeamMemberId;
 import com.omas.webapp.table.TeamMember;
 import com.omas.webapp.table.TeamMemberScore;
+
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,10 +41,9 @@ public class TeamMemberController {
     @Autowired
     TeamMemberScoreService ScoreService;
 
-    // not implemented yet
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PostMapping("competition/team/member/add")
-    public ResponseEntity<?> addYourselfToThisTeam(String competitionName) {
+    @PostMapping("/add")
+    public ResponseEntity<?> addYourselfToThisTeam(@Valid @RequestBody CompetitionRequest request) {
 
         UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
@@ -48,7 +51,7 @@ public class TeamMemberController {
         TeamMember savedTeamMember;
         String club = userDetails.getPartOfClub();
         try {
-            savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userDetails.getId(), competitionName, club));
+            savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userDetails.getId(), club, request.getCompetitionName()));
 
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -57,16 +60,21 @@ public class TeamMemberController {
         return new ResponseEntity<>(savedTeamMember, HttpStatus.OK);
     }
 
-    // not implemented
+    // non final - does not work yet
     @GetMapping("/score")
-    public ResponseEntity<?> getScore(@RequestBody TeamMemberScoreRequest request) {
-        // return ScoreService.getTeamMemberScore(request);
-        return null;
-    }
+    public ResponseEntity<?> getScore(@Valid @RequestBody TeamMemberScoreRequest request) {
+        
+        List<TeamMemberScore> score = ScoreService.getUsersScore(request.getId(), request.getCompetitionName());
+        if(score!=null){
+            return new ResponseEntity<>(score, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(Map.of("message", "no score found"), HttpStatus.NOT_FOUND);
 
+    }
+    // non final - does not work yet
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PostMapping
-    public ResponseEntity<?> addScores(@RequestBody AddTeamMemberScoreRequest request) {
+    @PostMapping("/score/add")
+    public ResponseEntity<?> addScores(@Valid @RequestBody AddTeamMemberScoreRequest request) {
 
         UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
