@@ -95,14 +95,14 @@ public class TeamMemberControllerTests {
                 ObjectMapper mapper = new ObjectMapper();
                 String json = mapper.writeValueAsString(Map.of(
                                 "competitionName", competitionName,
-                                "shots", shots));
+                                "scoreList", shots));
 
                 // Post user score
                 mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
                                 .content(json))
-                                .andExpect(status().isOk())
+                                .andExpect(status().isCreated())
                                 .andExpect(jsonPath("$.sum").isNotEmpty());
         }
 }
