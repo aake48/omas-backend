@@ -13,14 +13,18 @@ import java.util.Arrays;
 public class WebappApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WebappApplication.class, args);
+		try {
+			SpringApplication.run(WebappApplication.class, args);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	@Bean
 	public CorsFilter corsFilter() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); 
+		corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
 		corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
 				"Accept", "Authorization", "Origin, Accept", "X-Requested-With",
 				"Access-Control-Request-Method", "Access-Control-Request-Headers"));

@@ -65,4 +65,13 @@ public class UserService implements UserDetailsService {
         }
         return true;
     }
+
+    public void joinClub(Long id, String club) {
+        Optional<User> userToJoin = repository.findById(id);
+
+        User user = userToJoin.get();
+        user.setPartOfClub(club);
+        repository.save(user);
+
+    }
 }

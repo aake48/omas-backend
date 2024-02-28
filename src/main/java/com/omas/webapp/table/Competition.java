@@ -18,7 +18,8 @@ import lombok.NoArgsConstructor;
 public class Competition { 
 
 	@Id
-	private String name; 
+	private String name;
+
 	@Column(nullable = false)
 	private Date creationDate;
  

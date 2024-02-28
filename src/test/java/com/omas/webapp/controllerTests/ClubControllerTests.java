@@ -77,4 +77,25 @@ public class ClubControllerTests {
 
     }
 
+    @Test
+    public void joinClub() throws Exception {
+
+        final String clubName = "SeuraajienSeura";
+
+        // adds club
+        mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
+                .content("{" + "\"clubName\":\"" + clubName + "\"" + "}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name").value(clubName));
+
+        // join club
+        mockMvc.perform(MockMvcRequestBuilders.post(authUrl + "/" + "join")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
+                .content("{" + "\"clubName\":\"" + clubName + "\"" + "}"))
+                .andExpect(status().isOk());
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.omas.webapp.table;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -15,21 +14,18 @@ import lombok.NoArgsConstructor;
 @IdClass(TeamMemberId.class)
 public class TeamMember {
 
-    @Id
-    @Column(nullable = false)
-    private Long userId;
-    
-    @Id
-    @Column(nullable = false)
-    private String competitionId;
+    private @Id Long userId;
+    private @Id String competitionId;
+    private @Id String clubId;
 
-    @Id
-    @Column(nullable = false)
-    private String clubId;
+    public TeamMember(TeamMemberId teamMemberId) {
+        this.userId = teamMemberId.getUserId();
+        this.competitionId = teamMemberId.getCompetitionId();
+        this.clubId = teamMemberId.getClubId();
+    }
 
-    private double sumScore;
-
-
-
+    public TeamId getTeamId() {
+        return new TeamId(competitionId, clubId);
+    }
 } 
 

@@ -17,6 +17,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import com.omas.webapp.entity.ClubRequest;
 import com.omas.webapp.service.ClubService;
+import com.omas.webapp.service.UserService;
+
 import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.Club;
 import jakarta.validation.Valid;
@@ -26,7 +28,10 @@ import jakarta.validation.Valid;
 public class ClubController {
 
     @Autowired
-    private ClubService service;
+    private ClubService clubService;
+
+    @Autowired
+    private UserService userService;
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/auth/club/new")
@@ -35,21 +40,43 @@ public class ClubController {
         UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
 
-        Club createdClub = service
+        Club createdClub = clubService
                 .registerClub(
                         new Club(club.getClubName(), new Date(Instant.now().toEpochMilli()), userDetails.getId()));
         if (createdClub != null) {
             return new ResponseEntity<>(createdClub, HttpStatus.CREATED);
         }
+
         return new ResponseEntity<>("{\"message\":\"Club name has already been taken.\"}",
                 HttpStatus.BAD_REQUEST);
+    }
 
+    
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PostMapping("/auth/club/join")
+    public ResponseEntity<?> joinClub(@Valid @RequestBody ClubRequest club) {
+
+        UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+
+        Club clubToJoin = clubService.getClub(club.getClubName());
+
+        //check whether club exists
+        if (clubToJoin!=null){
+            userService.joinClub(userDetails.getId(), club.getClubName());
+            return new ResponseEntity<>("{\"message\":\"club joined.\"}",
+            HttpStatus.OK);
+
+        }
+
+        return new ResponseEntity<>("{\"Error\":\"There is no club with the given name.\"}",
+                HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("club/{name}")
     public ResponseEntity<?> getClub(@PathVariable String name) {
         try {
-            return new ResponseEntity<>(service.getClub(name), HttpStatus.FOUND);
+            return new ResponseEntity<>(clubService.getClub(name), HttpStatus.FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>("{\"message\":\"No club found with the given name.\"}", HttpStatus.BAD_REQUEST);
         }
@@ -57,8 +84,7 @@ public class ClubController {
 
     @GetMapping("club/all")
     public ResponseEntity<List<Club>> getAll() {
-            return new ResponseEntity<>(service.getall(), HttpStatus.FOUND);
-
+        return new ResponseEntity<>(clubService.getall(), HttpStatus.FOUND);
     }
 
     @GetMapping(params = { "page", "size", "search" }, value = "club/query")
@@ -66,25 +92,25 @@ public class ClubController {
             @RequestParam("search") String search) throws Exception {
 
         if (!search.equals(null) || !search.isBlank()) {
-            Page<Club> resultPage = service.findWithPaginatedSearch(page, size, search);
+            Page<Club> resultPage = clubService.findWithPaginatedSearch(page, size, search);
 
             if (page > resultPage.getTotalPages()) {
                 return new ResponseEntity<>("{\"message\":\"Requested page does not exist.\"}",
                 HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<>(resultPage,
-            HttpStatus.OK);
+
+            return new ResponseEntity<>(resultPage, HttpStatus.OK);
         }
 
-        Page<Club> resultPage = service.firstPaginated(page, size);
+        Page<Club> resultPage = clubService.firstPaginated(page, size);
 
         if (page > resultPage.getTotalPages()) {
             return new ResponseEntity<>("{\"message\":\"Requested page does not exist.\"}",
             HttpStatus.BAD_REQUEST);
 
         }
-        return new ResponseEntity<>(resultPage,
-        HttpStatus.OK);
+
+        return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
 

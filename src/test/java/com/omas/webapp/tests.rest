@@ -36,7 +36,7 @@ GET http://localhost:8080/api/club/{SeuraajienSeura}
 GET http://localhost:8080/api/club/all
 
 ### search clubs
-GET http://localhost:8080/api/club/query/?search=&page=0&size=10
+GET http://localhost:8080/api/club/query?search=&page=0&size=10
 
 ### add new club
 Post http://localhost:8080/api/auth/competition/new
@@ -50,7 +50,7 @@ content-type: application/json
 
 ### search competitions
 
-GET http://localhost:8080/api/competition/query/?search=""page=0&size=10
+GET http://localhost:8080/api/competition/query?search=""page=0&size=10
 
 ### get comp by ID
 GET http://localhost:8080/api/competition/{compName}
