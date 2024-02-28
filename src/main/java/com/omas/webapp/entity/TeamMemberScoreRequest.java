@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TeamMemberScoreRequest { 
     
-	@NotEmpty(message = "userId cannot be empty")
-	private long id; 
+	//@NotEmpty(message = "userId cannot be empty")
+	private long userId; 
 
     	
 	@NotEmpty(message = "competitionName cannot be empty")

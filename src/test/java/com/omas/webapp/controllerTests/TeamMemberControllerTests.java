@@ -2,7 +2,9 @@ package com.omas.webapp.controllerTests;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import com.omas.webapp.TestUtils;
 
 @SpringBootTest
@@ -26,7 +27,7 @@ public class TeamMemberControllerTests {
         private static final String baseUrl = "/api/competition/team/member";
 
         private static final String addNewUrl = baseUrl + "/add";
-        private static final String getScoreUrl = baseUrl + "/score";
+        private static final String ScoreUrl = baseUrl + "/score";
 
         private String token;
         private final String clubName = "Seuraajat1";
@@ -45,9 +46,7 @@ public class TeamMemberControllerTests {
         @Test
         public void addTeamMember() throws Exception {
 
-
-
-
+                //add user to team
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
@@ -58,8 +57,9 @@ public class TeamMemberControllerTests {
         }
 
         @Test
-        public void getTeamScore() throws Exception {
+        public void getTeamMemberScore() throws Exception {
 
+                //add user to team
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
@@ -67,12 +67,42 @@ public class TeamMemberControllerTests {
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.competitionId").value(competitionName));
 
-                mockMvc.perform(MockMvcRequestBuilders.get(getScoreUrl)
+
+
+                //getUserScore
+                mockMvc.perform(MockMvcRequestBuilders.get(ScoreUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
                                 .content("{"
                                 + "\"competitionName\":\""+competitionName+"\","
                                 + "\"id\":\""+Long.valueOf(0)+"\"" + "}"))
                                 .andExpect(status().isOk());
+        }
+
+        @Test
+        public void PostTeamMemberScore() throws Exception {
+
+                // add user to team
+                mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(new ObjectMapper()
+                                                .writeValueAsString(Map.of("competitionName", competitionName))))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.competitionId").value(competitionName));
+
+                List<Double> shots = TestUtils.give60shots();
+                ObjectMapper mapper = new ObjectMapper();
+                String json = mapper.writeValueAsString(Map.of(
+                                "competitionName", competitionName,
+                                "shots", shots));
+
+                // Post user score
+                mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(json))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.sum").isNotEmpty());
         }
 }

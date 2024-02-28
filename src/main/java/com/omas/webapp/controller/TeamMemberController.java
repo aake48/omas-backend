@@ -64,7 +64,7 @@ public class TeamMemberController {
     @GetMapping("/score")
     public ResponseEntity<?> getScore(@Valid @RequestBody TeamMemberScoreRequest request) {
         
-        List<TeamMemberScore> score = ScoreService.getUsersScore(request.getId(), request.getCompetitionName());
+        List<TeamMemberScore> score = ScoreService.getUsersScore(request.getUserId(), request.getCompetitionName());
         if(score!=null){
             return new ResponseEntity<>(score, HttpStatus.OK);
         }

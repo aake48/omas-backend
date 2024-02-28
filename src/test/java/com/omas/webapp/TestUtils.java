@@ -1,11 +1,16 @@
 package com.omas.webapp;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
+
 
 public class TestUtils {
 
@@ -81,6 +86,17 @@ public static void addCompetition(MockMvc mockMvc, String competitionName, Strin
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
                 .content("{" + "\"competitionName\":\""+competitionName+"\"" + "}"))
                 .andExpect(status().isCreated());
+}
+
+public static List<Double> give60shots() {
+        Random rand = new Random();
+        List<Double> shots = new ArrayList<>();
+
+        for (int i = 0; i < 60; i++) {
+                shots.add(rand.nextDouble() * 10.9);
+        }
+        return shots;
+
 }
 
 }

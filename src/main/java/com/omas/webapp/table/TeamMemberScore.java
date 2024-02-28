@@ -32,21 +32,27 @@ public class TeamMemberScore {
     private String scorePerShot;
     private Date creationDate;
 
-    public TeamMemberScore(TeamMemberId teamMemberId, List<Double> scores) {
+    public TeamMemberScore(TeamMemberId teamMemberId, List<Double> list) {
 
         this.sum = 0;
         this.bullsEyeCount = 0;
 
-        for (double score : scores) {
+        if (list != null) {
+            for (double score : list) {
 
-            this.sum += score;
+                this.sum += score;
 
-            if (score == 10.9D) {
-                this.bullsEyeCount++;
+                if (score == 10.9D) {
+                    this.bullsEyeCount++;
+                }
             }
+            this.scorePerShot = list.toString();
+
+        } else {
+            this.scorePerShot = "";
+
         }
 
-        this.scorePerShot = scores.toString();
 
         this.userId = teamMemberId.getUserId();
         this.clubId = teamMemberId.getClubId();

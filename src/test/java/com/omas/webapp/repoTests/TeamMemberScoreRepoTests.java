@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.omas.webapp.TestUtils;
 import com.omas.webapp.repository.TeamMemberScoreRepository;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMemberId;
@@ -24,30 +25,18 @@ public class TeamMemberScoreRepoTests {
     @Autowired
     private TeamMemberScoreRepository repo;
 
-    private List<Double> give60shots() {
-
-        Random rand = new Random();
-
-        List<Double> shots = new ArrayList<>();
-        
-        for(int i=0; i<60;i++){
-            shots.add(rand.nextDouble()* 10.9);
-        }
-        return shots;
-    }
-
     @Test
         public void findByClubIdAndCompetitionId() {
 
 
-                TeamMemberScore score1 = new TeamMemberScore(new TeamMemberId(1l, "Clubi1", "kilpa1"),give60shots());
-                TeamMemberScore score2 = new TeamMemberScore(new TeamMemberId(2l, "Clubi1", "kilpa1"),give60shots());
-                TeamMemberScore score3 = new TeamMemberScore(new TeamMemberId(3l, "Clubi1", "kilpa1"),give60shots());
-                TeamMemberScore score4 = new TeamMemberScore(new TeamMemberId(4l, "Clubi1", "kilpa1"),give60shots());
-                TeamMemberScore score5 = new TeamMemberScore(new TeamMemberId(5l, "Clubi1", "kilpa1"),give60shots());
+                TeamMemberScore score1 = new TeamMemberScore(new TeamMemberId(1l, "Clubi1", "kilpa1"),TestUtils.give60shots());
+                TeamMemberScore score2 = new TeamMemberScore(new TeamMemberId(2l, "Clubi1", "kilpa1"),TestUtils.give60shots());
+                TeamMemberScore score3 = new TeamMemberScore(new TeamMemberId(3l, "Clubi1", "kilpa1"),TestUtils.give60shots());
+                TeamMemberScore score4 = new TeamMemberScore(new TeamMemberId(4l, "Clubi1", "kilpa1"),TestUtils.give60shots());
+                TeamMemberScore score5 = new TeamMemberScore(new TeamMemberId(5l, "Clubi1", "kilpa1"),TestUtils.give60shots());
 
-                TeamMemberScore otherScore1 = new TeamMemberScore(new TeamMemberId(11l, "Clubi11", "kilpa1"),give60shots());
-                TeamMemberScore otherScore2 = new TeamMemberScore(new TeamMemberId(111l, "club2", "kilpa1"),give60shots());
+                TeamMemberScore otherScore1 = new TeamMemberScore(new TeamMemberId(11l, "Clubi11", "kilpa1"),TestUtils.give60shots());
+                TeamMemberScore otherScore2 = new TeamMemberScore(new TeamMemberId(111l, "club2", "kilpa1"),TestUtils.give60shots());
 
 
                 repo.save(score1);
