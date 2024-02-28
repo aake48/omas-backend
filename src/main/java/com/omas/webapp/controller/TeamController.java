@@ -50,7 +50,7 @@ public class TeamController {
             return new ResponseEntity<>(Map.of("error", "User is not part of any club thus cannot create a team"), HttpStatus.BAD_REQUEST);
         }
 
-        teamService.addTeam(club, request.getCompetitionName());
+        teamService.addTeam(request.getCompetitionName(), club);
         
         Team addedTeam = teamService.addTeam(request.getCompetitionName(), club);
 

@@ -1,5 +1,6 @@
 package com.omas.webapp;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
@@ -37,6 +38,26 @@ public class TestUtils {
                 .andReturn();
 
         return mvcResult.getResponse().getContentAsString();
+    }
+
+    public static String addClub(MockMvc mockMvc, String clubName, String userToken) throws Exception {
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/club/new").header("Authorization", "Bearer "+ userToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                        .content("{"
+                                + "\"clubName\":\""+clubName+"\""
+                                + "}"))
+                        .andReturn();
+
+        return mvcResult.getResponse().getContentAsString();
+    }
+
+        public static void joinClub(MockMvc mockMvc, String clubName, String userToken) throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/club" + "/" + "join")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
+                .content("{" + "\"clubName\":\"" + clubName + "\"" + "}"))
+                .andExpect(status().isOk());
+        
     }
 
 }

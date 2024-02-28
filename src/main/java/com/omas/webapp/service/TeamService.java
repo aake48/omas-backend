@@ -1,6 +1,11 @@
 package com.omas.webapp.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.omas.webapp.repository.TeamMemberRepository;
 import com.omas.webapp.repository.TeamRepository;
 import com.omas.webapp.table.Team;
@@ -8,6 +13,7 @@ import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMember;
 import com.omas.webapp.table.TeamMemberId;
 
+@Service
 public class TeamService {
 
     @Autowired
@@ -18,16 +24,15 @@ public class TeamService {
 
     // Authorization for this method is handled in CompetitionController
     public Team addTeam(String CompetitionToJoin, String ClubJoining) {
-
-        Team savedTeam = teamRepository.save(new Team(new TeamId(CompetitionToJoin, ClubJoining)));
+        
+        Team savedTeam = teamRepository.save(new Team(new TeamId(ClubJoining, CompetitionToJoin)));
 
         return savedTeam;
     }
 
-    public TeamMember addTeamMember(TeamMemberId teamMemberId) throws Exception{
+    public TeamMember addTeamMember(TeamMemberId teamMemberId) throws Exception {
 
-        
-        if(isTeamPartOfThisComp(teamMemberId.getClubId() ,teamMemberId.getCompetitionId())){
+        if (isTeamPartOfThisComp(teamMemberId.getClubId(), teamMemberId.getCompetitionId())) {
             return teamMemberRepository.save(new TeamMember(teamMemberId));
         }
         throw new Exception("this team does not exist");
@@ -45,21 +50,35 @@ public class TeamService {
             throw new Exception("error: this user's club is not participating in this event / Team does not exist");
         }
 
-        if (!isPartOfThisTeam(userDetails.getId(), new TeamId(userDetails.getPartOfClub(), competitionName))) {
+        if (!isUsertPartOfThisTeam(userDetails.getId(), new TeamId(userDetails.getPartOfClub(), competitionName))) {
             throw new Exception("error: this user is is not part of the team");
         }
 
         return new TeamMemberId(userDetails.getId(), new TeamId(club, competitionName));
     }
 
-    // not implemented yet
-    public boolean isPartOfThisTeam(long userId, TeamId teamId) {
+    // checks if user is a teamMember in the given team
+    public boolean isUsertPartOfThisTeam(long userId, TeamId teamId) {
+
+        Optional<List<TeamMember>> teamMates = teamMemberRepository.findByTeamId(teamId);
+        if (teamMates.isPresent()) {
+            List<TeamMember> results = teamMates.get();
+            if (results.contains(
+                    new TeamMember(new TeamMemberId(userId, teamId.getClubId(), teamId.getCompetitionId())))) {
+                return true;
+            }
+        }
         return false;
     }
 
-    // not implemented yet
+    // checks if team with given Id exists in the db
     public boolean isTeamPartOfThisComp(String clubParticipating, String activeCompetition) {
 
+        Optional<Team> participatingTeam = teamRepository.findById(new TeamId(clubParticipating, activeCompetition));
+
+        if (participatingTeam.isPresent()) {
+            return true;
+        }
         return false;
     }
 }
