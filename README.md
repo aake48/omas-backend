@@ -25,7 +25,6 @@
       - [Create new Competition](#create-new-competition)
       - [Get competition by Id](#get-competition-by-id)
       - [Get all competitions](#get-all-competitions)
-      - [Get all competitions](#get-all-competitions)
       - [Search for competitions with pagination](#search-for-competitions-with-pagination)
     - [teams](#teams)
       - [create new team](#create-new-team)
@@ -87,6 +86,7 @@ content-type: application/json
     "email": "temp@email.com"
 }
 ```
+If user was added successfully, this it will return {messge:"user added"}. If registration fails, the errors will be provided like this: 
 ```
 {
   "password": "Password cannot be fewer than 6 characters",
@@ -104,7 +104,7 @@ content-type: application/json
     "username": "Username",
     "password": "password"
 }
-returns  string:message JSON
+If user was added successfully, this it will return json, {token:TokenString"}. If login fails, the errors will be provided in the same kind of structure as in api/reg
 ```
 ## Clubs
 ### Create new Club
@@ -129,7 +129,7 @@ returns either created club -JSON or list of validation violations -JSON
 ### Get club by Id
 
 ```
-GET http://localhost:8080/api/club/?id=${compName}
+GET http://localhost:8080/api/club/?id=${clubName}
 
 ```
 returns club JSON
@@ -305,7 +305,7 @@ Returns [teamMemberScore object](#get-teams-score) if a score for this user exis
 Note: the following conditions must be met before user can submit his scores: 
 - The user must be [a team member](#add-team-member-to-team) for the competition before he is able to submit his scores
 ```
-POST api/competition/team/member/score
+POST api/competition/team/member/score/add
 Authorization: required
 Content-Type: application/json
 {
