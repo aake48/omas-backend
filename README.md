@@ -17,7 +17,7 @@
       - [Create new Club](#create-new-club)
       - [Get club by Id](#get-club-by-id)
       - [Get all clubs](#get-all-clubs)
-      - [Search club with pagination](#search-club-with-pagination)
+      - [Search clubs with pagination](#search-clubs-with-pagination)
       - [Join club](#join-club)
 
   - [Competition related](#competition-related)
@@ -86,7 +86,7 @@ content-type: application/json
     "email": "temp@email.com"
 }
 ```
-If user was added successfully, this it will return {messge:"user added"}. If registration fails, the errors will be provided like this: 
+If user was added successfully, this will return {messge:"user added"}. If registration fails, the errors will be provided like this: 
 ```
 {
   "password": "Password cannot be fewer than 6 characters",
@@ -104,7 +104,7 @@ content-type: application/json
     "username": "Username",
     "password": "password"
 }
-If user was added successfully, this it will return json, {token:TokenString"}. If login fails, the errors will be provided in the same kind of structure as in api/reg
+If user was added successfully, this will return json, {token:TokenString"}. If login fails, the errors will be provided in the same kind of structure as in api/reg
 ```
 ## Clubs
 ### Create new Club
@@ -140,7 +140,7 @@ GET http://localhost:8080/api/club/all
 ```
 returns List of clubs -JSON
 
-### Search club with pagination
+### Search clubs with pagination
 Note the following:
   - search parameter is optional, it can be left empty.
   - When changing search parameter, please reset your current __page__ parameter to 0. Each search has its own number of pages which could result in an error if you're on page 34 of all results(search=null) and after this you change the search term for "Oulun" which may only results in totalPages of 1. Query of a page numer that is larger than totalPages will result in an error.
