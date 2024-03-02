@@ -1,7 +1,52 @@
-# omas-backend - how to get started with dev
+# omas-backend - table of contents	 
+- [<ins>__How to run this project__</ins>](#how-to-run-this-project)
+  - [1st Setup PostgreSQL database](#1st-setup-postgresql-database)
+    - [1st method: postgres docker container](#1st-method-postgres-docker-container-recommended-method)
+    - [2st method: postgres docker container](#2nd-method-local-install)
+  - [2nd create env.properties](#2nd-create-envproperties)
+  - [3rd run](#3rd-run)
+
+- [<ins>__URLs for API__</ins>](#urls-for-api)
+
+  - [User related](#user-related)
+    - [Users](#user-related)
+      - [registration](#registration)
+      - [login](#login)
+
+    - [Clubs](#clubs)
+      - [Create new Club](#create-new-club)
+      - [Get club by Id](#get-club-by-id)
+      - [Get all clubs](#get-all-clubs)
+      - [Search club with pagination](#search-club-with-pagination)
+      - [Join club](#join-club)
+
+  - [Competition related](#competition-related)
+    - [competitions](#competition-related)
+      - [Create new Competition](#create-new-competition)
+      - [Get competition by Id](#get-competition-by-id)
+      - [Get all competitions](#get-all-competitions)
+      - [Get all competitions](#get-all-competitions)
+      - [Search for competitions with pagination](#search-for-competitions-with-pagination)
+    - [teams](#teams)
+      - [create new team](#create-new-team)
+      - [get team's score](#get-teams-score)
+    - [team members](#team-member)
+      - [add team member to team](#add-team-member-to-team)
+      - [get user's score](#get-users-score)
+      - [submit user's score](#submit-users-score)
+
+
+
+  
+
+
+
+  
+
+# How to run this project
 ## 1st Setup PostgreSQL database
 
-### 1st method: postgres docker container
+### 1st method: postgres docker container (recommended method)
 With docker installed, use ```docker-compose up```
 ### 2nd method: local install
 Install  and setup the lastest version of [PostgreSQL](https://www.postgresql.org/download/).  
@@ -61,7 +106,7 @@ content-type: application/json
 }
 returns  string:message JSON
 ```
-## Club related
+## Clubs
 ### Create new Club
 ```
 Post http://localhost:8080/api/auth/club/new
@@ -96,7 +141,9 @@ GET http://localhost:8080/api/club/all
 returns List of clubs -JSON
 
 ### Search club with pagination
-
+Note the following:
+  - search parameter is optional, it can be left empty.
+  - When changing search parameter, please reset your current __page__ parameter to 0. Each search has its own number of pages which could result in an error if you're on page 34 of all results(search=null) and after this you change the search term for "Oulun" which may only results in totalPages of 1. Query of a page numer that is larger than totalPages will result in an error.
 ```
 GET http://localhost:8080/api/club/query?search=${search}&page=${page}&size=${size}
 ```
@@ -137,10 +184,21 @@ returns [Page](https://docs.spring.io/spring-data/commons/docs/current/api/org/s
     "unsorted": true
   },
   "first": true,
-  "numberOfElements": 1,
+  "numberOfElements": 2,
   "empty": false
 }
 ```
+### join club
+```
+Post http://localhost:8080/api/club/join
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
+content-type: application/json
+
+{
+    "clubName": "Poliisi_seura"
+}
+```
+
 
 ## Competition related
 ### Create new Competition
@@ -170,26 +228,89 @@ GET http://localhost:8080/api/competition/all
 returns List of competitions in -JSON
 
 ### Search for competitions with pagination
+Note the following:
+  - search parameter is optional, it can be left empty.
+  - When changing search parameter, please reset your current __page__ parameter to 0. Each search has its own number of pages which could result in an error if you're on page 34 of all results(search=null) and after this you change the search term for "Kesän_2024" which may only results in totalPages of 1. Query of a page numer that is larger than totalPages will result in an error.
 
 ```
 GET http://localhost:8080/api/competition/query?search=${search}&page=${page}&size=${size}
 ```
-returns [Page](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html) of competitions in JSON
+returns [Page](#search-club-with-pagination) of competitions in JSON
 
-### Post scores 
+## teams
+### create new team 
+Note: the following conditions must be met before a team can be created: 
+- The user must be [a member of a club](#join-club)
+- The competition that the team is participating in must already [exist](#create-new-competition) in the database.
 ```
-POST http://localhost:8080/api/score
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
+POST api/competition/team/new
+Authorization: required
 Content-Type: application/json
-
 {
-  "teamMemberId": {
-    "userId": 98125621,
-    "clubId": "Esimerkkiseura",
-    "competitionId": "Esimerkkikilpailu"
-  },
-  "scoreList": [
-    10.9, 10.9, 10.9
-  ]
+  competitionName:String 
 }
 ```
+returns the team just created in json format.
+If the team creation fails, reason for the failure will be provided in json {error:"reason for failure -string"}
+
+### get team's score 
+```
+GET api/competition/team/score
+Content-Type: application/json
+{
+  competitionName:String,
+  clubName:string
+}
+```
+returns JSON array of TeamMemberScore objects, and these objects look like this: 
+```
+{
+    userId:long.
+    clubId:string,
+    competitionId:string;
+    UUID:uuid
+    sum:number
+    bullsEyeCount:numer,
+    scorePerShot:String, //this is a string representation of scoreList sent by the user
+    creationDate:2024-12-1(String),
+    }
+```
+## team member
+### add team member to team 
+Note: the following conditions must be met before user can join a team: 
+- The user must be [a member of a club](#join-club)
+- the club that user is part of must have [created a team](#create-new-team) for this competition before users add themselves to it.
+```
+POST api/competition/team/member/add
+Authorization: required
+Content-Type: application/json
+{
+  competitionName:String
+}
+```
+Returns either created team member object or reason for failure in error:string json 
+
+### get user's score
+```
+GET api/competition/team/member/score
+Content-Type: application/json
+{
+  competitionName:String,
+  userId:number
+}
+```
+Returns [teamMemberScore object](#get-teams-score) if a score for this user exist.
+
+### submit user's score
+Note: the following conditions must be met before user can submit his scores: 
+- The user must be [a team member](#add-team-member-to-team) for the competition before he is able to submit his scores
+```
+POST api/competition/team/member/score
+Authorization: required
+Content-Type: application/json
+{
+  competitionName:String,
+  ScoreList:number[]
+}
+```
+Returns [teamMemberScore object](#get-teams-score) if submission was successful. In other cases, a error:string json will be provided.
