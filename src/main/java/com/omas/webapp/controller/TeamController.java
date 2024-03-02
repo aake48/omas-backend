@@ -75,7 +75,7 @@ public class TeamController {
     public ResponseEntity<?> getScores(@RequestBody TeamScoreRequest request) {
 
 
-        if(!teamService.isTeamPartOfThisComp(request.getClubName(), request.getCompetitionName())){
+        if(!teamService.isTeamPartOfCompetition(request.getClubName(), request.getCompetitionName())){
             return new ResponseEntity<>(Map.of("error", "No team found / this club is not participating in this competition"), HttpStatus.OK);
         }
         List<TeamMemberScore> scores = scoreService.getTeamScores(new TeamId(request.getClubName(), request.getCompetitionName()));

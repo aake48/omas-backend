@@ -15,7 +15,10 @@ public class TeamMemberScoreService {
     @Autowired
     private TeamMemberScoreRepository teamMemberScoreRepository;
 
-    //validation is done in the controller whether user is part of club and team
+    /**
+     * Note: this method does not perform any validation to check if the provided TeamId is valid
+     * @return saved TeamMemberScore
+     */ 
     public TeamMemberScore addUsersScore(TeamMemberId teamMemberId, List<Double> score) {
 
         TeamMemberScore teamMemberScore = new TeamMemberScore(teamMemberId, score);
@@ -30,7 +33,7 @@ public class TeamMemberScoreService {
         return teamMemberScoreRepository.findByTeamId(teamId);
     }
 
-    public List<TeamMemberScore> getUsersScore(long id, String competitionName) {
+    public TeamMemberScore getUsersScore(long id, String competitionName) {
         return teamMemberScoreRepository.findByUserIdAndCompetitionId(id, competitionName);
     }
 

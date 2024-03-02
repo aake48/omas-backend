@@ -5,6 +5,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
+
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,11 +48,12 @@ public class TeamMemberControllerTests {
         @Test
         public void addTeamMember() throws Exception {
 
-                //add user to team
+                String json = new JSONObject().put("competitionName", competitionName).toString();
+                // add user to team
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
-                                .content("{" + "\"competitionName\":\"" + competitionName + "\"" + "}"))
+                                .content(json))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.competitionId").value(competitionName));
 
@@ -59,23 +62,43 @@ public class TeamMemberControllerTests {
         @Test
         public void getTeamMemberScore() throws Exception {
 
-                //add user to team
+                String json = new JSONObject().put("competitionName", competitionName).toString();
+                // add user to team
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
-                                .content("{" + "\"competitionName\":\"" + competitionName + "\"" + "}"))
+                                .content(json))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.competitionId").value(competitionName));
 
+                mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(json))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.competitionId").value(competitionName));
 
+                List<Double> shots = TestUtils.give60shots();
+                ObjectMapper mapper = new ObjectMapper();
+                String postScoreJson = mapper.writeValueAsString(Map.of(
+                                "competitionName", competitionName,
+                                "scoreList", shots));
 
-                //getUserScore
+                // Post user score
+                mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(postScoreJson))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.sum").isNotEmpty());
+
+                // getUserScore
                 mockMvc.perform(MockMvcRequestBuilders.get(ScoreUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
                                 .content("{"
-                                + "\"competitionName\":\""+competitionName+"\","
-                                + "\"id\":\""+Long.valueOf(0)+"\"" + "}"))
+                                                + "\"competitionName\":\"" + competitionName + "\","
+                                                + "\"userId\":\"" + 1l + "\"" + "}"))
                                 .andExpect(status().isOk());
         }
 
@@ -83,11 +106,11 @@ public class TeamMemberControllerTests {
         public void PostTeamMemberScore() throws Exception {
 
                 // add user to team
+                String addUserJson = new JSONObject().put("competitionName", competitionName).toString();
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
-                                .content(new ObjectMapper()
-                                                .writeValueAsString(Map.of("competitionName", competitionName))))
+                                .content(addUserJson))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.competitionId").value(competitionName));
 
@@ -102,7 +125,25 @@ public class TeamMemberControllerTests {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
                                 .content(json))
-                                .andExpect(status().isCreated())
+                                .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.sum").isNotEmpty());
+        }
+
+        
+        @Test
+        public void PostScoresToNonExistentCompetition() throws Exception {
+
+
+                List<Double> shots = TestUtils.give60shots();
+                ObjectMapper mapper = new ObjectMapper();
+                String json = mapper.writeValueAsString(Map.of(
+                                "competitionName", "no",
+                                "scoreList", shots));
+
+                mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(json))
+                                .andExpect(status().isBadRequest());
         }
 }

@@ -1,9 +1,9 @@
 package com.omas.webapp.repoTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.util.ArrayList;
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
 import com.omas.webapp.TestUtils;
 import com.omas.webapp.repository.TeamMemberScoreRepository;
 import com.omas.webapp.table.TeamId;
@@ -15,7 +15,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
-import java.util.Random;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -53,5 +52,17 @@ public class TeamMemberScoreRepoTests {
 
                 assertEquals(5, scores.size(), "Scores list should have 5 elements");
         }
+
+        @Test
+        public void findByUserIdAndCompetitionId() {
+
+                TeamMemberScore score1 = new TeamMemberScore(new TeamMemberId(1l, "Clubi1", "kilpa1"),TestUtils.give60shots());
+
+                repo.save(score1);
+
+                TeamMemberScore result = repo.findByUserIdAndCompetitionId(1l, "kilpa1");
+                assertTrue(result!=null);
+                assertTrue(result.getScorePerShot().equals(score1.getScorePerShot()));
+                }
 
 }

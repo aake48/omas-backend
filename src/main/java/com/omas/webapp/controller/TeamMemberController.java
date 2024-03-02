@@ -1,9 +1,7 @@
 package com.omas.webapp.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +22,7 @@ import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.TeamMemberId;
 import com.omas.webapp.table.TeamMember;
 import com.omas.webapp.table.TeamMemberScore;
-
 import jakarta.validation.Valid;
-
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,39 +35,37 @@ public class TeamMemberController {
     TeamService teamsService;
 
     @Autowired
-    TeamMemberScoreService ScoreService;
+    TeamMemberScoreService teamMemberScoreService;
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/add")
-    public ResponseEntity<?> addYourselfToThisTeam(@Valid @RequestBody CompetitionRequest request) {
+    public ResponseEntity<?> addUserToTeam(@Valid @RequestBody CompetitionRequest request) {
 
         UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
 
-        TeamMember savedTeamMember;
-        String club = userDetails.getPartOfClub();
         try {
-            savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userDetails.getId(), club, request.getCompetitionName()));
+            String club = userDetails.getPartOfClub();
+            TeamMember savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userDetails.getId(), club, request.getCompetitionName()));
+            return new ResponseEntity<>(savedTeamMember, HttpStatus.OK);
 
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(savedTeamMember, HttpStatus.OK);
     }
 
-    // non final - does not work yet
     @GetMapping("/score")
     public ResponseEntity<?> getScore(@Valid @RequestBody TeamMemberScoreRequest request) {
         
-        List<TeamMemberScore> score = ScoreService.getUsersScore(request.getUserId(), request.getCompetitionName());
+        TeamMemberScore score = teamMemberScoreService.getUsersScore(request.getUserId(), request.getCompetitionName());
         if(score!=null){
             return new ResponseEntity<>(score, HttpStatus.OK);
         }
         return new ResponseEntity<>(Map.of("message", "no score found"), HttpStatus.NOT_FOUND);
 
     }
-    // non final - does not work yet
+
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/score/add")
     public ResponseEntity<?> addScores(@Valid @RequestBody AddTeamMemberScoreRequest request) {
@@ -79,23 +73,19 @@ public class TeamMemberController {
         UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
 
-        TeamMemberId teamMemberId;
-
-        // validates that user is part of the team and that the team has entered this
-        // competition;
         try {
-            teamMemberId = teamsService.thisUserIsValidMember(userDetails, request.getCompetitionName());
+            // validates that user is part of the team and that the team has entered this
+            // competition
+            TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(userDetails, request.getCompetitionName());
+            // if the scores already exist in the DB, they will be overwritten
+            TeamMemberScore score = teamMemberScoreService.addUsersScore(teamMemberId, request.getScoreList());
+            return new ResponseEntity<>(score, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        // if the score already exists in db, it will be overwritten
-        TeamMemberScore score = ScoreService.addUsersScore(teamMemberId, request.getScoreList());
-
-        return new ResponseEntity<>(score, HttpStatus.CREATED);
     }
 
-        @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
             MethodArgumentNotValidException ex) {

@@ -25,9 +25,6 @@ public interface TeamMemberScoreRepository extends JpaRepository<TeamMemberScore
     // find user's score in the competitions
     List<TeamMemberScore> findByUserIdAndClubIdAndCompetitionId(Long userId, String clubId, String competitionId);
 
-    default List<TeamMemberScore> findUserIdAndCompetitionName(TeamMemberId teamId) {
-        return findByUserIdAndCompetitionId(teamId.getUserId(), teamId.getCompetitionId());
-    }
-    List<TeamMemberScore> findByUserIdAndCompetitionId(long id, String competitionName);
+    TeamMemberScore findByUserIdAndCompetitionId(long id, String competitionName);
 
 }

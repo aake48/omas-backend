@@ -22,7 +22,12 @@ public class TeamService {
     @Autowired
     private TeamMemberRepository teamMemberRepository;
 
-    // Authorization for this method is handled in CompetitionController
+    /**
+     * Note: this method does not perform any validation to check if the provided competition or club exists.
+     * @param CompetitionToJoin
+     * @param ClubJoining
+     * @return savedTeam
+     */
     public Team addTeam(String CompetitionToJoin, String ClubJoining) {
 
         Team savedTeam = teamRepository.save(new Team(new TeamId(ClubJoining, CompetitionToJoin)));
@@ -30,27 +35,49 @@ public class TeamService {
         return savedTeam;
     }
 
+    /**
+     * This method checks if the provided teamId is part of competition and saves the team member.
+     * @param teamMemberId
+     * @return saved team member
+     * @throws Exception throws an exception if team member cannot be saved because the team is not part of the competition
+     */
     public TeamMember addTeamMember(TeamMemberId teamMemberId) throws Exception {
 
-        if (isTeamPartOfThisComp(teamMemberId.getClubId(), teamMemberId.getCompetitionId())) {
+        if (isTeamPartOfCompetition(teamMemberId.getClubId(), teamMemberId.getCompetitionId())) {
             return teamMemberRepository.save(new TeamMember(teamMemberId));
         }
         throw new Exception("this team does not exist");
 
     }
 
-    public TeamMemberId thisUserIsValidMember(UserInfoDetails userDetails, String competitionName) throws Exception {
+    /** @return TeamMemberId if this user has permissions to submit scores to given competition
+     * checks whether user is in club. 
+     * checks that user is in his clubs team for this competition
+     * @throws Exception throws an exception if validation fails
+
+    */
+    public TeamMemberId CanUserSubmitScores(UserInfoDetails userDetails, String competitionName) throws Exception {
 
         String club = userDetails.getPartOfClub();
         if (club == null || club.isEmpty()) {
             throw new Exception("error: this user is not in club");
         }
 
+        if(!isUserPartOfTeam(userDetails.getId(), new TeamId(club, competitionName))){
+            throw new Exception("error: this user is not in the team");
+        }
+
         return new TeamMemberId(userDetails.getId(), new TeamId(club, competitionName));
     }
 
-    // checks if user is a teamMember in the given team
-    public boolean isUsertPartOfThisTeam(long userId, TeamId teamId) {
+    /**
+     * Checks if a user is a member of a specific team.
+     *
+     * @param userId The ID of the user.
+     * @param teamId The ID of the team.
+     * @return true if the user is in the team, false otherwise.
+     */
+    public boolean isUserPartOfTeam(long userId, TeamId teamId) {
 
         Optional<List<TeamMember>> teamMates = teamMemberRepository.findByTeamId(teamId);
         if (teamMates.isPresent()) {
@@ -63,8 +90,14 @@ public class TeamService {
         return false;
     }
 
-    // checks if team with given Id exists in the db
-    public boolean isTeamPartOfThisComp(String clubParticipating, String activeCompetition) {
+    /**
+     * Checks if a team is part of a specific competition.
+     *
+     * @param clubParticipating The club participating in the competition.
+     * @param activeCompetition The active competition.
+     * @return true if the team is part of the competition, false otherwise.
+     */
+    public boolean isTeamPartOfCompetition(String clubParticipating, String activeCompetition) {
 
         Optional<Team> participatingTeam = teamRepository.findById(new TeamId(clubParticipating, activeCompetition));
 
