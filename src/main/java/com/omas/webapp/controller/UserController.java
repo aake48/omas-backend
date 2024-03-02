@@ -12,9 +12,14 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.omas.webapp.entity.AuthRequest;
 import com.omas.webapp.entity.RegistrationRequest;
 import com.omas.webapp.service.JwtService;
+import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.service.UserService;
 import jakarta.validation.Valid;
 
@@ -42,14 +47,34 @@ public class UserController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<Map<String, String>> authenticateAndGetToken(@Valid @RequestBody AuthRequest authRequest) {
+    public ResponseEntity<?> authenticateAndGetToken(@Valid @RequestBody AuthRequest authRequest) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
             String token = jwtService.generateToken(authRequest.getUsername());
-            return new ResponseEntity<>(Map.of("token", token), HttpStatus.OK);
+            UserInfoDetails userDetails = service.loadUserByUsername(authRequest.getUsername());
+
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode user = mapper.createObjectNode()
+                    .put("username", userDetails.getUsername())
+                    .put("legalName", userDetails.getLegalName())
+                    .put("email", userDetails.getEmail())
+                    .put("userId", userDetails.getId())
+                    .put("authorities", userDetails.getAuthorities().toString())
+                    .put("creationDate", userDetails.getCreationDate().toString())
+                    .put("club", userDetails.getPartOfClub());
+
+            ObjectNode root = mapper.createObjectNode();
+            root.set("user", user);
+            root.put("token", token);
+            String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);
+
+            return new ResponseEntity<>(jsonString, HttpStatus.OK);
+
         } catch (AuthenticationException e) {
             return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.FORBIDDEN);
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>(Map.of("error", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

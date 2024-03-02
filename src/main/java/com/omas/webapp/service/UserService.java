@@ -5,7 +5,6 @@ import com.omas.webapp.repository.UserRepository;
 import com.omas.webapp.table.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +14,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.List;
+
 
 @Service
 public class UserService implements UserDetailsService {
@@ -29,7 +29,7 @@ public class UserService implements UserDetailsService {
     private RoleService roleService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserInfoDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Optional<User> user = repository.findByUsername(username);
 
@@ -66,12 +66,24 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public void joinClub(Long id, String club) {
+ 
+    /**
+     * Joins a user to a club.
+     * This method does not perform any validation on 'club' String
+     *
+     * @param id   the ID of the user
+     * @param club the name of the club to join
+     * @return true if the user was successfully joined to the club, false otherwise
+     */
+    public boolean joinClub(Long id, String club) {
         Optional<User> userToJoin = repository.findById(id);
 
-        User user = userToJoin.get();
-        user.setPartOfClub(club);
-        repository.save(user);
-
+        if(userToJoin.isPresent()){
+            User user = userToJoin.get();
+            user.setPartOfClub(club);
+            repository.save(user);
+            return true;
+        }
+        return false;
     }
 }

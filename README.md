@@ -104,8 +104,24 @@ content-type: application/json
     "username": "Username",
     "password": "password"
 }
-If user was added successfully, this will return json, {token:TokenString"}. If login fails, the errors will be provided in the same kind of structure as in api/reg
 ```
+returns: 
+```
+
+{
+  "user": {
+    "username": "johndoe",
+    "legalName": "John doe",
+    "email": "temp@email.com",
+    "userId": 1,
+    "authorities": "[ROLE_USER]",
+    "creationDate": "2024-03-02",
+    "club": null
+  },
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNzA5MzYyOTcyLCJleHAiOjE3MDkzOTE3NzJ9.Qd1IsqU89ArTLkt6w91kKEzGGtkL5RTnzsACnpy8Efc"
+} 
+```
+If login fails, the errors will be provided in the same kind of structure as in api/reg
 ## Clubs
 ### Create new Club
 ```
