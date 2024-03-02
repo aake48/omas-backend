@@ -26,6 +26,10 @@ public class CompetitionService {
 
     }
 
+    public boolean thisCompetitionExists(String competitionName){
+        return competitionRepository.existsById(competitionName);
+    }
+
 
     public List<Competition> getAllCompetitions() {
         return competitionRepository.findAll();

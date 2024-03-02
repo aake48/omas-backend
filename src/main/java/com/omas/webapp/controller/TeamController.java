@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.omas.webapp.entity.AddTeamRequest;
 import com.omas.webapp.entity.TeamScoreRequest;
+import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
 import com.omas.webapp.service.UserInfoDetails;
@@ -38,6 +39,9 @@ public class TeamController {
     @Autowired
     TeamMemberScoreService scoreService;
 
+    @Autowired 
+    CompetitionService competitionService;
+
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/new")
     public ResponseEntity<?> addTeam(@RequestBody AddTeamRequest request) {
@@ -50,11 +54,19 @@ public class TeamController {
             return new ResponseEntity<>(Map.of("error", "User is not part of any club thus cannot create a team"), HttpStatus.BAD_REQUEST);
         }
 
-        teamService.addTeam(request.getCompetitionName(), club);
+        if(!competitionService.thisCompetitionExists(request.getCompetitionName())){
+            return new ResponseEntity<>(Map.of("error","This competition does not exist"), HttpStatus.BAD_REQUEST);
+        }
         
-        Team addedTeam = teamService.addTeam(request.getCompetitionName(), club);
+        try {
+            Team addedTeam = teamService.addTeam(request.getCompetitionName(), club);
+            return new ResponseEntity<>(addedTeam, HttpStatus.OK);
 
-        return new ResponseEntity<>(addedTeam, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(Map.of("error",e.getMessage()), HttpStatus.BAD_REQUEST);
+
+        }        
+
 
     }
 
