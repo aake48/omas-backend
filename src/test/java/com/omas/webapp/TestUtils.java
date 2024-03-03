@@ -4,152 +4,229 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.test.web.servlet.MockMvc;
 
 public class TestUtils {
 
-    public static String getToken(MockMvc mockMvc) throws Exception {
+        public static String getToken(MockMvc mockMvc, String username) throws Exception {
 
-        registerJohnDoe_password123(mockMvc);
+                registerUser(mockMvc, username);
+                return loginUser(mockMvc, username);
+        }
 
-        String json = new JSONObject()
-        .put("password", "password123")
-        .put("username","johndoe")
-        .toString();
+        public static String registerUser(MockMvc mockMvc, String username) throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
-                .andReturn();
+                String json = new JSONObject()
+                                .put("password", "password123")
+                                .put("username", username)
+                                .put("name", "name")
+                                .put("email", "user@example.com")
+                                .toString();
 
-        String token = new JSONObject(mvcResult.getResponse().getContentAsString()).getString("token");
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/reg")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(json))
+                                .andReturn();
 
-        return token;
-    }
+                return mvcResult.getResponse().getContentAsString();
+        }
 
-    public static String registerJohnDoe_password123(MockMvc mockMvc) throws Exception {
-        String json = new JSONObject()
-        .put("password", "password123")
-        .put("username","johndoe")
-        .put("name","John Doe")
-        .put("email","user@example.com")
-        .toString();
+        public static String loginUser(MockMvc mockMvc, String username) throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/reg")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
-                .andReturn();
+                String json = new JSONObject().put("password", "password123").put("username", username).toString();
 
-        return mvcResult.getResponse().getContentAsString();
-    }
+                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(json))
+                                .andExpect(status().isOk())
+                                .andReturn();
 
-    public static String registerUser(MockMvc mockMvc, String username) throws Exception {
+                String token = new JSONObject(mvcResult.getResponse().getContentAsString()).getString("token");
+                return token;
+        }
 
-        String json = new JSONObject()
-        .put("password", "password123")
-        .put("username",username)
-        .put("name","John Doe")
-        .put("email","user@example.com")
-        .toString();
+        public static String addClub(MockMvc mockMvc, String clubName, String userToken) throws Exception {
 
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/reg")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
-                .andReturn();
-
-        return mvcResult.getResponse().getContentAsString();
-    }
-
-    public static String loginUser(MockMvc mockMvc, String username) throws Exception {
-
-        String json = new JSONObject().put("password", "password123").put("username",username).toString();
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(json))
-                .andReturn();
-
-        String token = new JSONObject(mvcResult.getResponse().getContentAsString()).getString("token");
-        return token;
-    }
-
-    public static String addClub(MockMvc mockMvc, String clubName, String userToken) throws Exception {
-        
-        String json = new JSONObject().put("clubName", clubName).toString();
-
-        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/club/new").header("Authorization", "Bearer "+ userToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                        .andReturn();
-
-        return mvcResult.getResponse().getContentAsString();
-    }
-
-        public static void joinClub(MockMvc mockMvc, String clubName, String userToken) throws Exception {
                 String json = new JSONObject().put("clubName", clubName).toString();
 
-                mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/club" + "/" + "join")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
-                .content(json))
-                .andExpect(status().isOk());
-        
-    }
-
-    public static void addTeam(MockMvc mockMvc, String competitionName, String userToken) throws Exception {
-
-         final String url = "/api/competition/team/new";
-         String json = new JSONObject().put("competitionName", competitionName).toString();
-
-
-         mockMvc.perform(MockMvcRequestBuilders.post(url)
-         .contentType(MediaType.APPLICATION_JSON)
-         .header("Authorization", "Bearer " + userToken)
-         .content(json))
-         .andExpect(status().isOk());
-}
-
-public static void addTeamMember(MockMvc mockMvc, String competitionName, String userToken) throws Exception {
-
-        final String url = "/api/competition/team/member/add";
-        String json = new JSONObject().put("competitionName", competitionName).toString();
-
-        mockMvc.perform(MockMvcRequestBuilders.post(url)
-        .contentType(MediaType.APPLICATION_JSON)
-        .header("Authorization", "Bearer " + userToken)
-        .content(json))
-        .andExpect(status().isOk());
-}
-
-public static void addCompetition(MockMvc mockMvc, String competitionName, String userToken) throws Exception {
-
-        final String url = "/api/auth/competition/new";
-
-        String json = new JSONObject().put("competitionName", competitionName).toString();
-
-
-        mockMvc.perform(MockMvcRequestBuilders.post(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
-                .content(json))
-                .andExpect(status().isCreated());
-}
-
-public static List<Double> give60shots() {
-        Random rand = new Random();
-        List<Double> shots = new ArrayList<>();
-
-        for (int i = 0; i < 60; i++) {
-                shots.add(rand.nextDouble() * 10.9);
+                return mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/club/new")
+                                .header("Authorization", "Bearer " + userToken)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(json))
+                                .andReturn()
+                                .getResponse().getContentAsString();
         }
-        return shots;
 
-}
+        public static String joinClub(MockMvc mockMvc, String clubName, String userToken) throws Exception {
+                String json = new JSONObject().put("clubName", clubName).toString();
+
+                return mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/club" + "/" + "join")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + userToken)
+                                .content(json))
+                                .andExpect(status().isOk())
+                                .andReturn()
+                                .getResponse().getContentAsString();
+
+        }
+
+        public static void addTeam(MockMvc mockMvc, String competitionName, String userToken) throws Exception {
+
+                final String url = "/api/competition/team/new";
+                String json = new JSONObject().put("competitionName", competitionName).toString();
+
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + userToken)
+                                .content(json))
+                                .andExpect(status().isOk())
+                                .andReturn()
+                                .getResponse().getContentAsString();
+        }
+
+        public static void addTeamMember(MockMvc mockMvc, String competitionName, String userToken) throws Exception {
+
+                final String url = "/api/competition/team/member/add";
+                String json = new JSONObject().put("competitionName", competitionName).toString();
+
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + userToken)
+                                .content(json))
+                                .andExpect(status().isOk())
+                                .andReturn()
+                                .getResponse().getContentAsString();
+        }
+
+        public static String addCompetition(MockMvc mockMvc, String competitionName, String userToken)
+                        throws Exception {
+
+                final String url = "/api/auth/competition/new";
+
+                String json = new JSONObject().put("competitionName", competitionName).toString();
+
+                return mockMvc.perform(MockMvcRequestBuilders.post(url)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
+                                .content(json))
+                                .andReturn()
+                                .getResponse().getContentAsString();
+        }
+
+        public static List<Double> give60shots() {
+                Random rand = new Random();
+                List<Double> shots = new ArrayList<>();
+
+                for (int i = 0; i < 60; i++) {
+                        shots.add(rand.nextDouble() * 10.9);
+                }
+                return shots;
+
+        }
+
+        public static String addScores(MockMvc mockMvc, String competitionName, String userToken) throws Exception {
+
+                final String url = "/api/competition/team/member/score/add";
+
+                List<Double> shots = give60shots();
+                ObjectMapper mapper = new ObjectMapper();
+                String postScoreJson = mapper.writeValueAsString(Map.of(
+                                "competitionName", competitionName,
+                                "scoreList", shots));
+
+                return mockMvc.perform(MockMvcRequestBuilders.post(url)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + userToken)
+                                .content(postScoreJson))
+                                .andExpect(status().isOk())
+                                .andReturn()
+                                .getResponse()
+                                .getContentAsString();
+        }
+
+        public static String getRandomString() {
+
+                int length = 32;
+                String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                Random random = new Random();
+                StringBuilder stringBuilder = new StringBuilder(length);
+
+                for (int i = 0; i < length; i++) {
+                        int index = random.nextInt(characters.length());
+                        char randomChar = characters.charAt(index);
+                        stringBuilder.append(randomChar);
+                }
+
+                return stringBuilder.toString();
+
+        }
+
+        /**
+         * Sets up users, club, competition, and adds scores with one method.
+         */
+        public static void setupScores(MockMvc mockMvc, String clubName, String competitionName) throws Exception {
+
+                // create user1Tokens
+                String random1 = getRandomString();
+                String user1 = getToken(mockMvc, random1);
+
+                String user2 = getRandomString();
+                registerUser(mockMvc, user2);
+                user2 = loginUser(mockMvc, user2);
+
+                String user3 = getRandomString();
+                registerUser(mockMvc, user3);
+                user3 = loginUser(mockMvc, user3);
+
+                String user4 = getRandomString();
+                registerUser(mockMvc, user4);
+                user4 = loginUser(mockMvc, user4);
+
+                String user5 = getRandomString();
+                registerUser(mockMvc, user5);
+                user5 = loginUser(mockMvc, user5);
+
+                // create club
+                addClub(mockMvc, clubName, user1);
+
+
+
+                // join users to club
+                joinClub(mockMvc, clubName, user1);
+                joinClub(mockMvc, clubName, user2);
+                joinClub(mockMvc, clubName, user3);
+                joinClub(mockMvc, clubName, user4);
+                joinClub(mockMvc, clubName, user5);
+
+                // create competition
+                addCompetition(mockMvc, competitionName, user1);
+
+                // add team for club
+                addTeam(mockMvc, competitionName, user1);
+
+                // add team members
+                addTeamMember(mockMvc, competitionName, user1);
+                addTeamMember(mockMvc, competitionName, user2);
+                addTeamMember(mockMvc, competitionName, user3);
+                addTeamMember(mockMvc, competitionName, user4);
+                addTeamMember(mockMvc, competitionName, user5);
+
+                // add scores
+                addScores(mockMvc, competitionName, user1);
+                addScores(mockMvc, competitionName, user2);
+                addScores(mockMvc, competitionName, user3);
+                addScores(mockMvc, competitionName, user4);
+                addScores(mockMvc, competitionName, user5);
+
+        }
 
 }

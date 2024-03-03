@@ -27,7 +27,7 @@ public class LoginTests {
 
         @BeforeEach
         private void registerUser() throws Exception {
-                TestUtils.registerJohnDoe_password123(mockMvc);
+                TestUtils.getToken(mockMvc, "johndoe");
         }
 
         void login() throws Exception {
@@ -44,7 +44,7 @@ public class LoginTests {
         @Test
         void IncorrectCapitalizedLetterInPassword() throws Exception {
 
-                TestUtils.registerJohnDoe_password123(mockMvc);
+                TestUtils.getToken(mockMvc, "johndoe");
 
                 login();
 
@@ -63,7 +63,7 @@ public class LoginTests {
         @Test
         void IncorrectWhitespaceInPassword() throws Exception {
 
-                TestUtils.registerJohnDoe_password123(mockMvc);
+                TestUtils.getToken(mockMvc, "johndoe");
 
                 login();
 
@@ -82,7 +82,7 @@ public class LoginTests {
         @Test
         void IncorrectWhitespaceInUsername() throws Exception {
 
-                TestUtils.registerJohnDoe_password123(mockMvc);
+                TestUtils.getToken(mockMvc, "johndoe");
 
                 login();
 
@@ -100,7 +100,7 @@ public class LoginTests {
         @Test
         void IncorrectCapitalizedLetterInUsername() throws Exception {
 
-                TestUtils.registerJohnDoe_password123(mockMvc);
+                TestUtils.getToken(mockMvc, "johndoe");
 
                 login();
 
@@ -118,7 +118,7 @@ public class LoginTests {
         @Test
         void missingPassword() throws Exception {
 
-                TestUtils.registerJohnDoe_password123(mockMvc);
+                TestUtils.getToken(mockMvc, "johndoe");
 
                 login();
 
@@ -135,7 +135,7 @@ public class LoginTests {
         @Test
         void missingUsername() throws Exception {
 
-                TestUtils.registerJohnDoe_password123(mockMvc);
+                TestUtils.getToken(mockMvc, "johndoe");
 
                 login();
 

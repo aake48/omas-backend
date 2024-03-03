@@ -34,7 +34,7 @@ public class ClubControllerTests {
 
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
+                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content("{" + "\"clubName\":\"Seuran nimi\"" + "}"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Seuran_nimi"));
@@ -65,7 +65,7 @@ public class ClubControllerTests {
         // adds club
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
+                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "jondoe"))
                 .content("{" + "\"clubName\":\"" + clubName + "\"" + "}"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value(clubName));
@@ -85,7 +85,7 @@ public class ClubControllerTests {
         // adds club
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
+                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content("{" + "\"clubName\":\"" + clubName + "\"" + "}"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value(clubName));
@@ -93,7 +93,7 @@ public class ClubControllerTests {
         // join club
         mockMvc.perform(MockMvcRequestBuilders.post(authUrl + "/" + "join")
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
+                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content("{" + "\"clubName\":\"" + clubName + "\"" + "}"))
                 .andExpect(status().isOk());
     }

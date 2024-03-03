@@ -36,7 +36,8 @@ public class TeamControllerTests {
         @Test
         void addTeam() throws Exception {
 
-                String token = TestUtils.getToken(mockMvc);
+                String token = TestUtils.getToken(mockMvc, "johndoe");
+
                 TestUtils.addClub(mockMvc, clubName, token);
                 TestUtils.joinClub(mockMvc, clubName, token);
                 TestUtils.addCompetition(mockMvc, competitionName, token);
@@ -53,8 +54,7 @@ public class TeamControllerTests {
         @Test
         public void addTeamIntoNonExistingCompetition() throws Exception {
 
-
-                String token = TestUtils.getToken(mockMvc);
+                String token = TestUtils.getToken(mockMvc, "johndoe");
                 TestUtils.addClub(mockMvc, clubName, token);
                 TestUtils.joinClub(mockMvc, clubName, token);
 
@@ -70,7 +70,7 @@ public class TeamControllerTests {
 
         @Test
         public void addTeamWithNonExistingClub() throws Exception {
-                String token = TestUtils.getToken(mockMvc);
+                String token = TestUtils.getToken(mockMvc, "johndoe");
                 TestUtils.addCompetition(mockMvc, competitionName, token);
 
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
@@ -86,7 +86,7 @@ public class TeamControllerTests {
         @Test
         public void getTeamScore() throws Exception {
 
-                String token = TestUtils.getToken(mockMvc);
+                String token = TestUtils.getToken(mockMvc, "johndoe");
                 TestUtils.addClub(mockMvc, clubName, token);
                 TestUtils.joinClub(mockMvc, clubName, token);
                 TestUtils.addCompetition(mockMvc, competitionName, token);

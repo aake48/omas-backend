@@ -39,7 +39,7 @@ public class TeamMemberControllerTests {
 
         @BeforeEach
         private void test() throws Exception {
-                token = TestUtils.getToken(mockMvc);
+                token = TestUtils.getToken(mockMvc, "johndoe");
                 TestUtils.addClub(mockMvc, clubName, token);
                 TestUtils.joinClub(mockMvc, clubName, token);
                 TestUtils.addCompetition(mockMvc, competitionNameId, token);

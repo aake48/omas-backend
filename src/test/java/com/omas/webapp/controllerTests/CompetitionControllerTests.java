@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.omas.webapp.TestUtils;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -28,14 +30,50 @@ public class CompetitionControllerTests {
     private static final String addNewUrl = authUrl + "/new";
     private static final String getAllUrl = baseUrl + "/all";
     private static final String searchUrl = baseUrl + "/query?search=&page=0&size=10";
+    private static final String getResultsUrl = "/api/competition/result/";
+
+    private static final String competitionNameId = "kilpa";
+
+
+    
+    @Test
+    public void getResults() throws Exception {
+
+        String  url = getResultsUrl + competitionNameId;
+
+        String club1 = "talo";
+        String club2 = "club2";
+        String club3 = "club3";
+        String club4 = "club4";
+        String club5 = "club5";
+
+        //sets up 5 clubs with scores to same competition 
+        TestUtils.setupScores(mockMvc, club1, competitionNameId);
+        TestUtils.setupScores(mockMvc, club2, competitionNameId);
+        TestUtils.setupScores(mockMvc, club3, competitionNameId);
+        TestUtils.setupScores(mockMvc, club4, competitionNameId);
+        TestUtils.setupScores(mockMvc, club5, competitionNameId);
+
+        String response = mockMvc.perform(MockMvcRequestBuilders.get(url))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.name").value("kilpa"))
+        .andReturn()
+        .getResponse()
+        .getContentAsString();
+        
+        System.out.println(response);
+    }
+    
 
     @Test
     public void addCompetition() throws Exception {
 
+        String json = new JSONObject().put("competitionName", competitionNameId).toString();
+
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
-                .content("{" + "\"competitionName\":\"kilpa\"" + "}"))
+                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
+                .content(json))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("kilpa"));
 
@@ -60,20 +98,20 @@ public class CompetitionControllerTests {
     @Test
     public void getByID() throws Exception {
 
-        final String competitionName = "Kilpa";
+        String json = new JSONObject().put("competitionName", competitionNameId).toString();
 
         // adds competition
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
-                .content("{" + "\"competitionName\":\"" + competitionName + "\"" + "}"))
+                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
+                .content(json))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value(competitionName));
+                .andExpect(jsonPath("$.name").value(competitionNameId));
 
         // gets competition
-        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/" + competitionName))
+        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/" + competitionNameId))
                 .andExpect(status().isFound())
-                .andExpect(jsonPath("$.name").value(competitionName));
+                .andExpect(jsonPath("$.name").value(competitionNameId));
 
     }
 
