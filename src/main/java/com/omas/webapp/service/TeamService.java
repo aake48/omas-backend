@@ -106,4 +106,15 @@ public class TeamService {
         }
         return false;
     }
+
+    /**
+     * Retrieves a list of teams that are participating in the given competition.
+     *
+     * @param competition The name of the competition.
+     * @return List of teams participating in the competition.
+     */
+    public List<Team> getTeamsParticipatingInCompetition(String competition) {
+        
+        return teamRepository.findByCompetitionId(competition);
+    }
 }
