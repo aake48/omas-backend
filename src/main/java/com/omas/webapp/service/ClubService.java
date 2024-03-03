@@ -16,7 +16,7 @@ public class ClubService {
 
     public Club registerClub(Club club) {
 
-        if (repository.findByName(club.getName()).isPresent()) {
+        if (repository.findById(club.getName()).isPresent()) {
             return null;
         }
         return repository.save(club);
@@ -25,7 +25,7 @@ public class ClubService {
 
     public Club getClub(String name) {
 
-        return repository.findByName(name).get();
+        return repository.findById(name).get();
 
     }
 
