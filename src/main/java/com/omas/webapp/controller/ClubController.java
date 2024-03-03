@@ -35,14 +35,33 @@ public class ClubController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/auth/club/new")
-    public ResponseEntity<?> newClub(@Valid @RequestBody ClubRequest club) {
+    public ResponseEntity<?> newClub(@Valid @RequestBody ClubRequest clubRequest) {
+
+        // This section of the code performs two operations on the 'Id', clubName:
+        // 1. It removes whitespaces and characters 'ä', 'ö', 'å' from the 'Id'.
+        // 2. It stores the original, unaltered version of 'Id' into 'nameNonId'.
+        // If 'Id' still contains unsafe characters after these alterations, the code returns a 400 status.
+        String clubNameNonId = clubRequest.getClubName();
+        String clubName = clubRequest.getClubName()
+        .replace('ä', 'a').replace('Ä', 'A')
+        .replace('ö', 'o').replace('Ö', 'O')
+        .replace('å', 'a').replace('Å', 'A')
+        .replace(' ', '_');
+
+        String regex = "^[a-zA-Z0-9-_]+$";
+
+
+        if (!clubName.matches(regex)) {
+            return new ResponseEntity<>("{\"clubName\":\"Club name contains characters which are forbidden.\"}",
+                    HttpStatus.BAD_REQUEST);
+        }
 
         UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
 
         Club createdClub = clubService
                 .registerClub(
-                        new Club(club.getClubName(), new Date(Instant.now().toEpochMilli()), userDetails.getId()));
+                        new Club(clubName, clubNameNonId, new Date(Instant.now().toEpochMilli()), userDetails.getId()));
         if (createdClub != null) {
             return new ResponseEntity<>(createdClub, HttpStatus.CREATED);
         }

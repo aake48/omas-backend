@@ -28,15 +28,36 @@ public class CompetitionController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/auth/competition/new")
-    public ResponseEntity<?> addCompetition(@Valid @RequestBody CompetitionRequest CompetitionRequest) {
+    public ResponseEntity<?> addCompetition(@Valid @RequestBody CompetitionRequest competitionRequest) {
+
+
+        // This section of the code performs two operations on the 'Id', competitionName:
+        // 1. It removes whitespaces and characters 'ä', 'ö', 'å' from the 'Id'.
+        // 2. It stores the original, unaltered version of 'Id' into 'nameNonId'.
+        // If 'Id' still contains unsafe characters after these alterations, the code returns a 400 status.
+        String nonIdName = competitionRequest.getCompetitionName();
+        String competitionName = competitionRequest.getCompetitionName()
+        .replace('ä', 'a').replace('Ä', 'A')
+        .replace('ö', 'o').replace('Ö', 'O')
+        .replace('å', 'a').replace('Å', 'A')
+        .replace(' ', '_');
+
+        String regex = "^[a-zA-Z0-9-_]+$";
+        if (!competitionName.matches(regex)) {
+            return new ResponseEntity<>(
+                    "{\"competitionName\":\"competition name contains characters which are forbidden.\"}",
+                    HttpStatus.BAD_REQUEST);
+        }
 
         Competition comp = service.addCompetition(
-                new Competition(CompetitionRequest.getCompetitionName(), new Date(Instant.now().toEpochMilli())));
-        if (comp!=null) {
+                new Competition(competitionName, nonIdName,
+                        new Date(Instant.now().toEpochMilli())));
+        if (comp != null) {
             return new ResponseEntity<>(comp, HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<>(Map.of("message","Competition name has already been taken"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(Map.of("message", "Competition name has already been taken"),
+                HttpStatus.BAD_REQUEST);
     }
 
 

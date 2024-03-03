@@ -18,6 +18,8 @@ public class Club {
 
 	@Id
 	private String name; 
+	
+	private String nameNonId;
 	private Date creationDate;
 	private long idCreator;
  

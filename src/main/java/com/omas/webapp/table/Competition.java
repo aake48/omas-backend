@@ -20,6 +20,8 @@ public class Competition {
 	@Id
 	private String name;
 
+	private String nameNonId;
+
 	@Column(nullable = false)
 	private Date creationDate;
  

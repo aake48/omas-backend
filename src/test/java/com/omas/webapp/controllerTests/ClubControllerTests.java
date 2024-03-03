@@ -37,7 +37,7 @@ public class ClubControllerTests {
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc))
                 .content("{" + "\"clubName\":\"Seuran nimi\"" + "}"))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("Seuran nimi"));
+                .andExpect(jsonPath("$.name").value("Seuran_nimi"));
 
     }
 
