@@ -26,13 +26,23 @@
       - [Get competition by Id](#get-competition-by-id)
       - [Get all competitions](#get-all-competitions)
       - [Search for competitions with pagination](#search-for-competitions-with-pagination)
+      - [get results](#get-results)
+
     - [teams](#teams)
       - [create new team](#create-new-team)
       - [get team's score](#get-teams-score)
-    - [team members](#team-member)
+      - [team members](#team-member)
       - [add team member to team](#add-team-member-to-team)
       - [get user's score](#get-users-score)
       - [submit user's score](#submit-users-score)
+
+
+- [<ins>__Types__</ins>](#Types)
+  - [competitionResults](#competitionresults)
+  - [login response](#login-response)
+  - [competition](#competition)
+  - [club](#club)
+  - [...](#)
 
 
 
@@ -105,7 +115,7 @@ content-type: application/json
     "password": "password"
 }
 ```
-returns: 
+[returns](#login-response): 
 ```
 
 {
@@ -163,7 +173,7 @@ Note the following:
 ```
 GET http://localhost:8080/api/club/query?search=${search}&page=${page}&size=${size}
 ```
-returns [Page](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/domain/Page.html) of Clubs in JSON =>
+[returns page of clubs](#page)  =>
 ```{
   "content": [
     {
@@ -251,8 +261,32 @@ Note the following:
 ```
 GET http://localhost:8080/api/competition/query?search=${search}&page=${page}&size=${size}
 ```
-returns [Page](#search-club-with-pagination) of competitions in JSON
+[returns page of competitions](#page)
 
+### get results
+``` 
+GET api/competition/result/{competitionName}
+```
+returns [competitionResults](#competitionResults)
+``` 
+{"name" : string,
+  "nameNonId" : string,
+  "creationDate" : string,
+  "teams" : team[] || null
+}
+  Team:{
+    "club" : "String",
+    "totalScore" : number,
+    "scores" : score[] || null
+  }
+    score: {
+      "bullsEyeCount" : number,
+      "sum" : number,
+      "userId" : number,
+      "scorePerShot":string
+    }
+
+``` 
 ## teams
 ### create new team 
 Note: the following conditions must be met before a team can be created: 
@@ -330,3 +364,96 @@ Content-Type: application/json
 }
 ```
 Returns [teamMemberScore object](#get-teams-score) if submission was successful. In other cases, a error:string json will be provided.
+
+# Types 
+## competitionResults
+``` 
+{"name" : string,
+  "nameNonId" : string,
+  "creationDate" : string,
+  "teams" : team[] || null
+}
+``` 
+### competitionResults.team
+``` 
+  {
+    "club" : "String",
+    "totalScore" : number,
+    "scores" : score[] || null
+  }
+  ```
+   
+  ### competitionResults.team.scores
+  ``` 
+    {
+      "bullsEyeCount" : number,
+      "sum" : number,
+      "userId" : number,
+      "scorePerShot":string
+    }
+``` 
+## login response
+``` 
+{
+  "user": {
+    "username": string,
+    "legalName": string,
+    "email": string,
+    "userId": number,
+    "authorities": string, 
+    "creationDate": string,
+    "club": string || null
+  },
+  "token": string
+} 
+``` 
+## page
+Tässä on kaikki oleellinen käytölle, muu on extraa, jotka voidaan sivuuttaa.
+Jos haluat nähdä mitä kokonaisuudessaan tulee, sen pystyt näkemään  [täältä, seurojen hausta](#search-clubs-with-pagination)
+```
+{
+  "content": club[]||competition[] ||null,
+  "pageable": {
+    "pageNumber": number,
+    "pageSize": number,
+  },
+  "last": boolean,
+  "totalPages": number, // kuinka paljon tuloksia haulla on saatavilla
+  "totalElements": number, // kuinka monta elementtiä kyseistä asiaa DB:ssä on
+  "size": number, //haun sivun koko
+  "number": number, // sivunumero
+  "first": boolean,
+  "numberOfElements": number, //sivun sisällön määrä
+  "empty": boolean
+}
+```
+## competition
+Mm. onnistunut kilpailun luominen palauttaa tälläisen.
+```
+  {
+	  name:String, //@id
+	  nameNonId:String,
+    creationDate:string
+    }
+```
+## club
+Mm. onnistunut seuran luominen palauttaa tälläisen.
+```
+{
+	name:string, // @id
+	nameNonId:String,
+	private Date creationDate:string,
+	idCreator:number
+  }
+```
+## --- unfinished ---
+check source 
+
+
+
+```
+src\main\java\com\omas\webapp\table
+
+src\main\java\com\omas\webapp\controller
+
+```
