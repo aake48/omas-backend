@@ -1,6 +1,7 @@
 package com.omas.webapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,24 +112,37 @@ public class CompetitionController {
         }
     }
 
+
+    /**
+     * Retrieves the results for a specific competition. The competitionResults are
+     * sorted into descending order by totalScore.
+     *
+     * @param name The name of the competition.
+     * @return ResponseEntity containing the JSON representation of the competition
+     *         results.
+     *         Returns HttpStatus.OK if successful, HttpStatus.INTERNAL_SERVER_ERROR
+     *         if there is an error processing the JSON,
+     *         or HttpStatus.BAD_REQUEST if no competition is found with the given
+     *         name.
+     */
     @GetMapping("/competition/result/{name}")
     public ResponseEntity<?> getResultsForCompetition(@PathVariable String name) {
         try {
+
             Competition competition = competitionService.getCompetition(name).get();
             List<Team> teams = teamService.getTeamsParticipatingInCompetition(name);
-
             ObjectMapper mapper = new ObjectMapper();
+            List<JsonNode> teamNodesList = new ArrayList<>();
 
-            ObjectNode competitionNode = mapper.createObjectNode()
-                    .put("name", competition.getName())
-                    .put("nameNonId", competition.getNameNonId())
-                    .put("creationDate", competition.getCreationDate().toString());
-
-            ArrayNode teamNodes = mapper.createArrayNode();
+            // Creates teamNode that includes teamMemberScores and adds it to teamNodesList
             for (Team team : teams) {
+                // The scores are pre-sorted in descending order by the repository class based
+                // on the sum, user's total score.
                 List<TeamMemberScore> scores = teamMemberScoreService.getTeamScores(team.getTeamId());
                 ArrayNode teamScores = mapper.createArrayNode();
                 double teamTotal = 0;
+
+                // adds teamMemberScores into a JSON array
                 for (TeamMemberScore score : scores) {
                     ObjectNode scoreNode = mapper.createObjectNode()
                             .put("bullsEyeCount", score.getBullsEyeCount())
@@ -137,15 +152,33 @@ public class CompetitionController {
                     teamTotal += score.getSum();
                     teamScores.add(scoreNode);
                 }
+
                 ObjectNode teamNode = mapper.createObjectNode()
                         .put("club", team.getClubId())
                         .put("totalScore", teamTotal)
                         .set("scores", teamScores);
 
-                teamNodes.add(teamNode);
+                teamNodesList.add(teamNode);
             }
 
-            competitionNode.set("teams", teamNodes);
+            // sorts teams to descending order
+            teamNodesList.sort((node1, node2) -> {
+                double totalScore1 = node1.get("totalScore").asDouble();
+                double totalScore2 = node2.get("totalScore").asDouble();
+
+                // Compare the totalScore values
+                return Double.compare(totalScore2, totalScore1);
+            });
+
+            ArrayNode teamNodes = mapper.createArrayNode();
+            teamNodesList.forEach(teamNodes::add);
+
+            ObjectNode competitionNode = mapper.createObjectNode()
+                    .put("name", competition.getName())
+                    .put("nameNonId", competition.getNameNonId())
+                    .put("creationDate", competition.getCreationDate().toString())
+                    .set("teams", teamNodes);
+
             String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(competitionNode);
 
             return new ResponseEntity<>(json, HttpStatus.OK);
