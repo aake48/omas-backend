@@ -31,7 +31,7 @@
     - [teams](#teams)
       - [create new team](#create-new-team)
       - [get team's score](#get-teams-score)
-      - [team members](#team-member)
+    - [team members](#team-member)
       - [add team member to team](#add-team-member-to-team)
       - [get user's score](#get-users-score)
       - [submit user's score](#submit-users-score)
@@ -86,7 +86,7 @@ Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins
 ### Registration
 ```
 
-POST http://localhost:8080/api/reg 
+POST https://localhost:8080/api/reg 
 content-type: application/json
 
 {
@@ -107,7 +107,7 @@ If user was added successfully, this will return {messge:"user added"}. If regis
 ```
 ### login
 ```
-POST http://localhost:8080/api/login
+POST https://localhost:8080/api/login
 content-type: application/json
 
 {
@@ -134,9 +134,10 @@ content-type: application/json
 If login fails, the errors will be provided in the same kind of structure as in api/reg
 ## Clubs
 ### Create new Club
+Note: backend will remove any whitespaces and äöå from the clubName and this altered version of the string will be made the ID. Unaltered version of the name will be saved to [nameNonId](#club). Only [a-zA-Z0-9-_] chars are allowed to be in the name, after the alterations. If there are any others the result will be code 400.
 ```
-Post http://localhost:8080/api/auth/club/new
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
+Post https://localhost:8080/api/auth/club/new
+Authorization: required
 content-type: application/json
 
 {
@@ -155,14 +156,14 @@ returns either created club -JSON or list of validation violations -JSON
 ### Get club by Id
 
 ```
-GET http://localhost:8080/api/club/?id=${clubName}
+GET https://localhost:8080/api/club/?id=${clubName}
 
 ```
 returns club JSON
 ### Get all clubs
 
 ```
-GET http://localhost:8080/api/club/all
+GET https://localhost:8080/api/club/all
 ```
 returns List of clubs -JSON
 
@@ -171,7 +172,7 @@ Note the following:
   - search parameter is optional, it can be left empty.
   - When changing search parameter, please reset your current __page__ parameter to 0. Each search has its own number of pages which could result in an error if you're on page 34 of all results(search=null) and after this you change the search term for "Oulun" which may only results in totalPages of 1. Query of a page numer that is larger than totalPages will result in an error.
 ```
-GET http://localhost:8080/api/club/query?search=${search}&page=${page}&size=${size}
+GET https://localhost:8080/api/club/query?search=${search}&page=${page}&size=${size}
 ```
 [returns page of clubs](#page)  =>
 ```{
@@ -216,7 +217,7 @@ GET http://localhost:8080/api/club/query?search=${search}&page=${page}&size=${si
 ```
 ### join club
 ```
-Post http://localhost:8080/api/club/join
+Post https://localhost:8080/api/club/join
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
 content-type: application/json
 
@@ -228,28 +229,29 @@ content-type: application/json
 
 ## Competition related
 ### Create new Competition
+Note: backend will remove any whitespaces and äöå from the competitionName and this altered version of the string will be made the ID. Unaltered version of the name will be saved to [nameNonId](#competition). Only [a-zA-Z0-9-_] chars are allowed to be in the name, after the alterations. If there are any others the result will be code 400.
 ```
-Post http://localhost:8080/api/auth/competition/new
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
+Post https://localhost:8080/api/auth/competition/new
+Authorization: required
 content-type: application/json
 
 {
-    "competitionName": "kilpa"
+    "competitionName": string
 }
 ```
-returns either created competition -JSON or list of validation violations -JSON
+returns [club](#club)
 
 
 ### Get competition by Id
 
 ```
-GET http://localhost:8080/api/competition/{competition's name}
+GET https://localhost:8080/api/competition/{competition's name}
 ```
 returns competition in JSON
 ### Get all competitions
 
 ```
-GET http://localhost:8080/api/competition/all
+GET https://localhost:8080/api/competition/all
 ```
 returns List of competitions in -JSON
 
@@ -259,11 +261,12 @@ Note the following:
   - When changing search parameter, please reset your current __page__ parameter to 0. Each search has its own number of pages which could result in an error if you're on page 34 of all results(search=null) and after this you change the search term for "Kesän_2024" which may only results in totalPages of 1. Query of a page numer that is larger than totalPages will result in an error.
 
 ```
-GET http://localhost:8080/api/competition/query?search=${search}&page=${page}&size=${size}
+GET https://localhost:8080/api/competition/query?search=${search}&page=${page}&size=${size}
 ```
 [returns page of competitions](#page)
 
 ### get results
+teams and scores are sorted descending by totalScore and sum
 ``` 
 GET api/competition/result/{competitionName}
 ```
