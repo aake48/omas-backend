@@ -125,7 +125,8 @@ public class CompetitionController {
      *         or HttpStatus.BAD_REQUEST if no competition is found with the given
      *         name.
      */
-    @GetMapping("/competition/result/{name}")
+    
+    @GetMapping(value = "/competition/result/{name}", produces = "application/json")
     public ResponseEntity<?> getResultsForCompetition(@PathVariable String name) {
         try {
 
