@@ -1,22 +1,20 @@
 package com.omas.webapp.table;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
-
 import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-@Data
+@Getter
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Table
 @IdClass(TeamMemberId.class)
+@NoArgsConstructor
 public class TeamMemberScore {
 
     private @Id Long userId;
@@ -34,26 +32,14 @@ public class TeamMemberScore {
 
     public TeamMemberScore(TeamMemberId teamMemberId, List<Double> list) {
 
-        this.sum = 0;
-        this.bullsEyeCount = 0;
+        list = list.subList(0, Math.min(list.size(), 60))
+                .stream()
+                .map(score -> Math.floor(score * 10.0) / 10.0)
+                .collect(Collectors.toList());
 
-        if (list != null) {
-            for (double score : list) {
-
-                this.sum += score;
-
-                if (score == 10.9D) {
-                    this.bullsEyeCount++;
-                }
-            }
-            this.scorePerShot = list.toString();
-
-        } else {
-            this.scorePerShot = "";
-
-        }
-
-
+        this.sum = Math.floor(list.stream().reduce(0.0, Double::sum) * 10.0) / 10.0;
+        this.bullsEyeCount = (int) list.stream().filter(score -> score == 10.9D).count();
+        this.scorePerShot = list.toString();
         this.userId = teamMemberId.getUserId();
         this.clubId = teamMemberId.getClubId();
         this.competitionId = teamMemberId.getCompetitionId();
