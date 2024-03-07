@@ -15,7 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import com.omas.webapp.entity.ClubRequest;
+
+import com.omas.webapp.entity.requests.ClubRequest;
 import com.omas.webapp.service.ClubService;
 import com.omas.webapp.service.UserService;
 import com.omas.webapp.service.UserInfoDetails;

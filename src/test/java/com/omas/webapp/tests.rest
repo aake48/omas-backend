@@ -1,56 +1,85 @@
 ### reg 
-POST http://localhost:8080/api/reg
+POST https://localhost:8080/api/reg
 content-type: application/json
 
 {
     "name": "pekka",
     "password": "password",
     "email": "temp@email.com",
-    "username": "user"
+    "username": "user2"
 }
 
 ### login 
-POST http://localhost:8080/api/login
+POST https://localhost:8080/api/login
 content-type: application/json
 
 {
-    "username": "user",
+    "username": "user2",
     "password": "password"
 }
 ### add new club
-Post http://localhost:8080/api/auth/club/new
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNzA4MjkyMzY0LCJleHAiOjE3MDgzMjExNjR9.yL2XVAeK1MLNkrIE2aecdAXiWG16JVwGtR-J1sgIFaQ
+Post https://localhost:8080/api/auth/club/new
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTcwOTgxMDg2MSwiZXhwIjoxNzA5ODM5NjYxfQ.CmLbF_hiLywkOO2MfYKpItsPnAyN2rIBuGlp_XUvpSE
 content-type: application/json
 
 {
     "clubName": "SeuraajienSeura"
 }
 
-### Get club by Id
-
-```
-GET http://localhost:8080/api/club/{SeuraajienSeura}
-
-
-### get all clubs
-GET http://localhost:8080/api/club/all
-
-### search clubs
-GET http://localhost:8080/api/club/query?search=&page=0&size=10
-
-### add new club
-Post http://localhost:8080/api/auth/competition/new
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNzA4MjkxNTEyLCJleHAiOjE3MDgzMjAzMTJ9.riIzFmGshx5im92rGquzq5y-GlV5C--iG1p1fU7J8Vs
+### join
+post https://localhost:8080/api/auth/club/join
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTcwOTgxMDg2MSwiZXhwIjoxNzA5ODM5NjYxfQ.CmLbF_hiLywkOO2MfYKpItsPnAyN2rIBuGlp_XUvpSE
 content-type: application/json
 
 {
-    "competitionName": "kilpa"
+    "clubName": "SeuraajienSeura"
+
+}
+
+
+
+### add new copm
+Post https://localhost:8080/api/auth/competition/new
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTcwOTgxMDg2MSwiZXhwIjoxNzA5ODM5NjYxfQ.CmLbF_hiLywkOO2MfYKpItsPnAyN2rIBuGlp_XUvpSE
+content-type: application/json
+
+{
+    "competitionName": "nopean-laukauksen-mestaruus",
+    "competitionType": "rifle"
+}
+
+### add new team
+Post https://localhost:8080/api/competition/team/new
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTcwOTgxMDg2MSwiZXhwIjoxNzA5ODM5NjYxfQ.CmLbF_hiLywkOO2MfYKpItsPnAyN2rIBuGlp_XUvpSE
+content-type: application/json
+
+{
+    "competitionName": "nopean-laukauksen-mestaruus"
+}
+
+###  join team
+Post https://localhost:8080/api/competition/team/member/add
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTcwOTgxMDg2MSwiZXhwIjoxNzA5ODM5NjYxfQ.CmLbF_hiLywkOO2MfYKpItsPnAyN2rIBuGlp_XUvpSE
+content-type: application/json
+
+{
+    "competitionName": "nopean-laukauksen-mestaruus"
+}
+
+### add score
+Post https://localhost:8080/api/competition/team/member/score/add
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlhdCI6MTcwOTgxMDg2MSwiZXhwIjoxNzA5ODM5NjYxfQ.CmLbF_hiLywkOO2MfYKpItsPnAyN2rIBuGlp_XUvpSE
+content-type: application/json
+
+{
+    "competitionName": "nopean-laukauksen-mestaruus",
+    "scoreList":[0.1 ,3,6,1]
 }
 
 
 ### search competitions
 
-GET http://localhost:8080/api/competition/query?search=""page=0&size=10
+GET https://localhost:8080/api/competition/query?search=&page=0&size=10
 
 ### get comp by ID
-GET http://localhost:8080/api/competition/{compName}
+GET https://localhost:8080/api/competition/result/kilpa

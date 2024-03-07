@@ -40,7 +40,7 @@ public class TeamControllerTests {
 
                 TestUtils.addClub(mockMvc, clubName, token);
                 TestUtils.joinClub(mockMvc, clubName, token);
-                TestUtils.addCompetition(mockMvc, competitionName, token);
+                TestUtils.addRifleCompetition(mockMvc, competitionName, token);
 
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -71,7 +71,7 @@ public class TeamControllerTests {
         @Test
         public void addTeamWithNonExistingClub() throws Exception {
                 String token = TestUtils.getToken(mockMvc, "johndoe");
-                TestUtils.addCompetition(mockMvc, competitionName, token);
+                TestUtils.addRifleCompetition(mockMvc, competitionName, token);
 
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -89,7 +89,7 @@ public class TeamControllerTests {
                 String token = TestUtils.getToken(mockMvc, "johndoe");
                 TestUtils.addClub(mockMvc, clubName, token);
                 TestUtils.joinClub(mockMvc, clubName, token);
-                TestUtils.addCompetition(mockMvc, competitionName, token);
+                TestUtils.addRifleCompetition(mockMvc, competitionName, token);
 
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)

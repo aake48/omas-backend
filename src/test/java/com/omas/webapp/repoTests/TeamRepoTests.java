@@ -3,13 +3,10 @@ package com.omas.webapp.repoTests;
 import com.omas.webapp.repository.TeamRepository;
 import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
-import com.omas.webapp.table.TeamMemberScore;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
