@@ -236,7 +236,8 @@ Authorization: required
 content-type: application/json
 
 {
-    "competitionName": string
+    "competitionName": string,
+    "competitionType":"rifle"||"pistol"
 }
 ```
 returns [club](#club)

@@ -66,16 +66,36 @@ public class CompetitionControllerTests {
     
 
     @Test
-    public void addCompetition() throws Exception {
+    public void addRifleCompetition() throws Exception {
 
-        String json = new JSONObject().put("competitionName", competitionNameId).toString();
+        String json = new JSONObject()
+        .put("competitionName", competitionNameId)
+        .put("competitionType", TestUtils.rifleCompetitionType)
+        .toString();
 
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content(json))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("kilpa"));
+                .andExpect(jsonPath("$.type").value(TestUtils.rifleCompetitionType));
+
+    }
+
+    @Test
+    public void addPistolScore() throws Exception {
+
+        String json = new JSONObject()
+        .put("competitionName", competitionNameId)
+        .put("competitionType", TestUtils.pistolCompetitionType)
+        .toString();
+
+        mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
+                .content(json))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.type").value(TestUtils.pistolCompetitionType));
 
     }
 
@@ -98,7 +118,10 @@ public class CompetitionControllerTests {
     @Test
     public void getByID() throws Exception {
 
-        String json = new JSONObject().put("competitionName", competitionNameId).toString();
+        String json = new JSONObject()
+        .put("competitionName", competitionNameId)
+        .put("competitionType", TestUtils.rifleCompetitionType)
+        .toString();
 
         // adds competition
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)

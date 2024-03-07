@@ -1,6 +1,6 @@
 package com.omas.webapp.service;
 
-import com.omas.webapp.entity.RegistrationRequest;
+import com.omas.webapp.entity.requests.RegistrationRequest;
 import com.omas.webapp.repository.UserRepository;
 import com.omas.webapp.table.User;
 

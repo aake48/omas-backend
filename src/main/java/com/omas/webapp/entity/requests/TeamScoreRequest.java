@@ -1,4 +1,4 @@
-package com.omas.webapp.entity;
+package com.omas.webapp.entity.requests;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor; 
@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TeamMemberScoreRequest { 
+public class TeamScoreRequest { 
     
-	//@NotEmpty(message = "userId cannot be empty")
-	private long userId; 
+	@NotEmpty(message = "clubName cannot be empty")
+	private String clubName; 
 
     	
 	@NotEmpty(message = "competitionName cannot be empty")

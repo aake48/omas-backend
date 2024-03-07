@@ -10,6 +10,21 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * The `TeamMemberScore` class represents the score of a team member in a
+ * competition.
+ * It contains information such as the user ID, club ID, competition ID, sum of
+ * scores,
+ * number of bullseyes, score per shot, and creation date.
+ * 
+ * This class also provides a constructor that accepts a `TeamMemberId` object,
+ * a list of scores,
+ * and a boolean value indicating whether decimal points should be accepted. The
+ * constructor adds creationDate,
+ * calculates the sum of scores, counts the number of bullseyes, and formats the
+ * score per shot according to acceptDecimals variable.
+ * 
+ */
 @Getter
 @Entity
 @Table
@@ -30,15 +45,32 @@ public class TeamMemberScore {
     private String scorePerShot;
     private Date creationDate;
 
-    public TeamMemberScore(TeamMemberId teamMemberId, List<Double> list) {
+    /**
+     * use acceptDecimals=true for rifle-like competitions
+     * and false for competitions like pistol competitions which do not record
+     * decimal points.
+     * This constructor checks for bullseys and removes excess decimal points
+     */
+    public TeamMemberScore(TeamMemberId teamMemberId, List<Double> list, Boolean acceptDecimals) {
 
-        list = list.subList(0, Math.min(list.size(), 60))
-                .stream()
-                .map(score -> Math.floor(score * 10.0) / 10.0)
-                .collect(Collectors.toList());
+        // rifle like competitions
+        if (acceptDecimals) {
+            list = list.subList(0, Math.min(list.size(), 60))
+                    .stream()
+                    .map(score -> Math.floor(score * 10.0) / 10.0)
+                    .collect(Collectors.toList());
+            this.bullsEyeCount = (int) list.stream().filter(score -> score == 10.9D).count();
+
+        } else {
+            list = list.subList(0, Math.min(list.size(), 60))
+                    .stream()
+                    .map(score -> Math.floor(score))
+                    .collect(Collectors.toList());
+            this.bullsEyeCount = (int) list.stream().filter(score -> score == 10).count();
+
+        }
 
         this.sum = Math.floor(list.stream().reduce(0.0, Double::sum) * 10.0) / 10.0;
-        this.bullsEyeCount = (int) list.stream().filter(score -> score == 10.9D).count();
         this.scorePerShot = list.toString();
         this.userId = teamMemberId.getUserId();
         this.clubId = teamMemberId.getClubId();

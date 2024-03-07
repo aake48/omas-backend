@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.omas.webapp.entity.AddTeamRequest;
-import com.omas.webapp.entity.TeamScoreRequest;
+import com.omas.webapp.entity.requests.AddTeamRequest;
+import com.omas.webapp.entity.requests.TeamScoreRequest;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;

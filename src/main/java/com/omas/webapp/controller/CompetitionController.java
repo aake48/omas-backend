@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.omas.webapp.entity.CompetitionRequest;
+import com.omas.webapp.entity.requests.AddCompetitionRequest;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
@@ -22,9 +22,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Date;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +42,7 @@ public class CompetitionController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/auth/competition/new")
-    public ResponseEntity<?> addCompetition(@Valid @RequestBody CompetitionRequest competitionRequest) {
+    public ResponseEntity<?> addCompetition(@Valid @RequestBody AddCompetitionRequest competitionRequest) {
 
         // This section of the code performs two operations on the 'Id',
         // competitionName:
@@ -68,8 +65,7 @@ public class CompetitionController {
         }
 
         Competition comp = competitionService.addCompetition(
-                new Competition(competitionName, nonIdName,
-                        new Date(Instant.now().toEpochMilli())));
+                new Competition(competitionName, nonIdName, competitionRequest.getCompetitionType()));
         if (comp != null) {
             return new ResponseEntity<>(comp, HttpStatus.CREATED);
         }
@@ -156,7 +152,7 @@ public class CompetitionController {
 
                 ObjectNode teamNode = mapper.createObjectNode()
                         .put("club", team.getClubId())
-                        .put("totalScore", teamTotal)
+                        .put("totalScore", Math.floor(teamTotal * 10.0) / 10.0)
                         .set("scores", teamScores);
 
                 teamNodesList.add(teamNode);
@@ -177,6 +173,7 @@ public class CompetitionController {
             ObjectNode competitionNode = mapper.createObjectNode()
                     .put("name", competition.getName())
                     .put("nameNonId", competition.getNameNonId())
+                    .put("competitionType", competition.getType())
                     .put("creationDate", competition.getCreationDate().toString())
                     .set("teams", teamNodes);
 

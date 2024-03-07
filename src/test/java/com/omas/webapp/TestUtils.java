@@ -17,6 +17,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 public class TestUtils {
 
+
+
+        public static final String rifleCompetitionType = Constants.rifleType;
+        public static final String pistolCompetitionType = Constants.pistolType;
+
+
         public static String getToken(MockMvc mockMvc, String username) throws Exception {
 
                 registerUser(mockMvc, username);
@@ -107,12 +113,16 @@ public class TestUtils {
                                 .getResponse().getContentAsString();
         }
 
-        public static String addCompetition(MockMvc mockMvc, String competitionName, String userToken)
+        public static String addRifleCompetition(MockMvc mockMvc, String competitionName, String userToken)
                         throws Exception {
 
                 final String url = "/api/auth/competition/new";
 
-                String json = new JSONObject().put("competitionName", competitionName).toString();
+                String json = new JSONObject()
+                .put("competitionName", competitionName)
+                .put("competitionType", rifleCompetitionType)
+                .toString();
+                
 
                 return mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -208,7 +218,7 @@ public class TestUtils {
                 joinClub(mockMvc, clubName, user5);
 
                 // create competition
-                addCompetition(mockMvc, competitionName, user1);
+                addRifleCompetition(mockMvc, competitionName, user1);
 
                 // add team for club
                 addTeam(mockMvc, competitionName, user1);

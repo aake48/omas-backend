@@ -1,4 +1,4 @@
-package com.omas.webapp.entity;
+package com.omas.webapp.entity.requests;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor; 

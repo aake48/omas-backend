@@ -28,14 +28,14 @@ public class TeamMemberScoreRepoTests {
         public void findByClubIdAndCompetitionId() {
 
 
-                TeamMemberScore score1 = new TeamMemberScore(new TeamMemberId(1l, "Clubi1", "kilpa1"),TestUtils.give60shots());
-                TeamMemberScore score2 = new TeamMemberScore(new TeamMemberId(2l, "Clubi1", "kilpa1"),TestUtils.give60shots());
-                TeamMemberScore score3 = new TeamMemberScore(new TeamMemberId(3l, "Clubi1", "kilpa1"),TestUtils.give60shots());
-                TeamMemberScore score4 = new TeamMemberScore(new TeamMemberId(4l, "Clubi1", "kilpa1"),TestUtils.give60shots());
-                TeamMemberScore score5 = new TeamMemberScore(new TeamMemberId(5l, "Clubi1", "kilpa1"),TestUtils.give60shots());
+                TeamMemberScore score1 = new TeamMemberScore(new TeamMemberId(1l, "Clubi1", "kilpa1"),TestUtils.give60shots(), true);
+                TeamMemberScore score2 = new TeamMemberScore(new TeamMemberId(2l, "Clubi1", "kilpa1"),TestUtils.give60shots(), true);
+                TeamMemberScore score3 = new TeamMemberScore(new TeamMemberId(3l, "Clubi1", "kilpa1"),TestUtils.give60shots(), true);
+                TeamMemberScore score4 = new TeamMemberScore(new TeamMemberId(4l, "Clubi1", "kilpa1"),TestUtils.give60shots(), true);
+                TeamMemberScore score5 = new TeamMemberScore(new TeamMemberId(5l, "Clubi1", "kilpa1"),TestUtils.give60shots(), true);
 
-                TeamMemberScore otherScore1 = new TeamMemberScore(new TeamMemberId(11l, "Clubi11", "kilpa1"),TestUtils.give60shots());
-                TeamMemberScore otherScore2 = new TeamMemberScore(new TeamMemberId(111l, "club2", "kilpa1"),TestUtils.give60shots());
+                TeamMemberScore otherScore1 = new TeamMemberScore(new TeamMemberId(11l, "Clubi11", "kilpa1"),TestUtils.give60shots(), true);
+                TeamMemberScore otherScore2 = new TeamMemberScore(new TeamMemberId(111l, "club2", "kilpa1"),TestUtils.give60shots(), true);
 
 
                 repo.save(score1);
@@ -56,7 +56,7 @@ public class TeamMemberScoreRepoTests {
         @Test
         public void findByUserIdAndCompetitionId() {
 
-                TeamMemberScore score1 = new TeamMemberScore(new TeamMemberId(1l, "Clubi1", "kilpa1"),TestUtils.give60shots());
+                TeamMemberScore score1 = new TeamMemberScore(new TeamMemberId(1l, "Clubi1", "kilpa1"),TestUtils.give60shots(), true);
 
                 repo.save(score1);
 
