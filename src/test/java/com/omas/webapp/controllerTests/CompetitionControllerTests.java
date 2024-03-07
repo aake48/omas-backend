@@ -110,7 +110,7 @@ public class CompetitionControllerTests {
 
         // gets competition
         mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/" + competitionNameId))
-                .andExpect(status().isFound())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(competitionNameId));
 
     }

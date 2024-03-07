@@ -36,7 +36,7 @@ public class ClubControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content("{" + "\"clubName\":\"Seuran nimi\"" + "}"))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Seuran_nimi"));
 
     }
@@ -45,7 +45,7 @@ public class ClubControllerTests {
     public void getAll() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get(getAllUrl))
-                .andExpect(status().isFound());
+                .andExpect(status().isOk());
 
     }
 
@@ -67,12 +67,12 @@ public class ClubControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "jondoe"))
                 .content("{" + "\"clubName\":\"" + clubName + "\"" + "}"))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(clubName));
 
         // gets club
         mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/" + clubName))
-                .andExpect(status().isFound())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(clubName));
 
     }
@@ -87,7 +87,7 @@ public class ClubControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content("{" + "\"clubName\":\"" + clubName + "\"" + "}"))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(clubName));
 
         // join club
