@@ -11,6 +11,7 @@ import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
 import com.omas.webapp.table.Competition;
 import com.omas.webapp.table.Team;
+import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMemberScore;
 
 import jakarta.validation.Valid;
@@ -135,7 +136,7 @@ public class CompetitionController {
             for (Team team : teams) {
                 // The scores are pre-sorted in descending order by the repository class based
                 // on the sum, user's total score.
-                List<TeamMemberScore> scores = teamMemberScoreService.getTeamScores(team.getTeamId());
+                List<TeamMemberScore> scores = teamMemberScoreService.getTeamScores(new TeamId(team.getClubId(), team.getCompetitionId()));
                 ArrayNode teamScores = mapper.createArrayNode();
                 double teamTotal = 0;
 

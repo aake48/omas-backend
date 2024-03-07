@@ -24,8 +24,5 @@ public class TeamMember {
         this.clubId = teamMemberId.getClubId();
     }
 
-    public TeamId getTeamId() {
-        return new TeamId(competitionId, clubId);
-    }
 } 
 
