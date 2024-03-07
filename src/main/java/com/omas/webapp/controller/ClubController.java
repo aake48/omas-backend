@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import com.omas.webapp.entity.ClubRequest;
 import com.omas.webapp.service.ClubService;
 import com.omas.webapp.service.UserService;
-
 import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.Club;
 import jakarta.validation.Valid;
@@ -63,7 +62,7 @@ public class ClubController {
                 .registerClub(
                         new Club(clubName, clubNameNonId, new Date(Instant.now().toEpochMilli()), userDetails.getId()));
         if (createdClub != null) {
-            return new ResponseEntity<>(createdClub, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdClub, HttpStatus.OK);
         }
 
         return new ResponseEntity<>("{\"message\":\"Club name has already been taken.\"}",
@@ -95,7 +94,7 @@ public class ClubController {
     @GetMapping("club/{name}")
     public ResponseEntity<?> getClub(@PathVariable String name) {
         try {
-            return new ResponseEntity<>(clubService.getClub(name), HttpStatus.FOUND);
+            return new ResponseEntity<>(clubService.getClub(name), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("{\"message\":\"No club found with the given name.\"}", HttpStatus.BAD_REQUEST);
         }
@@ -103,7 +102,7 @@ public class ClubController {
 
     @GetMapping("club/all")
     public ResponseEntity<List<Club>> getAll() {
-        return new ResponseEntity<>(clubService.getall(), HttpStatus.FOUND);
+        return new ResponseEntity<>(clubService.getall(), HttpStatus.OK);
     }
 
     @GetMapping(params = { "page", "size", "search" }, value = "club/query")
@@ -131,8 +130,6 @@ public class ClubController {
 
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
-
-
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

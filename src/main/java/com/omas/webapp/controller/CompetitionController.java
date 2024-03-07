@@ -105,7 +105,7 @@ public class CompetitionController {
     @GetMapping("competition/{name}")
     public ResponseEntity<?> getCompetition(@PathVariable String name) {
         try {
-            return new ResponseEntity<>(competitionService.getCompetition(name), HttpStatus.FOUND);
+            return new ResponseEntity<>(competitionService.getCompetition(name), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(Map.of("message", "No competition found with the given name"),
                     HttpStatus.BAD_REQUEST);

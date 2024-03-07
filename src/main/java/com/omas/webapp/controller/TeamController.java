@@ -85,7 +85,7 @@ public class TeamController {
             return new ResponseEntity<>(Map.of("messge","This team has not yet any submitted scores"), HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(scores, HttpStatus.FOUND);
+        return new ResponseEntity<>(scores, HttpStatus.OK);
     }
 
         @ResponseStatus(HttpStatus.BAD_REQUEST)
