@@ -103,7 +103,7 @@ public class ClubController {
 
     @GetMapping("club/all")
     public ResponseEntity<List<Club>> getAll() {
-        return new ResponseEntity<>(clubService.getall(), HttpStatus.FOUND);
+        return new ResponseEntity<>(clubService.getall(), HttpStatus.OK);
     }
 
     @GetMapping(params = { "page", "size", "search" }, value = "club/query")
