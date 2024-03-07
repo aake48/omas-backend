@@ -1,6 +1,7 @@
 package com.omas.webapp.table;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Table
 @IdClass(TeamId.class)
+@AllArgsConstructor
 @NoArgsConstructor
 public class Team {
 
@@ -23,9 +25,4 @@ public class Team {
         this.clubId = teamId.getClubId();
         this.competitionId = teamId.getCompetitionId();
     }
-
-    public TeamId getTeamId() {
-        return new TeamId(clubId, competitionId);
-    }
-
 }
