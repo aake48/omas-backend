@@ -1,4 +1,5 @@
-package com.omas.webapp.entity;
+package com.omas.webapp.entity.validators.scoreValidator;
+
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import java.lang.annotation.*;

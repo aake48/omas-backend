@@ -1,9 +1,7 @@
 package com.omas.webapp.entity.requests;
 
 import java.util.List;
-
-import com.omas.webapp.entity.ValidScoreList;
-
+import com.omas.webapp.entity.validators.scoreValidator.ValidScoreList;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor; 
 import lombok.Data;

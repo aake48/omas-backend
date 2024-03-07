@@ -1,4 +1,4 @@
-package com.omas.webapp.entity;
+package com.omas.webapp.entity.validators.scoreValidator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
