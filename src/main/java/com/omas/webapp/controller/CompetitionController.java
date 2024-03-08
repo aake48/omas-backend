@@ -9,12 +9,15 @@ import com.omas.webapp.entity.requests.AddCompetitionRequest;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
+import com.omas.webapp.service.UserService;
 import com.omas.webapp.table.Competition;
 import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMemberScore;
 
 import jakarta.validation.Valid;
+import lombok.extern.log4j.Log4j2;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -28,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Log4j2
 @RestController
 @RequestMapping("/api")
 public class CompetitionController {
@@ -41,9 +45,14 @@ public class CompetitionController {
     @Autowired
     TeamMemberScoreService teamMemberScoreService;
 
+    @Autowired
+    UserService userService;
+
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/auth/competition/new")
     public ResponseEntity<?> addCompetition(@Valid @RequestBody AddCompetitionRequest competitionRequest) {
+
+  
 
         // This section of the code performs two operations on the 'Id',
         // competitionName:
@@ -131,6 +140,8 @@ public class CompetitionController {
             List<Team> teams = teamService.getTeamsParticipatingInCompetition(name);
             ObjectMapper mapper = new ObjectMapper();
             List<JsonNode> teamNodesList = new ArrayList<>();
+     
+            
 
             // Creates teamNode that includes teamMemberScores and adds it to teamNodesList
             for (Team team : teams) {
@@ -146,6 +157,7 @@ public class CompetitionController {
                             .put("bullsEyeCount", score.getBullsEyeCount())
                             .put("sum", score.getSum())
                             .put("userId", score.getUserId())
+                            .put("name", userService.getName(score.getUserId()))
                             .put("scorePerShot", score.getScorePerShot());
                     teamTotal += score.getSum();
                     teamScores.add(scoreNode);
@@ -185,6 +197,7 @@ public class CompetitionController {
         } catch (JsonProcessingException e) {
             return new ResponseEntity<>(Map.of("error", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
+            log.info(e);
             return new ResponseEntity<>(Map.of("message", "No competition found with the given name"),
                     HttpStatus.BAD_REQUEST);
         }

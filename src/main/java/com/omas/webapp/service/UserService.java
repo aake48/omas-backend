@@ -3,13 +3,12 @@ package com.omas.webapp.service;
 import com.omas.webapp.entity.requests.RegistrationRequest;
 import com.omas.webapp.repository.UserRepository;
 import com.omas.webapp.table.User;
-
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.sql.Date;
 import java.time.Instant;
 import java.util.Optional;
@@ -17,6 +16,7 @@ import java.util.List;
 
 
 @Service
+@Log4j2
 public class UserService implements UserDetailsService {
 
     @Autowired
@@ -85,5 +85,16 @@ public class UserService implements UserDetailsService {
             return true;
         }
         return false;
+    }
+
+    public String getName(Long userId) {
+        try {
+            User user = repository.findById(userId).get();
+            return user.getLegalname();
+        } catch (Exception e) {
+            log.info("getName(): " + e);
+            return "user name not found";
+        }
+
     }
 }

@@ -147,7 +147,8 @@ content-type: application/json
 returns either created club -JSON or list of validation violations -JSON
 ```
 {
-  "name": "Seuraajien seura",
+  "name": "Seuraajien_seura",
+  "nameNonId": "Seuraajien seura"
   "creationDate": "2024-02-15",
   "idCreator": 1
 }
@@ -287,6 +288,7 @@ returns [competitionResults](#competitionResults)
       "bullsEyeCount" : number,
       "sum" : number,
       "userId" : number,
+      "name":string,
       "scorePerShot":string
     }
 
@@ -393,6 +395,7 @@ Returns [teamMemberScore object](#get-teams-score) if submission was successful.
       "bullsEyeCount" : number,
       "sum" : number,
       "userId" : number,
+      "name" : string,
       "scorePerShot":string
     }
 ``` 
