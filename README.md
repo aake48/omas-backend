@@ -217,7 +217,7 @@ GET https://localhost:8080/api/club/query?search=${search}&page=${page}&size=${s
 ```
 ### join club
 ```
-Post https://localhost:8080/api/club/join
+Post https://localhost:8080/api/auth/club/join
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
 content-type: application/json
 
