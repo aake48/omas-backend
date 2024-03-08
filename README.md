@@ -31,10 +31,12 @@
     - [teams](#teams)
       - [create new team](#create-new-team)
       - [get team's score](#get-teams-score)
+      - [teamExists](#teamexists)
     - [team members](#team-member)
       - [add team member to team](#add-team-member-to-team)
       - [get user's score](#get-users-score)
       - [submit user's score](#submit-users-score)
+      - [isMember](#ismember)
 
 
 - [<ins>__Types__</ins>](#Types)
@@ -45,9 +47,7 @@
   - [...](#)
 
 
-
-  
-
+                 
 
 
   
@@ -338,6 +338,17 @@ returns JSON array of TeamMemberScore objects, and these objects look like this:
     creationDate:2024-12-1(String),
     }
 ```
+### teamExists 
+```
+GET api/competition/team/teamExists
+Authorization: required
+Content-Type: application/json
+{
+  competitionName:String,
+}
+```
+returns true if club has team in this comp, false otherwise. 
+
 ## team member
 ### add team member to team 
 Note: the following conditions must be met before user can join a team: 
@@ -377,6 +388,16 @@ Content-Type: application/json
 }
 ```
 Returns [teamMemberScore object](#get-teams-score) if submission was successful. In other cases, a error:string json will be provided.
+### isMember 
+```
+GET api/competition/team/member/isMember
+Authorization: required
+Content-Type: application/json
+{
+  competitionName:String,
+}
+```
+returns true if club is in this comp and user is part of it
 
 # Types 
 ## competitionResults

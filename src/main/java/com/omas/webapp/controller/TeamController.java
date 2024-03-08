@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.omas.webapp.entity.requests.AddTeamRequest;
+import com.omas.webapp.entity.requests.CompetitionIdRequest;
 import com.omas.webapp.entity.requests.TeamScoreRequest;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
@@ -28,6 +29,8 @@ import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMemberScore;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/competition/team")
@@ -44,7 +47,7 @@ public class TeamController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/new")
-    public ResponseEntity<?> addTeam(@RequestBody AddTeamRequest request) {
+    public ResponseEntity<?> addTeam(@Valid @RequestBody AddTeamRequest request) {
 
         UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
         .getPrincipal();
@@ -70,9 +73,21 @@ public class TeamController {
 
     }
 
+    
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @GetMapping("/teamExists")
+    public ResponseEntity<?> hasTeam(@Valid @RequestBody CompetitionIdRequest request) {
+
+        UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+
+            Boolean value = teamService.isTeamPartOfCompetition(userDetails.getPartOfClub(), request.getCompetitionName());
+            return new ResponseEntity<>(value, HttpStatus.OK);
+    }
+
 
     @GetMapping("/score")
-    public ResponseEntity<?> getScores(@RequestBody TeamScoreRequest request) {
+    public ResponseEntity<?> getScores(@Valid @RequestBody TeamScoreRequest request) {
 
 
         if(!teamService.isTeamPartOfCompetition(request.getClubName(), request.getCompetitionName())){

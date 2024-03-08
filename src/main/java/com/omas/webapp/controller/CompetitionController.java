@@ -90,9 +90,10 @@ public class CompetitionController {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(params = { "page", "size", "search" }, value = "competition/query")
+    @GetMapping(params = { "page", "size", "search", "year" }, value = "competition/query")
     public ResponseEntity<?> queryCompetitions(@RequestParam("page") int page, @RequestParam("size") int size,
-            @RequestParam("search") String search) throws Exception {
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "year", required = false) String year) throws Exception {
 
         if (!search.equals(null) || !search.isBlank()) {
             Page<Competition> resultPage = competitionService.findWithPaginatedSearch(page, size, search);
