@@ -107,15 +107,16 @@ public class ClubController {
     }
 
     @GetMapping(params = { "page", "size", "search" }, value = "club/query")
-    public ResponseEntity<?> queryClubs(@RequestParam("page") int page, @RequestParam("size") int size,
-            @RequestParam("search") String search) throws Exception {
+    public ResponseEntity<?> queryClubs(@RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "search", required = false) String search) throws Exception {
 
-        if (!search.equals(null) || !search.isBlank()) {
+        if (search != null && !search.isBlank()) {
             Page<Club> resultPage = clubService.findWithPaginatedSearch(page, size, search);
 
             if (page > resultPage.getTotalPages()) {
                 return new ResponseEntity<>("{\"message\":\"Requested page does not exist.\"}",
-                HttpStatus.BAD_REQUEST);
+                        HttpStatus.BAD_REQUEST);
             }
 
             return new ResponseEntity<>(resultPage, HttpStatus.OK);
@@ -125,7 +126,7 @@ public class ClubController {
 
         if (page > resultPage.getTotalPages()) {
             return new ResponseEntity<>("{\"message\":\"Requested page does not exist.\"}",
-            HttpStatus.BAD_REQUEST);
+                    HttpStatus.BAD_REQUEST);
 
         }
 

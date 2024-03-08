@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 @Log4j2
 @RestController
 @RequestMapping("/api")
@@ -90,12 +89,12 @@ public class CompetitionController {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(params = { "page", "size", "search", "year" }, value = "competition/query")
-    public ResponseEntity<?> queryCompetitions(@RequestParam("page") int page, @RequestParam("size") int size,
-            @RequestParam(value = "search", required = false) String search,
-            @RequestParam(value = "year", required = false) String year) throws Exception {
-
-        if (!search.equals(null) || !search.isBlank()) {
+    @GetMapping(params = { "page", "size", "search" }, value = "competition/query")
+    public ResponseEntity<?> queryCompetitions(@RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "search", required = false) String search) throws Exception {
+                
+        if (search != null && !search.isBlank()) {
             Page<Competition> resultPage = competitionService.findWithPaginatedSearch(page, size, search);
 
             if (page > resultPage.getTotalPages()) {
