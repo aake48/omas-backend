@@ -16,11 +16,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Competition {
 
-	public Competition(String competitionName, String nonIdName, String competitionType) {
+	public Competition(String competitionName, String nonIdName, String competitionType, Long startDate, Long endDate) {
 		this.name = competitionName;
 		this.nameNonId = competitionName;
 		this.creationDate = new Date(Instant.now().toEpochMilli());
 		this.type = competitionType;
+		this.startDate = new Date(startDate);
+		this.endDate = new Date(endDate);
 	}
 
 	@Id
@@ -29,6 +31,10 @@ public class Competition {
 	private String nameNonId;
 
 	private String type;
+
+	private Date startDate;
+
+	private Date endDate;
 
 	@Column(nullable = false)
 	private Date creationDate;

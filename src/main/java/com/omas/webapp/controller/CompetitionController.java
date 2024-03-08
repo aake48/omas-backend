@@ -52,7 +52,7 @@ public class CompetitionController {
     @PostMapping("/auth/competition/new")
     public ResponseEntity<?> addCompetition(@Valid @RequestBody AddCompetitionRequest competitionRequest) {
 
-  
+        
 
         // This section of the code performs two operations on the 'Id',
         // competitionName:
@@ -74,8 +74,14 @@ public class CompetitionController {
                     HttpStatus.BAD_REQUEST);
         }
 
+
+
         Competition comp = competitionService.addCompetition(
-                new Competition(competitionName, nonIdName, competitionRequest.getCompetitionType()));
+                new Competition(competitionName, 
+                nonIdName, 
+                competitionRequest.getCompetitionType()
+                ,competitionRequest.getStartDate()
+                ,competitionRequest.getEndDate()));
         if (comp != null) {
             return new ResponseEntity<>(comp, HttpStatus.CREATED);
         }
@@ -188,6 +194,8 @@ public class CompetitionController {
                     .put("nameNonId", competition.getNameNonId())
                     .put("competitionType", competition.getType())
                     .put("creationDate", competition.getCreationDate().toString())
+                    .put("startDate", competition.getStartDate().toString())
+                    .put("endDate", competition.getEndDate().toString())
                     .set("teams", teamNodes);
 
             String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(competitionNode);

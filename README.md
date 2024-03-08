@@ -231,6 +231,8 @@ content-type: application/json
 ## Competition related
 ### Create new Competition
 Note: backend will remove any whitespaces and äöå from the competitionName and this altered version of the string will be made the ID. Unaltered version of the name will be saved to [nameNonId](#competition). Only [a-zA-Z0-9-_] chars are allowed to be in the name, after the alterations. If there are any others the result will be code 400.
+
+StartDate and EndDate are optional. If they are not provided, backend will set them automatically start date to now and end date now + 7d. If provided: start can range from now-1 to now +365d and end from now to +364d
 ```
 Post https://localhost:8080/api/auth/competition/new
 Authorization: required
@@ -239,9 +241,11 @@ content-type: application/json
 {
     "competitionName": string,
     "competitionType":"rifle"||"pistol"
+    "startDate": string,
+    "endDate": string,
 }
 ```
-returns [club](#club)
+returns [competition](#competition)
 
 
 ### Get competition by Id
@@ -276,7 +280,10 @@ returns [competitionResults](#competitionResults)
 ``` 
 {"name" : string,
   "nameNonId" : string,
+  "competitionType":string,
   "creationDate" : string,
+  "startDate" :string,
+  "endDate": string,
   "teams" : team[] || null
 }
   Team:{
@@ -376,7 +383,10 @@ Returns [teamMemberScore object](#get-teams-score) if submission was successful.
 ``` 
 {"name" : string,
   "nameNonId" : string,
+  "competitionType":string,
   "creationDate" : string,
+  "startDate" :string,
+  "endDate": string
   "teams" : team[] || null
 }
 ``` 
@@ -437,11 +447,14 @@ Jos haluat nähdä mitä kokonaisuudessaan tulee, sen pystyt näkemään  [tää
 ## competition
 Mm. onnistunut kilpailun luominen palauttaa tälläisen.
 ```
-  {
-	  name:String, //@id
-	  nameNonId:String,
-    creationDate:string
-    }
+{
+    "competitionName": string,
+    "nameNonId": string,
+    "competitionType":"rifle"||"pistol"
+    "startDate": string,
+    "endDate": string,
+    "creationDate": string
+}
 ```
 ## club
 Mm. onnistunut seuran luominen palauttaa tälläisen.

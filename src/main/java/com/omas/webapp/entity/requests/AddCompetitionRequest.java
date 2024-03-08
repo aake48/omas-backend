@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.omas.webapp.Constants;
 import com.omas.webapp.entity.validators.stringValidator.StringOptions;
+import com.omas.webapp.entity.validators.timevalidator.ValidEpochMilli;
 
 @Data
 @AllArgsConstructor
@@ -21,6 +22,12 @@ public class AddCompetitionRequest {
     message = "Competition Type must be either "+Constants.pistolType+"  or "+Constants.pistolType)
     @NotEmpty(message = "competition type cannot be empty.")
     private String competitionType;
+
+    @ValidEpochMilli(daysBehind = 1, daysAhead = 365, message = "invalid start")
+    private Long startDate = System.currentTimeMillis();
+
+    @ValidEpochMilli(daysBehind = 0, daysAhead = 365, message = "invalid EndDate")
+    private Long endDate = System.currentTimeMillis() + 7L * 24 * 60 * 60 * 1000;//adds +7 days
 
 }
 
