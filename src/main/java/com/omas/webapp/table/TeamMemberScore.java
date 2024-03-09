@@ -45,6 +45,17 @@ public class TeamMemberScore {
     private String scorePerShot;
     private Date creationDate;
 
+
+    @MapsId
+    @JoinColumns({
+            @JoinColumn(name = "userId", referencedColumnName = "userId"),
+            @JoinColumn(name = "competitionId", referencedColumnName = "competitionId"),
+            @JoinColumn(name = "clubId", referencedColumnName = "clubId")
+    })
+    @OneToOne
+    private TeamMember teamMember;
+  
+
     /**
      * use acceptDecimals=true for rifle-like competitions
      * and false for competitions like pistol competitions which do not record
