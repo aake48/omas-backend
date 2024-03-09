@@ -52,11 +52,16 @@ public class TeamMember {
     @Id
     String competitionId;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumns({
+        
             @JoinColumn(name = "competitionId", referencedColumnName = "competitionId"),
             @JoinColumn(name = "clubId", referencedColumnName = "clubId")
     })
-    private Team team;
+    public void setTeamIDs(Team team) {
+        this.clubId=team.getClubId();
+        this.competitionId=team.getCompetitionId();
+    };
 
 }
