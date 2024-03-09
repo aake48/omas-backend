@@ -3,13 +3,13 @@ package com.omas.webapp.table;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -18,17 +18,13 @@ import lombok.NoArgsConstructor;
 @IdClass(TeamMemberId.class)
 public class TeamMember {
 
-    @Getter
-    private @Id Long userId;
-    @Getter
-    private @Id String competitionId;
-    @Getter
-    private @Id String clubId;
-
     public TeamMember(TeamMemberId teamMemberId) {
-        this.userId = teamMemberId.getUserId();
-        this.competitionId = teamMemberId.getCompetitionId();
-        this.clubId = teamMemberId.getClubId();
+        this.userId=(teamMemberId.getUserId());
+        TeamId teamId = new TeamId();
+        teamId.setClubId(teamMemberId.getClubId());
+        teamId.setClubId(teamMemberId.getCompetitionId());
+        clubId=teamMemberId.getClubId();
+        competitionId=teamMemberId.getCompetitionId();
     }
 
     @Override
@@ -43,12 +39,24 @@ public class TeamMember {
                 Objects.equals(clubId, that.clubId);
     }
 
-    @OneToOne
+    // @OneToOne(fetch = FetchType.EAGER)
+    // @JoinColumn(name = "userId")
+    // private User user;
+
+    @Id
+    Long userId;
+
+    @Id
+    String clubId;
+
+    @Id
+    String competitionId;
+
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumns({
-            @JoinColumn(name = "userId", referencedColumnName = "userId", insertable = false, updatable = false),
-            @JoinColumn(name = "clubId", referencedColumnName = "clubId", insertable = false, updatable = false),
-            @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false, updatable = false)
+            @JoinColumn(name = "competitionId", referencedColumnName = "competitionId"),
+            @JoinColumn(name = "clubId", referencedColumnName = "clubId")
     })
-    TeamMember teamMember;
+    private Team team;
 
 }
