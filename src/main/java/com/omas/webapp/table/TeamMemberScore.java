@@ -25,24 +25,40 @@ import java.util.stream.Collectors;
  * score per shot according to acceptDecimals variable.
  * 
  */
-@Getter
+
 @Entity
 @Table
 @IdClass(TeamMemberId.class)
 @NoArgsConstructor
 public class TeamMemberScore {
 
-    private @Id Long userId;
-    private @Id String clubId;
-    private @Id String competitionId;
+    @Getter
+    @Id
+    private Long userId;
 
+    @Getter
+    @Id
+    private String clubId;
+
+    @Getter
+    @Id
+    private String competitionId;
+
+    @Getter
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID uuid;
 
+    @Getter
     private double sum;
+
+    @Getter
     private int bullsEyeCount;
+
     @Column(length = 1200)
+    @Getter
     private String scorePerShot;
+
+    @Getter
     private Date creationDate;
 
 

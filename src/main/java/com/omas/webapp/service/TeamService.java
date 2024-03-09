@@ -1,21 +1,20 @@
 package com.omas.webapp.service;
-
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.omas.webapp.repository.TeamMemberRepository;
 import com.omas.webapp.repository.TeamRepository;
 import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMember;
 import com.omas.webapp.table.TeamMemberId;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @Service
 public class TeamService {
-
+    
     @Autowired
     private TeamRepository teamRepository;
 
@@ -30,7 +29,9 @@ public class TeamService {
      */
     public Team addTeam(String CompetitionToJoin, String ClubJoining) {
 
-        Team savedTeam = teamRepository.save(new Team(new TeamId(ClubJoining, CompetitionToJoin)));
+        Team team = new Team(new TeamId(ClubJoining, CompetitionToJoin));
+
+        Team savedTeam = teamRepository.save(team);
 
         return savedTeam;
     }
@@ -43,7 +44,8 @@ public class TeamService {
      */
     public TeamMember addTeamMember(TeamMemberId teamMemberId) throws Exception {
 
-        if (isTeamPartOfCompetition(teamMemberId.getClubId(), teamMemberId.getCompetitionId())) {
+        if (isTeamPartOfCompetition(teamMemberId.getCompetitionId(), teamMemberId.getClubId())) {
+            log.info("success!");
             return teamMemberRepository.save(new TeamMember(teamMemberId));
         }
         throw new Exception("this team does not exist");
@@ -83,7 +85,7 @@ public class TeamService {
         if (teamMates.isPresent()) {
             List<TeamMember> results = teamMates.get();
             if (results.contains(
-                    new TeamMember(new TeamMemberId(userId, teamId.getClubId(), teamId.getCompetitionId())))) {
+                new TeamMember(teamId.getClubId(), teamId.getCompetitionId(), userId))){
                 return true;
             }
         }
@@ -97,9 +99,13 @@ public class TeamService {
      * @param activeCompetition The active competition.
      * @return true if the team is part of the competition, false otherwise.
      */
-    public boolean isTeamPartOfCompetition(String clubParticipating, String activeCompetition) {
+    public boolean isTeamPartOfCompetition(String activeCompetition, String clubParticipating) {
 
         Optional<Team> participatingTeam = teamRepository.findById(new TeamId(clubParticipating, activeCompetition));
+
+        log.info(clubParticipating);
+        log.info(activeCompetition);
+        log.info(participatingTeam.isPresent());
 
         if (participatingTeam.isPresent()) {
             return true;

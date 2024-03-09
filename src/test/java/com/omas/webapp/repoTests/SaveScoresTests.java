@@ -8,10 +8,14 @@ import java.util.List;
 import java.util.Optional;
 
 import com.omas.webapp.TestUtils;
+import com.omas.webapp.repository.ClubRepository;
+import com.omas.webapp.repository.CompetitionRepository;
 import com.omas.webapp.repository.TeamMemberRepository;
 import com.omas.webapp.repository.TeamMemberScoreRepository;
 import com.omas.webapp.repository.TeamRepository;
 import com.omas.webapp.repository.UserRepository;
+import com.omas.webapp.table.Club;
+import com.omas.webapp.table.Competition;
 import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMember;
@@ -42,16 +46,32 @@ public class SaveScoresTests {
     @Autowired 
     private UserRepository userRepository;
 
+    @Autowired
+    private ClubRepository clubRepository;
+
+    @Autowired 
+    CompetitionRepository competitionRepository;
+
     @Test
     public void SaveScores() {
 
             String clubName = "clubi";
 
-            TeamId teamId = new TeamId("Clubi1", "kilpa1");
+            Club club = new Club();
+            club.setName(clubName);
+            clubRepository.save(club);
+
+            String compName = "competition";
+            Competition competition = new Competition(compName, compName, "rifle", System.currentTimeMillis(), System.currentTimeMillis());
+            competition.setName(compName);
+            competitionRepository.save(competition);
+
+            TeamId teamId = new TeamId(clubName, compName);
 
             Team team = new Team(teamId);
 
             teamRepository.save(team);
+            teamRepository.findById(teamId);
 
             List<User> users = new ArrayList<>();
 
@@ -64,18 +84,22 @@ public class SaveScoresTests {
             users = userRepository.saveAll(users);
 
             for (User user : users) {
-                    TeamMember teamMember = new TeamMember(new TeamMemberId(user.getId(), teamId));
-                    teamMemberRepository.save(teamMember);
+                TeamMember teamMember = new TeamMember( teamId.getClubId(), teamId.getCompetitionId(), user.getId());
+                teamMemberRepository.save(teamMember);
             }
 
             List<TeamMemberScore> scores = new ArrayList<>();
 
             for (int i = 0; i < users.size(); i++) {
-                    scores.add(new TeamMemberScore(new TeamMemberId(users.get(i).getId(), teamId),
-                                    TestUtils.give60shots(), true));
+                scores.add(new TeamMemberScore(new TeamMemberId(users.get(i).getId(), teamId),
+                                TestUtils.give60shots(), true));
             }
 
             scores = teamMemberScoreRepository.saveAll(scores);
+            
+            //save with random id
+        //     teamMemberScoreRepository.save(((new TeamMemberScore(new TeamMemberId(342234l, teamId),
+        //     TestUtils.give60shots(), true))));
 
             scores = teamMemberScoreRepository.findByTeamId(teamId);
             for(int i = 0; i < scores.size(); i++){

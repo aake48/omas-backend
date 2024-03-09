@@ -1,23 +1,24 @@
 package com.omas.webapp.table;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
 @Table
 @IdClass(TeamId.class)
-@AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Team {
 
     @Id
+    @Getter
     @Column(nullable = false)
     private String clubId;
 
     @Id
+    @Getter
     @Column(nullable = false)
     private String competitionId;
 
@@ -26,15 +27,13 @@ public class Team {
         this.competitionId = teamId.getCompetitionId();
     }
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clubId", referencedColumnName = "name")
-    private void setUserId(Club club) {
-        this.clubId = club.getName();
-    };
+    @MapsId
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "clubId", referencedColumnName = "name", insertable = false)
+    private Club club;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clubId", referencedColumnName = "name")
-    private void setUserId(Competition competition) {
-        this.competitionId = competition.getName();
-    };
+    @MapsId
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "competitionId", referencedColumnName = "name", insertable = false)
+    private Competition competition;
 }
