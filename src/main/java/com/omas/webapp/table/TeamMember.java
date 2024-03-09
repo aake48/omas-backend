@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.NoArgsConstructor;
 
@@ -19,12 +19,12 @@ import lombok.NoArgsConstructor;
 public class TeamMember {
 
     public TeamMember(TeamMemberId teamMemberId) {
-        this.userId=(teamMemberId.getUserId());
+        this.userId = (teamMemberId.getUserId());
         TeamId teamId = new TeamId();
         teamId.setClubId(teamMemberId.getClubId());
         teamId.setClubId(teamMemberId.getCompetitionId());
-        clubId=teamMemberId.getClubId();
-        competitionId=teamMemberId.getCompetitionId();
+        clubId = teamMemberId.getClubId();
+        competitionId = teamMemberId.getCompetitionId();
     }
 
     @Override
@@ -39,9 +39,7 @@ public class TeamMember {
                 Objects.equals(clubId, that.clubId);
     }
 
-    // @OneToOne(fetch = FetchType.EAGER)
-    // @JoinColumn(name = "userId")
-    // private User user;
+
 
     @Id
     Long userId;
@@ -52,16 +50,20 @@ public class TeamMember {
     @Id
     String competitionId;
 
-    
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    private void setUserId(User user) {
+        this.userId = user.getId();
+    };
+
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumns({
-        
+
             @JoinColumn(name = "competitionId", referencedColumnName = "competitionId"),
             @JoinColumn(name = "clubId", referencedColumnName = "clubId")
     })
-    public void setTeamIDs(Team team) {
-        this.clubId=team.getClubId();
-        this.competitionId=team.getCompetitionId();
+    private void setTeamIDs(Team team) {
+        this.clubId = team.getClubId();
+        this.competitionId = team.getCompetitionId();
     };
-
 }

@@ -25,4 +25,16 @@ public class Team {
         this.clubId = teamId.getClubId();
         this.competitionId = teamId.getCompetitionId();
     }
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "clubId", referencedColumnName = "name")
+    private void setUserId(Club club) {
+        this.clubId = club.getName();
+    };
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "clubId", referencedColumnName = "name")
+    private void setUserId(Competition competition) {
+        this.competitionId = competition.getName();
+    };
 }
