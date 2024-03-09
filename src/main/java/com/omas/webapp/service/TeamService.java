@@ -9,9 +9,6 @@ import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMember;
 import com.omas.webapp.table.TeamMemberId;
-import lombok.extern.log4j.Log4j2;
-
-@Log4j2
 @Service
 public class TeamService {
     
@@ -45,7 +42,6 @@ public class TeamService {
     public TeamMember addTeamMember(TeamMemberId teamMemberId) throws Exception {
 
         if (isTeamPartOfCompetition(teamMemberId.getCompetitionId(), teamMemberId.getClubId())) {
-            log.info("success!");
             return teamMemberRepository.save(new TeamMember(teamMemberId));
         }
         throw new Exception("this team does not exist");
@@ -102,10 +98,6 @@ public class TeamService {
     public boolean isTeamPartOfCompetition(String activeCompetition, String clubParticipating) {
 
         Optional<Team> participatingTeam = teamRepository.findById(new TeamId(clubParticipating, activeCompetition));
-
-        log.info(clubParticipating);
-        log.info(activeCompetition);
-        log.info(participatingTeam.isPresent());
 
         if (participatingTeam.isPresent()) {
             return true;
