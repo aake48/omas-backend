@@ -1,5 +1,8 @@
 package com.omas.webapp.table;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -26,14 +29,15 @@ public class Team {
         this.clubId = teamId.getClubId();
         this.competitionId = teamId.getCompetitionId();
     }
-
-    @MapsId
+    
     @ManyToOne
-    @JoinColumn(name = "clubId", referencedColumnName = "name", insertable = false)
+    @JoinColumn(name = "clubId", referencedColumnName = "name", insertable = false, updatable = false)
     private Club club;
 
-    @MapsId
     @ManyToOne
-    @JoinColumn(name = "competitionId", referencedColumnName = "name", insertable = false)
+    @JoinColumn(name = "competitionId", referencedColumnName = "name", insertable = false, updatable = false)
     private Competition competition;
+
+    @OneToMany(mappedBy =  "team", cascade = CascadeType.ALL)
+    @Getter private List<TeamMember> teamMembers = new ArrayList<>();
 }

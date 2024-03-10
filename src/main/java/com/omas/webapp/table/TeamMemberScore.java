@@ -62,13 +62,12 @@ public class TeamMemberScore {
     private Date creationDate;
 
 
-    @MapsId
+    @ManyToOne
     @JoinColumns({
-            @JoinColumn(name = "userId", referencedColumnName = "userId"),
-            @JoinColumn(name = "competitionId", referencedColumnName = "competitionId"),
-            @JoinColumn(name = "clubId", referencedColumnName = "clubId")
+            @JoinColumn(name = "userId", referencedColumnName = "userId", insertable = false, updatable = false),
+            @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false, updatable = false),
+            @JoinColumn(name = "clubId", referencedColumnName = "clubId", insertable = false, updatable = false)
     })
-    @OneToOne
     private TeamMember teamMember;
   
 

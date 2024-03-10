@@ -1,15 +1,12 @@
 package com.omas.webapp.table;
 
 import java.util.Objects;
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -61,16 +58,14 @@ public class TeamMember {
         return Objects.hash(userId, clubId, competitionId);
     }
 
-    @MapsId
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @JoinColumn(name = "userId", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
 
-    @MapsId
     @ManyToOne
     @JoinColumns(value = {
-            @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false),
-            @JoinColumn(name = "clubId", referencedColumnName = "clubId", insertable = false)
+            @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false, updatable = false),
+            @JoinColumn(name = "clubId", referencedColumnName = "clubId", insertable = false, updatable = false)
     })
     private Team team;
 }
