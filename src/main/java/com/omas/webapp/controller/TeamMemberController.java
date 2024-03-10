@@ -57,7 +57,7 @@ public class TeamMemberController {
 
         try {
             String club = userDetails.getPartOfClub();
-            TeamMember savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userDetails.getId(), club, request.getCompetitionName()));
+            TeamMember savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userDetails.getId(), request.getCompetitionName(), club));
             return new ResponseEntity<>(savedTeamMember, HttpStatus.OK);
 
         } catch (Exception e) {
