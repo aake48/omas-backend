@@ -22,11 +22,15 @@ import com.omas.webapp.table.TeamMember;
 import com.omas.webapp.table.TeamMemberId;
 import com.omas.webapp.table.TeamMemberScore;
 import com.omas.webapp.table.User;
+
+import jakarta.validation.ConstraintViolationException;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -50,7 +54,10 @@ public class SaveScoresTests {
     private ClubRepository clubRepository;
 
     @Autowired 
-    CompetitionRepository competitionRepository;
+    private CompetitionRepository competitionRepository;
+
+    @Autowired
+    private TestEntityManager entityManager;
 
     @Test
     public void SaveScores() {
@@ -96,16 +103,19 @@ public class SaveScoresTests {
             }
 
             scores = teamMemberScoreRepository.saveAll(scores);
-            
-            //save with random id
-        //     teamMemberScoreRepository.save(((new TeamMemberScore(new TeamMemberId(342234l, teamId),
-        //     TestUtils.give60shots(), true))));
+            // ...
 
-            scores = teamMemberScoreRepository.findByTeamId(teamId);
-            for(int i = 0; i < scores.size(); i++){
-                System.out.println(i+". score:"+ scores.get(i).toString()+
-                " userId club comp :: " + scores.get(i).getUserId()+" "+scores.get(i).getClubId() +" "+ scores.get(i).getCompetitionId());
-
+            try {
+                // Create a new TeamMemberScore with an invalid user ID
+                teamMemberScoreRepository.save(new TeamMemberScore(new TeamMemberId(342234l, teamId),
+                        TestUtils.give60shots(), true));
+                entityManager.flush();
+                fail("Expected an exception to be thrown due to foreign key constraint violation");
+            } catch (Exception e) { 
+                if (e instanceof ConstraintViolationException) {
+                    System.out.println("e: "+e);
+                    return;
+                }
             }
 
             Optional<Team> palautus = teamRepository.findById(teamId);

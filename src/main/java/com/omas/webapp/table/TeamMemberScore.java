@@ -68,7 +68,7 @@ public class TeamMemberScore {
             @JoinColumn(name = "competitionId", referencedColumnName = "competitionId"),
             @JoinColumn(name = "clubId", referencedColumnName = "clubId")
     })
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     private TeamMember teamMember;
   
 
