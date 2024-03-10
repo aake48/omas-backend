@@ -178,6 +178,7 @@ public class TestDataConfig implements CommandLineRunner {
         for (String name : usernames) {
             User user = new User();
             user.setUsername(name);
+            user.setLegalname(name);
             user.setPartOfClub(ClubName);
             users.add(user);
         }
