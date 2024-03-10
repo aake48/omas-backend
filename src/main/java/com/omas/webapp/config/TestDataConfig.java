@@ -1,156 +1,239 @@
-// package com.omas.webapp.config;
+package com.omas.webapp.config;
 
-// import java.sql.Date;
-// import java.time.Instant;
-// import java.util.ArrayList;
-// import java.util.Arrays;
-// import java.util.List;
-// import java.util.Random;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.CommandLineRunner;
-// import org.springframework.stereotype.Component;
-// import com.omas.webapp.Constants;
-// import com.omas.webapp.service.ClubService;
-// import com.omas.webapp.service.CompetitionService;
-// import com.omas.webapp.service.TeamMemberScoreService;
-// import com.omas.webapp.service.TeamService;
-// import com.omas.webapp.service.UserService;
-// import com.omas.webapp.table.Club;
-// import com.omas.webapp.table.Competition;
-// import com.omas.webapp.table.TeamMemberId;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+import com.omas.webapp.Constants;
+import com.omas.webapp.repository.ClubRepository;
+import com.omas.webapp.repository.CompetitionRepository;
+import com.omas.webapp.repository.TeamMemberRepository;
+import com.omas.webapp.repository.TeamMemberScoreRepository;
+import com.omas.webapp.repository.TeamRepository;
+import com.omas.webapp.repository.UserRepository;
+import com.omas.webapp.service.ClubService;
+import com.omas.webapp.service.CompetitionService;
+import com.omas.webapp.service.TeamMemberScoreService;
+import com.omas.webapp.service.TeamService;
+import com.omas.webapp.service.UserService;
+import com.omas.webapp.table.Club;
+import com.omas.webapp.table.Competition;
+import com.omas.webapp.table.Team;
+import com.omas.webapp.table.TeamId;
+import com.omas.webapp.table.TeamMember;
+import com.omas.webapp.table.TeamMemberId;
+import com.omas.webapp.table.TeamMemberScore;
+import com.omas.webapp.table.User;
 
-// @Component
-// public class TestDataConfig implements CommandLineRunner {
+import lombok.extern.log4j.Log4j2;
 
-//     @Autowired
-//     UserService userService;
+@Log4j2
+@Component
+public class TestDataConfig implements CommandLineRunner {
 
-//     @Autowired
-//     ClubService clubService;
+    @Autowired
+    UserService userService;
 
-//     @Autowired
-//     TeamMemberScoreService teamMemberScoreService;
+    @Autowired
+    ClubService clubService;
 
-//     @Autowired
-//     CompetitionService competitionService;
+    @Autowired
+    TeamMemberScoreService teamMemberScoreService;
 
-//     @Autowired
-//     TeamService teamService;
+    @Autowired
+    CompetitionService competitionService;
 
-//     @Override
-//     public void run(String... args) throws Exception {
+    @Autowired
+    TeamService teamService;
 
-//         final String pistolCompetitionTypeName = Constants.pistolType;
-//         final String rifleCompetitionTypeName = Constants.rifleType;
+    @Autowired
+    UserRepository userRepository;
 
-//         List<String> rifleCompetitionList = Arrays.asList(
-//                 "kesan_ampujaiset",
-//                 "talvi_pistooli",
-//                 "lasten_ammunta",
-//                 "seniori-ammunta",
-//                 "tarkkuuslaukaus-festivaali",
-//                 "kivaarikilpailujen-huipennus",
-//                 "polaris-ampumaharjoitus",
-//                 "aamunkoiton-tahtays",
-//                 "nordic-sharpshooters-cup",
-//                 "taivaanranta-tulitus",
-//                 "lumivyory-ammunta");
+    @Autowired
+    ClubRepository clubRepository;
 
-//         for (String competition : rifleCompetitionList) {
-//             competitionService
-//             .addCompetition(new Competition(competition, competition, rifleCompetitionTypeName,
-//             System.currentTimeMillis(), System.currentTimeMillis() + 7L * 24 * 60 * 60 * 1000));
+    @Autowired
+    TeamRepository teamRepository;
 
-//         }
+    @Autowired
+    CompetitionRepository competitionRepository;
 
-//         List<String> pistolCompetitionList = Arrays.asList(
-//                 "tarkka-ammunta-cup",
-//                 "nopean-laukauksen-mestaruus",
-//                 "moniottelu-kilpailu",
-//                 "kansallinen-tahtayskilpailu",
-//                 "kaupunkiammunta-challenge",
-//                 "laukausmaraton",
-//                 "vapaa-asekilpailu",
-//                 "taitoluodikko-turnaus",
-//                 "precision-pistol-cup",
-//                 "tulevaisuuden-ampuja",
-//                 "pikakivaari-klassikko");
+    @Autowired
+    TeamMemberScoreRepository teamMemberScoreRepository;
 
-//         for (String competition : pistolCompetitionList) {
-//             competitionService
-//                     .addCompetition(new Competition(competition, competition, pistolCompetitionTypeName,
-//                             System.currentTimeMillis(), System.currentTimeMillis() + 7L * 24 * 60 * 60 * 1000));
+    @Autowired
+    TeamMemberRepository teamMemberRepository;
 
-//         }
+    @Override
+    public void run(String... args) throws Exception {
 
-//         List<String> clubList = Arrays.asList(
-//                 "Poliisi_seura", "Koira_seura",
-//                 "Hammaspeikko_seura",
-//                 "dog",
-//                 "SavuSeura",
-//                 "OMAS",
-//                 "Pelle_seura",
-//                 "young_tallent_-seura",
-//                 "aseharrastajien-yhtenaisyys",
-//                 "tahtaysmestarit",
-//                 "laukausryhma-aurora",
-//                 "ampumataito");
+        final String pistolCompetitionTypeName = Constants.pistolType;
+        final String rifleCompetitionTypeName = Constants.rifleType;
 
-//         for (String club : clubList) {
-//             clubService.registerClub(new Club(club, club, new Date(Instant.now().toEpochMilli()), getRandomNumber()));
-//         }
+        List<String> rifleCompetitionList = Arrays.asList(
+                "kesan_ampujaiset",
+                "talvi_pistooli",
+                "lasten_ammunta",
+                "seniori-ammunta",
+                "tarkkuuslaukaus-festivaali",
+                "kivaarikilpailujen-huipennus",
+                "polaris-ampumaharjoitus",
+                "aamunkoiton-tahtays",
+                "nordic-sharpshooters-cup",
+                "taivaanranta-tulitus",
+                "lumivyory-ammunta");
 
-//         for (String competition : rifleCompetitionList) {
-//             for (String club : clubList) {
-//                 teamService.addTeam(competition, club);
-//                 for (int i = 0; i < 5; i++) {
-//                     addTeamMemberWithScoresRifle(club, competition);
+        List<String> pistolCompetitionList = Arrays.asList(
+                "tarkka-ammunta-cup",
+                "nopean-laukauksen-mestaruus",
+                "moniottelu-kilpailu",
+                "kansallinen-tahtayskilpailu",
+                "kaupunkiammunta-challenge",
+                "laukausmaraton",
+                "vapaa-asekilpailu",
+                "taitoluodikko-turnaus",
+                "precision-pistol-cup",
+                "tulevaisuuden-ampuja",
+                "pikakivaari-klassikko");
 
-//                 }
-//             }
-//         }
+        List<String> clubList = Arrays.asList(
+                "Poliisi_seura", "Koira_seura",
+                "Hammaspeikko_seura",
+                "dog",
+                "SavuSeura",
+                "OMAS",
+                "Pelle_seura",
+                "young_tallent_-seura",
+                "aseharrastajien-yhtenaisyys",
+                "tahtaysmestarit",
+                "laukausryhma-aurora",
+                "ampumataito");
 
-//         for (String competition : pistolCompetitionList) {
-//             for (String club : clubList) {
-//                 teamService.addTeam(competition, club);
-//                 for (int i = 0; i < 5; i++) {
-//                     addTeamMemberWithScoresPistol(club, competition);
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < clubList.size(); i++) {
+            users.addAll((saveUserToDB(getXStrings(5), clubList.get(i))));
+        }
 
-//                 }
-//             }
-//         }
-//     }
+        List<Competition> rifleComps = saveCompetitions(rifleCompetitionList, rifleCompetitionTypeName);
+        List<Competition> pistolComps = saveCompetitions(pistolCompetitionList, pistolCompetitionTypeName);
+        saveTeamsToComps(rifleComps, clubList);
+        saveTeamsToComps(pistolComps, clubList);
+        addMemberWithScores(users, pistolComps, pistolCompetitionTypeName);
+        addMemberWithScores(users, rifleComps, pistolCompetitionTypeName);
 
-//     private void addTeamMemberWithScoresPistol(String club, String competition) throws Exception {
-//         Long userId = getRandomNumber();
-//         teamService.addTeamMember(new TeamMemberId(userId, club, competition));
-//         teamMemberScoreService.addPistolScore(new TeamMemberId(userId, club, competition), give60shots());
+    }
 
-//     }
+    private List<String> getXStrings(int x) {
+        List<String> strings = new ArrayList<>();
 
-//     private void addTeamMemberWithScoresRifle(String club, String competition) throws Exception {
-//         Long userId = getRandomNumber();
-//         teamService.addTeamMember(new TeamMemberId(userId, club, competition));
-//         teamMemberScoreService.addRifleScore(new TeamMemberId(userId, club, competition), give60shots());
+        for (int i = 0; i < x; i++) {
+            strings.add(generateRandomString(10));
+        }
+        return strings;
+    }
 
-//     }
+    public String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random rand = new Random();
+        StringBuilder sb = new StringBuilder(length);
 
-//     private Long getRandomNumber() {
-//         Random random = new Random();
-//         return random.nextLong(1000);
-//     }
+        for (int i = 0; i < length; i++) {
+            int randomIndex = rand.nextInt(characters.length());
+            sb.append(characters.charAt(randomIndex));
+        }
 
-//     private static List<Double> give60shots() {
-//         Random rand = new Random();
-//         List<Double> shots = new ArrayList<>();
+        return sb.toString();
+    }
 
-//         for (int i = 0; i < 60; i++) {
-//             double shot = rand.nextDouble() * 10.9;
-//             shot = Math.round(shot * 10.0) / 10.0;
-//             shots.add(shot);
-//         }
-//         return shots;
+    private static List<Double> give60shots() {
+        Random rand = new Random();
+        List<Double> shots = new ArrayList<>();
 
-//     }
+        for (int i = 0; i < 60; i++) {
+            double shot = rand.nextDouble() * 10.9;
+            shot = Math.round(shot * 10.0) / 10.0;
+            shots.add(shot);
+        }
+        return shots;
 
-// }
+    }
+
+    /**
+     * creates a club and saves list of users to db with the being part of the just
+     * created club.
+     * Returns list of Users.
+     */
+    private List<User> saveUserToDB(List<String> usernames, String ClubName) {
+        log.info("adding users to DB");
+
+        Club club = new Club(ClubName, ClubName, new Date(System.currentTimeMillis()), 0);
+        clubRepository.save(club);
+
+        List<User> users = new ArrayList<>();
+
+        for (String name : usernames) {
+            User user = new User();
+            user.setUsername(name);
+            user.setPartOfClub(ClubName);
+            users.add(user);
+        }
+        return userRepository.saveAll(users);
+    }
+
+    private List<Competition> saveCompetitions(List<String> competitionNames, String type) {
+        log.info("adding competitions to DB");
+
+        List<Competition> competitions = new ArrayList<>();
+
+        for (String competitionName : competitionNames) {
+            Competition competition = new Competition(competitionName, competitionName, type,
+                    System.currentTimeMillis(), System.currentTimeMillis() + 7L * 24 * 60 * 60 * 1000);
+            competitions.add(competition);
+        }
+        return competitionRepository.saveAll(competitions);
+    }
+
+    private List<Team> saveTeamsToComps(List<Competition> competitions, List<String> ClubNames) {
+        log.info("adding teams");
+
+        List<Team> teams = new ArrayList<>();
+
+        for (Competition comp : competitions) {
+            for (String club : ClubNames) {
+                Team team = new Team(new TeamId(club, comp.getName()));
+                teams.add(team);
+            }
+        }
+        return teamRepository.saveAll(teams);
+    }
+
+    private void addMemberWithScores(List<User> users, List<Competition> competitions, String compType) {
+        log.info("adding member and scores");
+
+        Boolean acceptDecimals = false;
+        if (compType.equals(Constants.rifleType)) {
+            acceptDecimals = true;
+        }
+
+        List<Team> teams = new ArrayList<>();
+
+        for (User user : users) {
+            for (Competition comp : competitions) {
+                TeamMember teamMember = new TeamMember(user.getPartOfClub(), comp.getName(), user.getId());
+                teamMember = teamMemberRepository.save(teamMember);
+
+                TeamMemberScore teamMemberScore = new TeamMemberScore(
+                        new TeamMemberId(user.getId(), comp.getName(), user.getPartOfClub()), give60shots(),
+                        acceptDecimals);
+                TeamMemberScore score = teamMemberScoreRepository.save(teamMemberScore);
+                log.info("club: " + score.getClubId() + " userId: " + score.getUserId());
+
+            }
+        }
+    }
+
+}
