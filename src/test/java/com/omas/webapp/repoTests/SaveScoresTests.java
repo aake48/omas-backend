@@ -22,9 +22,7 @@ import com.omas.webapp.table.TeamMember;
 import com.omas.webapp.table.TeamMemberId;
 import com.omas.webapp.table.TeamMemberScore;
 import com.omas.webapp.table.User;
-
 import jakarta.validation.ConstraintViolationException;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
