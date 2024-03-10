@@ -123,7 +123,7 @@ public class TestDataConfig implements CommandLineRunner {
         saveTeamsToComps(rifleComps, clubList);
         saveTeamsToComps(pistolComps, clubList);
         addMemberWithScores(users, pistolComps, pistolCompetitionTypeName);
-        addMemberWithScores(users, rifleComps, pistolCompetitionTypeName);
+        addMemberWithScores(users, rifleComps, rifleCompetitionTypeName);
 
     }
 
