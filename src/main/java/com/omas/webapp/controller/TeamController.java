@@ -3,6 +3,7 @@ package com.omas.webapp.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -86,7 +87,7 @@ public class TeamController {
     }
 
     @GetMapping(params = { "club", "competition" }, value = "/")
-    public ResponseEntity<?> queryClubs(@RequestParam(value = "page", defaultValue = "0") int page,
+    public ResponseEntity<?> getTeam(@RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "club") String club,
             @RequestParam(value = "competition") String competition) throws Exception {
 
@@ -95,7 +96,7 @@ public class TeamController {
 
             return new ResponseEntity<>(team, HttpStatus.OK);
 
-        } catch (Exception e) {
+        } catch (Exception  e) {
             return new ResponseEntity<>(
                     Map.of("error", "No team found with the given parameters"), HttpStatus.OK);
         }

@@ -1,5 +1,6 @@
 package com.omas.webapp.service;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -125,7 +126,7 @@ public class TeamService {
      * @return the team with the specified club and competition
      * @throws NoSuchElementException if the team is not found
      */
-    public Team getTeam(String club, String competition) {
+    public Team getTeam(String club, String competition) throws NoSuchElementException  {
         return teamRepository.findById(new TeamId(club, competition)).get();
     }
 }
