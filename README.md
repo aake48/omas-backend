@@ -32,6 +32,7 @@
       - [create new team](#create-new-team)
       - [get team's score](#get-teams-score)
       - [teamExists](#teamexists)
+      - [get team with member IDs](#get-team-with-member-ids)
     - [team members](#team-member)
       - [add team member to team](#add-team-member-to-team)
       - [get user's score](#get-users-score)
@@ -349,6 +350,18 @@ Content-Type: application/json
 ```
 returns true if club has team in this comp, false otherwise. 
 
+### get team with member IDs
+GET api/competition/team?club={clubName}&competition={competitionName}
+
+returns
+```
+{
+  "clubId": string,
+  "competitionId": string,
+  "teamMembers": teamMember[]
+}
+```
+[TeamMember](#teammember)
 ## team member
 ### add team member to team 
 Note: the following conditions must be met before user can join a team: 
@@ -362,8 +375,8 @@ Content-Type: application/json
   competitionName:String
 }
 ```
-Returns either created team member object or reason for failure in error:string json 
-
+retruns
+[TeamMember](#teammember)
 ### get user's score
 ```
 GET api/competition/team/member/score
@@ -486,6 +499,24 @@ Mm. onnistunut seuran luominen palauttaa tälläisen.
 	private Date creationDate:string,
 	idCreator:number
   }
+```
+
+## TeamMember
+```
+  {
+      userId: number,
+      clubId: string,
+      competitionId: string
+    }
+```
+
+## Team
+```
+  {
+      clubId: string,
+      competitionId: string
+      teamMembers: teamMember[]
+    }
 ```
 ## --- unfinished ---
 check source 

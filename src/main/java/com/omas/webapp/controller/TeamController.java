@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.omas.webapp.entity.requests.AddTeamRequest;
 import com.omas.webapp.entity.requests.CompetitionIdRequest;
 import com.omas.webapp.entity.requests.TeamScoreRequest;
@@ -83,6 +83,23 @@ public class TeamController {
 
             Boolean value = teamService.isTeamPartOfCompetition(userDetails.getPartOfClub(), request.getCompetitionName());
             return new ResponseEntity<>(value, HttpStatus.OK);
+    }
+
+    @GetMapping(params = { "club", "competition" }, value = "/")
+    public ResponseEntity<?> queryClubs(@RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "club") String club,
+            @RequestParam(value = "competition") String competition) throws Exception {
+
+        try {
+            Team team = teamService.getTeam(club, competition);
+
+            return new ResponseEntity<>(team, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    Map.of("error", "No team found with the given parameters"), HttpStatus.OK);
+        }
+
     }
 
 

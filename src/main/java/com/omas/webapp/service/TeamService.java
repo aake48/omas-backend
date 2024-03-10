@@ -115,4 +115,17 @@ public class TeamService {
         
         return teamRepository.findByCompetitionId(competition);
     }
+
+
+
+    /**
+     * Retrieves the team with the specified club and competition.
+     * @param club the club of the team
+     * @param competition the competition of the team
+     * @return the team with the specified club and competition
+     * @throws NoSuchElementException if the team is not found
+     */
+    public Team getTeam(String club, String competition) {
+        return teamRepository.findById(new TeamId(club, competition)).get();
+    }
 }
