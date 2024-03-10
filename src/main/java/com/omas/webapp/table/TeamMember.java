@@ -62,12 +62,12 @@ public class TeamMember {
     }
 
     @MapsId
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 
     @MapsId
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumns(value = {
             @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false),
             @JoinColumn(name = "clubId", referencedColumnName = "clubId", insertable = false)

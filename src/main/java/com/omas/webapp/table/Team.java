@@ -28,12 +28,12 @@ public class Team {
     }
 
     @MapsId
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "clubId", referencedColumnName = "name", insertable = false)
     private Club club;
 
     @MapsId
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "competitionId", referencedColumnName = "name", insertable = false)
     private Competition competition;
 }
