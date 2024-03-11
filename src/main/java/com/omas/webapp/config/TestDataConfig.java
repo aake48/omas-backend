@@ -205,7 +205,7 @@ public class TestDataConfig implements CommandLineRunner {
 
         for (Competition comp : competitions) {
             for (String club : ClubNames) {
-                Team team = new Team(new TeamId( comp.getName(), club));
+                Team team = new Team(new TeamId( comp.getCompetitionId(), club));
                 teams.add(team);
             }
         }
@@ -223,12 +223,12 @@ public class TestDataConfig implements CommandLineRunner {
 
         for (User user : users) {
             for (Competition comp : competitions) {
-                TeamMember teamMember = new TeamMember(comp.getName(), user.getId(), user.getPartOfClub());
+                TeamMember teamMember = new TeamMember(comp.getCompetitionId(), user.getId(), user.getPartOfClub());
                 teamMember = teamMemberRepository.save(teamMember);
                 log.info(" club: " + user.getPartOfClub());
 
                 TeamMemberScore teamMemberScore = new TeamMemberScore(
-                        new TeamMemberId(user.getId(), comp.getName(), user.getPartOfClub())
+                        new TeamMemberId(user.getId(), comp.getCompetitionId(), user.getPartOfClub())
                         , give60shots(),
                         acceptDecimals);
 

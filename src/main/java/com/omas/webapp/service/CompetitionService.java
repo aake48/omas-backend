@@ -19,11 +19,11 @@ public class CompetitionService {
 
     public Competition addCompetition(Competition competition) {
 
-        if (competitionRepository.findById(competition.getName()).isPresent()) {
+        if (competitionRepository.findById(competition.getCompetitionId()).isPresent()) {
             return null;
         }
-        return competitionRepository.save(competition);
 
+        return competitionRepository.save(competition);
     }
 
     public boolean thisCompetitionExists(String competitionName){

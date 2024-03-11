@@ -46,9 +46,6 @@ public class TeamController {
     @PostMapping("/new")
     public ResponseEntity<?> addTeam(@Valid @RequestBody AddTeamRequest request) {
 
-
-
-
         if(!competitionService.thisCompetitionExists(request.getCompetitionName())){
             return new ResponseEntity<>(Map.of("error","This competition does not exist"), HttpStatus.BAD_REQUEST);
         }
@@ -70,10 +67,8 @@ public class TeamController {
     @GetMapping("/teamExists")
     public ResponseEntity<?> hasTeam(@Valid @RequestBody CompetitionIdRequest request) {
 
-
-
-            Boolean value = teamService.isTeamPartOfCompetition( request.getCompetitionName(), request.getTeamName());
-            return new ResponseEntity<>(value, HttpStatus.OK);
+        Boolean value = teamService.isTeamPartOfCompetition( request.getCompetitionName(), request.getTeamName());
+        return new ResponseEntity<>(value, HttpStatus.OK);
     }
 
     @GetMapping(params = { "competition, team" }, value = "/")
