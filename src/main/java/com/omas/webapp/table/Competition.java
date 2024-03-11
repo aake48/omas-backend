@@ -39,4 +39,7 @@ public class Competition {
 	@Column(nullable = false)
 	private Date creationDate;
 
+	public boolean hasEnded() {
+		return Instant.ofEpochMilli(endDate.getTime()).isBefore(Instant.now());
+	}
 }

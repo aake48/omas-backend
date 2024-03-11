@@ -3,6 +3,10 @@ package com.omas.webapp.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
+import com.omas.webapp.entity.response.MessageResponse;
+import com.omas.webapp.table.Competition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,8 +50,17 @@ public class TeamController {
     @PostMapping("/new")
     public ResponseEntity<?> addTeam(@Valid @RequestBody AddTeamRequest request) {
 
-        if(!competitionService.thisCompetitionExists(request.getCompetitionName())){
-            return new ResponseEntity<>(Map.of("error","This competition does not exist"), HttpStatus.BAD_REQUEST);
+        Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
+
+        // Handles prior thisCompetitionExists check
+        if (competitionOptional.isEmpty()) {
+            return new MessageResponse("This competition does not exist", HttpStatus.BAD_REQUEST);
+        }
+
+        Competition competition = competitionOptional.get();
+
+        if (competition.hasEnded()) {
+            return new MessageResponse("This competition has ended", HttpStatus.FORBIDDEN);
         }
 
         // This section of the code performs two operations on the 'Id', teamName:
@@ -56,7 +69,7 @@ public class TeamController {
         // If 'Id' still contains unsafe characters after these alterations, the code
         // returns a 400 status.
         String teamDisplayName = request.getTeamName();
-        String teanName = request.getTeamName()
+        String teamName = request.getTeamName()
                 .replace('ä', 'a').replace('Ä', 'A')
                 .replace('ö', 'o').replace('Ö', 'O')
                 .replace('å', 'a').replace('Å', 'A')
@@ -64,21 +77,18 @@ public class TeamController {
 
         String regex = "^[a-zA-Z0-9-_]+$";
 
-
-        if (!teanName.matches(regex)) {
-            return new ResponseEntity<>("{\"teanName\":\"team name contains characters which are forbidden.\"}",
-                    HttpStatus.BAD_REQUEST);
+        if (!teamName.matches(regex)) {
+            return new MessageResponse("Team name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$", HttpStatus.BAD_REQUEST);
         }
         
         try {
-            Team addedTeam = teamService.addTeam(request.getCompetitionName(), teanName, teamDisplayName);
+
+            Team addedTeam = teamService.addTeam(request.getCompetitionName(), teamName, teamDisplayName);
             return new ResponseEntity<>(addedTeam, HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(Map.of("error",e.getMessage()), HttpStatus.BAD_REQUEST);
-
-        }        
-
+            return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
 
     }
 
@@ -92,22 +102,19 @@ public class TeamController {
     }
 
     @GetMapping(params = { "competition, team" }, value = "/")
-    public ResponseEntity<?> getTeam(@RequestParam(value = "page", defaultValue = "0") int page,
+    public ResponseEntity<?> getTeam(
             @RequestParam(value = "team") String teamName,
-            @RequestParam(value = "competition") String competition) throws Exception {
+            @RequestParam(value = "competition") String competition
+    ) {
 
-        try {
-            Team team = teamService.getTeam(competition, teamName);
+        Optional<Team> teamOptional = teamService.getTeam(teamName, competition);
 
-            return new ResponseEntity<>(team, HttpStatus.OK);
-
-        } catch (Exception  e) {
-            return new ResponseEntity<>(
-                    Map.of("error", "No team found with the given parameters"), HttpStatus.OK);
+        if (teamOptional.isEmpty()) {
+            return new MessageResponse("No team found with the given parameters", HttpStatus.OK);
         }
 
+        return new ResponseEntity<>(teamOptional.get(), HttpStatus.OK);
     }
-
 
     @GetMapping("/score")
     public ResponseEntity<?> getScores(@Valid @RequestBody TeamScoreRequest request) {
