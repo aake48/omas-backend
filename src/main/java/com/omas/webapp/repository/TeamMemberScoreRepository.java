@@ -13,11 +13,11 @@ public interface TeamMemberScoreRepository extends JpaRepository<TeamMemberScore
     * Retrieves the scores of team members of the team specified by the teamId and returns these scores in a list, sorted by the user's score.
     */
     default List<TeamMemberScore> findByTeamId(TeamId teamId) {
-        return findByClubIdAndCompetitionIdOrderBySumDesc(teamId.getClubId(), teamId.getCompetitionId());
+        return findByTeamNameAndCompetitionIdOrderBySumDesc(teamId.getTeamName(), teamId.getCompetitionId());
     }
 
     // find score of all club's participants in the competition
-    List<TeamMemberScore> findByClubIdAndCompetitionIdOrderBySumDesc(String clubId, String competitionId);
+    List<TeamMemberScore> findByTeamNameAndCompetitionIdOrderBySumDesc(String teamName, String competitionId);
 
 
     TeamMemberScore findByUserIdAndCompetitionId(long id, String competitionName);

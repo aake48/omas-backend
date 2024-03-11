@@ -153,7 +153,7 @@ public class CompetitionController {
             for (Team team : teams) {
                 // The scores are pre-sorted in descending order by the repository class based
                 // on the sum, user's total score.
-                List<TeamMemberScore> scores = teamMemberScoreService.getTeamScores(new TeamId(team.getClubId(), team.getCompetitionId()));
+                List<TeamMemberScore> scores = teamMemberScoreService.getTeamScores(new TeamId(team.getCompetitionId(), team.getTeamName()));
                 ArrayNode teamScores = mapper.createArrayNode();
                 double teamTotal = 0;
 
@@ -170,7 +170,6 @@ public class CompetitionController {
                 }
 
                 ObjectNode teamNode = mapper.createObjectNode()
-                        .put("club", team.getClubId())
                         .put("totalScore", Math.floor(teamTotal * 10.0) / 10.0)
                         .set("scores", teamScores);
 

@@ -205,7 +205,7 @@ public class TestDataConfig implements CommandLineRunner {
 
         for (Competition comp : competitions) {
             for (String club : ClubNames) {
-                Team team = new Team(new TeamId(club, comp.getName()));
+                Team team = new Team(new TeamId( comp.getName(), club));
                 teams.add(team);
             }
         }
@@ -220,18 +220,20 @@ public class TestDataConfig implements CommandLineRunner {
             acceptDecimals = true;
         }
 
-        List<Team> teams = new ArrayList<>();
 
         for (User user : users) {
             for (Competition comp : competitions) {
-                TeamMember teamMember = new TeamMember(user.getPartOfClub(), comp.getName(), user.getId());
+                TeamMember teamMember = new TeamMember(comp.getName(), user.getId(), user.getPartOfClub());
                 teamMember = teamMemberRepository.save(teamMember);
+                log.info(" club: " + user.getPartOfClub());
 
                 TeamMemberScore teamMemberScore = new TeamMemberScore(
-                        new TeamMemberId(user.getId(), comp.getName(), user.getPartOfClub()), give60shots(),
+                        new TeamMemberId(user.getId(), comp.getName(), user.getPartOfClub())
+                        , give60shots(),
                         acceptDecimals);
+
                 TeamMemberScore score = teamMemberScoreRepository.save(teamMemberScore);
-                log.info("club: " + score.getClubId() + " userId: " + score.getUserId());
+                log.info(" userId: " + score.getUserId());
 
             }
         }

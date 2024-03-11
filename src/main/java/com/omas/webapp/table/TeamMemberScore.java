@@ -36,13 +36,14 @@ public class TeamMemberScore {
     @Id
     private Long userId;
 
-    @Getter
-    @Id
-    private String clubId;
 
     @Getter
     @Id
     private String competitionId;
+
+    @Getter
+    @Id
+    private String teamName;
 
     @Getter
     @UuidGenerator(style = UuidGenerator.Style.TIME)
@@ -66,7 +67,8 @@ public class TeamMemberScore {
     @JoinColumns({
             @JoinColumn(name = "userId", referencedColumnName = "userId", insertable = false, updatable = false),
             @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false, updatable = false),
-            @JoinColumn(name = "clubId", referencedColumnName = "clubId", insertable = false, updatable = false)
+            @JoinColumn(name = "teamName", referencedColumnName = "teamName", insertable = false, updatable = false)
+
     })
     private TeamMember teamMember;
   
@@ -99,8 +101,8 @@ public class TeamMemberScore {
         this.sum = Math.floor(list.stream().reduce(0.0, Double::sum) * 10.0) / 10.0;
         this.scorePerShot = list.toString();
         this.userId = teamMemberId.getUserId();
-        this.clubId = teamMemberId.getClubId();
         this.competitionId = teamMemberId.getCompetitionId();
+        this.teamName = teamMemberId.getTeamName();
         this.creationDate = new Date(Instant.now().toEpochMilli());
     }
 

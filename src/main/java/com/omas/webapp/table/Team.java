@@ -15,24 +15,22 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class Team {
 
-    @Id
-    @Getter
-    @Column(nullable = false)
-    private String clubId;
 
     @Id
     @Getter
     @Column(nullable = false)
     private String competitionId;
 
+    @Id
+    @Getter
+    @Column(nullable = false)
+    private String teamName;
+
     public Team(TeamId teamId) {
-        this.clubId = teamId.getClubId();
         this.competitionId = teamId.getCompetitionId();
+        this.teamName = teamId.getTeamName();
     }
     
-    @ManyToOne
-    @JoinColumn(name = "clubId", referencedColumnName = "name", insertable = false, updatable = false)
-    private Club club;
 
     @ManyToOne
     @JoinColumn(name = "competitionId", referencedColumnName = "name", insertable = false, updatable = false)

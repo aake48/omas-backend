@@ -3,13 +3,10 @@ package com.omas.webapp.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,7 +23,6 @@ import com.omas.webapp.entity.requests.TeamScoreRequest;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
-import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMemberScore;
@@ -50,20 +46,15 @@ public class TeamController {
     @PostMapping("/new")
     public ResponseEntity<?> addTeam(@Valid @RequestBody AddTeamRequest request) {
 
-        UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
-        .getPrincipal();
-        String club = userDetails.getPartOfClub();
 
-        if(club==null || club.isEmpty()){
-            return new ResponseEntity<>(Map.of("error", "User is not part of any club thus cannot create a team"), HttpStatus.BAD_REQUEST);
-        }
+
 
         if(!competitionService.thisCompetitionExists(request.getCompetitionName())){
             return new ResponseEntity<>(Map.of("error","This competition does not exist"), HttpStatus.BAD_REQUEST);
         }
         
         try {
-            Team addedTeam = teamService.addTeam(request.getCompetitionName(), club);
+            Team addedTeam = teamService.addTeam(request.getCompetitionName(), request.getTeamName());
             return new ResponseEntity<>(addedTeam, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -79,20 +70,19 @@ public class TeamController {
     @GetMapping("/teamExists")
     public ResponseEntity<?> hasTeam(@Valid @RequestBody CompetitionIdRequest request) {
 
-        UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
 
-            Boolean value = teamService.isTeamPartOfCompetition(userDetails.getPartOfClub(), request.getCompetitionName());
+
+            Boolean value = teamService.isTeamPartOfCompetition( request.getCompetitionName(), request.getTeamName());
             return new ResponseEntity<>(value, HttpStatus.OK);
     }
 
-    @GetMapping(params = { "club", "competition" }, value = "/")
+    @GetMapping(params = { "competition, team" }, value = "/")
     public ResponseEntity<?> getTeam(@RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "club") String club,
+            @RequestParam(value = "team") String teamName,
             @RequestParam(value = "competition") String competition) throws Exception {
 
         try {
-            Team team = teamService.getTeam(club, competition);
+            Team team = teamService.getTeam(competition, teamName);
 
             return new ResponseEntity<>(team, HttpStatus.OK);
 
@@ -108,10 +98,10 @@ public class TeamController {
     public ResponseEntity<?> getScores(@Valid @RequestBody TeamScoreRequest request) {
 
 
-        if(!teamService.isTeamPartOfCompetition(request.getClubName(), request.getCompetitionName())){
-            return new ResponseEntity<>(Map.of("error", "No team found / this club is not participating in this competition"), HttpStatus.OK);
+        if(!teamService.isTeamPartOfCompetition( request.getCompetitionName(), request.getTeamName())){
+            return new ResponseEntity<>(Map.of("error", "No team found"), HttpStatus.OK);
         }
-        List<TeamMemberScore> scores = scoreService.getTeamScores(new TeamId(request.getClubName(), request.getCompetitionName()));
+        List<TeamMemberScore> scores = scoreService.getTeamScores(new TeamId(request.getCompetitionName(), request.getTeamName()));
 
         // Notify client if there are no scores for this team id
         if (scores == null || scores.isEmpty()) {

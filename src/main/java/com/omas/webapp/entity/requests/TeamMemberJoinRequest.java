@@ -11,5 +11,9 @@ public class TeamMemberJoinRequest {
     @NotEmpty(message = "Competition name cannot be empty.")
     private String competitionName;
 
+    @NotEmpty(message = "teamName cannot be empty.")
+    private String teamName;
+
+
 }
 
