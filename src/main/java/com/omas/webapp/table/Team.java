@@ -33,7 +33,7 @@ public class Team {
     
 
     @ManyToOne
-    @JoinColumn(name = "competitionId", referencedColumnName = "name", insertable = false, updatable = false)
+    @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false, updatable = false)
     private Competition competition;
 
     @OneToMany(mappedBy =  "team", cascade = CascadeType.ALL)

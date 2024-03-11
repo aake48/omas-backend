@@ -129,12 +129,12 @@ public class CompetitionControllerTests {
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content(json))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value(competitionNameId));
+                .andExpect(jsonPath("$.competitionId").value(competitionNameId));
 
         // gets competition
         mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/" + competitionNameId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value(competitionNameId));
+                .andExpect(jsonPath("$.competitionId").value(competitionNameId));
 
     }
 

@@ -42,7 +42,7 @@ public class CompetitionService {
     }
 
     public Page<Competition> findWithPaginatedSearch(int page, int size, String search) {
-        return competitionRepository.findByNameContaining(search, PageRequest.of(page, size));
+        return competitionRepository.findByCompetitionIdContaining(search, PageRequest.of(page, size));
     }
 
     public Page<Competition> firstPaginated(int page, int size) {
