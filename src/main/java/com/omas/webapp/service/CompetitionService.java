@@ -19,11 +19,11 @@ public class CompetitionService {
 
     public Competition addCompetition(Competition competition) {
 
-        if (competitionRepository.findById(competition.getName()).isPresent()) {
+        if (competitionRepository.findById(competition.getCompetitionId()).isPresent()) {
             return null;
         }
-        return competitionRepository.save(competition);
 
+        return competitionRepository.save(competition);
     }
 
     public boolean thisCompetitionExists(String competitionName){
@@ -42,7 +42,7 @@ public class CompetitionService {
     }
 
     public Page<Competition> findWithPaginatedSearch(int page, int size, String search) {
-        return competitionRepository.findByNameContaining(search, PageRequest.of(page, size));
+        return competitionRepository.findByCompetitionIdContaining(search, PageRequest.of(page, size));
     }
 
     public Page<Competition> firstPaginated(int page, int size) {

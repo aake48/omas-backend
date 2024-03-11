@@ -13,10 +13,10 @@ import com.omas.webapp.table.TeamMemberId;
 public interface TeamMemberRepository extends JpaRepository<TeamMember, TeamMemberId> { 
 
     default Optional<List<TeamMember>> findByTeamId(TeamId teamId) {
-        return findByClubIdAndCompetitionId(teamId.getClubId(), teamId.getCompetitionId());
+        return findByteamNameAndCompetitionId(teamId.getTeamName(), teamId.getCompetitionId());
     }
 
-    Optional<List<TeamMember>> findByClubIdAndCompetitionId(String clubId, String competitionId);
+    Optional<List<TeamMember>> findByteamNameAndCompetitionId(String teamName, String competitionId);
 
 
 }

@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.omas.webapp.entity.requests.AddCompetitionRequest;
+import com.omas.webapp.entity.requests.GetCompetitionTeamsRequest;
+import com.omas.webapp.entity.response.CompetitionTeamsResponse;
+import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
@@ -26,10 +29,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+
 @Log4j2
 @RestController
 @RequestMapping("/api")
@@ -114,6 +116,22 @@ public class CompetitionController {
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
+    @GetMapping("competition/teams")
+    public ResponseEntity<?> getCompetitionTeams(GetCompetitionTeamsRequest request) {
+
+        String competitionName = request.getCompetitionName();
+
+        Optional<Competition> competitionOptional = competitionService.getCompetition(competitionName);
+
+        if (competitionOptional.isEmpty()) {
+            return new MessageResponse("No competition found with that name", HttpStatus.BAD_REQUEST);
+        }
+
+        List<Team> teams = teamService.getTeamsParticipatingInCompetition(competitionName);
+
+        return new ResponseEntity<>(new CompetitionTeamsResponse(teams), HttpStatus.OK);
+    }
+
     @GetMapping("competition/{name}")
     public ResponseEntity<?> getCompetition(@PathVariable String name) {
         try {
@@ -153,7 +171,7 @@ public class CompetitionController {
             for (Team team : teams) {
                 // The scores are pre-sorted in descending order by the repository class based
                 // on the sum, user's total score.
-                List<TeamMemberScore> scores = teamMemberScoreService.getTeamScores(new TeamId(team.getClubId(), team.getCompetitionId()));
+                List<TeamMemberScore> scores = teamMemberScoreService.getTeamScores(new TeamId(team.getCompetitionId(), team.getTeamName()));
                 ArrayNode teamScores = mapper.createArrayNode();
                 double teamTotal = 0;
 
@@ -170,7 +188,6 @@ public class CompetitionController {
                 }
 
                 ObjectNode teamNode = mapper.createObjectNode()
-                        .put("club", team.getClubId())
                         .put("totalScore", Math.floor(teamTotal * 10.0) / 10.0)
                         .set("scores", teamScores);
 
@@ -190,8 +207,8 @@ public class CompetitionController {
             teamNodesList.forEach(teamNodes::add);
 
             ObjectNode competitionNode = mapper.createObjectNode()
-                    .put("name", competition.getName())
-                    .put("nameNonId", competition.getNameNonId())
+                    .put("name", competition.getCompetitionId())
+                    .put("nameNonId", competition.getDisplayName())
                     .put("competitionType", competition.getType())
                     .put("creationDate", competition.getCreationDate().toString())
                     .put("startDate", competition.getStartDate().toString())

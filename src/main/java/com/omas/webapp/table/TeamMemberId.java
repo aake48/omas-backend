@@ -9,19 +9,21 @@ import lombok.NoArgsConstructor;
 public class TeamMemberId implements Serializable {
 
     private Long userId;
-    private String competitionId;
-    private String clubId;
+    private String competitionId;    
+    private String teamName;
 
-    public TeamMemberId(Long userId, String competitionId, String clubId) {
+
+    public TeamMemberId(Long userId, String competitionId, String teamName) {
         this.userId = userId;
-        this.competitionId = competitionId;
-        this.clubId = clubId;
+        this.competitionId = competitionId;        
+        this.teamName =teamName;
+
     }
 
     public TeamMemberId(Long id, TeamId teamId) {
         this.userId = id;
         this.competitionId = teamId.getCompetitionId();
-        this.clubId = teamId.getClubId();
+        this.teamName =teamId.getTeamName();
     }
 
 }

@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.omas.webapp.Constants;
 import com.omas.webapp.entity.requests.AddTeamMemberScoreRequest;
-import com.omas.webapp.entity.requests.CompetitionIdRequest;
 import com.omas.webapp.entity.requests.TeamMemberJoinRequest;
 import com.omas.webapp.entity.requests.TeamMemberScoreRequest;
+import com.omas.webapp.entity.requests.teamIdRequest;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
@@ -28,13 +27,10 @@ import com.omas.webapp.table.Competition;
 import com.omas.webapp.table.TeamMember;
 import com.omas.webapp.table.TeamMemberScore;
 import jakarta.validation.Valid;
-import lombok.extern.log4j.Log4j2;
-
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Log4j2
 @RestController
 @RequestMapping("/api/competition/team/member")
 public class TeamMemberController {
@@ -56,8 +52,7 @@ public class TeamMemberController {
                 .getPrincipal();
 
         try {
-            String club = userDetails.getPartOfClub();
-            TeamMember savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userDetails.getId(), request.getCompetitionName(), club));
+            TeamMember savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userDetails.getId(), request.getCompetitionName(), request.getTeamName()));
             return new ResponseEntity<>(savedTeamMember, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -68,14 +63,13 @@ public class TeamMemberController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/isMember")
-    public ResponseEntity<?> isMember(@Valid @RequestBody CompetitionIdRequest request) {
-        log.info(request.getCompetitionName());
+    public ResponseEntity<?> isMember(@Valid @RequestBody teamIdRequest request) {
 
         UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
 
         try {
-            teamsService.CanUserSubmitScores(userDetails, request.getCompetitionName());
+            teamsService.CanUserSubmitScores(userDetails, request.getCompetitionName(), request.getTeamName());
             return new ResponseEntity<>(true, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -106,7 +100,7 @@ public class TeamMemberController {
         try {
             // validates that user is part of the team and that the team has entered this
             // competition
-            TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(userDetails, request.getCompetitionName());
+            TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(userDetails, request.getCompetitionName(), request.getTeamName());
 
             Competition competition = competitionService.getCompetition(request.getCompetitionName()).get();
             String type = competition.getType();

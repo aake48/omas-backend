@@ -17,29 +17,32 @@ import lombok.NoArgsConstructor;
 @IdClass(TeamMemberId.class)
 public class TeamMember {
 
-    public TeamMember(String clubId, String competitionId, Long userId) {
-        this.clubId = clubId;
+    public TeamMember(String competitionId, Long userId, String teamName) {
         this.competitionId = competitionId;
         this.userId = userId;
+        this.teamName = teamName;
+
     }
 
     public TeamMember(TeamMemberId teamMemberId) {
         this.userId = teamMemberId.getUserId();
         this.competitionId = teamMemberId.getCompetitionId();
-        this.clubId = teamMemberId.getClubId();
+        this.teamName = teamMemberId.getTeamName();
     }
 
     @Getter
     @Id
     Long userId;
 
-    @Getter
-    @Id
-    String clubId;
+
     
     @Getter
     @Id
     String competitionId;
+
+    @Getter
+    @Id
+    String teamName;
 
     @Override
     public boolean equals(Object o) {
@@ -49,13 +52,12 @@ public class TeamMember {
             return false;
         TeamMember that = (TeamMember) o;
         return Objects.equals(userId, that.userId) &&
-                Objects.equals(clubId, that.clubId) &&
                 Objects.equals(competitionId, that.competitionId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, clubId, competitionId);
+        return Objects.hash(userId, competitionId);
     }
 
     @ManyToOne
@@ -65,7 +67,7 @@ public class TeamMember {
     @ManyToOne
     @JoinColumns(value = {
             @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false, updatable = false),
-            @JoinColumn(name = "clubId", referencedColumnName = "clubId", insertable = false, updatable = false)
+            @JoinColumn(name = "teamName", referencedColumnName = "teamName", insertable = false, updatable = false)
     })
     private Team team;
 }

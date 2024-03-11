@@ -25,9 +25,9 @@ public class TeamService {
      * @param ClubJoining
      * @return savedTeam
      */
-    public Team addTeam(String CompetitionToJoin, String ClubJoining) {
+    public Team addTeam(String CompetitionToJoin, String teamName, String teanDisplayName) {
 
-        Team team = new Team(new TeamId(ClubJoining, CompetitionToJoin));
+        Team team = new Team(new TeamId(CompetitionToJoin, teamName), teanDisplayName);
 
         Team savedTeam = teamRepository.save(team);
 
@@ -42,7 +42,7 @@ public class TeamService {
      */
     public TeamMember addTeamMember(TeamMemberId teamMemberId) throws Exception {
 
-        if (isTeamPartOfCompetition(teamMemberId.getCompetitionId(), teamMemberId.getClubId())) {
+        if (isTeamPartOfCompetition(teamMemberId.getCompetitionId(), teamMemberId.getTeamName())) {
             return teamMemberRepository.save(new TeamMember(teamMemberId));
         }
         throw new Exception("this team does not exist");
@@ -55,18 +55,18 @@ public class TeamService {
      * @throws Exception throws an exception if validation fails
 
     */
-    public TeamMemberId CanUserSubmitScores(UserInfoDetails userDetails, String competitionName) throws Exception {
+    public TeamMemberId CanUserSubmitScores(UserInfoDetails userDetails, String competitionName, String teamName) throws Exception {
 
         String club = userDetails.getPartOfClub();
         if (club == null || club.isEmpty()) {
             throw new Exception("error: this user is not in club");
         }
 
-        if(!isUserPartOfTeam(userDetails.getId(), new TeamId(club, competitionName))){
+        if(!isUserPartOfTeam(userDetails.getId(), new TeamId(competitionName, teamName))){
             throw new Exception("error: this user is not in the team");
         }
 
-        return new TeamMemberId(userDetails.getId(), new TeamId(club, competitionName));
+        return new TeamMemberId(userDetails.getId(), new TeamId( competitionName, teamName));
     }
 
     /**
@@ -82,7 +82,7 @@ public class TeamService {
         if (teamMates.isPresent()) {
             List<TeamMember> results = teamMates.get();
             if (results.contains(
-                new TeamMember(teamId.getClubId(), teamId.getCompetitionId(), userId))){
+                new TeamMember( teamId.getCompetitionId(), userId, teamId.getTeamName()))){
                 return true;
             }
         }
@@ -96,9 +96,9 @@ public class TeamService {
      * @param activeCompetition The active competition.
      * @return true if the team is part of the competition, false otherwise.
      */
-    public boolean isTeamPartOfCompetition(String activeCompetition, String clubParticipating) {
+    public boolean isTeamPartOfCompetition(String activeCompetition, String teamName) {
 
-        Optional<Team> participatingTeam = teamRepository.findById(new TeamId(clubParticipating, activeCompetition));
+        Optional<Team> participatingTeam = teamRepository.findById(new TeamId(activeCompetition, teamName));
 
         if (participatingTeam.isPresent()) {
             return true;
@@ -126,7 +126,7 @@ public class TeamService {
      * @return the team with the specified club and competition
      * @throws NoSuchElementException if the team is not found
      */
-    public Team getTeam(String club, String competition) throws NoSuchElementException  {
-        return teamRepository.findById(new TeamId(club, competition)).get();
+    public Team getTeam( String competition, String teamName) throws NoSuchElementException  {
+        return teamRepository.findById(new TeamId(competition, teamName)).get();
     }
 }

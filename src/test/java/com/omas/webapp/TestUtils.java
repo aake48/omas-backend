@@ -85,10 +85,13 @@ public class TestUtils {
 
         }
 
-        public static void addTeam(MockMvc mockMvc, String competitionName, String userToken) throws Exception {
+        public static void addTeam(MockMvc mockMvc, String competitionName, String teamName, String userToken) throws Exception {
 
                 final String url = "/api/competition/team/new";
-                String json = new JSONObject().put("competitionName", competitionName).toString();
+                String json = new JSONObject()
+                .put("competitionName", competitionName)
+                .put("teamName", teamName)
+                .toString();
 
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -99,10 +102,14 @@ public class TestUtils {
                                 .getResponse().getContentAsString();
         }
 
-        public static void addTeamMember(MockMvc mockMvc, String competitionName, String userToken) throws Exception {
+        public static void addTeamMember(MockMvc mockMvc, String competitionName, String teamName, String userToken)
+                        throws Exception {
 
                 final String url = "/api/competition/team/member/add";
-                String json = new JSONObject().put("competitionName", competitionName).toString();
+                String json = new JSONObject()
+                                .put("competitionName", competitionName)
+                                .put("teamName", teamName)
+                                .toString();
 
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -143,7 +150,7 @@ public class TestUtils {
 
         }
 
-        public static String addScores(MockMvc mockMvc, String competitionName, String userToken) throws Exception {
+        public static String addScores(MockMvc mockMvc, String competitionName, String teamName, String userToken) throws Exception {
 
                 final String url = "/api/competition/team/member/score/add";
 
@@ -151,6 +158,7 @@ public class TestUtils {
                 ObjectMapper mapper = new ObjectMapper();
                 String postScoreJson = mapper.writeValueAsString(Map.of(
                                 "competitionName", competitionName,
+                                "teamName",teamName,
                                 "scoreList", shots));
 
                 return mockMvc.perform(MockMvcRequestBuilders.post(url)
@@ -183,7 +191,7 @@ public class TestUtils {
         /**
          * Sets up users, club, competition, and adds scores with one method.
          */
-        public static void setupScores(MockMvc mockMvc, String clubName, String competitionName) throws Exception {
+        public static void setupScores(MockMvc mockMvc, String clubName, String teamName, String competitionName) throws Exception {
 
                 // create user1Tokens
                 String random1 = getRandomString();
@@ -221,21 +229,21 @@ public class TestUtils {
                 addRifleCompetition(mockMvc, competitionName, user1);
 
                 // add team for club
-                addTeam(mockMvc, competitionName, user1);
+                addTeam(mockMvc, competitionName, teamName, user1);
 
                 // add team members
-                addTeamMember(mockMvc, competitionName, user1);
-                addTeamMember(mockMvc, competitionName, user2);
-                addTeamMember(mockMvc, competitionName, user3);
-                addTeamMember(mockMvc, competitionName, user4);
-                addTeamMember(mockMvc, competitionName, user5);
+                addTeamMember(mockMvc, competitionName, teamName, user1);
+                addTeamMember(mockMvc, competitionName, teamName, user2);
+                addTeamMember(mockMvc, competitionName, teamName, user3);
+                addTeamMember(mockMvc, competitionName, teamName, user4);
+                addTeamMember(mockMvc, competitionName, teamName, user5);
 
                 // add scores
-                addScores(mockMvc, competitionName, user1);
-                addScores(mockMvc, competitionName, user2);
-                addScores(mockMvc, competitionName, user3);
-                addScores(mockMvc, competitionName, user4);
-                addScores(mockMvc, competitionName, user5);
+                addScores(mockMvc, competitionName, teamName, user1);
+                addScores(mockMvc, competitionName, teamName, user2);
+                addScores(mockMvc, competitionName, teamName, user3);
+                addScores(mockMvc, competitionName, teamName, user4);
+                addScores(mockMvc, competitionName, teamName, user5);
 
         }
 

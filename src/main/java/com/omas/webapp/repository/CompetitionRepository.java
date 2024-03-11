@@ -7,5 +7,5 @@ import com.omas.webapp.table.Competition;
 
 public interface CompetitionRepository extends JpaRepository<Competition, String> { 
     
-    Page<Competition> findByNameContaining(String name, PageRequest pageRequest);
+    Page<Competition> findByCompetitionIdContaining(String name, PageRequest pageRequest);
 }

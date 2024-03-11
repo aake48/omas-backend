@@ -16,9 +16,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Competition {
 
-	public Competition(String competitionName, String nonIdName, String competitionType, Long startDate, Long endDate) {
-		this.name = competitionName;
-		this.nameNonId = competitionName;
+	public Competition(String competitionId, String displayName, String competitionType, Long startDate, Long endDate) {
+		this.competitionId = competitionId;
+		this.displayName = displayName;
 		this.creationDate = new Date(Instant.now().toEpochMilli());
 		this.type = competitionType;
 		this.startDate = new Date(startDate);
@@ -26,9 +26,9 @@ public class Competition {
 	}
 
 	@Id
-	private String name;
+	private String competitionId;
 
-	private String nameNonId;
+	private String displayName;
 
 	private String type;
 
