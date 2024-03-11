@@ -30,6 +30,11 @@ public class Team {
         this.competitionId = teamId.getCompetitionId();
         this.teamName = teamId.getTeamName();
     }
+
+
+    @Getter
+    @Column(nullable = false)
+    private String teamDisplayName;
     
 
     @ManyToOne
@@ -38,4 +43,10 @@ public class Team {
 
     @OneToMany(mappedBy =  "team", cascade = CascadeType.ALL)
     @Getter private List<TeamMember> teamMembers = new ArrayList<>();
+
+    public Team(TeamId teamId, String teamDisplayName) {
+        competitionId=teamId.getCompetitionId();
+        teamName=teamId.getTeamName();
+        this.teamDisplayName=teamDisplayName;
+    }
 }

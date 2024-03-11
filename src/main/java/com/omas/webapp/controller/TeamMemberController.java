@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.omas.webapp.Constants;
 import com.omas.webapp.entity.requests.AddTeamMemberScoreRequest;
 import com.omas.webapp.entity.requests.TeamMemberJoinRequest;
 import com.omas.webapp.entity.requests.TeamMemberScoreRequest;
+import com.omas.webapp.entity.requests.teamIdRequest;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
@@ -61,23 +61,22 @@ public class TeamMemberController {
 
     }
 
-    // @PreAuthorize("hasAuthority('ROLE_USER')")
-    // @GetMapping("/isMember")
-    // public ResponseEntity<?> isMember(@Valid @RequestBody CompetitionIdRequest request) {
-    //     log.info(request.getCompetitionName());
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @GetMapping("/isMember")
+    public ResponseEntity<?> isMember(@Valid @RequestBody teamIdRequest request) {
 
-    //     UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
-    //             .getPrincipal();
+        UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
 
-    //     try {
-    //         teamsService.CanUserSubmitScores(userDetails, request.getCompetitionName());
-    //         return new ResponseEntity<>(true, HttpStatus.OK);
+        try {
+            teamsService.CanUserSubmitScores(userDetails, request.getCompetitionName(), request.getTeamName());
+            return new ResponseEntity<>(true, HttpStatus.OK);
 
-    //     } catch (Exception e) {
-    //         return new ResponseEntity<>(false, HttpStatus.OK);
-    //     }
+        } catch (Exception e) {
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
 
-    // }
+    }
 
 
     @GetMapping("/score")

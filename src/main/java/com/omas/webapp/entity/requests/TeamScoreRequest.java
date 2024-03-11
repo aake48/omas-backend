@@ -10,10 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TeamScoreRequest { 
     
-	@NotEmpty(message = "clubName cannot be empty")
-	private String clubName; 
-
-    	
 	@NotEmpty(message = "competitionName cannot be empty")
 	private String competitionName; 
 

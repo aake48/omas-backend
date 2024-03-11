@@ -34,12 +34,10 @@ public class CompetitionControllerTests {
 
     private static final String competitionNameId = "kilpa";
 
-
-    
     @Test
     public void getResults() throws Exception {
 
-        String  url = getResultsUrl + competitionNameId;
+        String url = getResultsUrl + competitionNameId;
 
         String club1 = "talo";
         String club2 = "club2";
@@ -47,31 +45,36 @@ public class CompetitionControllerTests {
         String club4 = "club4";
         String club5 = "club5";
 
-        //sets up 5 clubs with scores to same competition 
-        TestUtils.setupScores(mockMvc, club1, competitionNameId);
-        TestUtils.setupScores(mockMvc, club2, competitionNameId);
-        TestUtils.setupScores(mockMvc, club3, competitionNameId);
-        TestUtils.setupScores(mockMvc, club4, competitionNameId);
-        TestUtils.setupScores(mockMvc, club5, competitionNameId);
+        String team1 = "team1";
+        String team2 = "team2";
+        String team3 = "team3";
+        String team4 = "team4";
+        String team5 = "team5";
+
+        // sets up 5 clubs with scores to same competition
+        TestUtils.setupScores(mockMvc, club1, team1, competitionNameId);
+        TestUtils.setupScores(mockMvc, club2, team2, competitionNameId);
+        TestUtils.setupScores(mockMvc, club3, team3, competitionNameId);
+        TestUtils.setupScores(mockMvc, club4, team4, competitionNameId);
+        TestUtils.setupScores(mockMvc, club5, team5, competitionNameId);
 
         String response = mockMvc.perform(MockMvcRequestBuilders.get(url))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.name").value("kilpa"))
-        .andReturn()
-        .getResponse()
-        .getContentAsString();
-        
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("kilpa"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
         System.out.println(response);
     }
-    
 
     @Test
     public void addRifleCompetition() throws Exception {
 
         String json = new JSONObject()
-        .put("competitionName", competitionNameId)
-        .put("competitionType", TestUtils.rifleCompetitionType)
-        .toString();
+                .put("competitionName", competitionNameId)
+                .put("competitionType", TestUtils.rifleCompetitionType)
+                .toString();
 
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -86,9 +89,9 @@ public class CompetitionControllerTests {
     public void addPistolScore() throws Exception {
 
         String json = new JSONObject()
-        .put("competitionName", competitionNameId)
-        .put("competitionType", TestUtils.pistolCompetitionType)
-        .toString();
+                .put("competitionName", competitionNameId)
+                .put("competitionType", TestUtils.pistolCompetitionType)
+                .toString();
 
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -119,9 +122,9 @@ public class CompetitionControllerTests {
     public void getByID() throws Exception {
 
         String json = new JSONObject()
-        .put("competitionName", competitionNameId)
-        .put("competitionType", TestUtils.rifleCompetitionType)
-        .toString();
+                .put("competitionName", competitionNameId)
+                .put("competitionType", TestUtils.rifleCompetitionType)
+                .toString();
 
         // adds competition
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)

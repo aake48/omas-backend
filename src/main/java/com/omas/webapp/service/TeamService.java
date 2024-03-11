@@ -25,9 +25,9 @@ public class TeamService {
      * @param ClubJoining
      * @return savedTeam
      */
-    public Team addTeam(String CompetitionToJoin, String teamName) {
+    public Team addTeam(String CompetitionToJoin, String teamName, String teanDisplayName) {
 
-        Team team = new Team(new TeamId(CompetitionToJoin, teamName));
+        Team team = new Team(new TeamId(CompetitionToJoin, teamName), teanDisplayName);
 
         Team savedTeam = teamRepository.save(team);
 

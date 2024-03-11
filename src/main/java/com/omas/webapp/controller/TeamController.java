@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.omas.webapp.entity.requests.AddTeamRequest;
-import com.omas.webapp.entity.requests.CompetitionIdRequest;
 import com.omas.webapp.entity.requests.TeamScoreRequest;
+import com.omas.webapp.entity.requests.teamIdRequest;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
@@ -49,9 +49,29 @@ public class TeamController {
         if(!competitionService.thisCompetitionExists(request.getCompetitionName())){
             return new ResponseEntity<>(Map.of("error","This competition does not exist"), HttpStatus.BAD_REQUEST);
         }
+
+        // This section of the code performs two operations on the 'Id', teamName:
+        // 1. It removes whitespaces and characters 'ä', 'ö', 'å' from the 'Id'.
+        // 2. It stores the original, unaltered version of 'Id' into 'nameNonId'.
+        // If 'Id' still contains unsafe characters after these alterations, the code
+        // returns a 400 status.
+        String teamDisplayName = request.getTeamName();
+        String teanName = request.getTeamName()
+                .replace('ä', 'a').replace('Ä', 'A')
+                .replace('ö', 'o').replace('Ö', 'O')
+                .replace('å', 'a').replace('Å', 'A')
+                .replace(' ', '_');
+
+        String regex = "^[a-zA-Z0-9-_]+$";
+
+
+        if (!teanName.matches(regex)) {
+            return new ResponseEntity<>("{\"teanName\":\"team name contains characters which are forbidden.\"}",
+                    HttpStatus.BAD_REQUEST);
+        }
         
         try {
-            Team addedTeam = teamService.addTeam(request.getCompetitionName(), request.getTeamName());
+            Team addedTeam = teamService.addTeam(request.getCompetitionName(), teanName, teamDisplayName);
             return new ResponseEntity<>(addedTeam, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -65,7 +85,7 @@ public class TeamController {
     
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/teamExists")
-    public ResponseEntity<?> hasTeam(@Valid @RequestBody CompetitionIdRequest request) {
+    public ResponseEntity<?> hasTeam(@Valid @RequestBody teamIdRequest request) {
 
         Boolean value = teamService.isTeamPartOfCompetition( request.getCompetitionName(), request.getTeamName());
         return new ResponseEntity<>(value, HttpStatus.OK);

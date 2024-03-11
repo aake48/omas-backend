@@ -118,8 +118,10 @@ public class TestDataConfig implements CommandLineRunner {
             users.addAll((saveUserToDB(getXStrings(5), clubList.get(i))));
         }
 
-        List<Competition> rifleComps = saveCompetitions(rifleCompetitionList, rifleCompetitionTypeName);
-        List<Competition> pistolComps = saveCompetitions(pistolCompetitionList, pistolCompetitionTypeName);
+        List<Competition> rifleComps = saveCompetitions(rifleCompetitionList,
+                rifleCompetitionTypeName);
+        List<Competition> pistolComps = saveCompetitions(pistolCompetitionList,
+                pistolCompetitionTypeName);
         saveTeamsToComps(rifleComps, clubList);
         saveTeamsToComps(pistolComps, clubList);
         addMemberWithScores(users, pistolComps, pistolCompetitionTypeName);
@@ -163,7 +165,8 @@ public class TestDataConfig implements CommandLineRunner {
     }
 
     /**
-     * creates a club and saves list of users to db with the being part of the just
+     * creates a club and saves list of users to db with the being part of the
+     * just
      * created club.
      * Returns list of Users.
      */
@@ -185,27 +188,31 @@ public class TestDataConfig implements CommandLineRunner {
         return userRepository.saveAll(users);
     }
 
-    private List<Competition> saveCompetitions(List<String> competitionNames, String type) {
+    private List<Competition> saveCompetitions(List<String> competitionNames,
+            String type) {
         log.info("adding competitions to DB");
 
         List<Competition> competitions = new ArrayList<>();
 
         for (String competitionName : competitionNames) {
-            Competition competition = new Competition(competitionName, competitionName, type,
-                    System.currentTimeMillis(), System.currentTimeMillis() + 7L * 24 * 60 * 60 * 1000);
+            Competition competition = new Competition(competitionName, competitionName,
+                    type,
+                    System.currentTimeMillis(), System.currentTimeMillis() + 7L * 24 * 60 * 60 *
+                            1000);
             competitions.add(competition);
         }
         return competitionRepository.saveAll(competitions);
     }
 
-    private List<Team> saveTeamsToComps(List<Competition> competitions, List<String> ClubNames) {
+    private List<Team> saveTeamsToComps(List<Competition> competitions,
+            List<String> ClubNames) {
         log.info("adding teams");
 
         List<Team> teams = new ArrayList<>();
 
         for (Competition comp : competitions) {
             for (String club : ClubNames) {
-                Team team = new Team(new TeamId( comp.getCompetitionId(), club));
+                Team team = new Team(new TeamId(comp.getCompetitionId(), club), club);
                 teams.add(team);
             }
         }
@@ -220,16 +227,15 @@ public class TestDataConfig implements CommandLineRunner {
             acceptDecimals = true;
         }
 
-
         for (User user : users) {
             for (Competition comp : competitions) {
-                TeamMember teamMember = new TeamMember(comp.getCompetitionId(), user.getId(), user.getPartOfClub());
+                TeamMember teamMember = new TeamMember(comp.getCompetitionId(), user.getId(),
+                        user.getPartOfClub());
                 teamMember = teamMemberRepository.save(teamMember);
                 log.info(" club: " + user.getPartOfClub());
 
                 TeamMemberScore teamMemberScore = new TeamMemberScore(
-                        new TeamMemberId(user.getId(), comp.getCompetitionId(), user.getPartOfClub())
-                        , give60shots(),
+                        new TeamMemberId(user.getId(), comp.getCompetitionId(), user.getPartOfClub()), give60shots(),
                         acceptDecimals);
 
                 TeamMemberScore score = teamMemberScoreRepository.save(teamMemberScore);
