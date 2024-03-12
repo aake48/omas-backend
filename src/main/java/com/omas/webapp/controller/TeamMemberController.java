@@ -2,6 +2,9 @@ package com.omas.webapp.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
+import com.omas.webapp.entity.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,8 +51,19 @@ public class TeamMemberController {
     @PostMapping("/add")
     public ResponseEntity<?> addUserToTeam(@Valid @RequestBody TeamMemberJoinRequest request) {
 
-        UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+        UserInfoDetails userDetails = UserInfoDetails.getDetails();
+
+        Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
+
+        if (competitionOptional.isEmpty()) {
+            return new MessageResponse("The requested competition does not exist.", HttpStatus.BAD_REQUEST);
+        }
+
+        Competition competition = competitionOptional.get();
+
+        if (competition.hasEnded()) {
+            return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+        }
 
         try {
             TeamMember savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userDetails.getId(), request.getCompetitionName(), request.getTeamName()));
@@ -94,28 +108,36 @@ public class TeamMemberController {
     @PostMapping("/score/add")
     public ResponseEntity<?> addScores(@Valid @RequestBody AddTeamMemberScoreRequest request) {
 
-        UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+        Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
+
+        if (competitionOptional.isEmpty()) {
+            return new MessageResponse("The requested competition does not exist", HttpStatus.BAD_REQUEST);
+        }
+
+        Competition competition = competitionOptional.get();
+
+        if (competition.hasEnded()) {
+            return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+        }
 
         try {
+
+            UserInfoDetails userDetails = UserInfoDetails.getDetails();
+
             // validates that user is part of the team and that the team has entered this
             // competition
             TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(userDetails, request.getCompetitionName(), request.getTeamName());
 
-            Competition competition = competitionService.getCompetition(request.getCompetitionName()).get();
             String type = competition.getType();
             TeamMemberScore score;
             switch (type) {
-                case Constants.rifleType: {
+                case Constants.rifleType -> {
                     score = teamMemberScoreService.addRifleScore(teamMemberId, request.getScoreList());
-                    break;
                 }
-                case Constants.pistolType: {
+                case Constants.pistolType -> {
                     score = teamMemberScoreService.addPistolScore(teamMemberId, request.getScoreList());
-                    break;
                 }
-                default:
-                    throw new Exception("invalid competition type");
+                default -> throw new Exception("Invalid competition type");
             }
             // if the scores already exist in the DB, they will be overwritten
             return new ResponseEntity<>(score, HttpStatus.OK);

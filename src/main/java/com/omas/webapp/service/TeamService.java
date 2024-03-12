@@ -21,17 +21,15 @@ public class TeamService {
 
     /**
      * Note: this method does not perform any validation to check if the provided competition or club exists.
-     * @param CompetitionToJoin
-     * @param ClubJoining
+     * @param competitionId
+     * @param teamName
      * @return savedTeam
      */
-    public Team addTeam(String CompetitionToJoin, String teamName, String teanDisplayName) {
+    public Team addTeam(String competitionId, String teamName, String teamDisplayName) {
 
-        Team team = new Team(new TeamId(CompetitionToJoin, teamName), teanDisplayName);
+        Team team = new Team(new TeamId(competitionId, teamName), teamDisplayName);
 
-        Team savedTeam = teamRepository.save(team);
-
-        return savedTeam;
+        return teamRepository.save(team);
     }
 
     /**
@@ -53,16 +51,10 @@ public class TeamService {
      * checks whether user is in club. 
      * checks that user is in his clubs team for this competition
      * @throws Exception throws an exception if validation fails
-
     */
     public TeamMemberId CanUserSubmitScores(UserInfoDetails userDetails, String competitionName, String teamName) throws Exception {
 
-        String club = userDetails.getPartOfClub();
-        if (club == null || club.isEmpty()) {
-            throw new Exception("error: this user is not in club");
-        }
-
-        if(!isUserPartOfTeam(userDetails.getId(), new TeamId(competitionName, teamName))){
+        if (!isUserPartOfTeam(userDetails.getId(), new TeamId(competitionName, teamName))){
             throw new Exception("error: this user is not in the team");
         }
 
@@ -92,7 +84,7 @@ public class TeamService {
     /**
      * Checks if a team is part of a specific competition.
      *
-     * @param clubParticipating The club participating in the competition.
+     * @param teamName The club participating in the competition.
      * @param activeCompetition The active competition.
      * @return true if the team is part of the competition, false otherwise.
      */
@@ -118,15 +110,17 @@ public class TeamService {
     }
 
 
+    public Optional<Team> getTeam(TeamId teamId)  {
+        return teamRepository.findById(teamId);
+    }
 
     /**
      * Retrieves the team with the specified club and competition.
-     * @param club the club of the team
-     * @param competition the competition of the team
+     * @param teamName the club of the team
+     * @param competitionId the ID of the team's competition
      * @return the team with the specified club and competition
-     * @throws NoSuchElementException if the team is not found
      */
-    public Team getTeam( String competition, String teamName) throws NoSuchElementException  {
-        return teamRepository.findById(new TeamId(competition, teamName)).get();
+    public Optional<Team> getTeam(String competitionId, String teamName)  {
+        return getTeam(new TeamId(competitionId, teamName));
     }
 }

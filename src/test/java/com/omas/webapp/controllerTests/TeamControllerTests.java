@@ -76,7 +76,7 @@ public class TeamControllerTests {
                                 .header("Authorization", "Bearer " + token)
                                 .content(json))
                                 .andExpect(status().isBadRequest())
-                                .andExpect(jsonPath("$.error").exists());
+                                .andExpect(jsonPath("$.message").exists());
 
 
         }

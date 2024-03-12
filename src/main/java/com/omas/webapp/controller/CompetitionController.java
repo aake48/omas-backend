@@ -209,8 +209,8 @@ public class CompetitionController {
             teamNodesList.forEach(teamNodes::add);
 
             ObjectNode competitionNode = mapper.createObjectNode()
-                    .put("name", competition.getCompetitionId())
-                    .put("nameNonId", competition.getDisplayName())
+                    .put("competitionId", competition.getCompetitionId())
+                    .put("displayName", competition.getDisplayName())
                     .put("competitionType", competition.getType())
                     .put("creationDate", competition.getCreationDate().toString())
                     .put("startDate", competition.getStartDate().toString())
