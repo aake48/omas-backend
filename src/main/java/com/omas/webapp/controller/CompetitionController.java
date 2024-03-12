@@ -7,8 +7,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.omas.webapp.entity.requests.AddCompetitionRequest;
 import com.omas.webapp.entity.requests.GetCompetitionTeamsRequest;
-import com.omas.webapp.entity.response.CompetitionTeamsResponse;
+import com.omas.webapp.entity.response.CompetitionTeamListResponse;
 import com.omas.webapp.entity.response.MessageResponse;
+import com.omas.webapp.entity.response.TeamInformation;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
@@ -17,10 +18,8 @@ import com.omas.webapp.table.Competition;
 import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMemberScore;
-
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -128,8 +127,13 @@ public class CompetitionController {
         }
 
         List<Team> teams = teamService.getTeamsParticipatingInCompetition(competitionName);
+        List<TeamInformation> teamInformation = new ArrayList<>(teams.size());
 
-        return new ResponseEntity<>(new CompetitionTeamsResponse(teams), HttpStatus.OK);
+        for (Team team : teams) {
+            teamInformation.add(new TeamInformation(team.getTeamName(), team.getTeamDisplayName()));
+        }
+
+        return new ResponseEntity<>(new CompetitionTeamListResponse(competitionOptional.get().getCompetitionId(), teamInformation), HttpStatus.OK);
     }
 
     @GetMapping("competition/{name}")

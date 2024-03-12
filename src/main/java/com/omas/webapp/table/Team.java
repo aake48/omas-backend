@@ -49,4 +49,8 @@ public class Team {
         teamName=teamId.getTeamName();
         this.teamDisplayName=teamDisplayName;
     }
+
+    public TeamId getTeamId() {
+        return new TeamId(competitionId, teamName);
+    }
 }
