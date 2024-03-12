@@ -93,11 +93,11 @@ public class TeamController {
     }
 
     
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    //@PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/teamExists")
     public ResponseEntity<?> hasTeam(@Valid @RequestBody teamIdRequest request) {
 
-        Boolean value = teamService.isTeamPartOfCompetition( request.getCompetitionName(), request.getTeamName());
+        Boolean value = teamService.isTeamPartOfCompetition(request.getCompetitionName(), request.getTeamName());
         return new ResponseEntity<>(value, HttpStatus.OK);
     }
 
