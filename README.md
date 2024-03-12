@@ -32,6 +32,7 @@
       - [create new team](#create-new-team)
       - [get team's score](#get-teams-score)
       - [teamExists](#teamexists)
+      - [Get all teams participating in a competition](#get-all-teams-participating-in-a-competition)
       - [get team with member IDs](#get-team-with-member-ids)
     - [team members](#team-member)
       - [add team member to team](#add-team-member-to-team)
@@ -349,6 +350,36 @@ Content-Type: application/json
 }
 ```
 returns true if club has team in this comp, false otherwise. 
+
+### Get all teams participating in a competition
+```
+GET api/competition/teams
+Authorization: required
+Content-Type: application/json
+{
+  "competitionName": String
+}
+```
+
+returns
+```
+{
+  "message": "No competition found with that name"
+}
+```
+and HTTP status code 400 if the competition is not found, or
+```
+{
+  "competitionId": String,
+  "teams": [
+    {
+      "teamName": String,
+      "teamDisplayName": String
+    }
+  ]
+}
+```
+and HTTP status code 200 if the competition is found
 
 ### get team with member IDs
 GET api/competition/team?club={clubName}&competition={competitionName}
