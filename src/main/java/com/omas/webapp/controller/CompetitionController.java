@@ -189,6 +189,8 @@ public class CompetitionController {
 
                 ObjectNode teamNode = mapper.createObjectNode()
                         .put("totalScore", Math.floor(teamTotal * 10.0) / 10.0)
+                        .put("teamName", team.getTeamName())
+                        .put("teamName", team.getTeamDisplayName())
                         .set("scores", teamScores);
 
                 teamNodesList.add(teamNode);
