@@ -3,6 +3,8 @@ package com.omas.webapp.table;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,7 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Team {
-
 
     @Id
     @Getter
@@ -31,24 +32,27 @@ public class Team {
         this.teamName = teamId.getTeamName();
     }
 
-
     @Getter
     @Column(nullable = false)
     private String teamDisplayName;
-    
 
     @ManyToOne
     @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false, updatable = false)
     private Competition competition;
 
-    @OneToMany(mappedBy =  "team", cascade = CascadeType.ALL)
-    @Getter private List<TeamMember> teamMembers = new ArrayList<>();
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    @Getter
+    private List<TeamMember> teamMembers = new ArrayList<>();
 
     public Team(TeamId teamId, String teamDisplayName) {
-        competitionId=teamId.getCompetitionId();
-        teamName=teamId.getTeamName();
-        this.teamDisplayName=teamDisplayName;
+        competitionId = teamId.getCompetitionId();
+        teamName = teamId.getTeamName();
+        this.teamDisplayName = teamDisplayName;
     }
 
+    @JsonIgnore
+    public TeamId getTeamId() {
+        return new TeamId(competitionId, teamName);
+    }
 
 }
