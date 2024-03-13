@@ -33,7 +33,15 @@ public class TeamControllerTests {
         final String teamNameId = "team_nameId";
 
 
+        @Test
+        void getTeam() throws Exception {
 
+                String url = "/api/competition/team?team=asjg&competition=uyaustg";
+
+                mockMvc.perform(MockMvcRequestBuilders.get(url)
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isNotFound());
+        }
 
         @Test
         void addTeam() throws Exception {

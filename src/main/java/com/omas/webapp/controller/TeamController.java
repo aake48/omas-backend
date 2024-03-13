@@ -1,37 +1,29 @@
 package com.omas.webapp.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
+import com.omas.webapp.entity.requests.AddTeamRequest;
+import com.omas.webapp.entity.requests.TeamScoreRequest;
+import com.omas.webapp.entity.requests.teamIdRequest;
 import com.omas.webapp.entity.response.MessageResponse;
+import com.omas.webapp.service.CompetitionService;
+import com.omas.webapp.service.TeamMemberScoreService;
+import com.omas.webapp.service.TeamService;
 import com.omas.webapp.table.Competition;
+import com.omas.webapp.table.Team;
+import com.omas.webapp.table.TeamId;
+import com.omas.webapp.table.TeamMemberScore;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import com.omas.webapp.entity.requests.AddTeamRequest;
-import com.omas.webapp.entity.requests.TeamScoreRequest;
-import com.omas.webapp.entity.requests.teamIdRequest;
-import com.omas.webapp.service.CompetitionService;
-import com.omas.webapp.service.TeamMemberScoreService;
-import com.omas.webapp.service.TeamService;
-import com.omas.webapp.table.Team;
-import com.omas.webapp.table.TeamId;
-import com.omas.webapp.table.TeamMemberScore;
+import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/competition/team")
@@ -101,16 +93,16 @@ public class TeamController {
         return new ResponseEntity<>(value, HttpStatus.OK);
     }
 
-    @GetMapping(params = { "competition, team" }, value = "/")
+    @GetMapping
     public ResponseEntity<?> getTeam(
-            @RequestParam(value = "team") String teamName,
-            @RequestParam(value = "competition") String competition
+        @RequestParam(name = "team") String teamName,
+        @RequestParam(name = "competition") String competition
     ) {
 
         Optional<Team> teamOptional = teamService.getTeam(teamName, competition);
 
         if (teamOptional.isEmpty()) {
-            return new MessageResponse("No team found with the given parameters", HttpStatus.OK);
+            return new MessageResponse("No team found with the given parameters.", HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(teamOptional.get(), HttpStatus.OK);
