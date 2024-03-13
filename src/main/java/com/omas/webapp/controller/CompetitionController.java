@@ -1,22 +1,14 @@
 package com.omas.webapp.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.omas.webapp.entity.requests.AddCompetitionRequest;
 import com.omas.webapp.entity.requests.GetCompetitionTeamsRequest;
-import com.omas.webapp.entity.response.CompetitionTeamListResponse;
-import com.omas.webapp.entity.response.MessageResponse;
-import com.omas.webapp.entity.response.TeamInformation;
+import com.omas.webapp.entity.response.*;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
 import com.omas.webapp.service.UserService;
 import com.omas.webapp.table.Competition;
 import com.omas.webapp.table.Team;
-import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMemberScore;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
@@ -69,12 +61,8 @@ public class CompetitionController {
 
         String regex = "^[a-zA-Z0-9-_]+$";
         if (!competitionName.matches(regex)) {
-            return new ResponseEntity<>(
-                    "{\"competitionName\":\"competition name contains characters which are forbidden.\"}",
-                    HttpStatus.BAD_REQUEST);
+            return new MessageResponse("Competition name contains characters which are forbidden.", HttpStatus.BAD_REQUEST);
         }
-
-
 
         Competition comp = competitionService.addCompetition(
                 new Competition(competitionName, 
@@ -86,8 +74,7 @@ public class CompetitionController {
             return new ResponseEntity<>(comp, HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<>(Map.of("message", "Competition name has already been taken"),
-                HttpStatus.BAD_REQUEST);
+        return new MessageResponse("Competition name has already been taken", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(params = { "page", "size", "search" }, value = "competition/query")
@@ -96,15 +83,14 @@ public class CompetitionController {
             @RequestParam(value = "search", required = false) String search) throws Exception {
 
         if (page < 0) {
-            return new ResponseEntity<>(Map.of("message", "Invalid page number."), HttpStatus.BAD_REQUEST);
+            return new MessageResponse("Invalid page number.", HttpStatus.BAD_REQUEST);
         }
 
         if (search != null && !search.isBlank()) {
             Page<Competition> resultPage = competitionService.findWithPaginatedSearch(page, size, search);
 
             if (page > resultPage.getTotalPages()) {
-                return new ResponseEntity<>(Map.of("message", "Requested page does not exist."),
-                        HttpStatus.BAD_REQUEST);
+                return new MessageResponse("Requested page does not exist.", HttpStatus.BAD_REQUEST);
             }
 
             return new ResponseEntity<>(resultPage, HttpStatus.OK);
@@ -113,7 +99,7 @@ public class CompetitionController {
         Page<Competition> resultPage = competitionService.firstPaginated(page, size);
 
         if (page > resultPage.getTotalPages()) {
-            return new ResponseEntity<>("{\"message\":\"Requested page does not exist.\"}", HttpStatus.BAD_REQUEST);
+            return new MessageResponse("Requested page does not exist.", HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
@@ -122,25 +108,23 @@ public class CompetitionController {
     @GetMapping(params = { "page", "size", "year" }, value = "competition/query")
     public ResponseEntity<?> queryCompetitionByYear(@RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "year", required = true) int year) throws Exception {
+            @RequestParam(value = "year", required = true) int year) {
 
         if (page < 0) {
-            return new ResponseEntity<>(Map.of("message", "Invalid page number."), HttpStatus.BAD_REQUEST);
+            return new MessageResponse("Invalid page number.", HttpStatus.BAD_REQUEST);
         }
 
         if (year > 1990 && year < 2100) {
             Page<Competition> resultPage = competitionService.findByYear(page, size, year);
 
             if (page > resultPage.getTotalPages()) {
-                return new ResponseEntity<>(Map.of("message", "Requested page does not exist."),
-                        HttpStatus.BAD_REQUEST);
+                return new MessageResponse("Requested page does not exist.", HttpStatus.BAD_REQUEST);
             }
 
             return new ResponseEntity<>(resultPage, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(Map.of("message", "Invalid year."),
-                HttpStatus.BAD_REQUEST);
+        return new MessageResponse("Invalid year.", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("competition/teams")
@@ -151,7 +135,7 @@ public class CompetitionController {
         Optional<Competition> competitionOptional = competitionService.getCompetition(competitionName);
 
         if (competitionOptional.isEmpty()) {
-            return new MessageResponse("No competition found with that name", HttpStatus.BAD_REQUEST);
+            return new MessageResponse("No competition found with the given name.", HttpStatus.BAD_REQUEST);
         }
 
         List<Team> teams = teamService.getTeamsParticipatingInCompetition(competitionName);
@@ -169,8 +153,7 @@ public class CompetitionController {
         try {
             return new ResponseEntity<>(competitionService.getCompetition(name), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(Map.of("message", "No competition found with the given name"),
-                    HttpStatus.BAD_REQUEST);
+            return new MessageResponse("No competition found with the given name.", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -190,14 +173,45 @@ public class CompetitionController {
     
     @GetMapping(value = "/competition/result/{name}", produces = "application/json")
     public ResponseEntity<?> getResultsForCompetition(@PathVariable String name) {
-        try {
+
+        Optional<Competition> competitionOptional = competitionService.getCompetition(name);
+
+        if (competitionOptional.isEmpty()) {
+            return new MessageResponse("No competition found with the given name", HttpStatus.BAD_REQUEST);
+        }
+
+        Competition competition = competitionOptional.get();
+        CompetitionResponse competitionResponse = new CompetitionResponse(competition);
+        List<Team> teams = teamService.getTeamsParticipatingInCompetition(name);
+
+        for (Team team : teams) {
+
+            List<TeamMemberScore> scores = teamMemberScoreService.getTeamScores(team.getTeamId());
+            List<TeamMemberScoreResponse> scoreResponses = new ArrayList<>(scores.size());
+
+            for (TeamMemberScore score : scores) {
+                scoreResponses.add(new TeamMemberScoreResponse(
+                    score.getBullsEyeCount(), score.getSum(), score.getUserId(), userService.getName(score.getUserId()), score.getScorePerShot())
+                );
+            }
+
+            // Sort the scores in ascending order
+            Collections.sort(scoreResponses);
+
+            // The score sum is calculated in the CompetitionTeamResponse constructor so there is no need to calculate it here
+            competitionResponse.addTeam(new CompetitionTeamResponse(team.getTeamName(), team.getTeamDisplayName(), scoreResponses));
+        }
+
+        return new ResponseEntity<>(competitionResponse, HttpStatus.OK);
+
+        /*try {
 
             Competition competition = competitionService.getCompetition(name).get();
             List<Team> teams = teamService.getTeamsParticipatingInCompetition(name);
             ObjectMapper mapper = new ObjectMapper();
             List<JsonNode> teamNodesList = new ArrayList<>();
-     
-            
+
+
 
             // Creates teamNode that includes teamMemberScores and adds it to teamNodesList
             for (Team team : teams) {
@@ -259,7 +273,7 @@ public class CompetitionController {
             log.info(e);
             return new ResponseEntity<>(Map.of("message", "No competition found with the given name"),
                     HttpStatus.BAD_REQUEST);
-        }
+        }*/
     }
 
     @GetMapping("competition/all")

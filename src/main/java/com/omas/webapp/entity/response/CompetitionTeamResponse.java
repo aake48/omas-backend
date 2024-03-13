@@ -1,28 +1,24 @@
 package com.omas.webapp.entity.response;
 
-import com.omas.webapp.table.TeamMemberScore;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class CompetitionTeamResponse implements Comparable<CompetitionTeamResponse> {
 
-    final String clubId;
+    final String teamName;
+    final String teamDisplayName;
     double totalScore;
-    List<TeamMemberScore> scores = new ArrayList<>();
+    List<TeamMemberScoreResponse> scores;
 
-    public CompetitionTeamResponse(String clubId) {
-        this.clubId = clubId;
-    }
-
-    public void setScores(List<TeamMemberScore> scores) {
-
+    public CompetitionTeamResponse(String teamName, String teamDisplayName, List<TeamMemberScoreResponse> scores) {
+        this.teamName = teamName;
+        this.teamDisplayName = teamDisplayName;
         this.scores = scores;
         this.totalScore = 0.0;
 
-        for (TeamMemberScore score : scores) {
+        for (TeamMemberScoreResponse score : scores) {
             this.totalScore += score.getSum();
         }
     }

@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @Table
 @IdClass(TeamMemberId.class)
 @NoArgsConstructor
-public class TeamMemberScore {
+public class TeamMemberScore implements Comparable<TeamMemberScore> {
 
     @Getter
     @Id
@@ -106,4 +106,8 @@ public class TeamMemberScore {
         this.creationDate = new Date(Instant.now().toEpochMilli());
     }
 
+    @Override
+    public int compareTo(TeamMemberScore o) {
+        return Double.compare(sum, o.sum);
+    }
 }

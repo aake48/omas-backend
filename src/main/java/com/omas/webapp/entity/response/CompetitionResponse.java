@@ -11,15 +11,15 @@ import java.util.List;
 @Data
 public class CompetitionResponse {
 
-    final String name;
+    final String competitionId;
     final String displayName;
     final String creationDate;
 
     @Setter
     List<CompetitionTeamResponse> teams = new ArrayList<>();
 
-    public CompetitionResponse(String name, String displayName, Date creationDate) {
-        this.name = name;
+    public CompetitionResponse(String competitionId, String displayName, Date creationDate) {
+        this.competitionId = competitionId;
         this.displayName = displayName;
         this.creationDate = creationDate.toString();
     }
