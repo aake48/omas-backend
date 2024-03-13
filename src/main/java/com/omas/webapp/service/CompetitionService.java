@@ -66,4 +66,8 @@ public class CompetitionService {
         return competitionRepository.findAll(PageRequest.of(page, size));
     }
 
+    public Page<Competition> findByYear(int page, int size, int year) {
+        return competitionRepository.findByYear(year, PageRequest.of(page, size));
+    }
+
 }

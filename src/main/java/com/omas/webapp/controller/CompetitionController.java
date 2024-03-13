@@ -94,7 +94,11 @@ public class CompetitionController {
     public ResponseEntity<?> queryCompetitions(@RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "search", required = false) String search) throws Exception {
-                
+
+        if (page < 0) {
+            return new ResponseEntity<>(Map.of("message", "Invalid page number."), HttpStatus.BAD_REQUEST);
+        }
+
         if (search != null && !search.isBlank()) {
             Page<Competition> resultPage = competitionService.findWithPaginatedSearch(page, size, search);
 
@@ -113,6 +117,30 @@ public class CompetitionController {
         }
 
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
+    }
+
+    @GetMapping(params = { "page", "size", "year" }, value = "competition/query")
+    public ResponseEntity<?> queryCompetitionByYear(@RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "year", required = true) int year) throws Exception {
+
+        if (page < 0) {
+            return new ResponseEntity<>(Map.of("message", "Invalid page number."), HttpStatus.BAD_REQUEST);
+        }
+
+        if (year > 1990 && year < 2100) {
+            Page<Competition> resultPage = competitionService.findByYear(page, size, year);
+
+            if (page > resultPage.getTotalPages()) {
+                return new ResponseEntity<>(Map.of("message", "Requested page does not exist."),
+                        HttpStatus.BAD_REQUEST);
+            }
+
+            return new ResponseEntity<>(resultPage, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(Map.of("message", "Invalid year."),
+                HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("competition/teams")
