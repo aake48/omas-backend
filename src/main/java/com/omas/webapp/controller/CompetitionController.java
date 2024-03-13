@@ -9,6 +9,7 @@ import com.omas.webapp.service.TeamService;
 import com.omas.webapp.service.UserService;
 import com.omas.webapp.table.Competition;
 import com.omas.webapp.table.Team;
+import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMemberScore;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
@@ -186,7 +187,7 @@ public class CompetitionController {
 
         for (Team team : teams) {
 
-            List<TeamMemberScore> scores = teamMemberScoreService.getTeamScores(team.getTeamId());
+            List<TeamMemberScore> scores = teamMemberScoreService.getTeamScores(new TeamId(team.getCompetitionId(), team.getTeamName()));
             List<TeamMemberScoreResponse> scoreResponses = new ArrayList<>(scores.size());
 
             for (TeamMemberScore score : scores) {

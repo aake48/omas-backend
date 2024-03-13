@@ -50,7 +50,5 @@ public class Team {
         this.teamDisplayName=teamDisplayName;
     }
 
-    public TeamId getTeamId() {
-        return new TeamId(competitionId, teamName);
-    }
+
 }
