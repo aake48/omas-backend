@@ -21,11 +21,13 @@ public class CompetitionTeamResponse implements Comparable<CompetitionTeamRespon
         for (TeamMemberScoreResponse score : scores) {
             this.totalScore += score.getSum();
         }
+
+        this.totalScore = Math.floor(this.totalScore * 10.0) / 10.0;
     }
 
     @Override
     public int compareTo(CompetitionTeamResponse o) {
-        return Double.compare(totalScore, o.totalScore);
+        return Double.compare(o.totalScore, totalScore);
     }
 
 }

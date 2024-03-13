@@ -190,17 +190,18 @@ public class CompetitionController {
             List<TeamMemberScoreResponse> scoreResponses = new ArrayList<>(scores.size());
 
             for (TeamMemberScore score : scores) {
-                scoreResponses.add(new TeamMemberScoreResponse(
-                    score.getBullsEyeCount(), score.getSum(), score.getUserId(), userService.getName(score.getUserId()), score.getScorePerShot())
-                );
+                scoreResponses.add(new TeamMemberScoreResponse(score,  userService.getName(score.getUserId())));
             }
 
-            // Sort the scores in ascending order
+            // Sort the scores in descending order
             Collections.sort(scoreResponses);
 
             // The score sum is calculated in the CompetitionTeamResponse constructor so there is no need to calculate it here
             competitionResponse.addTeam(new CompetitionTeamResponse(team.getTeamName(), team.getTeamDisplayName(), scoreResponses));
         }
+
+        // Sort the teams in descending order
+        Collections.sort(competitionResponse.getTeams());
 
         return new ResponseEntity<>(competitionResponse, HttpStatus.OK);
     }
