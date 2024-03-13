@@ -1,20 +1,21 @@
 package com.omas.webapp.controllerTests;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.omas.webapp.Json;
+import com.omas.webapp.TestUtils;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.omas.webapp.TestUtils;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import org.json.JSONObject;
-import org.springframework.http.MediaType;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -64,6 +65,24 @@ public class CompetitionControllerTests {
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
+
+        JsonNode node = Json.parse(response);
+
+        JsonNode teams = node.get("teams");
+        double largestTotalScore = teams.get(0).get("totalScore").asDouble();
+
+        for (JsonNode team : teams) {
+
+            assertFalse(team.get("totalScore").asDouble() > largestTotalScore, "The team must be sorted in descending order");
+
+            JsonNode scores = team.get("scores");
+
+            double largestTeamScore = scores.get(0).get("sum").asDouble();
+
+            for (JsonNode teamScore : scores) {
+                assertFalse(teamScore.get("sum").asDouble() > largestTeamScore, "The score list must be sorted in descending order");
+            }
+        }
 
         System.out.println(response);
     }
