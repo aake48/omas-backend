@@ -87,7 +87,7 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
                     .stream()
                     .map(score -> Math.floor(score * 10.0) / 10.0)
                     .collect(Collectors.toList());
-            this.bullsEyeCount = (int) list.stream().filter(score -> score == 10.9D).count();
+            this.bullsEyeCount = (int) list.stream().filter(score -> score >= 10.4D).count();
 
         } else {
             list = list.subList(0, Math.min(list.size(), 60))
