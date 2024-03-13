@@ -1,21 +1,25 @@
 package com.omas.webapp.entity.response;
 
 import com.omas.webapp.table.Competition;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CompetitionResponse {
 
-    final String competitionId;
-    final String displayName;
-    final String competitionType;
-    final String creationDate;
-    final String startDate;
-    final String endDate;
+    String competitionId;
+    String displayName;
+    String competitionType;
+    String creationDate;
+    String startDate;
+    String endDate;
 
     @Setter
     List<CompetitionTeamResponse> teams = new ArrayList<>();

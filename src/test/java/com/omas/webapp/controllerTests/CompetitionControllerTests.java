@@ -3,6 +3,9 @@ package com.omas.webapp.controllerTests;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.omas.webapp.Json;
 import com.omas.webapp.TestUtils;
+import com.omas.webapp.entity.response.CompetitionResponse;
+import com.omas.webapp.entity.response.CompetitionTeamResponse;
+import com.omas.webapp.entity.response.TeamMemberScoreResponse;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -66,25 +71,27 @@ public class CompetitionControllerTests {
                 .getResponse()
                 .getContentAsString();
 
-        JsonNode node = Json.parse(response);
+        CompetitionResponse competitionResponse = Json.fromString(response, CompetitionResponse.class);
 
-        JsonNode teams = node.get("teams");
-        double largestTotalScore = teams.get(0).get("totalScore").asDouble();
+        List<CompetitionTeamResponse> teams = competitionResponse.getTeams();
 
-        for (JsonNode team : teams) {
+        double largestTotalScore = teams.get(0).getTotalScore();
 
-            assertFalse(team.get("totalScore").asDouble() > largestTotalScore, "The team must be sorted in descending order");
+        for (CompetitionTeamResponse team : teams) {
 
-            JsonNode scores = team.get("scores");
+            assertFalse(team.getTotalScore() > largestTotalScore, "The team must be sorted in descending order");
 
-            double largestTeamScore = scores.get(0).get("sum").asDouble();
+            List<TeamMemberScoreResponse> scores = team.getScores();
 
-            for (JsonNode teamScore : scores) {
-                assertFalse(teamScore.get("sum").asDouble() > largestTeamScore, "The score list must be sorted in descending order");
+            double largestTeamScore = scores.get(0).getSum();
+
+            for (TeamMemberScoreResponse teamScore : scores) {
+                assertFalse(teamScore.getSum() > largestTeamScore, "The score list must be sorted in descending order");
             }
+
         }
 
-        System.out.println(response);
+        System.out.println(Json.stringify(competitionResponse, true));
     }
 
     @Test

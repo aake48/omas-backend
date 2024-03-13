@@ -18,10 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 public class TestUtils {
 
 
-
         public static final String rifleCompetitionType = Constants.rifleType;
         public static final String pistolCompetitionType = Constants.pistolType;
-
 
         public static String getToken(MockMvc mockMvc, String username) throws Exception {
 

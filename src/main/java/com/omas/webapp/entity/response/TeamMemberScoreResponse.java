@@ -1,17 +1,21 @@
 package com.omas.webapp.entity.response;
 
 import com.omas.webapp.table.TeamMemberScore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TeamMemberScoreResponse implements Comparable<TeamMemberScoreResponse> {
 
-    final int bullsEyeCount;
-    final double sum;
-    final long userId;
-    final String name;
-    final String scorePerShot;
-    final String creationDate;
+    int bullsEyeCount;
+    double sum;
+    long userId;
+    String name;
+    String scorePerShot;
+    String creationDate;
 
     public TeamMemberScoreResponse(TeamMemberScore score, String name) {
         this.bullsEyeCount = score.getBullsEyeCount();

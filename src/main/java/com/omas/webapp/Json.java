@@ -3,6 +3,8 @@ package com.omas.webapp;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -14,18 +16,27 @@ public final class Json {
         return MAPPER.readTree(json);
     }
 
-    public static JsonNode fromJson(Object object) {
+    public static JsonNode toJson(Object object) {
         return MAPPER.valueToTree(object);
     }
 
-    public static String stringify(JsonNode node, boolean pretty) throws JsonProcessingException {
+    public static <T> T fromString(String string, Class<T> clazz) throws JsonProcessingException {
+        return MAPPER.readValue(string, clazz);
+    }
+
+    public static <T> T fromJson(JsonNode node, Class<T> clazz) throws JsonProcessingException {
+        return MAPPER.treeToValue(node, clazz);
+    }
+
+    public static String stringify(Object value, boolean pretty) throws JsonProcessingException {
+
+        ObjectWriter writer = MAPPER.writer();
 
         if (pretty) {
-            return MAPPER.writer().writeValueAsString(node);
-        } else {
-            return MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(node);
+            writer = writer.with(SerializationFeature.INDENT_OUTPUT);
         }
 
+        return writer.writeValueAsString(value);
     }
 
     public static ObjectNode objectNode() {
