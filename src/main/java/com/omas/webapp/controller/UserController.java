@@ -3,6 +3,7 @@ package com.omas.webapp.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.omas.webapp.entity.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,12 +38,12 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/reg")
-    public ResponseEntity<Map<String, String>> addNewUser(@Valid @RequestBody RegistrationRequest request) {
+    public ResponseEntity<?> addNewUser(@Valid @RequestBody RegistrationRequest request) {
 
         if (service.registerUser(request)) {
-            return new ResponseEntity<>(Map.of("message", "user added"), HttpStatus.OK);
+            return new MessageResponse("User added", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(Map.of("message", "Username has already been taken."), HttpStatus.FORBIDDEN);
+            return new MessageResponse("Username has already been taken.", HttpStatus.FORBIDDEN);
         }
     }
 
@@ -72,9 +73,9 @@ public class UserController {
             return new ResponseEntity<>(jsonString, HttpStatus.OK);
 
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.FORBIDDEN);
+            return new MessageResponse(e.getMessage(), HttpStatus.FORBIDDEN);
         } catch (JsonProcessingException e) {
-            return new ResponseEntity<>(Map.of("error", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new MessageResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

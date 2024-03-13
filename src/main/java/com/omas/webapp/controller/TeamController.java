@@ -119,21 +119,21 @@ public class TeamController {
     @GetMapping("/score")
     public ResponseEntity<?> getScores(@Valid @RequestBody TeamScoreRequest request) {
 
-
-        if(!teamService.isTeamPartOfCompetition( request.getCompetitionName(), request.getTeamName())){
-            return new ResponseEntity<>(Map.of("error", "No team found"), HttpStatus.OK);
+        if (!teamService.isTeamPartOfCompetition( request.getCompetitionName(), request.getTeamName())){
+            return new MessageResponse("No team found.", HttpStatus.OK);
         }
+
         List<TeamMemberScore> scores = scoreService.getTeamScores(new TeamId(request.getCompetitionName(), request.getTeamName()));
 
         // Notify client if there are no scores for this team id
         if (scores == null || scores.isEmpty()) {
-            return new ResponseEntity<>(Map.of("messge","This team has not yet any submitted scores"), HttpStatus.OK);
+            return new MessageResponse("This team has not yet submitted any scores.", HttpStatus.OK);
         }
 
         return new ResponseEntity<>(scores, HttpStatus.OK);
     }
 
-        @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
             MethodArgumentNotValidException ex) {

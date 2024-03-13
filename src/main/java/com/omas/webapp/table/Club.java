@@ -1,6 +1,7 @@
 package com.omas.webapp.table;
 
 import java.sql.Date;
+import java.time.Instant;
 
 import jakarta.persistence.Entity; 
 import jakarta.persistence.Id;
@@ -22,5 +23,11 @@ public class Club {
 	private String nameNonId;
 	private Date creationDate;
 	private long idCreator;
- 
+
+	public Club(String clubName, String clubId, long creatorId) {
+		this.name = clubId;
+		this.nameNonId = clubName;
+		this.idCreator = creatorId;
+		this.creationDate = new Date(Instant.now().toEpochMilli());
+	}
 } 

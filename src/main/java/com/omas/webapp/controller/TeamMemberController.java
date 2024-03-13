@@ -100,8 +100,8 @@ public class TeamMemberController {
         if(score!=null){
             return new ResponseEntity<>(score, HttpStatus.OK);
         }
-        return new ResponseEntity<>(Map.of("message", "no score found"), HttpStatus.NOT_FOUND);
 
+        return new MessageResponse("No score found", HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
@@ -142,7 +142,7 @@ public class TeamMemberController {
             // if the scores already exist in the DB, they will be overwritten
             return new ResponseEntity<>(score, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
