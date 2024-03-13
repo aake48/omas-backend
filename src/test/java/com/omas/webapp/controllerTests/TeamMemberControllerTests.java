@@ -119,7 +119,7 @@ public class TeamMemberControllerTests {
                                 .content("{"
                                                 + "\"competitionName\":\"" + competitionNameId + "\","
                                                 
-                                                + "\"userId\":\"" + 1l + "\"" + "}"))
+                                                + "\"userId\":\"" + 61l + "\"" + "}"))
                                 .andExpect(status().isOk());
         }
 
