@@ -2,7 +2,7 @@
 - [<ins>__How to run this project__</ins>](#how-to-run-this-project)
   - [1st Setup PostgreSQL database](#1st-setup-postgresql-database)
     - [1st method: postgres docker container](#1st-method-postgres-docker-container-recommended-method)
-    - [2st method: postgres docker container](#2nd-method-local-install)
+    - [2st method: local install](#2nd-method-local-install)
   - [2nd create env.properties](#2nd-create-envproperties)
   - [3rd run](#3rd-run)
 
@@ -85,6 +85,10 @@ DB-URL=jdbc:postgresql://localhost:5432/omas
 DB-USERNAME=postgres
 DB-PASSWORD=password
 SECRET=48794134879942idontlikedogs1323572342328789
+MAIL-HOST=
+MAIL-USERNAME=
+MAIL-PASSWORD=
+MAIL-PORT=
 ```
 ## 3rd run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>
