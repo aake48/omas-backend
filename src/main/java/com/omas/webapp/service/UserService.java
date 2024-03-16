@@ -1,7 +1,9 @@
 package com.omas.webapp.service;
 
 import com.omas.webapp.entity.requests.RegistrationRequest;
+import com.omas.webapp.repository.PasswordResetTokenRepository;
 import com.omas.webapp.repository.UserRepository;
+import com.omas.webapp.table.PasswordResetToken;
 import com.omas.webapp.table.User;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,6 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.List;
 
-
 @Service
 @Log4j2
 public class UserService implements UserDetailsService {
@@ -28,6 +29,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Override
     public UserInfoDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -45,24 +49,28 @@ public class UserService implements UserDetailsService {
     public void updateResetPasswordToken(String token, String email) throws Exception {
         User user = repository.findByEmail(email);
         if (user != null) {
-            user.setResetPasswordToken(token);
-            log.info(repository.save(user));
+            PasswordResetToken passwordResetToken = new PasswordResetToken(token, user.getId());
+            passwordResetTokenRepository.save(passwordResetToken);
         } else {
             throw new Exception("Could not find any user with the email " + email);
         }
     }
 
     public User getByResetPasswordToken(String token) {
-        return repository.findByResetPasswordToken(token);
+
+        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByResetPasswordToken(token);
+
+        if (passwordResetToken.hasExpired()) {
+            return null;
+        }
+
+        return repository.findById(passwordResetToken.getId()).get();
     }
 
     public void updatePassword(User user, String newPassword) {
-        log.info(newPassword);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(newPassword);
         user.setPassword(encodedPassword);
-
-        user.setResetPasswordToken(null);
         repository.save(user);
     }
 
@@ -91,7 +99,6 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
- 
     /**
      * Joins a user to a club.
      * This method does not perform any validation on 'club' String
@@ -103,7 +110,7 @@ public class UserService implements UserDetailsService {
     public boolean joinClub(Long id, String club) {
         Optional<User> userToJoin = repository.findById(id);
 
-        if(userToJoin.isPresent()){
+        if (userToJoin.isPresent()) {
             User user = userToJoin.get();
             user.setPartOfClub(club);
             repository.save(user);
@@ -122,6 +129,5 @@ public class UserService implements UserDetailsService {
         }
 
     }
-
 
 }

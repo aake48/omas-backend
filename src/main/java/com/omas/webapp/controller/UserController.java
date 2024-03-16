@@ -1,6 +1,5 @@
 package com.omas.webapp.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import com.omas.webapp.entity.response.MessageResponse;
@@ -9,15 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -30,15 +26,10 @@ import com.omas.webapp.service.MailService;
 import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.service.UserService;
 import com.omas.webapp.table.User;
-
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import lombok.extern.log4j.Log4j2;
 import net.bytebuddy.utility.RandomString;
 
-@Log4j2
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -102,6 +93,7 @@ public class UserController {
 
     @PostMapping("/forgot_password")
     public ResponseEntity<?> processForgotPassword(@Valid @RequestBody PasswordRecoveryRequest reqRequest) {
+
         String email = reqRequest.getEmail();
         String token = RandomString.make(30);
 
@@ -124,11 +116,10 @@ public class UserController {
         User user = service.getByResetPasswordToken(resetRequest.getToken());
 
         if (user == null) {
-            return new ResponseEntity<>(Map.of("message", "Token expired, no user found"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message", "Token is either invalid or expired"), HttpStatus.BAD_REQUEST);
         } else {
             service.updatePassword(user, resetRequest.getPassword());
             return new ResponseEntity<>(Map.of("message", "password updated"), HttpStatus.OK);
-
         }
     }
 
