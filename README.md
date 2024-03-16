@@ -617,12 +617,20 @@ src\main\java\com\omas\webapp\table
 src\main\java\com\omas\webapp\controller
 
 ```
+
+## Docker
+
 ### Copying the schema for the docker container
+
+Ensure the database is running and the container is running.
 
 1.
   docker exec -it database bash
-  :/# pg_dump -s -U postgres -d omas > mvp_schema.sql
-  Exit 
+
+Inside the container, run the following commands:
+
+  pg_dump -s -U postgres -d omas > mvp_schema.sql
+  exit 
 
 2.
   docker cp database:/mvp_schema.sql .
@@ -631,4 +639,15 @@ src\main\java\com\omas\webapp\controller
 
   docker cp  ./mvp_schema.sql database:/mvp_schema.sql
   docker exec -it database psql -U postgres -d omas -f /mvp_schema.sql
+
+
+### Accessing the docker container database
+
+  docker exec -it database psql -U postgres -d omas
+
+### Verifying the schema
+
+  \dt
+
+
 
