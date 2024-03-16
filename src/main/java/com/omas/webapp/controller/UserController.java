@@ -1,12 +1,14 @@
 package com.omas.webapp.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-
 import com.omas.webapp.entity.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -17,13 +19,24 @@ import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.omas.webapp.Utility;
 import com.omas.webapp.entity.requests.AuthRequest;
+import com.omas.webapp.entity.requests.PasswordRecoveryRequest;
 import com.omas.webapp.entity.requests.RegistrationRequest;
+import com.omas.webapp.entity.requests.PasswordResetRequest;
 import com.omas.webapp.service.JwtService;
 import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.service.UserService;
-import jakarta.validation.Valid;
+import com.omas.webapp.table.User;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import lombok.extern.log4j.Log4j2;
+import net.bytebuddy.utility.RandomString;
+
+@Log4j2
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -36,6 +49,9 @@ public class UserController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     @PostMapping("/reg")
     public ResponseEntity<?> addNewUser(@Valid @RequestBody RegistrationRequest request) {
@@ -78,6 +94,62 @@ public class UserController {
             return new MessageResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PostMapping("/forgot_password")
+    public ResponseEntity<?> processForgotPassword(HttpServletRequest request, @Valid @RequestBody PasswordRecoveryRequest reqRequest) {
+        String email = reqRequest.getEmail();
+        String token = RandomString.make(30);
+
+ 
+        try {
+            service.updateResetPasswordToken(token, email);
+            String resetPasswordLink = Utility.getSiteURL(request) + "api/reset_password?token=" + token;
+            sendEmail(email, resetPasswordLink);
+        } catch (Exception e) {
+            return new ResponseEntity<>(Map.of("message", "email not sent, " + e.getMessage()),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(Map.of("message", "email sent"), HttpStatus.OK);
+    }
+
+    public void sendEmail(String recipientEmail, String link)
+            throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        helper.setTo(recipientEmail);
+
+
+        String subject = "Here's the link to reset your password";
+
+        String content = "<p>Hello,</p>"
+                + "<p>You have requested to reset your password.</p>"
+                + "<p>Click the link below to change your password:</p>"
+                + "<p><a href=\"" + link + "\">Change my password</a></p>"
+                + "<br>"
+                + "<p>Ignore this email if you do remember your password, "
+                + "or you have not made the request.</p>";
+
+        helper.setSubject(subject);
+
+        helper.setText(content, true);
+
+        mailSender.send(message);
+    }
+
+    @PostMapping("/reset_password")
+    public ResponseEntity<?> processResetPassword(HttpServletRequest request, PasswordResetRequest resetRequest) {
+
+        User user = service.getByResetPasswordToken(resetRequest.getToken());
+
+        if (user == null) {
+            return new ResponseEntity<>(Map.of("message", "Token expired, no user found"), HttpStatus.BAD_REQUEST);
+        } else {
+            service.updatePassword(user, resetRequest.getPassword());
+            return new ResponseEntity<>(Map.of("message", "password updated"), HttpStatus.OK);
+
+        }
+    }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

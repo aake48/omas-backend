@@ -28,5 +28,7 @@ public class User {
 	private String password;
 	private Date CreationDate;
 	private String partOfClub;
+	@Column(unique = true)
+	private String resetPasswordToken;
 
 } 

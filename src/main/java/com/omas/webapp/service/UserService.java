@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.sql.Date;
@@ -39,6 +40,30 @@ public class UserService implements UserDetailsService {
             return new UserInfoDetails(foundUser, roles);
         }
         throw new UsernameNotFoundException("User not found " + username);
+    }
+
+    public void updateResetPasswordToken(String token, String email) throws Exception {
+        User user = repository.findByEmail(email);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+            log.info(repository.save(user));
+        } else {
+            throw new Exception("Could not find any user with the email " + email);
+        }
+    }
+
+    public User getByResetPasswordToken(String token) {
+        return repository.findByResetPasswordToken(token);
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        log.info(newPassword);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodedPassword);
+
+        user.setResetPasswordToken(null);
+        repository.save(user);
     }
 
     public boolean registerUser(RegistrationRequest request) {
@@ -97,4 +122,6 @@ public class UserService implements UserDetailsService {
         }
 
     }
+
+
 }
