@@ -86,9 +86,10 @@ DB-USERNAME=postgres
 DB-PASSWORD=password
 SECRET=48794134879942idontlikedogs1323572342328789
 MAIL-HOST=smtp.gmail.com
-MAIL-USERNAME=
-MAIL-PASSWORD=
+MAIL-USERNAME= //johan.liebert@gmail.com; for exmaple
+MAIL-PASSWORD= //password1; for exmaple
 MAIL-PORT=587
+RecoveryPage= // url for the frontend's recovery page. for exmp. https://localhost:3000/recovery
 ```
 ## 3rd run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>

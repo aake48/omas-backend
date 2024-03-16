@@ -4,7 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import com.omas.webapp.entity.response.MessageResponse;
+
+import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -53,6 +56,9 @@ public class UserController {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Value("${frontend.RecoveryPage}")
+	private String recoveryPage; 
+
     @PostMapping("/reg")
     public ResponseEntity<?> addNewUser(@Valid @RequestBody RegistrationRequest request) {
 
@@ -96,14 +102,14 @@ public class UserController {
     }
 
     @PostMapping("/forgot_password")
-    public ResponseEntity<?> processForgotPassword(HttpServletRequest request, @Valid @RequestBody PasswordRecoveryRequest reqRequest) {
+    public ResponseEntity<?> processForgotPassword(@Valid @RequestBody PasswordRecoveryRequest reqRequest) {
         String email = reqRequest.getEmail();
         String token = RandomString.make(30);
 
- 
+
         try {
             service.updateResetPasswordToken(token, email);
-            String resetPasswordLink = Utility.getSiteURL(request) + "api/reset_password?token=" + token;
+            String resetPasswordLink = recoveryPage + token;
             sendEmail(email, resetPasswordLink);
         } catch (Exception e) {
             return new ResponseEntity<>(Map.of("message", "email not sent, " + e.getMessage()),
