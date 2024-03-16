@@ -18,7 +18,7 @@ services:
     depends_on:
       - postgres_database
     environment:
-      DB-URL: jdbc:postgresql://localhost:5432/omas
+      DB-URL: jdbc:postgresql://postgres_database:5432/omas
       DB-USERNAME: postgres
       DB-PASSWORD: password
       SECRET: 48794134879942idontlikedogs1323572342328789
