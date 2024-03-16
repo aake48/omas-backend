@@ -3,6 +3,8 @@ package com.omas.webapp.service;
 import com.omas.webapp.repository.ClubRepository;
 import com.omas.webapp.table.Club;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,13 +25,11 @@ public class ClubService {
 
     }
 
-    public Club getClub(String name) {
-
-        return repository.findById(name).get();
-
+    public Optional<Club> getClub(String name) {
+        return repository.findById(name);
     }
 
-    public List<Club> getall() {
+    public List<Club> getAll() {
         return repository.findAll();
     }
 

@@ -3,6 +3,8 @@ package com.omas.webapp.controllerTests;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +35,7 @@ public class TeamMemberControllerTests {
 
         private String token;
         private final String clubName = "Seuraajat1";
+        private final String teamName = "team1";
         final String competitionNameId = "2040_kesaampujaiset";
 
 
@@ -42,15 +45,20 @@ public class TeamMemberControllerTests {
                 token = TestUtils.getToken(mockMvc, "johndoe");
                 TestUtils.addClub(mockMvc, clubName, token);
                 TestUtils.joinClub(mockMvc, clubName, token);
-                TestUtils.addCompetition(mockMvc, competitionNameId, token);
-                TestUtils.addTeam(mockMvc, competitionNameId, token);
+                TestUtils.addRifleCompetition(mockMvc, competitionNameId, token);
+                TestUtils.addTeam(mockMvc, competitionNameId, teamName, token);
         }
 
         @Test
         public void addTeamMember() throws Exception {
 
-                String json = new JSONObject().put("competitionName", competitionNameId).toString();
-                // add user to team
+                
+                String json = new JSONObject()
+                                .put("competitionName", competitionNameId)
+                                .put("teamName", teamName)
+                                .toString();
+
+
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
@@ -63,8 +71,11 @@ public class TeamMemberControllerTests {
         @Test
         public void getTeamMemberScore() throws Exception {
 
-                String json = new JSONObject().put("competitionName", competitionNameId).toString();
-                // add user to team
+                String json = new JSONObject()
+                                .put("competitionName", competitionNameId)
+                                .put("teamName", teamName)
+                                .toString();
+                                
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
@@ -83,6 +94,7 @@ public class TeamMemberControllerTests {
                 ObjectMapper mapper = new ObjectMapper();
                 String postScoreJson = mapper.writeValueAsString(Map.of(
                                 "competitionName", competitionNameId,
+                                "teamName", teamName,
                                 "scoreList", shots));
 
                 // Post user score
@@ -94,12 +106,20 @@ public class TeamMemberControllerTests {
                                 .andExpect(jsonPath("$.sum").isNotEmpty());
 
                 // getUserScore
+
+                String get = new JSONObject()
+                .put("competitionName", competitionNameId)
+                .put("userId", 1l)
+                .put("teamName", teamName)
+                .toString();
+
                 mockMvc.perform(MockMvcRequestBuilders.get(ScoreUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
                                 .content("{"
                                                 + "\"competitionName\":\"" + competitionNameId + "\","
-                                                + "\"userId\":\"" + 1l + "\"" + "}"))
+                                                
+                                                + "\"userId\":\"" + 61l + "\"" + "}"))
                                 .andExpect(status().isOk());
         }
 
@@ -107,7 +127,10 @@ public class TeamMemberControllerTests {
         public void PostTeamMemberScore() throws Exception {
 
                 // add user to team
-                String addUserJson = new JSONObject().put("competitionName", competitionNameId).toString();
+                String addUserJson = new JSONObject()
+                .put("competitionName", competitionNameId)
+                .put("teamName", teamName)
+                .toString();
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
@@ -119,6 +142,7 @@ public class TeamMemberControllerTests {
                 ObjectMapper mapper = new ObjectMapper();
                 String json = mapper.writeValueAsString(Map.of(
                                 "competitionName", competitionNameId,
+                                "teamName", teamName,
                                 "scoreList", shots));
 
                 // Post user score
@@ -128,6 +152,37 @@ public class TeamMemberControllerTests {
                                 .content(json))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.sum").isNotEmpty());
+        }
+
+        @Test
+        public void PostTooHighScore() throws Exception {
+
+                // add user to team
+                String addUserJson = new JSONObject()
+                .put("competitionName", competitionNameId)
+                .put("teamName", teamName)
+                .toString();
+                mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(addUserJson))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.competitionId").value(competitionNameId));
+
+                List<Double> shots = new ArrayList<>();
+                shots.add(11d);
+
+                ObjectMapper mapper = new ObjectMapper();
+                String json = mapper.writeValueAsString(Map.of(
+                                "competitionName", competitionNameId,
+                                "scoreList", shots));
+
+                // Post user score
+                mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(json))
+                                .andExpect(status().isBadRequest());
         }
 
         

@@ -16,12 +16,26 @@ public class TeamMemberScoreService {
     private TeamMemberScoreRepository teamMemberScoreRepository;
 
     /**
-     * Note: this method does not perform any validation to check if the provided TeamId is valid
+     * Note: this method does not perform any validation to check if the provided
+     * TeamId is valid
+     * 
      * @return saved TeamMemberScore
-     */ 
-    public TeamMemberScore addUsersScore(TeamMemberId teamMemberId, List<Double> score) {
+     */
+    public TeamMemberScore addRifleScore(TeamMemberId teamMemberId, List<Double> score) {
 
-        TeamMemberScore teamMemberScore = new TeamMemberScore(teamMemberId, score);
+        TeamMemberScore teamMemberScore = new TeamMemberScore(teamMemberId, score, true);
+        return teamMemberScoreRepository.save(teamMemberScore);
+    }
+
+    /**
+     * Note: this method does not perform any validation to check if the provided
+     * TeamId is valid
+     * 
+     * @return saved TeamMemberScore
+     */
+    public TeamMemberScore addPistolScore(TeamMemberId teamMemberId, List<Double> score) {
+
+        TeamMemberScore teamMemberScore = new TeamMemberScore(teamMemberId, score, false);
         return teamMemberScoreRepository.save(teamMemberScore);
     }
 

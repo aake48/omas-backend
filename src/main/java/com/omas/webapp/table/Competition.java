@@ -1,28 +1,45 @@
 package com.omas.webapp.table;
 
 import java.sql.Date;
+import java.time.Instant;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity; 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor; 
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @Table
 @NoArgsConstructor
-public class Competition { 
+public class Competition {
+
+	public Competition(String competitionId, String displayName, String competitionType, Long startDate, Long endDate) {
+		this.competitionId = competitionId;
+		this.displayName = displayName;
+		this.creationDate = new Date(Instant.now().toEpochMilli());
+		this.type = competitionType;
+		this.startDate = new Date(startDate);
+		this.endDate = new Date(endDate);
+	}
 
 	@Id
-	private String name;
+	private String competitionId;
 
-	private String nameNonId;
+	private String displayName;
+
+	private String type;
+
+	private Date startDate;
+
+	private Date endDate;
 
 	@Column(nullable = false)
 	private Date creationDate;
- 
-} 
+
+	public boolean hasEnded() {
+		return Instant.ofEpochMilli(endDate.getTime()).isBefore(Instant.now());
+	}
+}

@@ -2,6 +2,9 @@ package com.omas.webapp.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
+import com.omas.webapp.entity.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +16,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import com.omas.webapp.entity.AddTeamMemberScoreRequest;
-import com.omas.webapp.entity.CompetitionRequest;
-import com.omas.webapp.entity.TeamMemberScoreRequest;
+import com.omas.webapp.Constants;
+import com.omas.webapp.entity.requests.AddTeamMemberScoreRequest;
+import com.omas.webapp.entity.requests.TeamMemberJoinRequest;
+import com.omas.webapp.entity.requests.TeamMemberScoreRequest;
+import com.omas.webapp.entity.requests.teamIdRequest;
+import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
 import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.TeamMemberId;
+import com.omas.webapp.table.Competition;
 import com.omas.webapp.table.TeamMember;
 import com.omas.webapp.table.TeamMemberScore;
 import jakarta.validation.Valid;
@@ -37,16 +44,29 @@ public class TeamMemberController {
     @Autowired
     TeamMemberScoreService teamMemberScoreService;
 
+    @Autowired 
+    CompetitionService competitionService;
+
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/add")
-    public ResponseEntity<?> addUserToTeam(@Valid @RequestBody CompetitionRequest request) {
+    public ResponseEntity<?> addUserToTeam(@Valid @RequestBody TeamMemberJoinRequest request) {
 
-        UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+        UserInfoDetails userDetails = UserInfoDetails.getDetails();
+
+        Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
+
+        if (competitionOptional.isEmpty()) {
+            return new MessageResponse("The requested competition does not exist.", HttpStatus.BAD_REQUEST);
+        }
+
+        Competition competition = competitionOptional.get();
+
+        if (competition.hasEnded()) {
+            return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+        }
 
         try {
-            String club = userDetails.getPartOfClub();
-            TeamMember savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userDetails.getId(), club, request.getCompetitionName()));
+            TeamMember savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userDetails.getId(), request.getCompetitionName(), request.getTeamName()));
             return new ResponseEntity<>(savedTeamMember, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -55,6 +75,24 @@ public class TeamMemberController {
 
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @GetMapping("/isMember")
+    public ResponseEntity<?> isMember(@Valid @RequestBody teamIdRequest request) {
+
+        UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+
+        try {
+            teamsService.CanUserSubmitScores(userDetails, request.getCompetitionName(), request.getTeamName());
+            return new ResponseEntity<>(true, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(false, HttpStatus.OK);
+        }
+
+    }
+
+
     @GetMapping("/score")
     public ResponseEntity<?> getScore(@Valid @RequestBody TeamMemberScoreRequest request) {
         
@@ -62,26 +100,49 @@ public class TeamMemberController {
         if(score!=null){
             return new ResponseEntity<>(score, HttpStatus.OK);
         }
-        return new ResponseEntity<>(Map.of("message", "no score found"), HttpStatus.NOT_FOUND);
 
+        return new MessageResponse("No score found", HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/score/add")
     public ResponseEntity<?> addScores(@Valid @RequestBody AddTeamMemberScoreRequest request) {
 
-        UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+        Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
+
+        if (competitionOptional.isEmpty()) {
+            return new MessageResponse("The requested competition does not exist", HttpStatus.BAD_REQUEST);
+        }
+
+        Competition competition = competitionOptional.get();
+
+        if (competition.hasEnded()) {
+            return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+        }
 
         try {
+
+            UserInfoDetails userDetails = UserInfoDetails.getDetails();
+
             // validates that user is part of the team and that the team has entered this
             // competition
-            TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(userDetails, request.getCompetitionName());
+            TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(userDetails, request.getCompetitionName(), request.getTeamName());
+
+            String type = competition.getType();
+            TeamMemberScore score;
+            switch (type) {
+                case Constants.rifleType -> {
+                    score = teamMemberScoreService.addRifleScore(teamMemberId, request.getScoreList());
+                }
+                case Constants.pistolType -> {
+                    score = teamMemberScoreService.addPistolScore(teamMemberId, request.getScoreList());
+                }
+                default -> throw new Exception("Invalid competition type");
+            }
             // if the scores already exist in the DB, they will be overwritten
-            TeamMemberScore score = teamMemberScoreService.addUsersScore(teamMemberId, request.getScoreList());
             return new ResponseEntity<>(score, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

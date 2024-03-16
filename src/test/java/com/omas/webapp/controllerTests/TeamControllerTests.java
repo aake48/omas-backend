@@ -3,6 +3,7 @@ package com.omas.webapp.controllerTests;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,9 +30,18 @@ public class TeamControllerTests {
         final String clubName = "Seuraajat1";
         final String competitionName = "2040 kesäampujaiset";
         final String competitionNameId = "2040_kesaampujaiset";
+        final String teamNameId = "team_nameId";
 
 
+        @Test
+        void getTeam() throws Exception {
 
+                String url = "/api/competition/team?team=asjg&competition=uyaustg";
+
+                mockMvc.perform(MockMvcRequestBuilders.get(url)
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isNotFound());
+        }
 
         @Test
         void addTeam() throws Exception {
@@ -40,12 +50,18 @@ public class TeamControllerTests {
 
                 TestUtils.addClub(mockMvc, clubName, token);
                 TestUtils.joinClub(mockMvc, clubName, token);
-                TestUtils.addCompetition(mockMvc, competitionName, token);
+                TestUtils.addRifleCompetition(mockMvc, competitionName, token);
+
+                String json = new JSONObject()
+                                .put("teamName", teamNameId)
+                                .put("competitionName", competitionNameId)
+                                .toString();
+
 
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
-                                .content("{" + "\"competitionName\":\"" + competitionNameId + "\"" + "}"))
+                                .content(json))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.competitionId").value(competitionNameId));
         }
@@ -58,28 +74,39 @@ public class TeamControllerTests {
                 TestUtils.addClub(mockMvc, clubName, token);
                 TestUtils.joinClub(mockMvc, clubName, token);
 
-                mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + token)
-                                .content("{" + "\"competitionName\":\"" + competitionNameId + "\"" + "}"))
-                                .andExpect(status().isBadRequest())
-                                .andExpect(jsonPath("$.error").exists());
-
-
-        }
-
-        @Test
-        public void addTeamWithNonExistingClub() throws Exception {
-                String token = TestUtils.getToken(mockMvc, "johndoe");
-                TestUtils.addCompetition(mockMvc, competitionName, token);
+                String json = new JSONObject()
+                .put("teamName", teamNameId)
+                .put("competitionName", competitionNameId)
+                .toString();
 
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
-                                .content("{" + "\"competitionName\":\"" + competitionNameId + "\"" + "}"))
+                                .content(json))
                                 .andExpect(status().isBadRequest())
-                                .andExpect(jsonPath("$.error").exists());
+                                .andExpect(jsonPath("$.message").exists());
+
+
         }
+
+        // 
+        // @Test
+        // public void addTeamWithNonExistingClub() throws Exception {
+        //         String token = TestUtils.getToken(mockMvc, "johndoe");
+        //         TestUtils.addRifleCompetition(mockMvc, competitionName, token);
+
+        //         String json = new JSONObject()
+        //                         .put("teamName", teamNameId)
+        //                         .put("competitionName", competitionNameId)
+        //                         .toString();
+
+        //         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+        //                         .contentType(MediaType.APPLICATION_JSON)
+        //                         .header("Authorization", "Bearer " + token)
+        //                         .content(json))
+        //                         .andExpect(status().isBadRequest())
+        //                         .andExpect(jsonPath("$.error").exists());
+        // }
 
 
 
@@ -89,21 +116,24 @@ public class TeamControllerTests {
                 String token = TestUtils.getToken(mockMvc, "johndoe");
                 TestUtils.addClub(mockMvc, clubName, token);
                 TestUtils.joinClub(mockMvc, clubName, token);
-                TestUtils.addCompetition(mockMvc, competitionName, token);
+                TestUtils.addRifleCompetition(mockMvc, competitionName, token);
+
+                String json = new JSONObject()
+                .put("teamName", teamNameId)
+                .put("competitionName", competitionNameId)
+                .toString();
 
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
-                                .content("{" + "\"competitionName\":\"" + competitionNameId + "\"" + "}"))
+                                .content(json))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.competitionId").value(competitionNameId));
 
                 mockMvc.perform(MockMvcRequestBuilders.get(getScoreUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
-                                .content("{"
-                                + "\"competitionName\":\""+competitionName+"\","
-                                + "\"clubName\":\""+clubName+"\"" + "}"))
+                                .content(json))
                                 .andExpect(status().isOk());
         }
 }

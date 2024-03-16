@@ -2,16 +2,18 @@
 - [<ins>__How to run this project__</ins>](#how-to-run-this-project)
   - [1st Setup PostgreSQL database](#1st-setup-postgresql-database)
     - [1st method: postgres docker container](#1st-method-postgres-docker-container-recommended-method)
-    - [2st method: postgres docker container](#2nd-method-local-install)
+    - [2st method: local install](#2nd-method-local-install)
   - [2nd create env.properties](#2nd-create-envproperties)
   - [3rd run](#3rd-run)
 
-- [<ins>__URLs for API__</ins>](#urls-for-api)
+- [<ins>__API endpoints__</ins>](#api-endpoints)
 
   - [User related](#user-related)
     - [Users](#user-related)
       - [registration](#registration)
       - [login](#login)
+      - [forgot password](#forgot-password)
+      - [reset password](#reset-password)
 
     - [Clubs](#clubs)
       - [Create new Club](#create-new-club)
@@ -26,28 +28,36 @@
       - [Get competition by Id](#get-competition-by-id)
       - [Get all competitions](#get-all-competitions)
       - [Search for competitions with pagination](#search-for-competitions-with-pagination)
-      - [get results](#get-results)
+      - [Get results](#get-competition-results)
 
     - [teams](#teams)
       - [create new team](#create-new-team)
-      - [get team's score](#get-teams-score)
+      - [get team's score](#get-team-scores)
+      - [teamExists](#check-if-team-exists)
+      - [Get all teams participating in a competition](#get-all-teams-participating-in-a-competition)
+      - [get team with member IDs](#get-team-with-member-ids)
     - [team members](#team-member)
       - [add team member to team](#add-team-member-to-team)
       - [get user's score](#get-users-score)
       - [submit user's score](#submit-users-score)
+      - [isMember](#ismember)
 
 
 - [<ins>__Types__</ins>](#Types)
-  - [competitionResults](#competitionresults)
-  - [login response](#login-response)
-  - [competition](#competition)
-  - [club](#club)
+  - [CompetitionResponse](#competitionresponse)
+  - [CompetitionTeamResponse](#competitionteamresponse)
+  - [TeamMemberScoreResponse](#teammemberscoreresponse)
+  - [TeamMemberScore](#teammemberscore)
+  - [LoginResponse](#loginresponse)
+  - [Page](#page)
+  - [Competition](#competition)
+  - [Club](#club)
+  - [TeamMember](#teammember)
+  - [Team](#team)
   - [...](#)
 
 
-
-  
-
+                 
 
 
   
@@ -77,23 +87,46 @@ DB-URL=jdbc:postgresql://localhost:5432/omas
 DB-USERNAME=postgres
 DB-PASSWORD=password
 SECRET=48794134879942idontlikedogs1323572342328789
+MAIL-HOST=smtp.gmail.com
+MAIL-USERNAME= //johan.liebert@gmail.com; for example
+MAIL-PASSWORD= //password1; for example
+MAIL-PORT=587
+RecoveryPage= // url for the frontend's recovery page. for example: https://localhost:3000/recovery
 ```
 ## 3rd run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>
 
-# URLs for API 
-## user related
+# API endpoints 
+
+All endpoints will return HTTP status 200 on success and HTTP status 400 on fail unless specified otherwise.
+Missing or invalid fields will return messages in the form
+```
+{
+  "password": "Password cannot be fewer than 6 characters",
+  "name": "name cannot be fewer than 3",
+  "email": "Email should be in the correct format.",
+  "username": "Username cannot be larger than 64 characters"
+}
+```
+and other messages will be returned in the form
+```
+{
+  "message": "Some message"
+}
+```
+These messages may also be errors, but they will be errors such as a competition or club not existing.
+These messages are intended for developers and users should be given more descriptive messages.
+
+## User related
 ### Registration
 ```
-
 POST https://localhost:8080/api/reg 
-content-type: application/json
-
+Content-Type: application/json
 {
-    "username": "Username",
-    "name":"pekka",
-    "password": "password",
-    "email": "temp@email.com"
+  "username": "Username",
+  "name":"pekka",
+  "password": "password",
+  "email": "temp@email.com"
 }
 ```
 If user was added successfully, this will return {messge:"user added"}. If registration fails, the errors will be provided like this: 
@@ -105,19 +138,17 @@ If user was added successfully, this will return {messge:"user added"}. If regis
   "username": "Username cannot be larger than 64 characters"
 }
 ```
-### login
+### Login
 ```
 POST https://localhost:8080/api/login
-content-type: application/json
-
+Content-Type: application/json
 {
-    "username": "Username",
-    "password": "password"
+  "username": "Username",
+  "password": "password"
 }
 ```
-[returns](#login-response): 
+returns [LoginResponse](#loginresponse):
 ```
-
 {
   "user": {
     "username": "johndoe",
@@ -132,40 +163,67 @@ content-type: application/json
 } 
 ```
 If login fails, the errors will be provided in the same kind of structure as in api/reg
+
+### forgot password
+
+```
+POST https://localhost:8080/api/forgot_password
+Content-Type: application/json
+{
+  "email": string
+}
+```
+returns code 200 if email was sent, 400 if not
+
+### reset password
+```
+POST https://localhost:8080/api/reset_password?token=${token}&password=${newPassword}
+
+```
+returns code 200 if password was updated, 400 if not
+
+
 ## Clubs
 ### Create new Club
-Note: backend will remove any whitespaces and äöå from the clubName and this altered version of the string will be made the ID. Unaltered version of the name will be saved to [nameNonId](#club). Only [a-zA-Z0-9-_] chars are allowed to be in the name, after the alterations. If there are any others the result will be code 400.
+Note: backend will remove any whitespaces and äöå from the clubName and this altered version of the string will be made the ID. 
+Unaltered version of the name will be saved to [nameNonId](#club). Only [a-zA-Z0-9-_] chars are allowed to be in the name, after the alterations. 
+If there are any others the result will be code 400.
 ```
-Post https://localhost:8080/api/auth/club/new
+POST https://localhost:8080/api/auth/club/new
 Authorization: required
-content-type: application/json
-
+Content-Type: application/json
 {
     "clubName": "Seuraajien seura"
 }
 ```
-returns either created club -JSON or list of validation violations -JSON
+returns either the created [club](#club) or a JSON object containing validation violations
 ```
 {
-  "name": "Seuraajien seura",
+  "name": "Seuraajien_seura",
+  "nameNonId": "Seuraajien seura"
   "creationDate": "2024-02-15",
   "idCreator": 1
 }
 ```
 
 ### Get club by Id
-
 ```
-GET https://localhost:8080/api/club/?id=${clubName}
-
+GET https://localhost:8080/api/club/{clubId}
 ```
-returns club JSON
+returns [Club](#club):
+```
+{
+  "name": string, // @id
+  "nameNonId": string,
+  "creationDate": string,
+  "idCreator": number
+}
+```
 ### Get all clubs
-
 ```
 GET https://localhost:8080/api/club/all
 ```
-returns List of clubs -JSON
+returns a list of all [Club](#club)s
 
 ### Search clubs with pagination
 Note the following:
@@ -175,15 +233,18 @@ Note the following:
 GET https://localhost:8080/api/club/query?search=${search}&page=${page}&size=${size}
 ```
 [returns page of clubs](#page)  =>
-```{
+```
+{
   "content": [
     {
       "name": "SeuraajienSeura",
+      "nameNonId": "SeuraajienSeura,
       "creationDate": "2024-02-18",
       "idCreator": 1
     },
     {
       "name": "SeuraajienSeura2",
+      "nameNonId": "SeuraajienSeura2,
       "creationDate": "2024-02-18",
       "idCreator": 2
     }
@@ -215,12 +276,11 @@ GET https://localhost:8080/api/club/query?search=${search}&page=${page}&size=${s
   "empty": false
 }
 ```
-### join club
+### Join club
 ```
-Post https://localhost:8080/api/club/join
+POST https://localhost:8080/api/auth/club/join
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
-content-type: application/json
-
+Content-Type: application/json
 {
     "clubName": "Poliisi_seura"
 }
@@ -229,31 +289,46 @@ content-type: application/json
 
 ## Competition related
 ### Create new Competition
-Note: backend will remove any whitespaces and äöå from the competitionName and this altered version of the string will be made the ID. Unaltered version of the name will be saved to [nameNonId](#competition). Only [a-zA-Z0-9-_] chars are allowed to be in the name, after the alterations. If there are any others the result will be code 400.
-```
-Post https://localhost:8080/api/auth/competition/new
-Authorization: required
-content-type: application/json
+Note: backend will remove any whitespaces and äöå from the competitionName and this altered version of the string will be made the ID. 
+Unaltered version of the name will be saved to [competitionId](#competition). Only [a-zA-Z0-9-_] chars are allowed to be in the name, after the alterations. 
+If there are any others the result will be code 400.
 
+startDate and endDate are optional. If they are not provided, backend will set them automatically start date to now and end date now + 7d. If provided: start can range from now-1 to now +365d and end from now to +364d
+```
+POST https://localhost:8080/api/auth/competition/new
+Authorization: required
+Content-Type: application/json
 {
-    "competitionName": string
+    "competitionName": string,
+    "competitionType": "rifle" || "pistol"
+    "startDate": string,
+    "endDate": string,
 }
 ```
-returns [club](#club)
-
+returns [competition](#competition)
+```
+{
+  "competitionId": string,
+  "displayName": string,
+  "type": "rifle" || "pistol"
+  "startDate": string,
+  "endDate": string,
+  "creationDate": string
+}
+```
 
 ### Get competition by Id
 
 ```
-GET https://localhost:8080/api/competition/{competition's name}
+GET https://localhost:8080/api/competition/{competitionName}
 ```
-returns competition in JSON
+returns [competition](#competition)
 ### Get all competitions
 
 ```
 GET https://localhost:8080/api/competition/all
 ```
-returns List of competitions in -JSON
+returns a list of all [competition](#competition)s
 
 ### Search for competitions with pagination
 Note the following:
@@ -265,33 +340,14 @@ GET https://localhost:8080/api/competition/query?search=${search}&page=${page}&s
 ```
 [returns page of competitions](#page)
 
-### get results
+### Get competition results
 teams and scores are sorted descending by totalScore and sum
 ``` 
 GET api/competition/result/{competitionName}
 ```
-returns [competitionResults](#competitionResults)
-``` 
-{"name" : string,
-  "nameNonId" : string,
-  "creationDate" : string,
-  "teams" : team[] || null
-}
-  Team:{
-    "club" : "String",
-    "totalScore" : number,
-    "scores" : score[] || null
-  }
-    score: {
-      "bullsEyeCount" : number,
-      "sum" : number,
-      "userId" : number,
-      "scorePerShot":string
-    }
-
-``` 
-## teams
-### create new team 
+returns [CompetitionResponse](#competitionresponse)
+## Teams
+### Create new team 
 Note: the following conditions must be met before a team can be created: 
 - The user must be [a member of a club](#join-club)
 - The competition that the team is participating in must already [exist](#create-new-competition) in the database.
@@ -300,36 +356,77 @@ POST api/competition/team/new
 Authorization: required
 Content-Type: application/json
 {
-  competitionName:String 
+  "competitionName": string 
 }
 ```
 returns the team just created in json format.
 If the team creation fails, reason for the failure will be provided in json {error:"reason for failure -string"}
 
-### get team's score 
+### Get team scores
 ```
 GET api/competition/team/score
 Content-Type: application/json
 {
-  competitionName:String,
-  clubName:string
+  "competitionName": string,
+  "teamName": string
 }
 ```
-returns JSON array of TeamMemberScore objects, and these objects look like this: 
+returns a list of [TeamMemberScore](#teammemberscore)s
+### Check if team exists
+```
+GET api/competition/team/teamExists
+Content-Type: application/json
+{
+  "competitionName": string,
+  "teamName": string
+}
+```
+returns true if club has team in this comp, false otherwise. 
+
+### Get all teams participating in a competition
+```
+GET api/competition/teams
+Content-Type: application/json
+{
+  "competitionName": String
+}
+```
+returns
 ```
 {
-    userId:long.
-    clubId:string,
-    competitionId:string;
-    UUID:uuid
-    sum:number
-    bullsEyeCount:numer,
-    scorePerShot:String, //this is a string representation of scoreList sent by the user
-    creationDate:2024-12-1(String),
-    }
+  "message": "No competition found with that name"
+}
 ```
-## team member
-### add team member to team 
+and HTTP status code 400 if the competition is not found, or
+```
+{
+  "competitionId": string,
+  "teams": [
+    {
+      "teamName": string,
+      "teamDisplayName": string
+    }
+  ]
+}
+```
+and HTTP status code 200 if the competition is found
+
+### Get team with member IDs
+```
+GET api/competition/team?team={teamName}&competition={competitionName}
+```
+returns [team](#team)
+```
+{
+  "teamName": string,
+  "competitionId": string,
+  "teamMembers": TeamMember[]
+}
+```
+
+## Team member
+[TeamMember](#teammember)
+### Add team member to team 
 Note: the following conditions must be met before user can join a team: 
 - The user must be [a member of a club](#join-club)
 - the club that user is part of must have [created a team](#create-new-team) for this competition before users add themselves to it.
@@ -338,23 +435,23 @@ POST api/competition/team/member/add
 Authorization: required
 Content-Type: application/json
 {
-  competitionName:String
+  "teamName": string,
+  "competitionName": string
 }
 ```
-Returns either created team member object or reason for failure in error:string json 
-
+returns [TeamMember](#teammember)
 ### get user's score
 ```
 GET api/competition/team/member/score
 Content-Type: application/json
 {
-  competitionName:String,
-  userId:number
+  "competitionName": string,
+  "userId": number
 }
 ```
-Returns [teamMemberScore object](#get-teams-score) if a score for this user exist.
+returns [TeamMemberScore](#teammemberscoreresponse) if a score for this user exist.
 
-### submit user's score
+### Submit user's score
 Note: the following conditions must be met before user can submit his scores: 
 - The user must be [a team member](#add-team-member-to-team) for the competition before he is able to submit his scores
 ```
@@ -362,40 +459,78 @@ POST api/competition/team/member/score/add
 Authorization: required
 Content-Type: application/json
 {
-  competitionName:String,
-  ScoreList:number[]
+  "competitionName": string,
+  "teamName": string,
+  "scoreList": number[]
 }
 ```
-Returns [teamMemberScore object](#get-teams-score) if submission was successful. In other cases, a error:string json will be provided.
+Returns [TeamMemberScore](#teammemberscore) if submission was successful.
+### isMember 
+```
+GET api/competition/team/member/isMember
+Authorization: required
+Content-Type: application/json
+{
+  "teamName": string,
+  "competitionName": string
+}
+```
+returns true if the team is in the competition and the user is part of it
 
 # Types 
-## competitionResults
+## CompetitionResponse
 ``` 
-{"name" : string,
-  "nameNonId" : string,
-  "creationDate" : string,
-  "teams" : team[] || null
+{
+  "competitionId": string,
+  "displayName": string,
+  "competitionType": string,
+  "creationDate": string,
+  "startDate": string,
+  "endDate": string
+  "teams": CompetitionTeamResponse[]
 }
+```
+Note: used to be called competitionResults
+
+### CompetitionTeamResponse
 ``` 
-### competitionResults.team
+{
+  "teamName": string,
+  "teamDisplayName": string,
+  "totalScore" : number,
+  "scores": TeamMemberScoreResponse[]
+}
+```
+Note: used to be called competitionResults.team
+
+### TeamMemberScoreResponse
 ``` 
-  {
-    "club" : "String",
-    "totalScore" : number,
-    "scores" : score[] || null
-  }
-  ```
-   
-  ### competitionResults.team.scores
-  ``` 
-    {
-      "bullsEyeCount" : number,
-      "sum" : number,
-      "userId" : number,
-      "scorePerShot":string
-    }
-``` 
-## login response
+{
+  "bullsEyeCount": number,
+  "sum": number,
+  "userId": number,
+  "competitionId": string,
+  "teamName": string,
+  "scorePerShot": string,
+  "creationDate": string
+}
+```  
+Note: used to be called competitionResults.team.scores
+
+### TeamMemberScore
+```
+{
+  "userId": number,
+  "competitionId": string,
+  "teamName": string,
+  "uuid": string,
+  "sum": number,
+  "bullsEyeCount": number,
+  "scorePerShot": string,
+  "creationDate": string
+}
+```
+### LoginResponse
 ``` 
 {
   "user": {
@@ -410,7 +545,7 @@ Returns [teamMemberScore object](#get-teams-score) if submission was successful.
   "token": string
 } 
 ``` 
-## page
+### Page
 Tässä on kaikki oleellinen käytölle, muu on extraa, jotka voidaan sivuuttaa.
 Jos haluat nähdä mitä kokonaisuudessaan tulee, sen pystyt näkemään  [täältä, seurojen hausta](#search-clubs-with-pagination)
 ```
@@ -430,24 +565,46 @@ Jos haluat nähdä mitä kokonaisuudessaan tulee, sen pystyt näkemään  [tää
   "empty": boolean
 }
 ```
-## competition
+## Competition
 Mm. onnistunut kilpailun luominen palauttaa tälläisen.
 ```
-  {
-	  name:String, //@id
-	  nameNonId:String,
-    creationDate:string
-    }
+{
+    "competitionId": string,
+    "displayName": string,
+    "type": "rifle" || "pistol"
+    "startDate": string,
+    "endDate": string,
+    "creationDate": string
+}
 ```
-## club
+## Club
 Mm. onnistunut seuran luominen palauttaa tälläisen.
 ```
 {
-	name:string, // @id
-	nameNonId:String,
-	private Date creationDate:string,
-	idCreator:number
-  }
+  "name": string, // @id
+  "nameNonId": string,
+  "creationDate": string,
+  "idCreator": number
+}
+```
+
+## TeamMember
+```
+{
+  userId: number,
+  competitionId: string,
+  teamName: string
+}
+```
+
+## Team
+```
+{
+  teamName: string,
+  teamDisplayName: string,
+  competitionId: string,
+  teamMembers: teamMember[]
+}
 ```
 ## --- unfinished ---
 check source 
