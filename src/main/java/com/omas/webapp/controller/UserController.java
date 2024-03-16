@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import com.omas.webapp.entity.response.MessageResponse;
 
-import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -22,12 +21,12 @@ import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.omas.webapp.Utility;
 import com.omas.webapp.entity.requests.AuthRequest;
 import com.omas.webapp.entity.requests.PasswordRecoveryRequest;
 import com.omas.webapp.entity.requests.RegistrationRequest;
 import com.omas.webapp.entity.requests.PasswordResetRequest;
 import com.omas.webapp.service.JwtService;
+import com.omas.webapp.service.MailService;
 import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.service.UserService;
 import com.omas.webapp.table.User;
@@ -54,7 +53,7 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JavaMailSender mailSender;
+    private MailService mailService;
 
     @Value("${frontend.RecoveryPage}")
 	private String recoveryPage; 
@@ -106,11 +105,10 @@ public class UserController {
         String email = reqRequest.getEmail();
         String token = RandomString.make(30);
 
-
         try {
             service.updateResetPasswordToken(token, email);
-            String resetPasswordLink = recoveryPage + token;
-            sendEmail(email, resetPasswordLink);
+            String resetPasswordLink = recoveryPage +"?token="+ token;
+            mailService.sendRecoveryEmail(email, resetPasswordLink);
         } catch (Exception e) {
             return new ResponseEntity<>(Map.of("message", "email not sent, " + e.getMessage()),
                     HttpStatus.INTERNAL_SERVER_ERROR);
@@ -118,29 +116,7 @@ public class UserController {
         return new ResponseEntity<>(Map.of("message", "email sent"), HttpStatus.OK);
     }
 
-    public void sendEmail(String recipientEmail, String link)
-            throws MessagingException, UnsupportedEncodingException {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
-        helper.setTo(recipientEmail);
 
-
-        String subject = "Here's the link to reset your password";
-
-        String content = "<p>Hello,</p>"
-                + "<p>You have requested to reset your password.</p>"
-                + "<p>Click the link below to change your password:</p>"
-                + "<p><a href=\"" + link + "\">Change my password</a></p>"
-                + "<br>"
-                + "<p>Ignore this email if you do remember your password, "
-                + "or you have not made the request.</p>";
-
-        helper.setSubject(subject);
-
-        helper.setText(content, true);
-
-        mailSender.send(message);
-    }
 
     @PostMapping("/reset_password")
     public ResponseEntity<?> processResetPassword(HttpServletRequest request, PasswordResetRequest resetRequest) {
