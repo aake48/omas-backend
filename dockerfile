@@ -9,6 +9,7 @@ COPY settings.gradle .
 
 COPY src src
 
+# Remove -x test if you want to run the tests
 RUN gradle build -x test --no-daemon
 
 FROM openjdk:latest
