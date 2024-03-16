@@ -1,5 +1,12 @@
-{"properties": [{
-  "name": "jwt.secret",
-  "type": "java.lang.String",
-  "description": "key for jwtService'"
-}]}
+{"properties": [
+  {
+    "name": "jwt.secret",
+    "type": "java.lang.String",
+    "description": "key for jwtService'"
+  },
+  {
+    "name": "frontend.RecoveryPage",
+    "type": "java.lang.String",
+    "description": "URL for passwordRecovery page in URL, that will be linked to recovery email"
+  }
+]}

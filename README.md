@@ -2,7 +2,7 @@
 - [<ins>__How to run this project__</ins>](#how-to-run-this-project)
   - [1st Setup PostgreSQL database](#1st-setup-postgresql-database)
     - [1st method: postgres docker container](#1st-method-postgres-docker-container-recommended-method)
-    - [2st method: postgres docker container](#2nd-method-local-install)
+    - [2st method: local install](#2nd-method-local-install)
   - [2nd create env.properties](#2nd-create-envproperties)
   - [3rd run](#3rd-run)
 
@@ -85,6 +85,11 @@ DB-URL=jdbc:postgresql://localhost:5432/omas
 DB-USERNAME=postgres
 DB-PASSWORD=password
 SECRET=48794134879942idontlikedogs1323572342328789
+MAIL-HOST=smtp.gmail.com
+MAIL-USERNAME= //johan.liebert@gmail.com; for exmaple
+MAIL-PASSWORD= //password1; for exmaple
+MAIL-PORT=587
+RecoveryPage= // url for the frontend's recovery page. for exmp. https://localhost:3000/recovery
 ```
 ## 3rd run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>
@@ -156,6 +161,26 @@ returns [LoginResponse](#loginresponse):
 } 
 ```
 If login fails, the errors will be provided in the same kind of structure as in api/reg
+
+### forgot password
+
+```
+POST https://localhost:8080/api/forgot_password
+Content-Type: application/json
+{
+  "email": string
+}
+```
+returns code 200 if email was sent, 400 if not
+
+### reset password
+```
+POST https://localhost:8080/api/reset_password?token=${token}&password=${newPassword}
+
+```
+returns code 200 if password was updated, 400 if not
+
+
 ## Clubs
 ### Create new Club
 Note: backend will remove any whitespaces and äöå from the clubName and this altered version of the string will be made the ID. 
