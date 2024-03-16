@@ -12,6 +12,8 @@
     - [Users](#user-related)
       - [registration](#registration)
       - [login](#login)
+      - [forgot password](#forgot-password)
+      - [reset password](#reset-password)
 
     - [Clubs](#clubs)
       - [Create new Club](#create-new-club)
@@ -86,10 +88,10 @@ DB-USERNAME=postgres
 DB-PASSWORD=password
 SECRET=48794134879942idontlikedogs1323572342328789
 MAIL-HOST=smtp.gmail.com
-MAIL-USERNAME= //johan.liebert@gmail.com; for exmaple
-MAIL-PASSWORD= //password1; for exmaple
+MAIL-USERNAME= //johan.liebert@gmail.com; for example
+MAIL-PASSWORD= //password1; for example
 MAIL-PORT=587
-RecoveryPage= // url for the frontend's recovery page. for exmp. https://localhost:3000/recovery
+RecoveryPage= // url for the frontend's recovery page. for example: https://localhost:3000/recovery
 ```
 ## 3rd run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>
