@@ -617,3 +617,18 @@ src\main\java\com\omas\webapp\table
 src\main\java\com\omas\webapp\controller
 
 ```
+### Copying the schema for the docker container
+
+1.
+  docker exec -it database bash
+  :/# pg_dump -s -U postgres -d omas > mvp_schema.sql
+  Exit 
+
+2.
+  docker cp database:/mvp_schema.sql .
+
+3.
+
+  docker cp  ./mvp_schema.sql database:/mvp_schema.sql
+  docker exec -it database psql -U postgres -d omas -f /mvp_schema.sql
+
