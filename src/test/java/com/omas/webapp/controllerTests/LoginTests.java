@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.json.JSONObject;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -25,50 +27,55 @@ public class LoginTests {
 
         private static final String url = "/api/login";
 
+        private String json;
+
+        private String username = "johndoe";
+
         @BeforeEach
         private void registerUser() throws Exception {
+
+                /*  
+                .put("password", "password123")
+                .put("username", username)
+                .put("name", "name")
+                .put("email", "email@"+username+".com") 
+                */
                 TestUtils.getToken(mockMvc, "johndoe");
+
+                json = new JSONObject()
+                .put("password", "password123")
+                .put("username", username)
+                .toString();
+
+                // json = new JSONObject()
+                // .put("email", "email@johndoe.com")
+                // .put("password", "password123")
+                // .toString();
         }
 
+        @Test
         void login() throws Exception {
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content("{"
-                                                + "\"password\":\"password123\","
-                                                + "\"username\":\"johndoe\""
-                                                + "}"))
-                                .andExpect(status().isOk()).andExpect(jsonPath("$.token").exists());
+                                .content(json))
+                                .andExpect(status().isOk()).andExpect(jsonPath("$.token").exists())
+                                .andExpect(status().isOk()).andExpect(jsonPath("$.user").exists())
+                                .andExpect(jsonPath("$.user.username").value(username));
 
         }
 
         @Test
         void registerAndDeleteUser() throws Exception {
-
-                String url = "/api/delete";
-
-                String json = Json.objectNode()
-                    .put("password", "password123")
-                    .put("username", "testuser")
-                    .put("name", "testname")
-                    .put("email", "testuser@testmail.com")
-                    .toString();
-
-                String registrationResponse = mockMvc.perform(MockMvcRequestBuilders.post("/api/reg")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                        .andExpect(status().isOk())
-                        .andReturn()
-                        .getResponse()
-                        .getContentAsString();
-
-                System.out.println("registrationResponse: " + registrationResponse);
+                
+                String deletionUrl = "/api/delete";
 
                 String adminToken = TestUtils.loginAdmin(mockMvc);
 
-                String deletionResponse = mockMvc.perform(MockMvcRequestBuilders.delete(url)
+                String deletionResponse = mockMvc.perform(MockMvcRequestBuilders.delete(deletionUrl)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + adminToken)
-                        .content("testuser"))
+                        .content(username))
+                        .andExpect(jsonPath("$.message").value("User deleted"))
                         .andExpect(status().isOk())
                         .andReturn()
                         .getResponse()
