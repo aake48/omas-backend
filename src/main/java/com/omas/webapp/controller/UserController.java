@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.*;
@@ -131,26 +132,29 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteUser(@RequestBody Long userId) {
+    public ResponseEntity<?> deleteUser(@RequestBody String username) {
 
         UserInfoDetails details = UserInfoDetails.getDetails();
 
+        Optional<User> userOptional = service.getUserByUsername(username);
+
+        if (userOptional.isEmpty()) {
+            return new MessageResponse("No user found with that name", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userOptional.get();
+
         // Prevent admin from deleting themselves
-        if (details.getId().equals(userId)) {
+        if (details.getId().equals(user.getId())) {
             return new MessageResponse("You cannot delete yourself", HttpStatus.BAD_REQUEST);
         }
 
         // Prevent deleting other admins
-        if (roleService.FindUsersRoles(userId).contains("ROLE_ADMIN")) {
+        if (roleService.FindUsersRoles(user.getId()).contains("ROLE_ADMIN")) {
             return new MessageResponse("You cannot delete other admins", HttpStatus.BAD_REQUEST);
         }
 
-        User user = service.deleteUser(userId);
-
-        // Above deleteUser returns null if the user was not found
-        if (user == null) {
-            return new MessageResponse("No user found with that name", HttpStatus.BAD_REQUEST);
-        }
+        service.deleteUser(user.getId());
 
         return new MessageResponse("User deleted", HttpStatus.OK);
     }

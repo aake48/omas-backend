@@ -152,4 +152,8 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public Optional<User> getUserByUsername(String username) {
+        return repository.findByUsername(username);
+    }
+
 }
