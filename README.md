@@ -182,6 +182,14 @@ POST https://localhost:8080/api/reset_password?token=${token}&password=${newPass
 ```
 returns code 200 if password was updated, 400 if not
 
+### Delete user
+```
+DELETE https://localhost:8080/api/delete
+Content-Type: application/json
+username
+```
+returns code 200 if the user was deleted, 400 if something went wrong
+Note: this endpoint requires admin role
 
 ## Clubs
 ### Create new Club
