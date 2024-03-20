@@ -58,9 +58,16 @@ public class LoginTests {
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(json))
-                                .andExpect(status().isOk()).andExpect(jsonPath("$.token").exists())
-                                .andExpect(status().isOk()).andExpect(jsonPath("$.user").exists())
-                                .andExpect(jsonPath("$.user.username").value(username));
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.token").exists())
+                                .andExpect(jsonPath("$.user").exists())
+                                .andExpect(jsonPath("$.user.username").value(username))
+                                .andExpect(jsonPath("$.user.legalName").value("name"))
+                                .andExpect(jsonPath("$.user.club").isEmpty())
+                                .andExpect(jsonPath("$.user.userId").exists())
+                                .andExpect(jsonPath("$.user.authorities").exists())
+                                .andExpect(jsonPath("$.user.email").exists())
+                                .andExpect(jsonPath("$.user.creationDate").exists());
 
         }
 
