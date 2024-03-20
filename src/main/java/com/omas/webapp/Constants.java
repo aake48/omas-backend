@@ -9,5 +9,8 @@ public final class Constants {
     public static final String pistolType = "pistol";
     public static final String rifleType = "rifle";
 
+    public static final String adminUsername = "admin";
+    public static final String adminPassword = "adminPassword";
+
     // add more constants here
 }

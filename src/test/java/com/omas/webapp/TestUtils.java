@@ -18,8 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 public class TestUtils {
 
-        public static final String ADMIN_USERNAME = "admin";
-        public static final String ADMIN_PASSWORD = "longverysecureadministratorpassword";
+        public static final String ADMIN_USERNAME = Constants.adminUsername;
+        public static final String ADMIN_PASSWORD = Constants.adminPassword;
 
 
         public static final String rifleCompetitionType = Constants.rifleType;

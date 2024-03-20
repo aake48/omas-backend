@@ -7,11 +7,8 @@ import com.omas.webapp.table.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import java.sql.Date;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +16,7 @@ import java.util.Random;
 
 @Log4j2
 @Component
-public class TestDataConfig implements CommandLineRunner {
+public class TestDataForFrontend implements CommandLineRunner {
 
     @Autowired
     UserService userService;
@@ -29,9 +26,6 @@ public class TestDataConfig implements CommandLineRunner {
 
     @Autowired
     RoleService roleService;
-
-    @Autowired
-    private PasswordEncoder encoder;
 
     @Autowired
     TeamMemberScoreService teamMemberScoreService;
@@ -60,32 +54,8 @@ public class TestDataConfig implements CommandLineRunner {
     @Autowired
     TeamMemberRepository teamMemberRepository;
 
-    // TODO: Implement this properly with master password/username configured somewhere?
-    public void addAdminUser() {
-
-        User user = new User();
-        user.setUsername("admin");
-        user.setLegalname("admin");
-        user.setEmail("admin");
-        user.setPassword("longverysecureadministratorpassword");
-        user.setCreationDate(new Date(Instant.now().toEpochMilli()));
-
-        // hash and salt password before saving it to db
-        user.setPassword(encoder.encode(user.getPassword()));
-        try {
-            User createdUser = userRepository.save(user);
-            roleService.addAdminRole(createdUser.getId());
-        } catch (Exception e) {
-            System.out.println("ex : " + e);
-        }
-
-    }
-
     @Override
     public void run(String... args) throws Exception {
-
-        // Create administrator to be used in tests
-        addAdminUser();
 
         final String pistolCompetitionTypeName = Constants.pistolType;
         final String rifleCompetitionTypeName = Constants.rifleType;
