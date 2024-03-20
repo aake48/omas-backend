@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import com.fasterxml.jackson.databind.JsonNode;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
@@ -16,6 +18,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.MockMvc;
 
 public class TestUtils {
+
+        public static final String ADMIN_USERNAME = "admin";
+        public static final String ADMIN_PASSWORD = "longverysecureadministratorpassword";
 
 
         public static final String rifleCompetitionType = Constants.rifleType;
@@ -42,6 +47,39 @@ public class TestUtils {
                                 .andReturn();
 
                 return mvcResult.getResponse().getContentAsString();
+        }
+
+
+        /**
+         * Shorthand method to login as admin
+         * @return the admin authorization token
+         */
+        public static String loginAdmin(MockMvc mvc) throws Exception {
+                return login(mvc, ADMIN_USERNAME, ADMIN_PASSWORD);
+        }
+
+        public static String login(MockMvc mockMvc, String username, String password) throws Exception {
+
+                String json = Json.objectNode()
+                    .put("username", username)
+                    .put("password", password)
+                    .toString();
+
+                String response = mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                        .andExpect(status().isOk())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                JsonNode node = Json.parse(response);
+
+                String token = node.get("token").asText();
+
+                System.out.println("Logging in " + username + ":" + password + " with token " + token);
+
+                return token;
         }
 
         public static String loginUser(MockMvc mockMvc, String username) throws Exception {

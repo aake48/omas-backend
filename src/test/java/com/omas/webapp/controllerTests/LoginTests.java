@@ -1,19 +1,19 @@
 package com.omas.webapp.controllerTests;
 
+import com.omas.webapp.Json;
+import com.omas.webapp.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.omas.webapp.TestUtils;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import org.springframework.http.MediaType;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -38,7 +38,43 @@ public class LoginTests {
                                                 + "\"username\":\"johndoe\""
                                                 + "}"))
                                 .andExpect(status().isOk()).andExpect(jsonPath("$.token").exists());
-                ;
+
+        }
+
+        @Test
+        void registerAndDeleteUser() throws Exception {
+
+                String url = "/api/delete";
+
+                String json = Json.objectNode()
+                    .put("password", "password123")
+                    .put("username", "testuser")
+                    .put("name", "testname")
+                    .put("email", "testuser@testmail.com")
+                    .toString();
+
+                String registrationResponse = mockMvc.perform(MockMvcRequestBuilders.post("/api/reg")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                        .andExpect(status().isOk())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                System.out.println("registrationResponse: " + registrationResponse);
+
+                String adminToken = TestUtils.loginAdmin(mockMvc);
+
+                String deletionResponse = mockMvc.perform(MockMvcRequestBuilders.delete(url)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + adminToken)
+                        .content("testuser"))
+                        .andExpect(status().isOk())
+                        .andReturn()
+                        .getResponse()
+                        .getContentAsString();
+
+                System.out.println("deletionResponse: " + deletionResponse);
         }
 
         @Test

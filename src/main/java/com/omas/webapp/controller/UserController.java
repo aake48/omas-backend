@@ -6,11 +6,14 @@ import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
+
 import com.omas.webapp.entity.response.MessageResponse;
+import com.omas.webapp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -24,10 +27,6 @@ import com.omas.webapp.entity.requests.AuthRequest;
 import com.omas.webapp.entity.requests.PasswordRecoveryRequest;
 import com.omas.webapp.entity.requests.RegistrationRequest;
 import com.omas.webapp.entity.requests.PasswordResetRequest;
-import com.omas.webapp.service.JwtService;
-import com.omas.webapp.service.MailService;
-import com.omas.webapp.service.UserInfoDetails;
-import com.omas.webapp.service.UserService;
 import com.omas.webapp.table.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -38,6 +37,9 @@ public class UserController {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private JwtService jwtService;
@@ -125,6 +127,32 @@ public class UserController {
             service.updatePassword(user, resetRequest.getPassword());
             return new ResponseEntity<>(Map.of("message", "password updated"), HttpStatus.OK);
         }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteUser(@RequestBody Long userId) {
+
+        UserInfoDetails details = UserInfoDetails.getDetails();
+
+        // Prevent admin from deleting themselves
+        if (details.getId().equals(userId)) {
+            return new MessageResponse("You cannot delete yourself", HttpStatus.BAD_REQUEST);
+        }
+
+        // Prevent deleting other admins
+        if (roleService.FindUsersRoles(userId).contains("ROLE_ADMIN")) {
+            return new MessageResponse("You cannot delete other admins", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = service.deleteUser(userId);
+
+        // Above deleteUser returns null if the user was not found
+        if (user == null) {
+            return new MessageResponse("No user found with that name", HttpStatus.BAD_REQUEST);
+        }
+
+        return new MessageResponse("User deleted", HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

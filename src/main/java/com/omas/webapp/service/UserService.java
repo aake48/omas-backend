@@ -9,7 +9,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.sql.Date;
@@ -95,6 +94,31 @@ public class UserService implements UserDetailsService {
             return false;
         }
         return true;
+    }
+
+    /**
+     * "Deletes" a user by setting all their information to null.
+     * @param userId the numeric id of the user to delete
+     * @return the user with the cleared fields or null if no user was found
+     */
+    public User deleteUser(Long userId) {
+
+        Optional<User> userOptional = repository.findById(userId);
+
+        if (userOptional.isEmpty()) {
+            return null;
+        }
+
+        User user = userOptional.get();
+
+        user.setLegalname(null);
+        user.setPartOfClub(null);
+        user.setPassword(null);
+        user.setUsername(null);
+        user.setEmail(null);
+        user.setCreationDate(null);
+
+        return repository.save(user);
     }
 
     /**
