@@ -66,7 +66,7 @@ public class CompetitionControllerTests {
 
         String response = mockMvc.perform(MockMvcRequestBuilders.get(url))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.competitionId").value("kilpa"))
+                .andExpect(jsonPath("$.competitionId").value(competitionNameId))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
