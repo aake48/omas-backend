@@ -105,7 +105,22 @@ public class TestUtils {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + userToken)
                                 .content(json))
-                                .andExpect(status().isOk())
+                                .andReturn()
+                                .getResponse().getContentAsString();
+        }
+
+        public static void joinTeam(MockMvc mockMvc, String competitionName, String teamName, String userToken) throws Exception {
+
+                final String url = "/api/competition/team/member/add";
+                String json = new JSONObject()
+                .put("competitionName", competitionName)
+                .put("teamName", teamName)
+                .toString();
+
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + userToken)
+                                .content(json))
                                 .andReturn()
                                 .getResponse().getContentAsString();
         }
@@ -203,6 +218,13 @@ public class TestUtils {
                             userTokens.add(user1);
                     }
                     return userTokens;
+            }
+
+            public static void setUserToTeam(MockMvc mockMvc, String token,  String club, String competition, String team) throws Exception{
+                addClub(mockMvc, club, token);
+                joinClub(mockMvc, club, token);
+                addRifleCompetition(mockMvc, competition, token);
+                addTeam(mockMvc, competition, team, token);
             }
 
             /**

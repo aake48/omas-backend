@@ -1,5 +1,6 @@
 package com.omas.webapp.controllerTests;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -222,16 +223,16 @@ public class TeamMemberControllerTests {
                 String club = "seura";
                 String team = "tiimi";
 
-                //setup user in a team
-                TestUtils.addRifleCompetition(mockMvc, competition, TestUtils.getToken(mockMvc, "johndoe"));
-
                 TestUtils.registerUser(mockMvc, "Henrik", "salasana");
                 String token = new JSONObject(TestUtils.loginUser(mockMvc, "Henrik", "salasana")).getString("token");
 
+                //setup user in a team
+                TestUtils.addRifleCompetition(mockMvc, competition, token);
                 TestUtils.addClub(mockMvc, club, token);
                 TestUtils.joinClub(mockMvc, club, token);
                 TestUtils.addRifleCompetition(mockMvc, competition, token);
                 TestUtils.addTeam(mockMvc, competition, team, token);
+                TestUtils.joinTeam(mockMvc, competition, team, token);
 
 
 
@@ -245,14 +246,17 @@ public class TeamMemberControllerTests {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
                                 .content(json))
-                                .andExpect(status().isOk());
+                                .andExpect(status().isOk())
+                                .andExpect(content().string("true"));
 
                 //this user should NOT be in the team
                 mockMvc.perform(MockMvcRequestBuilders.get(url)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johnDoe"))
+                                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "pekka"))
                                 .content(json))
-                                .andExpect(status().isBadRequest());
+                                .andExpect(status().isOk())
+                                .andExpect(content().string("false"));
+
 
         }
 
