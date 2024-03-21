@@ -85,7 +85,6 @@ public class TeamController {
     }
 
     
-    //@PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/teamExists")
     public ResponseEntity<?> hasTeam(@Valid @RequestBody teamIdRequest request) {
 

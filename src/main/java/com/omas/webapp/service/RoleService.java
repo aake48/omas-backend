@@ -1,11 +1,14 @@
 package com.omas.webapp.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.omas.webapp.repository.RoleRepository;
 import com.omas.webapp.table.Role;
+import com.omas.webapp.table.RoleId;
 
 @Service
 public class RoleService {
@@ -41,6 +44,10 @@ public class RoleService {
     // TODO: Implement this method.
     public Boolean removeRoles(long id) {
         return null;
+    }
+
+    public Optional<Role> findRole(RoleId roleId) {
+        return repository.findById(roleId);
     }
 
 }

@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/reg", "/api/login", "/api/forgot_password","/api/reset_password" , "/api/club/**", "/api/competition/**", "/api/score/**", "api/competition/team/**").permitAll())
                 .authorizeHttpRequests(requests -> requests.requestMatchers("/api/auth/club/**",
                         "/api/auth/competition/new", "api/competition/team/new/**",
-                        "/api/auth/club/join**, /api/competition/team/member/add/**", "/api/competition/team/member/add/sum/**",
+                        "/api/auth/club/join**, /api/competition/team/member/add/**", "/api/competition/team/member/add/sum/**", "/api/competition/team/member/add/sum/admin**",
                         "/api/competition/team/member/score/add/**",
                         "/api/admin/delete/**", "/api/admin/delete/**", "/api/admin/promote/**", "/api/admin/demote/**", "/api/admin/**",
                         "api/competition/team/member/isMember**").authenticated())

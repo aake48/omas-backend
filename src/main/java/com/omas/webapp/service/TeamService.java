@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.omas.webapp.repository.TeamMemberRepository;
 import com.omas.webapp.repository.TeamRepository;
+import com.omas.webapp.table.Role;
+import com.omas.webapp.table.RoleId;
 import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMember;
@@ -18,6 +20,8 @@ public class TeamService {
     @Autowired
     private TeamMemberRepository teamMemberRepository;
 
+    @Autowired RoleService roleService;
+
     /**
      * Note: this method does not perform any validation to check if the provided competition or club exists.
      * @param competitionId
@@ -29,6 +33,17 @@ public class TeamService {
         Team team = new Team(new TeamId(competitionId, teamName), teamDisplayName);
 
         return teamRepository.save(team);
+    }
+
+    public boolean isAdminInclub(String competition, String team, String club) {
+        Long id = UserInfoDetails.getDetails().getId();
+
+        Optional<Role> role = roleService.findRole(new RoleId(id, club));
+        if (role.isEmpty()) {
+            return false;
+        }
+        return true;
+
     }
 
     /**

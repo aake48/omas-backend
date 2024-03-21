@@ -21,6 +21,7 @@ import com.omas.webapp.entity.requests.AddTeamMemberScoreAsSumRequest;
 import com.omas.webapp.entity.requests.AddTeamMemberScoreRequest;
 import com.omas.webapp.entity.requests.TeamMemberJoinRequest;
 import com.omas.webapp.entity.requests.TeamMemberScoreRequest;
+import com.omas.webapp.entity.requests.adminAddScoreRequest;
 import com.omas.webapp.entity.requests.teamIdRequest;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
@@ -142,6 +143,31 @@ public class TeamMemberController {
             }
             // if the scores already exist in the DB, they will be overwritten
             return new ResponseEntity<>(score, HttpStatus.OK);
+        } catch (Exception e) {
+            return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // TODO: implement this unfinished method.
+    @PreAuthorize("@teamService.isAdminInclub(#request.competitionName, #request.teamName, #request.clubName)")
+    @PostMapping("/score/add/sum/admin")
+    public ResponseEntity<?> addScoresSumAdmin(@Valid @RequestBody adminAddScoreRequest request) {
+
+        Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
+
+        if (competitionOptional.isEmpty()) {
+            return new MessageResponse("The requested competition does not exist", HttpStatus.BAD_REQUEST);
+        }
+
+        Competition competition = competitionOptional.get();
+
+        if (competition.hasEnded()) {
+            return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+        }
+
+        try {
+
+            throw new Exception();
         } catch (Exception e) {
             return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

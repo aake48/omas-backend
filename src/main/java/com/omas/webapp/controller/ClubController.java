@@ -3,6 +3,7 @@ package com.omas.webapp.controller;
 import com.omas.webapp.entity.requests.ClubRequest;
 import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.ClubService;
+import com.omas.webapp.service.RoleService;
 import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.service.UserService;
 import com.omas.webapp.table.Club;
@@ -31,6 +32,9 @@ public class ClubController {
     @Autowired
     private UserService userService;
 
+    @Autowired 
+    private RoleService roleService;
+
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/auth/club/new")
     public ResponseEntity<?> newClub(@Valid @RequestBody ClubRequest clubRequest) {
@@ -58,6 +62,8 @@ public class ClubController {
         Club createdClub = clubService.registerClub(new Club(clubNameNonId, clubName, userDetails.getId()));
 
         if (createdClub != null) {
+            Long id = UserInfoDetails.getDetails().getId();
+            roleService.addRole(id, clubName + "/admin");
             return new ResponseEntity<>(createdClub, HttpStatus.OK);
         }
 

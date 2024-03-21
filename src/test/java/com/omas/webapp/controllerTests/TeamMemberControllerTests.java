@@ -200,6 +200,42 @@ public class TeamMemberControllerTests {
         }
 
         @Test
+        public void PostTeamMemberScoreAsAdmin() throws Exception {
+
+
+                // add user to team
+                String addUserJson = new JSONObject()
+                .put("competitionName", competitionNameId)
+                .put("teamName", teamName)
+                
+                .toString();
+
+                mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(addUserJson))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.competitionId").value(competitionNameId));
+
+                String submitSumJson = new JSONObject()
+                .put("competitionName", competitionNameId)
+                .put("teamName", teamName)
+                .put("bullsEyeCount", 3)
+                .put("score", 240d)
+                .put("userId", 1) // TODO:add correct id 
+                .put("clubName", clubName)
+                .toString();
+
+                // Post user score
+                mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add/sum/admin")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(submitSumJson))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.sum").isNotEmpty());
+        }
+
+        @Test
         public void PostTooHighScore() throws Exception {
 
                 // add user to team
@@ -229,6 +265,8 @@ public class TeamMemberControllerTests {
                                 .content(json))
                                 .andExpect(status().isBadRequest());
         }
+
+        
 
         
         @Test

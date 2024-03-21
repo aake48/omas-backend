@@ -6,15 +6,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-
 import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
