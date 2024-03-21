@@ -40,6 +40,7 @@
       - [add team member to team](#add-team-member-to-team)
       - [get user's score](#get-users-score)
       - [submit user's score](#submit-users-score)
+      - [submit user's score as a sum](#submit-users-score-as-a-sum)
       - [isMember](#ismember)
 
 
@@ -470,6 +471,21 @@ Content-Type: application/json
   "competitionName": string,
   "teamName": string,
   "scoreList": number[]
+}
+```
+Returns [TeamMemberScore](#teammemberscore) if submission was successful.
+### Submit user's score as a sum
+Note: the following conditions must be met before user can submit his scores: 
+- The user must be [a team member](#add-team-member-to-team) for the competition before he is able to submit his scores
+```
+POST api/competition/team/member/score/add/sum
+Authorization: required
+Content-Type: application/json
+{
+  competitionName: string,
+  teamName: string,
+  score: number,
+  bullsEyeCount: number
 }
 ```
 Returns [TeamMemberScore](#teammemberscore) if submission was successful.

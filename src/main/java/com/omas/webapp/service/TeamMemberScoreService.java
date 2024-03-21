@@ -51,4 +51,9 @@ public class TeamMemberScoreService {
         return teamMemberScoreRepository.findByUserIdAndCompetitionId(id, competitionName);
     }
 
+    public TeamMemberScore addSum(TeamMemberId teamMemberId, int bullsEyeCount, double score) {
+        TeamMemberScore teamMemberScore = new TeamMemberScore(teamMemberId, score, bullsEyeCount);
+        return teamMemberScoreRepository.save(teamMemberScore);
+    }
+
 }

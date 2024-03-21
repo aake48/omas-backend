@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.omas.webapp.Constants;
+import com.omas.webapp.entity.requests.AddTeamMemberScoreAsSumRequest;
 import com.omas.webapp.entity.requests.AddTeamMemberScoreRequest;
 import com.omas.webapp.entity.requests.TeamMemberJoinRequest;
 import com.omas.webapp.entity.requests.TeamMemberScoreRequest;
@@ -139,6 +140,41 @@ public class TeamMemberController {
                 }
                 default -> throw new Exception("Invalid competition type");
             }
+            // if the scores already exist in the DB, they will be overwritten
+            return new ResponseEntity<>(score, HttpStatus.OK);
+        } catch (Exception e) {
+            return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PostMapping("/score/add/sum")
+    public ResponseEntity<?> addScoresSum(@Valid @RequestBody AddTeamMemberScoreAsSumRequest request) {
+
+        Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
+
+        if (competitionOptional.isEmpty()) {
+            return new MessageResponse("The requested competition does not exist", HttpStatus.BAD_REQUEST);
+        }
+
+        Competition competition = competitionOptional.get();
+
+        if (competition.hasEnded()) {
+            return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+        }
+
+        try {
+            long userId = ((UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal()).getId();
+
+            // validates that user is part of the team and that the team has entered this
+            // competition
+            TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(userId, request.getCompetitionName(),
+                    request.getTeamName());
+
+            TeamMemberScore score = teamMemberScoreService.addSum(teamMemberId, request.getBullsEyeCount(),
+                    request.getScore());
+
             // if the scores already exist in the DB, they will be overwritten
             return new ResponseEntity<>(score, HttpStatus.OK);
         } catch (Exception e) {

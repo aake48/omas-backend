@@ -165,6 +165,40 @@ public class TeamMemberControllerTests {
                                 .andExpect(jsonPath("$.sum").isNotEmpty());
         }
 
+
+        
+        @Test
+        public void PostTeamMemberScoreAsSum() throws Exception {
+
+                // add user to team
+                String addUserJson = new JSONObject()
+                .put("competitionName", competitionNameId)
+                .put("teamName", teamName)
+                .toString();
+
+                mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(addUserJson))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.competitionId").value(competitionNameId));
+
+                String submitSumJson = new JSONObject()
+                .put("competitionName", competitionNameId)
+                .put("teamName", teamName)
+                .put("bullsEyeCount", 3)
+                .put("score", 240d)
+                .toString();
+
+                // Post user score
+                mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add/sum")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(submitSumJson))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.sum").isNotEmpty());
+        }
+
         @Test
         public void PostTooHighScore() throws Exception {
 
