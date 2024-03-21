@@ -20,6 +20,7 @@ public class CompetitionResponse {
     String creationDate;
     String startDate;
     String endDate;
+    String type;
 
     @Setter
     List<CompetitionTeamResponse> teams = new ArrayList<>();
@@ -31,6 +32,7 @@ public class CompetitionResponse {
         this.creationDate = competition.getCreationDate().toString();
         this.startDate = competition.getStartDate().toString();
         this.endDate = competition.getEndDate().toString();
+        this.type = competition.getType();
     }
 
     public void addTeam(CompetitionTeamResponse teamResponse) {

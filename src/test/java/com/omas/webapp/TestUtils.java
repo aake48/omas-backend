@@ -193,41 +193,54 @@ public class TestUtils {
                 return sb.toString();
             }
 
-        /**
-         * Sets up users, club, competition, and adds scores with one method.
-         */
-        public static void setupScores(MockMvc mockMvc, String clubName, String teamName, String competitionName)
+            private static List<String> getUserTokens(MockMvc mockMvc, int ammountOfTokens) throws Exception {
+
+                    List<String> userTokens = new ArrayList<>();
+
+                    for (int i = 0; i < ammountOfTokens; i++) {
+                            String random1 = getRandomString();
+                            String user1 = getToken(mockMvc, random1);
+                            userTokens.add(user1);
+                    }
+                    return userTokens;
+            }
+
+            /**
+             * Sets up a competition and adds a club, team, teamMembers, and
+             * teamMemberScores for every club.
+             * Each club is assigned a team that inherits its name from the club's name.
+             * Each team is assigned as many team members as specified by teamSize.
+             * If a competition with the given name does not exist, it will be created.
+             * If it does exist, this method will continue to add the given clubs to this
+             * competition with their respective teams.
+             */
+        public static void setupScores(MockMvc mockMvc, List<String> clubs, String competitionName, int teamSize)
                         throws Exception {
 
-                ArrayList<String> userTokens = new ArrayList<>();
-                for (int i = 0; i < 5; i++) {
-                        String random1 = getRandomString();
-                        String user1 = getToken(mockMvc, random1);
-                        userTokens.add(user1);
-                }
-
-                // create club
-                addClub(mockMvc, clubName, userTokens.get(0));
-
-                // join users to club
-                for (String token : userTokens) {
-                        joinClub(mockMvc, clubName, token);
-                }
-
                 // create competition
-                addRifleCompetition(mockMvc, competitionName, userTokens.get(0));
+                addRifleCompetition(mockMvc, competitionName, getToken(mockMvc, "johnDoe"));
 
-                // add team for club
-                addTeam(mockMvc, competitionName, teamName, userTokens.get(0));
+                for (String clubName : clubs) {
+                        List<String> userTokens = getUserTokens(mockMvc, teamSize);
+                        addClub(mockMvc, clubName, userTokens.get(0));
 
-                // add team members
-                for (String token : userTokens) {
-                        addTeamMember(mockMvc, competitionName, teamName, token);
-                }
+                        // join users to club
+                        for (String token : userTokens) {
+                                joinClub(mockMvc, clubName, token);
+                        }
 
-                // add scores
-                for (String token : userTokens) {
-                        addScores(mockMvc, competitionName, teamName, token);
+                        // add team for club
+                        addTeam(mockMvc, competitionName, clubName, userTokens.get(0));
+
+                        // add team members
+                        for (String token : userTokens) {
+                                addTeamMember(mockMvc, competitionName, clubName, token);
+                        }
+
+                        // add scores
+                        for (String token : userTokens) {
+                                addScores(mockMvc, competitionName, clubName, token);
+                        }
                 }
 
         }
