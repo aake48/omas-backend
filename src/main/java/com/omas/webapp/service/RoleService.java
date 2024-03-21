@@ -13,7 +13,7 @@ public class RoleService {
     @Autowired
     RoleRepository repository;
 
-    public List<String> FindUsersRoles(Long userId){
+    public List<String> FindUsersRoles(Long userId) {
         List<Role> roles = repository.findDistinctByuserId(userId);
         return roles.stream().map(role -> String.valueOf(role.getRole())).toList();
     }
@@ -28,7 +28,17 @@ public class RoleService {
         return repository.save(userRole);
     }
 
-    //not implemented yet
+    public Role addRole(long id, String role) {
+        Role newRole = new Role(id, role);
+        return repository.save(newRole);
+    }
+
+    public void removeRole(long id, String role) {
+        Role roleToBeRemoved = new Role(id, role);
+        repository.delete(roleToBeRemoved);
+    }
+
+    // TODO: Implement this method.
     public Boolean removeRoles(long id) {
         return null;
     }

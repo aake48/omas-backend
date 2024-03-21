@@ -42,7 +42,7 @@ public class SecurityConfig {
                         "/api/auth/competition/new", "api/competition/team/new/**",
                         "/api/auth/club/join**, /api/competition/team/member/add/**", "/api/competition/team/member/add/sum/**",
                         "/api/competition/team/member/score/add/**",
-                        "/api/admin/delete/**", "/api/admin/delete/**", "/api/admin/**",
+                        "/api/admin/delete/**", "/api/admin/delete/**", "/api/admin/promote/**", "/api/admin/demote/**", "/api/admin/**",
                         "api/competition/team/member/isMember**").authenticated())
                 .sessionManagement(management -> management
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

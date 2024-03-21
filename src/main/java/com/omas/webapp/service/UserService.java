@@ -104,6 +104,15 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    public boolean userExists(long id) {
+        Optional<User> userOptional = repository.findById(id);
+
+        if (userOptional.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * "Deletes" a user by setting all their information to null.
      * @param userId the numeric id of the user to delete
