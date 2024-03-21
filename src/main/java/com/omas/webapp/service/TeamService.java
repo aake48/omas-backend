@@ -38,7 +38,7 @@ public class TeamService {
     public boolean isAdminInclub(String competition, String team, String club) {
         Long id = UserInfoDetails.getDetails().getId();
 
-        Optional<Role> role = roleService.findRole(new RoleId(id, club));
+        Optional<Role> role = roleService.findRole(new RoleId(id, club+"/admin"));
         if (role.isEmpty()) {
             return false;
         }
