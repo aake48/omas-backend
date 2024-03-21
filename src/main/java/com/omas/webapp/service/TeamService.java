@@ -1,6 +1,5 @@
 package com.omas.webapp.service;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,17 +47,16 @@ public class TeamService {
     }
 
     /** @return TeamMemberId if this user has permissions to submit scores to given competition
-     * checks whether user is in club. 
-     * checks that user is in his clubs team for this competition
      * @throws Exception throws an exception if validation fails
     */
-    public TeamMemberId CanUserSubmitScores(UserInfoDetails userDetails, String competitionName, String teamName) throws Exception {
+    public TeamMemberId CanUserSubmitScores(Long userId, String competitionName, String teamName) throws Exception {
 
-        if (!isUserPartOfTeam(userDetails.getId(), new TeamId(competitionName, teamName))){
-            throw new Exception("error: this user is not in the team");
+        if (thisUserIsTeamMember(new TeamMemberId(userId, competitionName, teamName))){
+            return new TeamMemberId(userId, new TeamId( competitionName, teamName));
         }
 
-        return new TeamMemberId(userDetails.getId(), new TeamId( competitionName, teamName));
+        throw new Exception("error: this user is not in the team");
+
     }
 
     /**
@@ -68,15 +66,11 @@ public class TeamService {
      * @param teamId The ID of the team.
      * @return true if the user is in the team, false otherwise.
      */
-    public boolean isUserPartOfTeam(long userId, TeamId teamId) {
+    public boolean thisUserIsTeamMember(TeamMemberId teamMemberId) {
+        Optional<TeamMember> teamMate = teamMemberRepository.findById(teamMemberId);
+        if (teamMate.isPresent()) {
 
-        Optional<List<TeamMember>> teamMates = teamMemberRepository.findByTeamId(teamId);
-        if (teamMates.isPresent()) {
-            List<TeamMember> results = teamMates.get();
-            if (results.contains(
-                new TeamMember( teamId.getCompetitionId(), userId, teamId.getTeamName()))){
-                return true;
-            }
+            return true;
         }
         return false;
     }

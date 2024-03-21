@@ -79,11 +79,10 @@ public class TeamMemberController {
     @GetMapping("/isMember")
     public ResponseEntity<?> isMember(@Valid @RequestBody teamIdRequest request) {
 
-        UserInfoDetails userDetails = (UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
-
+        long userId  = ((UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal()).getId();
         try {
-            teamsService.CanUserSubmitScores(userDetails, request.getCompetitionName(), request.getTeamName());
+            teamsService.CanUserSubmitScores(userId, request.getCompetitionName(), request.getTeamName());
             return new ResponseEntity<>(true, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -122,11 +121,12 @@ public class TeamMemberController {
 
         try {
 
-            UserInfoDetails userDetails = UserInfoDetails.getDetails();
+            long userId  = ((UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
+            .getPrincipal()).getId();
 
             // validates that user is part of the team and that the team has entered this
             // competition
-            TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(userDetails, request.getCompetitionName(), request.getTeamName());
+            TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(userId, request.getCompetitionName(), request.getTeamName());
 
             String type = competition.getType();
             TeamMemberScore score;

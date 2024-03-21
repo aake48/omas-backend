@@ -1,5 +1,6 @@
 package com.omas.webapp.controllerTests;
 
+import com.omas.webapp.Constants;
 import com.omas.webapp.Json;
 import com.omas.webapp.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,7 +65,8 @@ public class LoginTests {
 
                 String deletionUrl = "/api/delete";
 
-                String adminToken = TestUtils.loginAdmin(mockMvc);
+                //login admin
+                String adminToken =  new JSONObject(TestUtils.loginUser(mockMvc, Constants.adminUsername, Constants.adminPassword)).getString("token");
 
                 String deletionResponse = mockMvc.perform(MockMvcRequestBuilders.delete(deletionUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
