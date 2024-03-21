@@ -37,28 +37,30 @@ public class ClubControllerTests {
 
 
 
-@Test
+    @Test
     public void addClub() throws Exception {
 
-                String json = new JSONObject()
-                .put("clubName", nameNonId)
-                .toString();
+            String user = "johndoe";
+            String password = "password123";
 
-                TestUtils.getToken(mockMvc, "johndoe");
+            TestUtils.registerUser(mockMvc, user, password);
+            String loginResponse = TestUtils.loginUser(mockMvc, user, password);
+            JSONObject userObject = new JSONObject(loginResponse).getJSONObject("user");
+            long userId = userObject.getInt("userId");
 
-        mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
-                .content(json))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value(name))
-                .andExpect(jsonPath("$.nameNonId").value(nameNonId))
-                .andExpect(jsonPath("$.creationDate").exists())
-                .andExpect(jsonPath("$.idCreator").exists());
+            String json = new JSONObject()
+                            .put("clubName", nameNonId)
+                            .toString();
 
-
-
-                
+            mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
+                            .content(json))
+                            .andExpect(status().isOk())
+                            .andExpect(jsonPath("$.name").value(name))
+                            .andExpect(jsonPath("$.nameNonId").value(nameNonId))
+                            .andExpect(jsonPath("$.creationDate").exists())
+                            .andExpect(jsonPath("$.idCreator").value(userId));
 
     }
 
