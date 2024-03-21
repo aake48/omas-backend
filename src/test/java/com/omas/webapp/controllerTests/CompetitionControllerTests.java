@@ -1,6 +1,6 @@
 package com.omas.webapp.controllerTests;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.omas.webapp.Constants;
 import com.omas.webapp.Json;
 import com.omas.webapp.TestUtils;
 import com.omas.webapp.entity.response.CompetitionResponse;
@@ -15,9 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,7 +36,8 @@ public class CompetitionControllerTests {
     private static final String searchUrl = baseUrl + "/query?search=&page=0&size=10";
     private static final String getResultsUrl = "/api/competition/result/";
 
-    private static final String competitionNameId = "kilpa";
+    private static final String competitionDisplayName = "köyräs ensimmäinen sarja -kilpailu";
+    private static final String competitionNameId = Constants.createIdString(competitionDisplayName);
 
     @Test
     public void getResults() throws Exception {
@@ -98,16 +97,24 @@ public class CompetitionControllerTests {
     public void addRifleCompetition() throws Exception {
 
         String json = new JSONObject()
-                .put("competitionName", competitionNameId)
+                .put("competitionName", competitionDisplayName)
                 .put("competitionType", TestUtils.rifleCompetitionType)
                 .toString();
+
+
 
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content(json))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.type").value(TestUtils.rifleCompetitionType));
+                .andExpect(jsonPath("$.type").value(TestUtils.rifleCompetitionType))
+                .andExpect(jsonPath("$.displayName").value(competitionDisplayName))
+                .andExpect(jsonPath("$.startDate").exists())
+                .andExpect(jsonPath("$.endDate").exists())
+                .andExpect(jsonPath("$.creationDate").exists())
+                .andExpect(jsonPath("$.competitionId").value(competitionNameId));
+
 
     }
 
@@ -124,8 +131,12 @@ public class CompetitionControllerTests {
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content(json))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.type").value(TestUtils.pistolCompetitionType));
-
+                .andExpect(jsonPath("$.type").value(TestUtils.pistolCompetitionType))
+                .andExpect(jsonPath("$.displayName").value(competitionDisplayName))
+                .andExpect(jsonPath("$.startDate").exists())
+                .andExpect(jsonPath("$.endDate").exists())
+                .andExpect(jsonPath("$.creationDate").exists())
+                .andExpect(jsonPath("$.competitionId").value(competitionNameId));
     }
 
     @Test
