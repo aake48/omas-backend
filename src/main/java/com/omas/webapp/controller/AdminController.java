@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,7 @@ import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.RoleService;
 import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.service.UserService;
-import com.omas.webapp.table.Competition;
+import com.omas.webapp.table.TeamMemberId;
 import com.omas.webapp.table.User;
 
 @RestController
@@ -29,7 +30,7 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-    @Autowired 
+    @Autowired
     private RoleService roleService;
 
     @GetMapping(params = { "page", "size", "search" }, value = "user/query")
@@ -55,7 +56,34 @@ public class AdminController {
 
     }
 
-    
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping("/promote")
+    public ResponseEntity<?> promote(@RequestBody String role, Long userId) {
+        // TODO: Implement this method.
+        return null;
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping("/demote")
+    public ResponseEntity<?> demote(@RequestBody String role, Long userId) {
+        // TODO: Implement this method.
+        return null;
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping("/addScores")
+    public ResponseEntity<?> addScores(@RequestBody TeamMemberId id) {
+        // TODO: Implement this method.
+        return null;
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping("/removeScores")
+    public ResponseEntity<?> removeScores(@RequestBody TeamMemberId id) {
+        // TODO: Implement this method.
+        return null;
+    }
+
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteUser(@RequestBody String username) {
