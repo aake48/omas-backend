@@ -6,15 +6,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-
 import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -38,9 +35,6 @@ public class UserController {
 
     @Autowired
     private UserService service;
-
-    @Autowired
-    private RoleService roleService;
 
     @Autowired
     private JwtService jwtService;
@@ -130,34 +124,6 @@ public class UserController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteUser(@RequestBody String username) {
-
-        UserInfoDetails details = UserInfoDetails.getDetails();
-
-        Optional<User> userOptional = service.getUserByUsername(username);
-
-        if (userOptional.isEmpty()) {
-            return new MessageResponse("No user found with that name", HttpStatus.BAD_REQUEST);
-        }
-
-        User user = userOptional.get();
-
-        // Prevent admin from deleting themselves
-        if (details.getId().equals(user.getId())) {
-            return new MessageResponse("You cannot delete yourself", HttpStatus.BAD_REQUEST);
-        }
-
-        // Prevent deleting other admins
-        if (roleService.FindUsersRoles(user.getId()).contains("ROLE_ADMIN")) {
-            return new MessageResponse("You cannot delete other admins", HttpStatus.BAD_REQUEST);
-        }
-
-        service.deleteUser(user.getId());
-
-        return new MessageResponse("User deleted", HttpStatus.OK);
-    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

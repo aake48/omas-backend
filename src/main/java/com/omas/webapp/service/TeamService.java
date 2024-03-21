@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.omas.webapp.repository.TeamMemberRepository;
 import com.omas.webapp.repository.TeamRepository;
+import com.omas.webapp.table.Role;
+import com.omas.webapp.table.RoleId;
 import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMember;
@@ -18,17 +20,33 @@ public class TeamService {
     @Autowired
     private TeamMemberRepository teamMemberRepository;
 
+    @Autowired RoleService roleService;
+
     /**
      * Note: this method does not perform any validation to check if the provided competition or club exists.
      * @param competitionId
      * @param teamName
      * @return savedTeam
      */
-    public Team addTeam(String competitionId, String teamName, String teamDisplayName) {
+    public Team addTeam(String competitionId, String teamName, String teamDisplayName, String club) {
 
-        Team team = new Team(new TeamId(competitionId, teamName), teamDisplayName);
+        Team team = new Team(new TeamId(competitionId, teamName), teamDisplayName, club);
 
         return teamRepository.save(team);
+    }
+
+    /**
+     * validates that the user has privileges to administer teams of this club 
+     */
+    public boolean isAdminInclub(String club) {
+        Long id = UserInfoDetails.getDetails().getId();
+
+        Optional<Role> role = roleService.findRole(new RoleId(id, club+"/admin"));
+        if (role.isEmpty()) {
+            return false;
+        }
+        return true;
+
     }
 
     /**
@@ -47,6 +65,7 @@ public class TeamService {
     }
 
     /** @return TeamMemberId if this user has permissions to submit scores to given competition
+     * checks that user is member of the team
      * @throws Exception throws an exception if validation fails
     */
     public TeamMemberId CanUserSubmitScores(Long userId, String competitionName, String teamName) throws Exception {

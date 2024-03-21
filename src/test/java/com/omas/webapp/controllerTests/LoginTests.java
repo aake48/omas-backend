@@ -51,7 +51,7 @@ public class LoginTests {
                                 .andExpect(jsonPath("$.token").exists())
                                 .andExpect(jsonPath("$.user").exists())
                                 .andExpect(jsonPath("$.user.username").value(username))
-                                .andExpect(jsonPath("$.user.legalName").value("name"))
+                                .andExpect(jsonPath("$.user.legalName").value(username))
                                 .andExpect(jsonPath("$.user.club").isEmpty())
                                 .andExpect(jsonPath("$.user.userId").exists())
                                 .andExpect(jsonPath("$.user.authorities").exists())
@@ -60,26 +60,7 @@ public class LoginTests {
 
         }
 
-        @Test
-        void registerAndDeleteUser() throws Exception {
 
-                String deletionUrl = "/api/delete";
-
-                //login admin
-                String adminToken =  new JSONObject(TestUtils.loginUser(mockMvc, Constants.adminUsername, Constants.adminPassword)).getString("token");
-
-                String deletionResponse = mockMvc.perform(MockMvcRequestBuilders.delete(deletionUrl)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + adminToken)
-                                .content(username))
-                                .andExpect(jsonPath("$.message").value("User deleted"))
-                                .andExpect(status().isOk())
-                                .andReturn()
-                                .getResponse()
-                                .getContentAsString();
-
-                System.out.println("deletionResponse: " + deletionResponse);
-        }
 
         @Test
         void IncorrectCapitalizedLetterInPassword() throws Exception {

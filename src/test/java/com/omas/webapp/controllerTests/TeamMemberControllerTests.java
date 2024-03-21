@@ -34,7 +34,8 @@ public class TeamMemberControllerTests {
         private static final String addNewUrl = baseUrl + "/add";
         private static final String ScoreUrl = baseUrl + "/score";
 
-        private String token;
+        private String userToken;
+
         private final String clubName = "Seuraajat1";
         private final String teamName = "team1";
         final String competitionNameId = "2040_kesaampujaiset";
@@ -43,11 +44,11 @@ public class TeamMemberControllerTests {
 
         @BeforeEach
         private void test() throws Exception {
-                token = TestUtils.getToken(mockMvc, "johndoe");
-                TestUtils.addClub(mockMvc, clubName, token);
-                TestUtils.joinClub(mockMvc, clubName, token);
-                TestUtils.addRifleCompetition(mockMvc, competitionNameId, token);
-                TestUtils.addTeam(mockMvc, competitionNameId, teamName, token);
+                userToken = TestUtils.getToken(mockMvc, "johndoe");
+                TestUtils.addClub(mockMvc, clubName, userToken);
+                TestUtils.joinClub(mockMvc, clubName, userToken);
+                TestUtils.addRifleCompetition(mockMvc, competitionNameId, userToken);
+                TestUtils.addTeam(mockMvc, competitionNameId, teamName, userToken);
         }
 
         @Test
@@ -62,7 +63,7 @@ public class TeamMemberControllerTests {
 
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + token)
+                                .header("Authorization", "Bearer " + userToken)
                                 .content(json))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.competitionId").value(competitionNameId));
@@ -144,7 +145,7 @@ public class TeamMemberControllerTests {
                 .toString();
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + token)
+                                .header("Authorization", "Bearer " + userToken)
                                 .content(addUserJson))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.competitionId").value(competitionNameId));
@@ -159,7 +160,7 @@ public class TeamMemberControllerTests {
                 // Post user score
                 mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + token)
+                                .header("Authorization", "Bearer " + userToken)
                                 .content(json))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.sum").isNotEmpty());
@@ -178,7 +179,7 @@ public class TeamMemberControllerTests {
 
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + token)
+                                .header("Authorization", "Bearer " + userToken)
                                 .content(addUserJson))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.competitionId").value(competitionNameId));
@@ -193,7 +194,50 @@ public class TeamMemberControllerTests {
                 // Post user score
                 mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add/sum")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + token)
+                                .header("Authorization", "Bearer " + userToken)
+                                .content(submitSumJson))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.sum").isNotEmpty());
+        }
+
+        @Test
+        public void PostTeamMemberScoreAsClubAdmin() throws Exception {
+
+                // add user to team
+                String addUserJson = new JSONObject()
+                                .put("competitionName", competitionNameId)
+                                .put("teamName", teamName)
+
+                                .toString();
+
+                mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + userToken)
+                                .content(addUserJson))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.competitionId").value(competitionNameId));
+
+                TestUtils.registerUser(mockMvc, "Johndeye", "Johndeye");
+                String resp = TestUtils.loginUser(mockMvc, "Johndeye", "Johndeye");
+                JSONObject userObject = new JSONObject(resp).getJSONObject("user");
+                long userId = userObject.getInt("userId");
+                String teamMemberToken = new JSONObject(resp).getString("token");
+
+                String submitSumJson = new JSONObject()
+                                .put("competitionName", competitionNameId)
+                                .put("teamName", teamName)
+                                .put("bullsEyeCount", 3)
+                                .put("score", 240d)
+                                .put("userId", userId)
+                                .put("clubName", clubName)
+                                .toString();
+
+                TestUtils.joinClub(mockMvc, clubName, teamMemberToken);
+                TestUtils.joinTeam(mockMvc, competitionNameId, teamName, teamMemberToken);
+                // Post user score
+                mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add/sum/admin")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + userToken)
                                 .content(submitSumJson))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.sum").isNotEmpty());
@@ -209,7 +253,7 @@ public class TeamMemberControllerTests {
                 .toString();
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + token)
+                                .header("Authorization", "Bearer " + userToken)
                                 .content(addUserJson))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.competitionId").value(competitionNameId));
@@ -225,10 +269,12 @@ public class TeamMemberControllerTests {
                 // Post user score
                 mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + token)
+                                .header("Authorization", "Bearer " + userToken)
                                 .content(json))
                                 .andExpect(status().isBadRequest());
         }
+
+        
 
         
         @Test
@@ -243,7 +289,7 @@ public class TeamMemberControllerTests {
 
                 mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + token)
+                                .header("Authorization", "Bearer " + userToken)
                                 .content(json))
                                 .andExpect(status().isBadRequest());
         }

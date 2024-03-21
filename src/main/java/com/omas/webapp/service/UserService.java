@@ -3,10 +3,13 @@ package com.omas.webapp.service;
 import com.omas.webapp.entity.requests.RegistrationRequest;
 import com.omas.webapp.repository.PasswordResetTokenRepository;
 import com.omas.webapp.repository.UserRepository;
+import com.omas.webapp.table.Competition;
 import com.omas.webapp.table.PasswordResetToken;
 import com.omas.webapp.table.User;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,6 +34,11 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
+
+
+        public Page<User> findWithPaginatedSearch(int page, int size, String search) {
+        return repository.findBylegalnameContaining(search, PageRequest.of(page, size));
+    }
 
     @Override
     public UserInfoDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -91,6 +99,15 @@ public class UserService implements UserDetailsService {
             roleService.addUserRole(createdUser.getId());
         } catch (Exception e) {
             System.out.println("ex : " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean userExists(long id) {
+        Optional<User> userOptional = repository.findById(id);
+
+        if (userOptional.isEmpty()) {
             return false;
         }
         return true;

@@ -37,7 +37,7 @@ public class TestUtils {
                 String json = new JSONObject()
                                 .put("password", password)
                                 .put("username", username)
-                                .put("name", "name")
+                                .put("name", username)
                                 .put("email", "email@"+username+".com")
                                 .toString();
 

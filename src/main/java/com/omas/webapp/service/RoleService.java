@@ -1,11 +1,14 @@
 package com.omas.webapp.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.omas.webapp.repository.RoleRepository;
 import com.omas.webapp.table.Role;
+import com.omas.webapp.table.RoleId;
 
 @Service
 public class RoleService {
@@ -13,7 +16,7 @@ public class RoleService {
     @Autowired
     RoleRepository repository;
 
-    public List<String> FindUsersRoles(Long userId){
+    public List<String> FindUsersRoles(Long userId) {
         List<Role> roles = repository.findDistinctByuserId(userId);
         return roles.stream().map(role -> String.valueOf(role.getRole())).toList();
     }
@@ -28,9 +31,23 @@ public class RoleService {
         return repository.save(userRole);
     }
 
-    //not implemented yet
+    public Role addRole(long id, String role) {
+        Role newRole = new Role(id, role);
+        return repository.save(newRole);
+    }
+
+    public void removeRole(long id, String role) {
+        Role roleToBeRemoved = new Role(id, role);
+        repository.delete(roleToBeRemoved);
+    }
+
+    // TODO: Implement this method.
     public Boolean removeRoles(long id) {
         return null;
+    }
+
+    public Optional<Role> findRole(RoleId roleId) {
+        return repository.findById(roleId);
     }
 
 }

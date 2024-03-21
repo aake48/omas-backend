@@ -32,6 +32,11 @@ public class Team {
         this.teamName = teamId.getTeamName();
     }
 
+    
+    @Getter
+    @Column(nullable = false)
+    private String clubName;
+
     @Getter
     @Column(nullable = false)
     private String teamDisplayName;
@@ -40,14 +45,19 @@ public class Team {
     @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false, updatable = false)
     private Competition competition;
 
+    @ManyToOne
+    @JoinColumn(name = "clubName", referencedColumnName = "name", insertable = false, updatable = false)
+    private Club club;
+
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     @Getter
     private List<TeamMember> teamMembers = new ArrayList<>();
 
-    public Team(TeamId teamId, String teamDisplayName) {
+    public Team(TeamId teamId, String teamDisplayName, String club) {
         competitionId = teamId.getCompetitionId();
         teamName = teamId.getTeamName();
         this.teamDisplayName = teamDisplayName;
+        this.clubName=club;
     }
 
     @JsonIgnore
