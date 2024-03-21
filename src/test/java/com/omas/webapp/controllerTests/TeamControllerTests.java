@@ -1,5 +1,6 @@
 package com.omas.webapp.controllerTests;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -135,5 +136,58 @@ public class TeamControllerTests {
                                 .header("Authorization", "Bearer " + token)
                                 .content(json))
                                 .andExpect(status().isOk());
+        }
+
+        @Test
+        public void teamExists() throws Exception {
+
+                String url = baseUrl +"teamExists";
+
+
+                String token = TestUtils.getToken(mockMvc, "johndoe");
+                TestUtils.addClub(mockMvc, clubName, token);
+                TestUtils.joinClub(mockMvc, clubName, token);
+                TestUtils.addRifleCompetition(mockMvc, competitionNameId, token);
+                TestUtils.addTeam(mockMvc, competitionNameId, teamNameId, token);
+
+
+                String json = new JSONObject()
+                .put("teamName", teamNameId)
+                .put("competitionName", competitionNameId)
+                .toString();
+
+                mockMvc.perform(MockMvcRequestBuilders.get(url)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(json))
+                                .andExpect(status().isOk())
+                                .andExpect(content().string("true"));
+        }
+
+
+        @Test
+        public void teamExistsWithoutTeam() throws Exception {
+
+                String url = baseUrl +"teamExists";
+
+
+                String token = TestUtils.getToken(mockMvc, "johndoe");
+                TestUtils.addClub(mockMvc, clubName, token);
+                TestUtils.joinClub(mockMvc, clubName, token);
+                TestUtils.addRifleCompetition(mockMvc, competitionNameId, token);
+               //Club has not enlisted any team for this competition //TestUtils.addTeam(mockMvc, competitionNameId, teamNameId, token);
+
+
+                String json = new JSONObject()
+                .put("teamName", teamNameId)
+                .put("competitionName", competitionNameId)
+                .toString();
+
+                mockMvc.perform(MockMvcRequestBuilders.get(url)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(json))
+                                .andExpect(status().isOk())
+                                .andExpect(content().string("false"));
         }
 }
