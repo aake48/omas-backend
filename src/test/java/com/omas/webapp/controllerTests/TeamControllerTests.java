@@ -34,9 +34,9 @@ public class TeamControllerTests {
 
 
         @Test
-        void getTeam() throws Exception {
+        void GetNonExistingTeam() throws Exception {
 
-                String url = "/api/competition/team?team=asjg&competition=uyaustg";
+                String url = baseUrl +"?team=asjg&competition=uyaustg";
 
                 mockMvc.perform(MockMvcRequestBuilders.get(url)
                         .contentType(MediaType.APPLICATION_JSON))
