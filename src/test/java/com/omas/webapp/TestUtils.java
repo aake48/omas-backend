@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import com.fasterxml.jackson.databind.JsonNode;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
@@ -25,16 +24,18 @@ public class TestUtils {
         public static final String rifleCompetitionType = Constants.rifleType;
         public static final String pistolCompetitionType = Constants.pistolType;
 
+
+
         public static String getToken(MockMvc mockMvc, String username) throws Exception {
 
-                registerUser(mockMvc, username);
-                return loginUser(mockMvc, username);
+                registerUser(mockMvc, username, "password123");
+                return new JSONObject(loginUser(mockMvc, username, "password123")).getString("token");
         }
 
-        public static String registerUser(MockMvc mockMvc, String username) throws Exception {
+        public static String registerUser(MockMvc mockMvc, String username, String password) throws Exception {
 
                 String json = new JSONObject()
-                                .put("password", "password123")
+                                .put("password", password)
                                 .put("username", username)
                                 .put("name", "name")
                                 .put("email", "email@"+username+".com")
@@ -49,50 +50,22 @@ public class TestUtils {
         }
 
 
-        /**
-         * Shorthand method to login as admin
-         * @return the admin authorization token
-         */
-        public static String loginAdmin(MockMvc mvc) throws Exception {
-                return login(mvc, ADMIN_USERNAME, ADMIN_PASSWORD);
-        }
 
-        public static String login(MockMvc mockMvc, String username, String password) throws Exception {
 
-                String json = Json.objectNode()
-                    .put("username", username)
-                    .put("password", password)
-                    .toString();
 
-                String response = mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                        .andExpect(status().isOk())
-                        .andReturn()
-                        .getResponse()
-                        .getContentAsString();
+        public static String loginUser(MockMvc mockMvc, String username, String password) throws Exception {
 
-                JsonNode node = Json.parse(response);
+                String json = new JSONObject().put("password", password).put("username", username).toString();
 
-                String token = node.get("token").asText();
+                String result = mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
-                System.out.println("Logging in " + username + ":" + password + " with token " + token);
-
-                return token;
-        }
-
-        public static String loginUser(MockMvc mockMvc, String username) throws Exception {
-
-                String json = new JSONObject().put("password", "password123").put("username", username).toString();
-
-                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(json))
-                                .andExpect(status().isOk())
-                                .andReturn();
-
-                String token = new JSONObject(mvcResult.getResponse().getContentAsString()).getString("token");
-                return token;
+                return result;
         }
 
         public static String addClub(MockMvc mockMvc, String clubName, String userToken) throws Exception {

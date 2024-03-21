@@ -8,9 +8,12 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.omas.webapp.Constants;
 import com.omas.webapp.TestUtils;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -21,7 +24,7 @@ public class ClubControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
-
+ 
     private static final String baseUrl = "/api/club";
     private static final String authUrl = "/api/auth/club";
 
@@ -29,15 +32,33 @@ public class ClubControllerTests {
     private static final String getAllUrl = baseUrl + "/all";
     private static final String searchUrl = baseUrl + "/query?search=&page=0&size=10";
 
-    @Test
+    private static final String nameNonId = "Öhrem täyrys -Seura";
+    private static final String name = Constants.createIdString(nameNonId);
+
+
+
+@Test
     public void addClub() throws Exception {
+
+                String json = new JSONObject()
+                .put("clubName", nameNonId)
+                .toString();
+
+                TestUtils.getToken(mockMvc, "johndoe");
 
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
-                .content("{" + "\"clubName\":\"Seuran nimi\"" + "}"))
+                .content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Seuran_nimi"));
+                .andExpect(jsonPath("$.name").value(name))
+                .andExpect(jsonPath("$.nameNonId").value(nameNonId))
+                .andExpect(jsonPath("$.creationDate").exists())
+                .andExpect(jsonPath("$.idCreator").exists());
+
+
+
+                
 
     }
 
