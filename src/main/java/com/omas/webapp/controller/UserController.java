@@ -40,9 +40,6 @@ public class UserController {
     private UserService service;
 
     @Autowired
-    private RoleService roleService;
-
-    @Autowired
     private JwtService jwtService;
 
     @Autowired
@@ -130,34 +127,6 @@ public class UserController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteUser(@RequestBody String username) {
-
-        UserInfoDetails details = UserInfoDetails.getDetails();
-
-        Optional<User> userOptional = service.getUserByUsername(username);
-
-        if (userOptional.isEmpty()) {
-            return new MessageResponse("No user found with that name", HttpStatus.BAD_REQUEST);
-        }
-
-        User user = userOptional.get();
-
-        // Prevent admin from deleting themselves
-        if (details.getId().equals(user.getId())) {
-            return new MessageResponse("You cannot delete yourself", HttpStatus.BAD_REQUEST);
-        }
-
-        // Prevent deleting other admins
-        if (roleService.FindUsersRoles(user.getId()).contains("ROLE_ADMIN")) {
-            return new MessageResponse("You cannot delete other admins", HttpStatus.BAD_REQUEST);
-        }
-
-        service.deleteUser(user.getId());
-
-        return new MessageResponse("User deleted", HttpStatus.OK);
-    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
