@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
@@ -19,8 +18,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 public class TestUtils {
 
-        public static final String ADMIN_USERNAME = "admin";
-        public static final String ADMIN_PASSWORD = "longverysecureadministratorpassword";
+        public static final String ADMIN_USERNAME = Constants.adminUsername;
+        public static final String ADMIN_PASSWORD = Constants.adminPassword;
 
 
         public static final String rifleCompetitionType = Constants.rifleType;
@@ -38,7 +37,7 @@ public class TestUtils {
                                 .put("password", "password123")
                                 .put("username", username)
                                 .put("name", "name")
-                                .put("email", "user@example.com")
+                                .put("email", "email@"+username+".com")
                                 .toString();
 
                 MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/reg")
@@ -208,78 +207,55 @@ public class TestUtils {
         }
 
         public static String getRandomString() {
-
-                int length = 32;
+                int length = 10;
                 String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                Random random = new Random();
-                StringBuilder stringBuilder = new StringBuilder(length);
-
+                Random rand = new Random();
+                StringBuilder sb = new StringBuilder(length);
+        
                 for (int i = 0; i < length; i++) {
-                        int index = random.nextInt(characters.length());
-                        char randomChar = characters.charAt(index);
-                        stringBuilder.append(randomChar);
+                    int randomIndex = rand.nextInt(characters.length());
+                    sb.append(characters.charAt(randomIndex));
                 }
-
-                return stringBuilder.toString();
-
-        }
+        
+                return sb.toString();
+            }
 
         /**
          * Sets up users, club, competition, and adds scores with one method.
          */
-        public static void setupScores(MockMvc mockMvc, String clubName, String teamName, String competitionName) throws Exception {
+        public static void setupScores(MockMvc mockMvc, String clubName, String teamName, String competitionName)
+                        throws Exception {
 
-                // create user1Tokens
-                String random1 = getRandomString();
-                String user1 = getToken(mockMvc, random1);
-
-                String user2 = getRandomString();
-                registerUser(mockMvc, user2);
-                user2 = loginUser(mockMvc, user2);
-
-                String user3 = getRandomString();
-                registerUser(mockMvc, user3);
-                user3 = loginUser(mockMvc, user3);
-
-                String user4 = getRandomString();
-                registerUser(mockMvc, user4);
-                user4 = loginUser(mockMvc, user4);
-
-                String user5 = getRandomString();
-                registerUser(mockMvc, user5);
-                user5 = loginUser(mockMvc, user5);
+                ArrayList<String> userTokens = new ArrayList<>();
+                for (int i = 0; i < 5; i++) {
+                        String random1 = getRandomString();
+                        String user1 = getToken(mockMvc, random1);
+                        userTokens.add(user1);
+                }
 
                 // create club
-                addClub(mockMvc, clubName, user1);
-
-
+                addClub(mockMvc, clubName, userTokens.get(0));
 
                 // join users to club
-                joinClub(mockMvc, clubName, user1);
-                joinClub(mockMvc, clubName, user2);
-                joinClub(mockMvc, clubName, user3);
-                joinClub(mockMvc, clubName, user4);
-                joinClub(mockMvc, clubName, user5);
+                for (String token : userTokens) {
+                        joinClub(mockMvc, clubName, token);
+                }
 
                 // create competition
-                addRifleCompetition(mockMvc, competitionName, user1);
+                addRifleCompetition(mockMvc, competitionName, userTokens.get(0));
 
                 // add team for club
-                addTeam(mockMvc, competitionName, teamName, user1);
+                addTeam(mockMvc, competitionName, teamName, userTokens.get(0));
 
                 // add team members
-                addTeamMember(mockMvc, competitionName, teamName, user1);
-                addTeamMember(mockMvc, competitionName, teamName, user2);
-                addTeamMember(mockMvc, competitionName, teamName, user3);
-                addTeamMember(mockMvc, competitionName, teamName, user4);
-                addTeamMember(mockMvc, competitionName, teamName, user5);
+                for (String token : userTokens) {
+                        addTeamMember(mockMvc, competitionName, teamName, token);
+                }
 
                 // add scores
-                addScores(mockMvc, competitionName, teamName, user1);
-                addScores(mockMvc, competitionName, teamName, user2);
-                addScores(mockMvc, competitionName, teamName, user3);
-                addScores(mockMvc, competitionName, teamName, user4);
-                addScores(mockMvc, competitionName, teamName, user5);
+                for (String token : userTokens) {
+                        addScores(mockMvc, competitionName, teamName, token);
+                }
 
         }
 

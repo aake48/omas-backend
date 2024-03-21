@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.json.JSONObject;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -25,54 +27,54 @@ public class LoginTests {
 
         private static final String url = "/api/login";
 
+        private String username = "johndoe";
+
         @BeforeEach
         private void registerUser() throws Exception {
+
                 TestUtils.getToken(mockMvc, "johndoe");
         }
 
+        @Test
         void login() throws Exception {
+
+                String json = new JSONObject()
+                                .put("password", "password123")
+                                .put("username", username)
+                                .toString();
+
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content("{"
-                                                + "\"password\":\"password123\","
-                                                + "\"username\":\"johndoe\""
-                                                + "}"))
-                                .andExpect(status().isOk()).andExpect(jsonPath("$.token").exists());
+                                .content(json))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.token").exists())
+                                .andExpect(jsonPath("$.user").exists())
+                                .andExpect(jsonPath("$.user.username").value(username))
+                                .andExpect(jsonPath("$.user.legalName").value("name"))
+                                .andExpect(jsonPath("$.user.club").isEmpty())
+                                .andExpect(jsonPath("$.user.userId").exists())
+                                .andExpect(jsonPath("$.user.authorities").exists())
+                                .andExpect(jsonPath("$.user.email").exists())
+                                .andExpect(jsonPath("$.user.creationDate").exists());
 
         }
 
         @Test
         void registerAndDeleteUser() throws Exception {
 
-                String url = "/api/delete";
-
-                String json = Json.objectNode()
-                    .put("password", "password123")
-                    .put("username", "testuser")
-                    .put("name", "testname")
-                    .put("email", "testuser@testmail.com")
-                    .toString();
-
-                String registrationResponse = mockMvc.perform(MockMvcRequestBuilders.post("/api/reg")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                        .andExpect(status().isOk())
-                        .andReturn()
-                        .getResponse()
-                        .getContentAsString();
-
-                System.out.println("registrationResponse: " + registrationResponse);
+                String deletionUrl = "/api/delete";
 
                 String adminToken = TestUtils.loginAdmin(mockMvc);
 
-                String deletionResponse = mockMvc.perform(MockMvcRequestBuilders.delete(url)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", "Bearer " + adminToken)
-                        .content("testuser"))
-                        .andExpect(status().isOk())
-                        .andReturn()
-                        .getResponse()
-                        .getContentAsString();
+                String deletionResponse = mockMvc.perform(MockMvcRequestBuilders.delete(deletionUrl)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + adminToken)
+                                .content(username))
+                                .andExpect(jsonPath("$.message").value("User deleted"))
+                                .andExpect(status().isOk())
+                                .andReturn()
+                                .getResponse()
+                                .getContentAsString();
 
                 System.out.println("deletionResponse: " + deletionResponse);
         }
@@ -81,8 +83,6 @@ public class LoginTests {
         void IncorrectCapitalizedLetterInPassword() throws Exception {
 
                 TestUtils.getToken(mockMvc, "johndoe");
-
-                login();
 
                 // Incorrectly Capitalized first letter of password
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
@@ -101,8 +101,6 @@ public class LoginTests {
 
                 TestUtils.getToken(mockMvc, "johndoe");
 
-                login();
-
                 // Incorrect whitespace before password
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -120,8 +118,6 @@ public class LoginTests {
 
                 TestUtils.getToken(mockMvc, "johndoe");
 
-                login();
-
                 // Incorrect whitespace in Username
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -137,8 +133,6 @@ public class LoginTests {
         void IncorrectCapitalizedLetterInUsername() throws Exception {
 
                 TestUtils.getToken(mockMvc, "johndoe");
-
-                login();
 
                 // Incorrectly Capitalized Username
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
@@ -156,8 +150,6 @@ public class LoginTests {
 
                 TestUtils.getToken(mockMvc, "johndoe");
 
-                login();
-
                 // missingPassword
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -172,8 +164,6 @@ public class LoginTests {
         void missingUsername() throws Exception {
 
                 TestUtils.getToken(mockMvc, "johndoe");
-
-                login();
 
                 // missingUsername
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
