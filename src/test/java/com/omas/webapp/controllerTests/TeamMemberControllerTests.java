@@ -227,7 +227,6 @@ public class TeamMemberControllerTests {
                 String token = new JSONObject(TestUtils.loginUser(mockMvc, "Henrik", "salasana")).getString("token");
 
                 //setup user in a team
-                TestUtils.addRifleCompetition(mockMvc, competition, token);
                 TestUtils.addClub(mockMvc, club, token);
                 TestUtils.joinClub(mockMvc, club, token);
                 TestUtils.addRifleCompetition(mockMvc, competition, token);
@@ -249,18 +248,52 @@ public class TeamMemberControllerTests {
                                 .andExpect(status().isOk())
                                 .andExpect(content().string("true"));
 
-                //this user should NOT be in the team
+
+        }
+
+        @Test
+        public void IsMemberWithUserWhoseOnlyInTheClub() throws Exception {
+
+                final String url = "/api/competition/team/member/isMember";
+
+                String competition = "kilpa";
+                String club = "seura";
+                String team = "tiimi";
+
+                TestUtils.registerUser(mockMvc, "Henrik", "salasana");
+                String token = new JSONObject(TestUtils.loginUser(mockMvc, "Henrik", "salasana")).getString("token");
+
+                // setup user in a team
+                TestUtils.addClub(mockMvc, club, token);
+                TestUtils.joinClub(mockMvc, club, token);
+                TestUtils.addRifleCompetition(mockMvc, competition, token);
+                TestUtils.addTeam(mockMvc, competition, team, token);
+                
+
+                String otherToken = TestUtils.getToken(mockMvc, "pekatin");
+
+                TestUtils.joinClub(mockMvc, club, otherToken);
+                TestUtils.addRifleCompetition(mockMvc, competition, otherToken);
+                TestUtils.addTeam(mockMvc, competition, team, otherToken);
+                TestUtils.joinTeam(mockMvc, competition, team, otherToken);
+
+
+                String json = new JSONObject()
+                                .put("teamName", team)
+                                .put("competitionName", competition)
+                                .toString();
+
+                // this user should be in the team
                 mockMvc.perform(MockMvcRequestBuilders.get(url)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "pekka"))
+                                .header("Authorization", "Bearer " + token)
                                 .content(json))
                                 .andExpect(status().isOk())
                                 .andExpect(content().string("false"));
 
-
         }
 
-        }
+}
 
 
 
