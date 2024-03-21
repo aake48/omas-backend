@@ -130,7 +130,7 @@ public class CompetitionControllerTests {
     public void addPistolScore() throws Exception {
 
         String json = new JSONObject()
-                .put("competitionName", competitionNameId)
+                .put("competitionName", competitionDisplayName)
                 .put("competitionType", TestUtils.pistolCompetitionType)
                 .toString();
 
