@@ -111,10 +111,10 @@ public class UserService implements UserDetailsService {
 
         User user = userOptional.get();
 
-        user.setLegalname(null);
+        user.setLegalname(user.getPartOfClub());
+        user.setUsername(null);
         user.setPartOfClub(null);
         user.setPassword(null);
-        user.setUsername(null);
         user.setEmail(null);
         user.setCreationDate(null);
 
