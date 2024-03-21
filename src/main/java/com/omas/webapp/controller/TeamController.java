@@ -7,6 +7,7 @@ import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
+import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.Competition;
 import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +43,12 @@ public class TeamController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/new")
     public ResponseEntity<?> addTeam(@Valid @RequestBody AddTeamRequest request) {
+
+        String club = UserInfoDetails.getDetails().getPartOfClub();
+
+        if(club==null){
+            return new ResponseEntity<>(Map.of("messsage", "user creating a team needs to be in a club"), HttpStatus.BAD_REQUEST);
+        }
 
         Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
 
@@ -75,7 +83,7 @@ public class TeamController {
         
         try {
 
-            Team addedTeam = teamService.addTeam(request.getCompetitionName(), teamName, teamDisplayName);
+            Team addedTeam = teamService.addTeam(request.getCompetitionName(), teamName, teamDisplayName, club);
             return new ResponseEntity<>(addedTeam, HttpStatus.OK);
 
         } catch (Exception e) {

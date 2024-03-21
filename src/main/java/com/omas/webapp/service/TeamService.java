@@ -28,14 +28,17 @@ public class TeamService {
      * @param teamName
      * @return savedTeam
      */
-    public Team addTeam(String competitionId, String teamName, String teamDisplayName) {
+    public Team addTeam(String competitionId, String teamName, String teamDisplayName, String club) {
 
-        Team team = new Team(new TeamId(competitionId, teamName), teamDisplayName);
+        Team team = new Team(new TeamId(competitionId, teamName), teamDisplayName, club);
 
         return teamRepository.save(team);
     }
 
-    public boolean isAdminInclub(String competition, String team, String club) {
+    /**
+     * validates that the user has privileges to administer teams of this club 
+     */
+    public boolean isAdminInclub(String club) {
         Long id = UserInfoDetails.getDetails().getId();
 
         Optional<Role> role = roleService.findRole(new RoleId(id, club+"/admin"));
@@ -62,6 +65,7 @@ public class TeamService {
     }
 
     /** @return TeamMemberId if this user has permissions to submit scores to given competition
+     * checks that user is member of the team
      * @throws Exception throws an exception if validation fails
     */
     public TeamMemberId CanUserSubmitScores(Long userId, String competitionName, String teamName) throws Exception {

@@ -29,6 +29,8 @@ import com.omas.webapp.service.TeamService;
 import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.TeamMemberId;
 import com.omas.webapp.table.Competition;
+import com.omas.webapp.table.Team;
+import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMember;
 import com.omas.webapp.table.TeamMemberScore;
 import jakarta.validation.Valid;
@@ -148,26 +150,51 @@ public class TeamMemberController {
         }
     }
 
-    // TODO: implement this unfinished method.
-    @PreAuthorize("@teamService.isAdminInclub(#request.competitionName, #request.teamName, #request.clubName)")
+    /**
+     * As admin of the team's club, Adds the sum of scores for a team member.
+     * Uses teamService.isAdminInClub() to validate that the user has privileges to administer teams of this club 
+     * @param request the request object containing the necessary information for adding scores
+     * @return a ResponseEntity containing the added team member score if successful, or an error message if unsuccessful
+     */
+    @PreAuthorize("@teamService.isAdminInclub(#request.clubName)")
     @PostMapping("/score/add/sum/admin")
     public ResponseEntity<?> addScoresSumAdmin(@Valid @RequestBody adminAddScoreRequest request) {
 
-        Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
-
-        if (competitionOptional.isEmpty()) {
-            return new MessageResponse("The requested competition does not exist", HttpStatus.BAD_REQUEST);
-        }
-
-        Competition competition = competitionOptional.get();
-
-        if (competition.hasEnded()) {
-            return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
-        }
-
         try {
 
-            throw new Exception();
+            Optional<Team> optionalTeam = teamsService
+                    .getTeam(new TeamId(request.getCompetitionName(), request.getTeamName()));
+            String club = null;
+            if (optionalTeam.isPresent()) {
+                Team team = optionalTeam.get();
+                club = team.getClubName();
+            }
+
+            if (club == null || !club.equals(request.getClubName())) {
+                throw new Exception("this team belongs to another team");
+            }
+
+            Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
+
+            if (competitionOptional.isEmpty()) {
+                return new MessageResponse("The requested competition does not exist", HttpStatus.BAD_REQUEST);
+            }
+
+            Competition competition = competitionOptional.get();
+
+            if (competition.hasEnded()) {
+                return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+            }
+
+            TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(request.getUserId(),
+                    request.getCompetitionName(),
+                    request.getTeamName());
+
+            TeamMemberScore score = teamMemberScoreService.addSum(teamMemberId, request.getBullsEyeCount(),
+                    request.getScore());
+
+            return new ResponseEntity<>(score, HttpStatus.OK);
+
         } catch (Exception e) {
             return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
