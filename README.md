@@ -15,6 +15,14 @@
       - [forgot password](#forgot-password)
       - [reset password](#reset-password)
 
+    - [admin](#admin-related)
+      - [search users](#search-users)
+      - [promote user](#promote-user)
+      - [demote user](#demote-user)
+      - [Delete user](#delete-user)
+    - [club admins](#reset-password)
+      - [update team member's scores](#update-team-members-score)
+
     - [Clubs](#clubs)
       - [Create new Club](#create-new-club)
       - [Get club by Id](#get-club-by-id)
@@ -182,15 +190,68 @@ POST https://localhost:8080/api/reset_password?token=${token}&password=${newPass
 
 ```
 returns code 200 if password was updated, 400 if not
+## admin related
+### search users
+Note the following:
+  - search parameter is optional, it can be left empty.
+  - When changing search parameter, please reset your current __page__ parameter to 0. Each search has its own number of pages which could result in an error if you're on page 34 of all results(search=null) and after this you change the search term for "Oulun" which may only results in totalPages of 1. Query of a page numer that is larger than totalPages will result in an error.
+```
+get https://localhost:8080/api/admin/user/query?search=${search}&page=${page}&size=${size}
+Authorization: ROLE_ADMIN required
+Content-Type: application/json
+```
+returns Page of users with their roles 
 
+### promote user
+use this endpoint for adding roles for users
+```
+Post https://localhost:8080/api/admin/promote
+Authorization: ROLE_ADMIN required
+Content-Type: application/json
+{
+userId:number,
+role:string
+}
+```
+returns the role created
+### demote user
+use this endpoint for removing roles from users
+```
+Post https://localhost:8080/api/admin/demote
+Authorization: ROLE_ADMIN required
+Content-Type: application/json
+{
+userId:number,
+role:string
+}
+```
+Returns arbitrary message. StatusCodes => 200=success, 400=failure
 ### Delete user
 ```
-DELETE https://localhost:8080/api/delete
+DELETE https://localhost:8080/api/admin/delete
 Content-Type: application/json
 username
 ```
 returns code 200 if the user was deleted, 400 if something went wrong
 Note: this endpoint requires admin role
+
+## club admin related
+### update team member's scores
+Update/add your fellow teamMember's Scores with this, when you have clubAdmin Role in your club
+```
+POST https://localhost:8080/api/competition/team/member/score/add/sum/admin
+Authorization: required "{clubName}/admin" role required
+Content-Type: application/json
+{
+  competitionName:string,
+  teamName:String,
+  clubName:String,
+  userId:number,
+  score:number,
+  bullsEyeCount:number
+}
+```
+
 
 ## Clubs
 ### Create new Club
@@ -214,6 +275,7 @@ returns either the created [club](#club) or a JSON object containing validation 
   "idCreator": 1
 }
 ```
+
 
 ### Get club by Id
 ```
