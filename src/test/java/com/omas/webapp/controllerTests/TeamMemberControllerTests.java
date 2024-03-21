@@ -71,6 +71,17 @@ public class TeamMemberControllerTests {
         @Test
         public void getTeamMemberScore() throws Exception {
 
+                String user = "johndoe";
+                String password = "password123";
+
+                TestUtils.registerUser(mockMvc, user, password); 
+                String  loginResponse = TestUtils.loginUser(mockMvc, user, password); 
+                JSONObject userObject = new JSONObject(loginResponse).getJSONObject("user");
+                long userId = userObject.getInt("userId");
+
+                String token = new JSONObject(loginResponse).getString("token");
+
+
                 String json = new JSONObject()
                                 .put("competitionName", competitionNameId)
                                 .put("teamName", teamName)
@@ -107,11 +118,6 @@ public class TeamMemberControllerTests {
 
                 // getUserScore
 
-                String get = new JSONObject()
-                .put("competitionName", competitionNameId)
-                .put("userId", 1l)
-                .put("teamName", teamName)
-                .toString();
 
                 mockMvc.perform(MockMvcRequestBuilders.get(ScoreUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -119,8 +125,12 @@ public class TeamMemberControllerTests {
                                 .content("{"
                                                 + "\"competitionName\":\"" + competitionNameId + "\","
                                                 
-                                                + "\"userId\":\"" + 61l + "\"" + "}"))
-                                .andExpect(status().isOk());
+                                                + "\"userId\":\"" + userId + "\"" + "}"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.sum").isNotEmpty())
+                                .andExpect(jsonPath("$.teamName").exists())
+                                .andExpect(jsonPath("$.userId").exists());
+
         }
 
         @Test
@@ -202,4 +212,51 @@ public class TeamMemberControllerTests {
                                 .content(json))
                                 .andExpect(status().isBadRequest());
         }
-}
+
+        @Test
+        public void IsMember() throws Exception {
+
+                final String url = "/api/competition/team/member/isMember";
+
+                String competition = "kilpa";
+                String club = "seura";
+                String team = "tiimi";
+
+                //setup user in a team
+                TestUtils.addRifleCompetition(mockMvc, competition, TestUtils.getToken(mockMvc, "johndoe"));
+
+                TestUtils.registerUser(mockMvc, "Henrik", "salasana");
+                String token = new JSONObject(TestUtils.loginUser(mockMvc, "Henrik", "salasana")).getString("token");
+
+                TestUtils.addClub(mockMvc, club, token);
+                TestUtils.joinClub(mockMvc, club, token);
+                TestUtils.addRifleCompetition(mockMvc, competition, token);
+                TestUtils.addTeam(mockMvc, competition, team, token);
+
+
+
+                String json = new JSONObject()
+                .put("teamName", team)
+                .put("competitionName", competition)
+                .toString();
+
+                //this user should be in the team
+                mockMvc.perform(MockMvcRequestBuilders.get(url)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + token)
+                                .content(json))
+                                .andExpect(status().isOk());
+
+                //this user should NOT be in the team
+                mockMvc.perform(MockMvcRequestBuilders.get(url)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johnDoe"))
+                                .content(json))
+                                .andExpect(status().isBadRequest());
+
+        }
+
+        }
+
+
+
