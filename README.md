@@ -39,6 +39,7 @@
       - [Get results](#get-competition-results)
 
     - [teams](#teams)
+      - [query teams with clubName](#query-teams-with-clubname)
       - [create new team](#create-new-team)
       - [get team's score](#get-team-scores)
       - [teamExists](#check-if-team-exists)
@@ -418,6 +419,15 @@ GET api/competition/result/{competitionName}
 ```
 returns [CompetitionResponse](#competitionresponse)
 ## Teams
+
+### query teams with clubName
+Note the following:
+  - search parameter is optional, it can be left empty.
+  - When changing search parameter, please reset your current __page__ parameter to 0. Each search has its own number of pages which could result in an error if you're on page 34 of all results(search=null) and after this you change the search term for "Kesän_2024" which may only results in totalPages of 1. Query of a page numer that is larger than totalPages will result in an error.
+```
+get api/competition/team/query?search=${clubName}&page=${page}&size=${size}
+```
+
 ### Create new team 
 Note: the following conditions must be met before a team can be created: 
 - The user must be [a member of a club](#join-club)

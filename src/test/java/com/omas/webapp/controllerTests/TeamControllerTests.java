@@ -25,6 +25,7 @@ public class TeamControllerTests {
 
         private static final String baseUrl = "/api/competition/team/";
 
+        private static final String queryTeamsByClubUrl = baseUrl+"/query?search=johan&page=0&size=5";
         private static final String addNewUrl = baseUrl + "/new";
         private static final String getScoreUrl = baseUrl + "/score";
 
@@ -42,6 +43,15 @@ public class TeamControllerTests {
                 mockMvc.perform(MockMvcRequestBuilders.get(url)
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isNotFound());
+        }
+
+        @Test
+        void queryTeamsByClub()throws Exception {
+                mockMvc.perform(MockMvcRequestBuilders.get(queryTeamsByClubUrl))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalElements").exists())
+                .andExpect(jsonPath("$.content").exists())
+                .andExpect(jsonPath("$.numberOfElements").exists());
         }
 
         @Test
