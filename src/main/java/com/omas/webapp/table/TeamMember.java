@@ -1,6 +1,9 @@
 package com.omas.webapp.table;
 
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -34,12 +37,18 @@ public class TeamMember {
     @Id
     Long userId;
 
+    public String getLegalname() {
+        return user.getLegalname();
+    }
 
-    
+
+
+    @JsonIgnore
     @Getter
     @Id
     String competitionId;
 
+    @JsonIgnore
     @Getter
     @Id
     String teamName;
