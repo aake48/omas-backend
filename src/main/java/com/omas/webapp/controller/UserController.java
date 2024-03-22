@@ -4,8 +4,11 @@ import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.omas.webapp.entity.requests.AuthRequest;
@@ -63,18 +68,26 @@ public class UserController {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+
             String token = jwtService.generateToken(authRequest.getUsername());
             UserInfoDetails userDetails = service.loadUserByUsername(authRequest.getUsername());
-
             ObjectMapper mapper = new ObjectMapper();
+
+            Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
+            List<String> rolesList = roles.stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
+            JsonNode rolesNode = mapper.valueToTree(rolesList);
+
             ObjectNode user = mapper.createObjectNode()
                     .put("username", userDetails.getUsername())
                     .put("legalName", userDetails.getLegalName())
                     .put("email", userDetails.getEmail())
                     .put("userId", userDetails.getId())
-                    .put("authorities", userDetails.getAuthorities().toString())
                     .put("creationDate", userDetails.getCreationDate().toString())
                     .put("club", userDetails.getPartOfClub());
+
+            user.set("roles", rolesNode);
 
             ObjectNode root = mapper.createObjectNode();
             root.set("user", user);
