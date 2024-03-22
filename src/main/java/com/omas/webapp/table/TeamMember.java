@@ -38,17 +38,18 @@ public class TeamMember {
     Long userId;
 
     public String getLegalname() {
-        return user.getLegalname();
+        if(user!=null){
+            return user.getLegalname();
+        }
+        return null;
     }
 
 
 
-    @JsonIgnore
     @Getter
     @Id
     String competitionId;
 
-    @JsonIgnore
     @Getter
     @Id
     String teamName;
