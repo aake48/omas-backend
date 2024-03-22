@@ -198,7 +198,7 @@ public class TestDataForFrontend implements CommandLineRunner {
 
         for (Competition comp : competitions) {
             for (String club : ClubNames) {
-                Team team = new Team(new TeamId(comp.getCompetitionId(), club), club);
+                Team team = new Team(new TeamId(comp.getCompetitionId(), club), club, club);
                 teams.add(team);
             }
         }
