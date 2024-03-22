@@ -54,7 +54,7 @@ public class LoginTests {
                                 .andExpect(jsonPath("$.user.legalName").value(username))
                                 .andExpect(jsonPath("$.user.club").isEmpty())
                                 .andExpect(jsonPath("$.user.userId").exists())
-                                .andExpect(jsonPath("$.user.authorities").exists())
+                                .andExpect(jsonPath("$.user.roles").exists())
                                 .andExpect(jsonPath("$.user.email").exists())
                                 .andExpect(jsonPath("$.user.creationDate").exists());
 
