@@ -2,6 +2,8 @@ package com.omas.webapp.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.omas.webapp.repository.TeamMemberRepository;
 import com.omas.webapp.repository.TeamRepository;
@@ -135,5 +137,9 @@ public class TeamService {
      */
     public Optional<Team> getTeam(String competitionId, String teamName)  {
         return getTeam(new TeamId(competitionId, teamName));
+    }
+
+    public Page<Team> findWithPaginatedsearchByClub(int page, int size, String search) {
+        return teamRepository.findByClubNameContaining(search, PageRequest.of(page, size));
     }
 }

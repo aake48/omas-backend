@@ -14,10 +14,10 @@ import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMemberScore;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -90,6 +90,28 @@ public class TeamController {
             return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    @GetMapping(params = { "page", "size", "search" }, value = "/query")
+    public ResponseEntity<?> queryTeamsByClub(@RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "search", required = false) String search) throws Exception {
+
+        if (page < 0) {
+            return new MessageResponse("Invalid page number.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (search == null || search.isBlank()) {
+            search = "";
+        }
+
+        Page<Team> resultPage = teamService.findWithPaginatedsearchByClub(page, size, search);
+
+        if (page > resultPage.getTotalPages()) {
+            return new MessageResponse("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
     
