@@ -3,6 +3,8 @@ package com.omas.webapp.table;
 import java.sql.Date;
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity; 
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -24,10 +26,14 @@ public class Club {
 	private Date creationDate;
 	private long idCreator;
 
+	@JsonIgnore
+	private String passkey;
+
 	public Club(String clubName, String clubId, long creatorId) {
 		this.name = clubId;
 		this.nameNonId = clubName;
 		this.idCreator = creatorId;
 		this.creationDate = new Date(Instant.now().toEpochMilli());
+		this.passkey=null;
 	}
 } 

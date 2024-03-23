@@ -65,6 +65,105 @@ public class ClubControllerTests {
     }
 
     @Test
+    public void setPassKey() throws Exception {
+
+            String url = baseUrl + "/setPasskey";
+            String clubName = "clubName";
+            String passKey = "pass";
+
+            String token = TestUtils.getToken(mockMvc, "johndoe");
+            TestUtils.addClub(mockMvc, clubName, token);
+            TestUtils.joinClub(mockMvc, clubName, token);
+
+            String json = new JSONObject()
+                            .put("clubName", clubName)
+                            .put("passkey", passKey)
+                            .toString();
+
+            mockMvc.perform(MockMvcRequestBuilders.post(url)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
+                            .content(json))
+                            .andExpect(status().isOk());
+
+
+                            String joinWithPasskey = new JSONObject()
+                            .put("clubName", clubName)
+                            .put("passkey", passKey)
+                            .toString();
+
+                            mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/club/join")
+                                            .contentType(MediaType.APPLICATION_JSON)
+                                            .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "JohanDoey"))
+                                            .content(joinWithPasskey))
+                                            .andExpect(status().isOk())
+                                            .andExpect(jsonPath("$.message").exists());
+
+    }
+
+
+    @Test
+    public void joinWithInvalidPasskey() throws Exception {
+
+            String url = baseUrl + "/setPasskey";
+            String clubName = "clubName";
+            String passKey = "pass";
+
+            String token = TestUtils.getToken(mockMvc, "johndoe");
+            TestUtils.addClub(mockMvc, clubName, token);
+            TestUtils.joinClub(mockMvc, clubName, token);
+
+            String json = new JSONObject()
+                            .put("clubName", clubName)
+                            .put("passkey", passKey)
+                            .toString();
+
+            mockMvc.perform(MockMvcRequestBuilders.post(url)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
+                            .content(json))
+                            .andExpect(status().isOk());
+
+
+                            String joinWithPasskey = new JSONObject()
+                            .put("clubName", clubName)
+                            .put("passkey", "passKey")
+                            .toString();
+
+                            mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/club/join")
+                                            .contentType(MediaType.APPLICATION_JSON)
+                                            .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "JohanDoey"))
+                                            .content(joinWithPasskey))
+                                            .andExpect(status().isBadRequest());
+
+    }
+
+
+    @Test
+    public void tryToChangePasskeyWithoutClubAdminRole() throws Exception {
+
+            String url = baseUrl + "/setPasskey";
+            String clubName = "clubName";
+            String passKey = "pass";
+
+            String token = TestUtils.getToken(mockMvc, "johndoe");
+            TestUtils.addClub(mockMvc, clubName, token);
+            TestUtils.joinClub(mockMvc, clubName, token);
+
+            String json = new JSONObject()
+                            .put("clubName", clubName)
+                            .put("passkey", passKey)
+                            .toString();
+
+            mockMvc.perform(MockMvcRequestBuilders.post(url)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "NotClubAdmin"))
+                            .content(json))
+                            .andExpect(status().isForbidden());
+
+    }
+
+    @Test
     public void getAll() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get(getAllUrl))

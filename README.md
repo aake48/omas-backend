@@ -303,8 +303,17 @@ returns either the created [club](#club) or a JSON object containing validation 
   "idCreator": 1
 }
 ```
-
-
+### set passkey
+```
+POST https://localhost:8080/api/club/setPasskey
+Authorization: required clubAdmin Role
+Content-Type: application/json
+{
+clubName:string,
+passkey:string
+}
+```
+if successful, returns status code 200.
 ### Get club by Id
 ```
 GET https://localhost:8080/api/club/{clubId}
@@ -378,10 +387,11 @@ GET https://localhost:8080/api/club/query?search=${search}&page=${page}&size=${s
 ### Join club
 ```
 POST https://localhost:8080/api/auth/club/join
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
+Authorization: required
 Content-Type: application/json
 {
-    "clubName": "Poliisi_seura"
+    clubName: string,
+    passkey:string | null // optional 
 }
 ```
 
