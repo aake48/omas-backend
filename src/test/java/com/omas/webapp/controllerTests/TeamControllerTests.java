@@ -38,12 +38,33 @@ public class TeamControllerTests {
         @Test
         void GetNonExistingTeam() throws Exception {
 
-                String url = baseUrl +"?team=asjg&competition=uyaustg";
+                String getTeamUrl = "/api/competition/team?team="+"team1"+"&competition="+competitionNameId;
 
-                mockMvc.perform(MockMvcRequestBuilders.get(url)
+                mockMvc.perform(MockMvcRequestBuilders.get(getTeamUrl)
                         .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(status().isNotFound());
         }
+
+        @Test
+        void getTeam() throws Exception {
+                String token = TestUtils.getToken(mockMvc, "user112233");
+
+                TestUtils.addRifleCompetition(mockMvc, competitionName, token);
+                TestUtils.addClub(mockMvc, clubName, token);
+                TestUtils.joinClub(mockMvc, clubName, token);
+                TestUtils.addTeam(mockMvc, competitionNameId, teamNameId, token);
+
+                String getTeamUrl = "/api/competition/team?team="+teamNameId+"&competition="+competitionNameId;
+
+                mockMvc.perform(MockMvcRequestBuilders.get(getTeamUrl)
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.competitionId").value(competitionNameId))
+                        .andExpect(jsonPath("$.teamDisplayName").value(teamNameId))
+                        .andExpect(jsonPath("$.teamName").value(teamNameId))
+                        .andExpect(jsonPath("$.clubName").value(clubName))
+                        .andExpect(jsonPath("$.teamMembers").exists());
+                }
 
         @Test
         void queryTeamsByClub()throws Exception {

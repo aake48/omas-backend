@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,6 +31,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.omas.webapp.entity.requests.AuthRequest;
 import com.omas.webapp.entity.requests.PasswordRecoveryRequest;
 import com.omas.webapp.entity.requests.RegistrationRequest;
+import com.omas.webapp.entity.requests.UpdateEmailRequest;
+import com.omas.webapp.entity.requests.UpdatePasswordRequest;
 import com.omas.webapp.entity.requests.PasswordResetRequest;
 import com.omas.webapp.table.User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -63,11 +67,57 @@ public class UserController {
         }
     }
 
+    @PostMapping("/updatePassword")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordRequest request) {
+
+        UserInfoDetails userInfo = UserInfoDetails.getDetails();
+
+        try {
+            // authenticate throws an exception if it fails to authenticate user
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(userInfo.getUsername(), request.getOldPassword()));
+
+            service.changePassword(userInfo.getId(), request.getNewPassword());
+            return new MessageResponse("password was updated!", HttpStatus.OK);
+
+        } catch (BadCredentialsException e) {
+            return new MessageResponse("password was not updated! Bad credentials", HttpStatus.BAD_REQUEST);
+
+        } catch (Exception e) {
+            return new MessageResponse("password was not updated!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/updateEmail")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    public ResponseEntity<?> updateEmail(@Valid @RequestBody UpdateEmailRequest request) {
+
+        UserInfoDetails userInfo = UserInfoDetails.getDetails();
+
+        try {
+            // authenticate throws an exception if it fails to authenticate user
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(userInfo.getUsername(), request.getPassword()));
+
+            service.changeEmail(userInfo.getId(), request.getEmail());
+            return new MessageResponse("Email was updated!", HttpStatus.OK);
+
+        } catch (BadCredentialsException e) {
+            return new MessageResponse("Email was not updated! Bad credentials", HttpStatus.BAD_REQUEST);
+
+        } catch (Exception e) {
+            return new MessageResponse("Email was not updated!", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PostMapping(value = "/login")
     public ResponseEntity<?> authenticateAndGetToken(@Valid @RequestBody AuthRequest authRequest) {
         try {
+            //authenticate throws an exception if it fails to authenticate user
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+
 
             String token = jwtService.generateToken(authRequest.getUsername());
             UserInfoDetails userDetails = service.loadUserByUsername(authRequest.getUsername());
@@ -124,7 +174,8 @@ public class UserController {
     }
 
     @PostMapping("/reset_password")
-    public ResponseEntity<?> processResetPassword(HttpServletRequest request, PasswordResetRequest resetRequest) {
+    public ResponseEntity<?> processResetPassword(HttpServletRequest request,
+            @Valid PasswordResetRequest resetRequest) {
 
         User user = service.getByResetPasswordToken(resetRequest.getToken());
 
@@ -136,7 +187,6 @@ public class UserController {
             return new ResponseEntity<>(Map.of("message", "password updated"), HttpStatus.OK);
         }
     }
-
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

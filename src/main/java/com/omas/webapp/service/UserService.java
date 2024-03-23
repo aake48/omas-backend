@@ -3,7 +3,6 @@ package com.omas.webapp.service;
 import com.omas.webapp.entity.requests.RegistrationRequest;
 import com.omas.webapp.repository.PasswordResetTokenRepository;
 import com.omas.webapp.repository.UserRepository;
-import com.omas.webapp.table.Competition;
 import com.omas.webapp.table.PasswordResetToken;
 import com.omas.webapp.table.User;
 import lombok.extern.log4j.Log4j2;
@@ -171,6 +170,19 @@ public class UserService implements UserDetailsService {
 
     public Optional<User> getUserByUsername(String username) {
         return repository.findByUsername(username);
+    }
+
+    public void changePassword(Long userId, String password) {
+        Optional<User> userOptional = repository.findById(userId);
+        User user = userOptional.get();
+        updatePassword(user, password);
+    }
+
+    public void changeEmail(Long userId, String email) {
+        Optional<User> userOptional = repository.findById(userId);
+        User user = userOptional.get();
+        user.setEmail(email);
+        repository.save(user);
     }
 
 }

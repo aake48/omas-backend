@@ -12,6 +12,8 @@
     - [Users](#user-related)
       - [registration](#registration)
       - [login](#login)
+      - [update password](#update-password)
+      - [update email](#update-email)
       - [forgot password](#forgot-password)
       - [reset password](#reset-password)
 
@@ -20,8 +22,10 @@
       - [promote user](#promote-user)
       - [demote user](#demote-user)
       - [Delete user](#delete-user)
+
     - [club admins](#reset-password)
       - [update team member's scores](#update-team-members-score)
+      - [set passkey](#set-passkey)
 
     - [Clubs](#clubs)
       - [Create new Club](#create-new-club)
@@ -174,6 +178,31 @@ returns [LoginResponse](#loginresponse):
 ```
 If login fails, the errors will be provided in the same kind of structure as in api/reg
 
+### update password
+```
+POST https://localhost:8080/api/updatePassword
+Authorization: required
+
+Content-Type: application/json
+{
+  newPassword: string,
+  oldPassword: string
+}
+```
+returns status code 200 if email was changed
+
+### update email
+```
+POST https://localhost:8080/api/updateEmail
+Authorization: required
+
+Content-Type: application/json
+{
+  password: string,
+  email: string
+}
+```
+returns status code 200 if password was changed
 ### forgot password
 
 ```
@@ -252,7 +281,18 @@ Content-Type: application/json
   bullsEyeCount:number
 }
 ```
-
+### set passkey
+Note: Note: A user must obtain clubAdmin status either by  [creating a club](#create-new-club) or by being [promoted](#promote-user) by an sys admin in order to have the authority to update passkeys for that club.
+```
+POST https://localhost:8080/api/club/setPasskey
+Authorization: required clubAdmin Role
+Content-Type: application/json
+{
+clubName:string,
+passkey:string
+}
+```
+if successful, returns status code 200.
 
 ## Clubs
 ### Create new Club
@@ -276,7 +316,6 @@ returns either the created [club](#club) or a JSON object containing validation 
   "idCreator": 1
 }
 ```
-
 
 ### Get club by Id
 ```
@@ -351,10 +390,11 @@ GET https://localhost:8080/api/club/query?search=${search}&page=${page}&size=${s
 ### Join club
 ```
 POST https://localhost:8080/api/auth/club/join
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
+Authorization: required
 Content-Type: application/json
 {
-    "clubName": "Poliisi_seura"
+    clubName: string,
+    passkey:string | null // optional 
 }
 ```
 

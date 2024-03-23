@@ -1,6 +1,7 @@
 package com.omas.webapp.controller;
 
 import com.omas.webapp.entity.requests.ClubRequest;
+import com.omas.webapp.entity.requests.SetPasskeyRequest;
 import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.ClubService;
 import com.omas.webapp.service.RoleService;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -32,7 +32,7 @@ public class ClubController {
     @Autowired
     private UserService userService;
 
-    @Autowired 
+    @Autowired
     private RoleService roleService;
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
@@ -42,16 +42,16 @@ public class ClubController {
         // This section of the code performs two operations on the 'Id', clubName:
         // 1. It removes whitespaces and characters 'ä', 'ö', 'å' from the 'Id'.
         // 2. It stores the original, unaltered version of 'Id' into 'nameNonId'.
-        // If 'Id' still contains unsafe characters after these alterations, the code returns a 400 status.
+        // If 'Id' still contains unsafe characters after these alterations, the code
+        // returns a 400 status.
         String clubNameNonId = clubRequest.getClubName();
         String clubName = clubRequest.getClubName()
-        .replace('ä', 'a').replace('Ä', 'A')
-        .replace('ö', 'o').replace('Ö', 'O')
-        .replace('å', 'a').replace('Å', 'A')
-        .replace(' ', '_');
+                .replace('ä', 'a').replace('Ä', 'A')
+                .replace('ö', 'o').replace('Ö', 'O')
+                .replace('å', 'a').replace('Å', 'A')
+                .replace(' ', '_');
 
         String regex = "^[a-zA-Z0-9-_]+$";
-
 
         if (!clubName.matches(regex)) {
             return new MessageResponse("Club name contains characters which are forbidden.", HttpStatus.BAD_REQUEST);
@@ -70,22 +70,20 @@ public class ClubController {
         return new MessageResponse("Club name has already been taken.", HttpStatus.BAD_REQUEST);
     }
 
-    
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/auth/club/join")
     public ResponseEntity<?> joinClub(@Valid @RequestBody ClubRequest club) {
 
         UserInfoDetails userDetails = UserInfoDetails.getDetails();
 
-        Optional<Club> clubOptional = clubService.getClub(club.getClubName());
+        try {
+            clubService.checkPasskeyMatch(club.getClubName(), club.getPasskey());
+            userService.joinClub(userDetails.getId(), club.getClubName());
+            return new ResponseEntity<>(Map.of("message", "Club joined successfully."), HttpStatus.OK);
 
-        if (clubOptional.isEmpty()) {
-            return new MessageResponse("There is no club with the given name.", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.BAD_REQUEST);
         }
-
-        userService.joinClub(userDetails.getId(), club.getClubName());
-
-        return new MessageResponse("Club joined successfully.", HttpStatus.OK);
     }
 
     @GetMapping("club/{name}")
@@ -95,6 +93,20 @@ public class ClubController {
         } catch (Exception e) {
             return new MessageResponse("No club found with the given name.", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PreAuthorize("@teamService.isAdminInclub(#request.clubName)")
+    @PostMapping("club/setPasskey")
+    public ResponseEntity<?> setPasskey(@Valid @RequestBody SetPasskeyRequest request) {
+
+        try {
+            clubService.setPassKey(request.getClubName(), request.getPasskey());
+            return new ResponseEntity<>(Map.of("message", "passkey updated"), HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping("club/all")

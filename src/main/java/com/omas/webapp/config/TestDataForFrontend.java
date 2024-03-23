@@ -159,7 +159,7 @@ public class TestDataForFrontend implements CommandLineRunner {
     private List<User> saveUserToDB(List<String> usernames, String ClubName) {
         log.info("adding users to DB");
 
-        Club club = new Club(ClubName, ClubName, new Date(System.currentTimeMillis()), 0);
+        Club club = new Club(ClubName, ClubName, 0);
         clubRepository.save(club);
 
         List<User> users = new ArrayList<>();
