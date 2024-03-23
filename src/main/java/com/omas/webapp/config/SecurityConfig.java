@@ -38,7 +38,7 @@ public class SecurityConfig {
         return http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(requests -> requests
                 .requestMatchers("/api/reg", "/api/login", "/api/forgot_password","/api/reset_password" , "/api/club/**", "/api/competition/**", "/api/score/**", "api/competition/team/**", "api/competition/team/query/**").permitAll())
-                .authorizeHttpRequests(requests -> requests.requestMatchers("/api/auth/club/**",
+                .authorizeHttpRequests(requests -> requests.requestMatchers("/api/updateEmail/**", "/api/updatePassword/**", "/api/auth/club/**",
                         "/api/auth/competition/new", "api/competition/team/new/**",
                         "/api/auth/club/join**, /api/competition/team/member/add/**", "/api/competition/team/member/add/sum/**", "/api/competition/team/member/add/sum/admin**",
                         "/api/competition/team/member/score/add/**",

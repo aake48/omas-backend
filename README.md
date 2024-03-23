@@ -12,6 +12,8 @@
     - [Users](#user-related)
       - [registration](#registration)
       - [login](#login)
+      - [update password](#update-password)
+      - [update email](#update-email)
       - [forgot password](#forgot-password)
       - [reset password](#reset-password)
 
@@ -174,6 +176,31 @@ returns [LoginResponse](#loginresponse):
 ```
 If login fails, the errors will be provided in the same kind of structure as in api/reg
 
+### update password
+```
+POST https://localhost:8080/api/updatePassword
+Authorization: required
+
+Content-Type: application/json
+{
+  newPassword: string,
+  oldPassword: string
+}
+```
+returns status code 200 if email was changed
+
+### update email
+```
+POST https://localhost:8080/api/updateEmail
+Authorization: required
+
+Content-Type: application/json
+{
+  password: string,
+  email: string
+}
+```
+returns status code 200 if password was changed
 ### forgot password
 
 ```
