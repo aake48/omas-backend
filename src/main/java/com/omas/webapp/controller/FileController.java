@@ -20,8 +20,8 @@ public class FileController {
     @Autowired
     private FileService service;
 
-    public static final int MEGABYTE = 1_000_000;
-    public static final int MAX_FILE_SIZE = 8 * MEGABYTE;
+    // public static final int MEGABYTE = 1_000_000;
+    // public static final int MAX_FILE_SIZE = 8 * MEGABYTE;
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/upload")
@@ -35,9 +35,9 @@ public class FileController {
         // spring.servlet.multipart.max-file-size=10MB
         // spring.servlet.multipart.max-request-size=10MB
         // server.tomcat.max-swallow-size=100MB
-        if (file.getSize() > MAX_FILE_SIZE) {
+        /*if (file.getSize() > MAX_FILE_SIZE) {
             return new MessageResponse("The image you tried to upload is too large", HttpStatus.BAD_REQUEST);
-        }
+        }*/
 
         try {
             // This naming may be confusing but the idea is that here the server is downloading the image uploaded by the user
