@@ -79,13 +79,14 @@ public class FileTests {
 
         JSONArray array = new JSONArray(filesResponse);
 
-        // Get the latest file in the array
-        String latestFile = array.get(array.length() - 1).toString();
+        // The endpoint sorts the file names according to String.CASE_INSENSITIVE_ORDER
+        // Get the first file in the array
+        String firstFile = array.get(0).toString();
 
-        System.out.println(latestFile);
+        System.out.println(firstFile);
 
-        // Download the latest file given in the list, it should match the file we just uploaded
-        byte[] downloadResponse = mockMvc.perform(MockMvcRequestBuilders.get(downloadUrl + "/" + latestFile)
+        // Download the first file in the list, it should match the file we just uploaded
+        byte[] downloadResponse = mockMvc.perform(MockMvcRequestBuilders.get(downloadUrl + "/" + firstFile)
                 .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isOk())
                 .andReturn()

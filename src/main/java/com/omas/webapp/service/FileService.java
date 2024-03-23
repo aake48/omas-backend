@@ -78,7 +78,7 @@ public class FileService {
      */
     private Path resolveFilePath(String competitionId, String userId, String timeStamp, String fileExtension) {
 
-        String fileName = String.join("_", competitionId, userId, timeStamp);
+        String fileName = String.join("_", timeStamp, competitionId, userId);
 
         Path path = this.fileDirectory.resolve(fileName + fileExtension);
 
@@ -86,7 +86,7 @@ public class FileService {
 
         // This almost feels like overengineering
         while (path.toFile().exists()) {
-            fileName = String.join("_", competitionId, userId, timeStamp, String.valueOf(number));
+            fileName = String.join("_", timeStamp, competitionId, userId, String.valueOf(number));
             path = this.fileDirectory.resolve(fileName + fileExtension);
         }
 
@@ -111,8 +111,8 @@ public class FileService {
     }
 
     /**
-     * Get all the files in the directory
-     * @return the files
+     * Get all the files in the directory sorted by time in descending order
+     * @return the files sorted by time in descending order
      */
     public List<String> getFiles() {
 
@@ -127,6 +127,8 @@ public class FileService {
                 files.add(file.getName());
             }
         }
+
+        files.sort(String.CASE_INSENSITIVE_ORDER);
 
         return files;
     }
