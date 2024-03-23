@@ -78,16 +78,16 @@ public class FileService {
      */
     private Path resolveFilePath(String competitionId, String userId, String timeStamp, String fileExtension) {
 
-        String fileName = String.join("_", competitionId, userId, timeStamp, fileExtension);
+        String fileName = String.join("_", competitionId, userId, timeStamp);
 
-        Path path = this.fileDirectory.resolve(fileName);
+        Path path = this.fileDirectory.resolve(fileName + fileExtension);
 
         int number = 1;
 
         // This almost feels like overengineering
         while (path.toFile().exists()) {
-            fileName = String.join("_", competitionId, userId, timeStamp, String.valueOf(number), fileExtension);
-            path = this.fileDirectory.resolve(fileName);
+            fileName = String.join("_", competitionId, userId, timeStamp, String.valueOf(number));
+            path = this.fileDirectory.resolve(fileName + fileExtension);
         }
 
         return path;
