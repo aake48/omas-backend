@@ -22,8 +22,10 @@
       - [promote user](#promote-user)
       - [demote user](#demote-user)
       - [Delete user](#delete-user)
+
     - [club admins](#reset-password)
       - [update team member's scores](#update-team-members-score)
+      - [set passkey](#set-passkey)
 
     - [Clubs](#clubs)
       - [Create new Club](#create-new-club)
@@ -279,7 +281,18 @@ Content-Type: application/json
   bullsEyeCount:number
 }
 ```
-
+### set passkey
+Note: Note: A user must obtain clubAdmin status either by  [creating a club](#create-new-club) or by being [promoted](#promote-user) by an sys admin in order to have the authority to update passkeys for that club.
+```
+POST https://localhost:8080/api/club/setPasskey
+Authorization: required clubAdmin Role
+Content-Type: application/json
+{
+clubName:string,
+passkey:string
+}
+```
+if successful, returns status code 200.
 
 ## Clubs
 ### Create new Club
@@ -303,17 +316,7 @@ returns either the created [club](#club) or a JSON object containing validation 
   "idCreator": 1
 }
 ```
-### set passkey
-```
-POST https://localhost:8080/api/club/setPasskey
-Authorization: required clubAdmin Role
-Content-Type: application/json
-{
-clubName:string,
-passkey:string
-}
-```
-if successful, returns status code 200.
+
 ### Get club by Id
 ```
 GET https://localhost:8080/api/club/{clubId}
