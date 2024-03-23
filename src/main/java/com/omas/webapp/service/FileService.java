@@ -34,8 +34,8 @@ public class FileService {
     }
 
     /**
-     * Receive and write an image to the image folder with the given file name
-     * @throws IOException if something goes wrong while processing the image
+     * Receive and write a file to the file folder
+     * @throws IOException if something goes wrong while processing the file
      */
     public void receiveAndWriteFileFully(String competitionId, MultipartFile file) throws IOException {
 
@@ -94,10 +94,10 @@ public class FileService {
     }
 
     /**
-     * Get the image from the image folder
+     * Get the file from the file folder
      * @param fileName the name of the file
-     * @return the image bytes to be sent to the client
-     * @throws IOException if getting
+     * @return the image bytes to be sent
+     * @throws IOException if getting the file failed for some reason
      */
     public Resource getFile(String fileName) throws IOException {
 
