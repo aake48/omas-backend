@@ -17,23 +17,28 @@ import org.springframework.test.web.servlet.MockMvc;
 
 public class TestUtils {
 
+        public static final String ADMIN_USERNAME = Constants.adminUsername;
+        public static final String ADMIN_PASSWORD = Constants.adminPassword;
+
 
         public static final String rifleCompetitionType = Constants.rifleType;
         public static final String pistolCompetitionType = Constants.pistolType;
 
+
+
         public static String getToken(MockMvc mockMvc, String username) throws Exception {
 
-                registerUser(mockMvc, username);
-                return loginUser(mockMvc, username);
+                registerUser(mockMvc, username, "password123");
+                return new JSONObject(loginUser(mockMvc, username, "password123")).getString("token");
         }
 
-        public static String registerUser(MockMvc mockMvc, String username) throws Exception {
+        public static String registerUser(MockMvc mockMvc, String username, String password) throws Exception {
 
                 String json = new JSONObject()
-                                .put("password", "password123")
+                                .put("password", password)
                                 .put("username", username)
-                                .put("name", "name")
-                                .put("email", "user@example.com")
+                                .put("name", username)
+                                .put("email", "email@"+username+".com")
                                 .toString();
 
                 MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/reg")
@@ -44,18 +49,23 @@ public class TestUtils {
                 return mvcResult.getResponse().getContentAsString();
         }
 
-        public static String loginUser(MockMvc mockMvc, String username) throws Exception {
 
-                String json = new JSONObject().put("password", "password123").put("username", username).toString();
 
-                MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(json))
-                                .andExpect(status().isOk())
-                                .andReturn();
 
-                String token = new JSONObject(mvcResult.getResponse().getContentAsString()).getString("token");
-                return token;
+
+        public static String loginUser(MockMvc mockMvc, String username, String password) throws Exception {
+
+                String json = new JSONObject().put("password", password).put("username", username).toString();
+
+                String result = mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+                return result;
         }
 
         public static String addClub(MockMvc mockMvc, String clubName, String userToken) throws Exception {
@@ -95,7 +105,22 @@ public class TestUtils {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + userToken)
                                 .content(json))
-                                .andExpect(status().isOk())
+                                .andReturn()
+                                .getResponse().getContentAsString();
+        }
+
+        public static void joinTeam(MockMvc mockMvc, String competitionName, String teamName, String userToken) throws Exception {
+
+                final String url = "/api/competition/team/member/add";
+                String json = new JSONObject()
+                .put("competitionName", competitionName)
+                .put("teamName", teamName)
+                .toString();
+
+                mockMvc.perform(MockMvcRequestBuilders.post(url)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .header("Authorization", "Bearer " + userToken)
+                                .content(json))
                                 .andReturn()
                                 .getResponse().getContentAsString();
         }
@@ -170,78 +195,75 @@ public class TestUtils {
         }
 
         public static String getRandomString() {
-
-                int length = 32;
+                int length = 10;
                 String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                Random random = new Random();
-                StringBuilder stringBuilder = new StringBuilder(length);
-
+                Random rand = new Random();
+                StringBuilder sb = new StringBuilder(length);
+        
                 for (int i = 0; i < length; i++) {
-                        int index = random.nextInt(characters.length());
-                        char randomChar = characters.charAt(index);
-                        stringBuilder.append(randomChar);
+                    int randomIndex = rand.nextInt(characters.length());
+                    sb.append(characters.charAt(randomIndex));
                 }
+        
+                return sb.toString();
+            }
 
-                return stringBuilder.toString();
+            private static List<String> getUserTokens(MockMvc mockMvc, int ammountOfTokens) throws Exception {
 
-        }
+                    List<String> userTokens = new ArrayList<>();
 
-        /**
-         * Sets up users, club, competition, and adds scores with one method.
-         */
-        public static void setupScores(MockMvc mockMvc, String clubName, String teamName, String competitionName) throws Exception {
+                    for (int i = 0; i < ammountOfTokens; i++) {
+                            String random1 = getRandomString();
+                            String user1 = getToken(mockMvc, random1);
+                            userTokens.add(user1);
+                    }
+                    return userTokens;
+            }
 
-                // create user1Tokens
-                String random1 = getRandomString();
-                String user1 = getToken(mockMvc, random1);
+            public static void setUserToTeam(MockMvc mockMvc, String token,  String club, String competition, String team) throws Exception{
+                addClub(mockMvc, club, token);
+                joinClub(mockMvc, club, token);
+                addRifleCompetition(mockMvc, competition, token);
+                addTeam(mockMvc, competition, team, token);
+            }
 
-                String user2 = getRandomString();
-                registerUser(mockMvc, user2);
-                user2 = loginUser(mockMvc, user2);
-
-                String user3 = getRandomString();
-                registerUser(mockMvc, user3);
-                user3 = loginUser(mockMvc, user3);
-
-                String user4 = getRandomString();
-                registerUser(mockMvc, user4);
-                user4 = loginUser(mockMvc, user4);
-
-                String user5 = getRandomString();
-                registerUser(mockMvc, user5);
-                user5 = loginUser(mockMvc, user5);
-
-                // create club
-                addClub(mockMvc, clubName, user1);
-
-
-
-                // join users to club
-                joinClub(mockMvc, clubName, user1);
-                joinClub(mockMvc, clubName, user2);
-                joinClub(mockMvc, clubName, user3);
-                joinClub(mockMvc, clubName, user4);
-                joinClub(mockMvc, clubName, user5);
+            /**
+             * Sets up a competition and adds a club, team, teamMembers, and
+             * teamMemberScores for every club.
+             * Each club is assigned a team that inherits its name from the club's name.
+             * Each team is assigned as many team members as specified by teamSize.
+             * If a competition with the given name does not exist, it will be created.
+             * If it does exist, this method will continue to add the given clubs to this
+             * competition with their respective teams.
+             */
+        public static void setupScores(MockMvc mockMvc, List<String> clubs, String competitionName, int teamSize)
+                        throws Exception {
 
                 // create competition
-                addRifleCompetition(mockMvc, competitionName, user1);
+                addRifleCompetition(mockMvc, competitionName, getToken(mockMvc, "johnDoe"));
 
-                // add team for club
-                addTeam(mockMvc, competitionName, teamName, user1);
+                for (String clubName : clubs) {
+                        List<String> userTokens = getUserTokens(mockMvc, teamSize);
+                        addClub(mockMvc, clubName, userTokens.get(0));
 
-                // add team members
-                addTeamMember(mockMvc, competitionName, teamName, user1);
-                addTeamMember(mockMvc, competitionName, teamName, user2);
-                addTeamMember(mockMvc, competitionName, teamName, user3);
-                addTeamMember(mockMvc, competitionName, teamName, user4);
-                addTeamMember(mockMvc, competitionName, teamName, user5);
+                        // join users to club
+                        for (String token : userTokens) {
+                                joinClub(mockMvc, clubName, token);
+                        }
 
-                // add scores
-                addScores(mockMvc, competitionName, teamName, user1);
-                addScores(mockMvc, competitionName, teamName, user2);
-                addScores(mockMvc, competitionName, teamName, user3);
-                addScores(mockMvc, competitionName, teamName, user4);
-                addScores(mockMvc, competitionName, teamName, user5);
+                        // add team for club
+                        addTeam(mockMvc, competitionName, clubName, userTokens.get(0));
+
+                        // add team members
+                        for (String token : userTokens) {
+                                addTeamMember(mockMvc, competitionName, clubName, token);
+                        }
+
+                        // add scores
+                        for (String token : userTokens) {
+                                addScores(mockMvc, competitionName, clubName, token);
+                        }
+                }
 
         }
 

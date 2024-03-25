@@ -1,19 +1,22 @@
 package com.omas.webapp.controllerTests;
 
+import com.omas.webapp.Constants;
+import com.omas.webapp.Json;
+import com.omas.webapp.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.omas.webapp.TestUtils;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import org.springframework.http.MediaType;
+
+import org.json.JSONObject;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -25,28 +28,44 @@ public class LoginTests {
 
         private static final String url = "/api/login";
 
+        private String username = "johndoe";
+
         @BeforeEach
         private void registerUser() throws Exception {
+
                 TestUtils.getToken(mockMvc, "johndoe");
         }
 
+        @Test
         void login() throws Exception {
+
+                String json = new JSONObject()
+                                .put("password", "password123")
+                                .put("username", username)
+                                .toString();
+
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content("{"
-                                                + "\"password\":\"password123\","
-                                                + "\"username\":\"johndoe\""
-                                                + "}"))
-                                .andExpect(status().isOk()).andExpect(jsonPath("$.token").exists());
-                ;
+                                .content(json))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.token").exists())
+                                .andExpect(jsonPath("$.user").exists())
+                                .andExpect(jsonPath("$.user.username").value(username))
+                                .andExpect(jsonPath("$.user.legalName").value(username))
+                                .andExpect(jsonPath("$.user.club").isEmpty())
+                                .andExpect(jsonPath("$.user.userId").exists())
+                                .andExpect(jsonPath("$.user.roles").exists())
+                                .andExpect(jsonPath("$.user.email").exists())
+                                .andExpect(jsonPath("$.user.creationDate").exists());
+
         }
+
+
 
         @Test
         void IncorrectCapitalizedLetterInPassword() throws Exception {
 
                 TestUtils.getToken(mockMvc, "johndoe");
-
-                login();
 
                 // Incorrectly Capitalized first letter of password
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
@@ -65,8 +84,6 @@ public class LoginTests {
 
                 TestUtils.getToken(mockMvc, "johndoe");
 
-                login();
-
                 // Incorrect whitespace before password
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -84,8 +101,6 @@ public class LoginTests {
 
                 TestUtils.getToken(mockMvc, "johndoe");
 
-                login();
-
                 // Incorrect whitespace in Username
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -101,8 +116,6 @@ public class LoginTests {
         void IncorrectCapitalizedLetterInUsername() throws Exception {
 
                 TestUtils.getToken(mockMvc, "johndoe");
-
-                login();
 
                 // Incorrectly Capitalized Username
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
@@ -120,8 +133,6 @@ public class LoginTests {
 
                 TestUtils.getToken(mockMvc, "johndoe");
 
-                login();
-
                 // missingPassword
                 mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -136,8 +147,6 @@ public class LoginTests {
         void missingUsername() throws Exception {
 
                 TestUtils.getToken(mockMvc, "johndoe");
-
-                login();
 
                 // missingUsername
                 mockMvc.perform(MockMvcRequestBuilders.post(url)

@@ -7,9 +7,10 @@ import com.omas.webapp.table.PasswordResetToken;
 import com.omas.webapp.table.User;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.sql.Date;
@@ -32,6 +33,11 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
+
+
+        public Page<User> findWithPaginatedSearch(int page, int size, String search) {
+        return repository.findBylegalnameContaining(search, PageRequest.of(page, size));
+    }
 
     @Override
     public UserInfoDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -97,6 +103,40 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    public boolean userExists(long id) {
+        Optional<User> userOptional = repository.findById(id);
+
+        if (userOptional.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * "Deletes" a user by setting all their information to null.
+     * @param userId the numeric id of the user to delete
+     * @return the user with the cleared fields or null if no user was found
+     */
+    public User deleteUser(Long userId) {
+
+        Optional<User> userOptional = repository.findById(userId);
+
+        if (userOptional.isEmpty()) {
+            return null;
+        }
+
+        User user = userOptional.get();
+
+        user.setLegalname(user.getPartOfClub());
+        user.setUsername(null);
+        user.setPartOfClub(null);
+        user.setPassword(null);
+        user.setEmail(null);
+        user.setCreationDate(null);
+
+        return repository.save(user);
+    }
+
     /**
      * Joins a user to a club.
      * This method does not perform any validation on 'club' String
@@ -126,6 +166,23 @@ public class UserService implements UserDetailsService {
             return "user name not found";
         }
 
+    }
+
+    public Optional<User> getUserByUsername(String username) {
+        return repository.findByUsername(username);
+    }
+
+    public void changePassword(Long userId, String password) {
+        Optional<User> userOptional = repository.findById(userId);
+        User user = userOptional.get();
+        updatePassword(user, password);
+    }
+
+    public void changeEmail(Long userId, String email) {
+        Optional<User> userOptional = repository.findById(userId);
+        User user = userOptional.get();
+        user.setEmail(email);
+        repository.save(user);
     }
 
 }

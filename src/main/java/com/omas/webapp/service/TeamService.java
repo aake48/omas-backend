@@ -1,11 +1,14 @@
 package com.omas.webapp.service;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.omas.webapp.repository.TeamMemberRepository;
 import com.omas.webapp.repository.TeamRepository;
+import com.omas.webapp.table.Role;
+import com.omas.webapp.table.RoleId;
 import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMember;
@@ -19,17 +22,33 @@ public class TeamService {
     @Autowired
     private TeamMemberRepository teamMemberRepository;
 
+    @Autowired RoleService roleService;
+
     /**
      * Note: this method does not perform any validation to check if the provided competition or club exists.
      * @param competitionId
      * @param teamName
      * @return savedTeam
      */
-    public Team addTeam(String competitionId, String teamName, String teamDisplayName) {
+    public Team addTeam(String competitionId, String teamName, String teamDisplayName, String club) {
 
-        Team team = new Team(new TeamId(competitionId, teamName), teamDisplayName);
+        Team team = new Team(new TeamId(competitionId, teamName), teamDisplayName, club);
 
         return teamRepository.save(team);
+    }
+
+    /**
+     * validates that the user has privileges to administer teams of this club 
+     */
+    public boolean isAdminInclub(String club) {
+        Long id = UserInfoDetails.getDetails().getId();
+
+        Optional<Role> role = roleService.findRole(new RoleId(id, club+"/admin"));
+        if (role.isEmpty()) {
+            return false;
+        }
+        return true;
+
     }
 
     /**
@@ -48,17 +67,17 @@ public class TeamService {
     }
 
     /** @return TeamMemberId if this user has permissions to submit scores to given competition
-     * checks whether user is in club. 
-     * checks that user is in his clubs team for this competition
+     * checks that user is member of the team
      * @throws Exception throws an exception if validation fails
     */
-    public TeamMemberId CanUserSubmitScores(UserInfoDetails userDetails, String competitionName, String teamName) throws Exception {
+    public TeamMemberId CanUserSubmitScores(Long userId, String competitionName, String teamName) throws Exception {
 
-        if (!isUserPartOfTeam(userDetails.getId(), new TeamId(competitionName, teamName))){
-            throw new Exception("error: this user is not in the team");
+        if (thisUserIsTeamMember(new TeamMemberId(userId, competitionName, teamName))){
+            return new TeamMemberId(userId, new TeamId( competitionName, teamName));
         }
 
-        return new TeamMemberId(userDetails.getId(), new TeamId( competitionName, teamName));
+        throw new Exception("error: this user is not in the team");
+
     }
 
     /**
@@ -68,15 +87,11 @@ public class TeamService {
      * @param teamId The ID of the team.
      * @return true if the user is in the team, false otherwise.
      */
-    public boolean isUserPartOfTeam(long userId, TeamId teamId) {
+    public boolean thisUserIsTeamMember(TeamMemberId teamMemberId) {
+        Optional<TeamMember> teamMate = teamMemberRepository.findById(teamMemberId);
+        if (teamMate.isPresent()) {
 
-        Optional<List<TeamMember>> teamMates = teamMemberRepository.findByTeamId(teamId);
-        if (teamMates.isPresent()) {
-            List<TeamMember> results = teamMates.get();
-            if (results.contains(
-                new TeamMember( teamId.getCompetitionId(), userId, teamId.getTeamName()))){
-                return true;
-            }
+            return true;
         }
         return false;
     }
@@ -122,5 +137,9 @@ public class TeamService {
      */
     public Optional<Team> getTeam(String competitionId, String teamName)  {
         return getTeam(new TeamId(competitionId, teamName));
+    }
+
+    public Page<Team> findWithPaginatedsearchByClub(int page, int size, String search) {
+        return teamRepository.findByClubNameContaining(search, PageRequest.of(page, size));
     }
 }

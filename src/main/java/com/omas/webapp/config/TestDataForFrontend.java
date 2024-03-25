@@ -1,45 +1,31 @@
 package com.omas.webapp.config;
 
+import com.omas.webapp.Constants;
+import com.omas.webapp.repository.*;
+import com.omas.webapp.service.*;
+import com.omas.webapp.table.*;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
-import com.omas.webapp.Constants;
-import com.omas.webapp.repository.ClubRepository;
-import com.omas.webapp.repository.CompetitionRepository;
-import com.omas.webapp.repository.TeamMemberRepository;
-import com.omas.webapp.repository.TeamMemberScoreRepository;
-import com.omas.webapp.repository.TeamRepository;
-import com.omas.webapp.repository.UserRepository;
-import com.omas.webapp.service.ClubService;
-import com.omas.webapp.service.CompetitionService;
-import com.omas.webapp.service.TeamMemberScoreService;
-import com.omas.webapp.service.TeamService;
-import com.omas.webapp.service.UserService;
-import com.omas.webapp.table.Club;
-import com.omas.webapp.table.Competition;
-import com.omas.webapp.table.Team;
-import com.omas.webapp.table.TeamId;
-import com.omas.webapp.table.TeamMember;
-import com.omas.webapp.table.TeamMemberId;
-import com.omas.webapp.table.TeamMemberScore;
-import com.omas.webapp.table.User;
-
-import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Component
-public class TestDataConfig implements CommandLineRunner {
+public class TestDataForFrontend implements CommandLineRunner {
 
     @Autowired
     UserService userService;
 
     @Autowired
     ClubService clubService;
+
+    @Autowired
+    RoleService roleService;
 
     @Autowired
     TeamMemberScoreService teamMemberScoreService;
@@ -173,7 +159,7 @@ public class TestDataConfig implements CommandLineRunner {
     private List<User> saveUserToDB(List<String> usernames, String ClubName) {
         log.info("adding users to DB");
 
-        Club club = new Club(ClubName, ClubName, new Date(System.currentTimeMillis()), 0);
+        Club club = new Club(ClubName, ClubName, 0);
         clubRepository.save(club);
 
         List<User> users = new ArrayList<>();
@@ -212,7 +198,7 @@ public class TestDataConfig implements CommandLineRunner {
 
         for (Competition comp : competitions) {
             for (String club : ClubNames) {
-                Team team = new Team(new TeamId(comp.getCompetitionId(), club), club);
+                Team team = new Team(new TeamId(comp.getCompetitionId(), club), club, club);
                 teams.add(team);
             }
         }

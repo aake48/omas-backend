@@ -1,5 +1,6 @@
 package com.omas.webapp.controller;
 
+import com.omas.webapp.Util;
 import com.omas.webapp.entity.requests.AddTeamRequest;
 import com.omas.webapp.entity.requests.TeamScoreRequest;
 import com.omas.webapp.entity.requests.teamIdRequest;
@@ -7,12 +8,14 @@ import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
+import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.Competition;
 import com.omas.webapp.table.Team;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMemberScore;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,6 +44,12 @@ public class TeamController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/new")
     public ResponseEntity<?> addTeam(@Valid @RequestBody AddTeamRequest request) {
+
+        String club = UserInfoDetails.getDetails().getPartOfClub();
+
+        if(club==null){
+            return new ResponseEntity<>(Map.of("messsage", "user creating a team needs to be in a club"), HttpStatus.BAD_REQUEST);
+        }
 
         Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
 
@@ -75,7 +84,7 @@ public class TeamController {
         
         try {
 
-            Team addedTeam = teamService.addTeam(request.getCompetitionName(), teamName, teamDisplayName);
+            Team addedTeam = teamService.addTeam(request.getCompetitionName(), teamName, teamDisplayName, club);
             return new ResponseEntity<>(addedTeam, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -84,8 +93,29 @@ public class TeamController {
 
     }
 
+    @GetMapping(params = { "page", "size", "search" }, value = "/query")
+    public ResponseEntity<?> queryTeamsByClub(@RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "search", required = false) String search) throws Exception {
+
+        if (page < 0) {
+            return new MessageResponse("Invalid page number.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (search == null || search.isBlank()) {
+            search = "";
+        }
+
+        Page<Team> resultPage = teamService.findWithPaginatedsearchByClub(page, size, search);
+
+        if (page > resultPage.getTotalPages()) {
+            return new MessageResponse("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(resultPage, HttpStatus.OK);
+    }
+
     
-    //@PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/teamExists")
     public ResponseEntity<?> hasTeam(@Valid @RequestBody teamIdRequest request) {
 
@@ -95,11 +125,24 @@ public class TeamController {
 
     @GetMapping
     public ResponseEntity<?> getTeam(
-        @RequestParam(name = "team") String teamName,
+        @RequestParam(name = "team") String team,
         @RequestParam(name = "competition") String competition
     ) {
 
-        Optional<Team> teamOptional = teamService.getTeam(teamName, competition);
+        String teamName = Util.sanitizeName(team);
+        String competitionId = Util.sanitizeName(competition);
+
+        // Sanity check even though it should theoretically be safe already
+        if (teamName == null) {
+            return new MessageResponse("Team name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$ after sanitation", HttpStatus.BAD_REQUEST);
+        }
+
+        // Sanity check even though it should theoretically be safe already
+        if (competitionId == null) {
+            return new MessageResponse("Competition name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$ after sanitation", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Team> teamOptional = teamService.getTeam(competitionId, teamName);
 
         if (teamOptional.isEmpty()) {
             return new MessageResponse("No team found with the given parameters.", HttpStatus.NOT_FOUND);

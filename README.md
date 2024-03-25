@@ -12,8 +12,20 @@
     - [Users](#user-related)
       - [registration](#registration)
       - [login](#login)
+      - [update password](#update-password)
+      - [update email](#update-email)
       - [forgot password](#forgot-password)
       - [reset password](#reset-password)
+
+    - [admin](#admin-related)
+      - [search users](#search-users)
+      - [promote user](#promote-user)
+      - [demote user](#demote-user)
+      - [Delete user](#delete-user)
+
+    - [club admins](#reset-password)
+      - [update team member's scores](#update-team-members-score)
+      - [set passkey](#set-passkey)
 
     - [Clubs](#clubs)
       - [Create new Club](#create-new-club)
@@ -31,6 +43,7 @@
       - [Get results](#get-competition-results)
 
     - [teams](#teams)
+      - [query teams with clubName](#query-teams-with-clubname)
       - [create new team](#create-new-team)
       - [get team's score](#get-team-scores)
       - [teamExists](#check-if-team-exists)
@@ -40,6 +53,7 @@
       - [add team member to team](#add-team-member-to-team)
       - [get user's score](#get-users-score)
       - [submit user's score](#submit-users-score)
+      - [submit user's score as a sum](#submit-users-score-as-a-sum)
       - [isMember](#ismember)
 
 
@@ -150,20 +164,45 @@ Content-Type: application/json
 returns [LoginResponse](#loginresponse):
 ```
 {
-  "user": {
-    "username": "johndoe",
-    "legalName": "John doe",
-    "email": "temp@email.com",
-    "userId": 1,
-    "authorities": "[ROLE_USER]",
-    "creationDate": "2024-03-02",
-    "club": null
+  user: {
+    username: string,
+    legalName: string,
+    email: string,
+    userId: number,
+    roles: string[],
+    creationDate: string //"2024-03-02",
+    club: null | string
   },
-  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNzA5MzYyOTcyLCJleHAiOjE3MDkzOTE3NzJ9.Qd1IsqU89ArTLkt6w91kKEzGGtkL5RTnzsACnpy8Efc"
+  token: string 
 } 
 ```
 If login fails, the errors will be provided in the same kind of structure as in api/reg
 
+### update password
+```
+POST https://localhost:8080/api/updatePassword
+Authorization: required
+
+Content-Type: application/json
+{
+  newPassword: string,
+  oldPassword: string
+}
+```
+returns status code 200 if email was changed
+
+### update email
+```
+POST https://localhost:8080/api/updateEmail
+Authorization: required
+
+Content-Type: application/json
+{
+  password: string,
+  email: string
+}
+```
+returns status code 200 if password was changed
 ### forgot password
 
 ```
@@ -181,7 +220,79 @@ POST https://localhost:8080/api/reset_password?token=${token}&password=${newPass
 
 ```
 returns code 200 if password was updated, 400 if not
+## admin related
+### search users
+Note the following:
+  - search parameter is optional, it can be left empty.
+  - When changing search parameter, please reset your current __page__ parameter to 0. Each search has its own number of pages which could result in an error if you're on page 34 of all results(search=null) and after this you change the search term for "Oulun" which may only results in totalPages of 1. Query of a page numer that is larger than totalPages will result in an error.
+```
+get https://localhost:8080/api/admin/user/query?search=${search}&page=${page}&size=${size}
+Authorization: ROLE_ADMIN required
+Content-Type: application/json
+```
+returns Page of users with their roles 
 
+### promote user
+use this endpoint for adding roles for users
+```
+Post https://localhost:8080/api/admin/promote
+Authorization: ROLE_ADMIN required
+Content-Type: application/json
+{
+userId:number,
+role:string
+}
+```
+returns the role created
+### demote user
+use this endpoint for removing roles from users
+```
+Post https://localhost:8080/api/admin/demote
+Authorization: ROLE_ADMIN required
+Content-Type: application/json
+{
+userId:number,
+role:string
+}
+```
+Returns arbitrary message. StatusCodes => 200=success, 400=failure
+### Delete user
+```
+DELETE https://localhost:8080/api/admin/delete
+Content-Type: application/json
+username
+```
+returns code 200 if the user was deleted, 400 if something went wrong
+Note: this endpoint requires admin role
+
+## club admin related
+### update team member's scores
+Update/add your fellow teamMember's Scores with this, when you have clubAdmin Role in your club
+```
+POST https://localhost:8080/api/competition/team/member/score/add/sum/admin
+Authorization: required "{clubName}/admin" role required
+Content-Type: application/json
+{
+  competitionName:string,
+  teamName:String,
+  clubName:String,
+  userId:number,
+  score:number,
+  bullsEyeCount:number
+}
+```
+### set passkey
+Note: Note: A user must obtain clubAdmin status either by  [creating a club](#create-new-club) or by being [promoted](#promote-user) by an sys admin in order to have the authority to update passkeys for that club.
+```
+POST https://localhost:8080/api/club/setPasskey
+Authorization: required clubAdmin Role
+Content-Type: application/json
+{
+clubName:string,
+passkey:string
+}
+```
+if successful, returns status code 200.
 
 ## Clubs
 ### Create new Club
@@ -279,10 +390,11 @@ GET https://localhost:8080/api/club/query?search=${search}&page=${page}&size=${s
 ### Join club
 ```
 POST https://localhost:8080/api/auth/club/join
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VybmFtZSIsImlhdCI6MTcwNzk3NTg2MSwiZXhwIjoxNzA4MDA0NjYxfQ.ygQwdRasggnz6V7ysze03ECpmS0YRDIFBbFY5c6Bmec
+Authorization: required
 Content-Type: application/json
 {
-    "clubName": "Poliisi_seura"
+    clubName: string,
+    passkey:string | null // optional 
 }
 ```
 
@@ -347,6 +459,15 @@ GET api/competition/result/{competitionName}
 ```
 returns [CompetitionResponse](#competitionresponse)
 ## Teams
+
+### query teams with clubName
+Note the following:
+  - search parameter is optional, it can be left empty.
+  - When changing search parameter, please reset your current __page__ parameter to 0. Each search has its own number of pages which could result in an error if you're on page 34 of all results(search=null) and after this you change the search term for "Kesän_2024" which may only results in totalPages of 1. Query of a page numer that is larger than totalPages will result in an error.
+```
+get api/competition/team/query?search=${clubName}&page=${page}&size=${size}
+```
+
 ### Create new team 
 Note: the following conditions must be met before a team can be created: 
 - The user must be [a member of a club](#join-club)
@@ -465,6 +586,21 @@ Content-Type: application/json
 }
 ```
 Returns [TeamMemberScore](#teammemberscore) if submission was successful.
+### Submit user's score as a sum
+Note: the following conditions must be met before user can submit his scores: 
+- The user must be [a team member](#add-team-member-to-team) for the competition before he is able to submit his scores
+```
+POST api/competition/team/member/score/add/sum
+Authorization: required
+Content-Type: application/json
+{
+  competitionName: string,
+  teamName: string,
+  score: number,
+  bullsEyeCount: number
+}
+```
+Returns [TeamMemberScore](#teammemberscore) if submission was successful.
 ### isMember 
 ```
 GET api/competition/team/member/isMember
@@ -533,16 +669,16 @@ Note: used to be called competitionResults.team.scores
 ### LoginResponse
 ``` 
 {
-  "user": {
-    "username": string,
-    "legalName": string,
-    "email": string,
-    "userId": number,
-    "authorities": string, 
-    "creationDate": string,
-    "club": string || null
+  user: {
+    username: string,
+    legalName: string,
+    email: string,
+    userId: number,
+    roles: string[],
+    creationDate: string //"2024-03-02",
+    club: null | string
   },
-  "token": string
+  token: string 
 } 
 ``` 
 ### Page

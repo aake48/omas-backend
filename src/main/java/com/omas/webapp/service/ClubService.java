@@ -41,4 +41,61 @@ public class ClubService {
         return repository.findAll(PageRequest.of(page, size));
     }
 
+
+
+    /**
+     * Sets the passkey for a club.
+     *
+     * @param clubName the name of the club
+     * @param passkey  the passkey to set
+     * @throws Exception if there is no club with the given name
+     */
+    public void setPassKey(String clubName, String passkey) throws Exception {
+        Optional<Club> optional = repository.findById(clubName);
+
+        if (!optional.isPresent()) {
+            throw new Exception("There is no club With the given name. " + clubName);
+        }
+
+        Club club = optional.get();
+
+        club.setPasskey(passkey);
+        repository.save(club);
+    }
+
+    /**
+     * checks that passkeys match.
+     *
+     * @param clubName the name of the club
+     * @param passkey  the passkey to set
+     * @throws Exception if there is no club with the given name or if the passkeys
+     *                   do not match
+     */
+    public void checkPasskeyMatch(String clubName, String passKey) throws Exception {
+        Optional<Club> optional = repository.findById(clubName);
+
+        if (!optional.isPresent()) {
+            throw new Exception("There is no club With the given name. " + clubName);
+        }
+
+        Club club = optional.get();
+
+        // both are null check
+        if (club.getPasskey() == null && passKey == null) {
+            return;
+        }
+
+        // Fail if only one of the two variables is null
+        if ((club.getPasskey() == null && passKey != null) || (club.getPasskey() != null && passKey == null)) {
+            throw new Exception("The passkeys do not match");
+
+        }
+
+        if (passKey.equals(club.getPasskey())) {
+            return;
+        }
+
+        throw new Exception("The passkeys do not match");
+    }
+
 }

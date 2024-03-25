@@ -110,4 +110,14 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
     public int compareTo(TeamMemberScore o) {
         return Double.compare(sum, o.sum);
     }
+
+    public TeamMemberScore(TeamMemberId teamMemberId, double score, int bullsEyeCount) {
+        this.bullsEyeCount = bullsEyeCount;
+        this.sum = score;
+        this.scorePerShot = "Not available";
+        this.userId = teamMemberId.getUserId();
+        this.competitionId = teamMemberId.getCompetitionId();
+        this.teamName = teamMemberId.getTeamName();
+        this.creationDate = new Date(Instant.now().toEpochMilli());
+    }
 }
