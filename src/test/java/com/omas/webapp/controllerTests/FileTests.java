@@ -2,6 +2,7 @@ package com.omas.webapp.controllerTests;
 
 import com.omas.webapp.Constants;
 import com.omas.webapp.TestUtils;
+import jakarta.validation.constraints.NotEmpty;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,6 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -30,22 +33,32 @@ public class FileTests {
     private static final String baseUrl = "/api/file";
 
     private static JSONObject adminUser;
+    private static String adminToken;
 
     @BeforeEach
     private void registerUser() throws Exception {
-        adminUser = new JSONObject(TestUtils.loginUser(mockMvc, Constants.adminUsername, Constants.adminPassword));
+
+        JSONObject loginResponse = new JSONObject(TestUtils.loginUser(mockMvc, Constants.adminUsername, Constants.adminPassword));
+
+        adminUser = loginResponse.getJSONObject("user");
+        adminToken = loginResponse.getString("token");
     }
 
     @Test
     public void uploadAndDownloadFile() throws Exception {
 
         String uploadUrl = baseUrl + "/upload";
-        String filesUrl = baseUrl + "/files";
         String downloadUrl = baseUrl + "/download";
 
-        String adminToken = adminUser.getString("token");
+        String competitionId = "kuvanlatauskilpailu";
+        String teamName = "kuvajoukkue";
 
-        String competitionId = "kilpa";
+        TestUtils.addRifleCompetition(mockMvc, competitionId, adminToken);
+        TestUtils.addClub(mockMvc, "kuvaseura", adminToken);
+        TestUtils.joinClub(mockMvc, "kuvaseura", adminToken);
+        TestUtils.addTeam(mockMvc, competitionId, teamName, adminToken);
+        TestUtils.joinTeam(mockMvc, competitionId, teamName, adminToken);
+        TestUtils.addScores(mockMvc, competitionId, teamName, adminToken);
 
         // Generate 1000 random bytes to send to the server
         byte[] randomBytes = new byte[1000];
@@ -68,26 +81,17 @@ public class FileTests {
 
         System.out.println("uploadResponse: " + uploadResponse);
 
-        String filesResponse = mockMvc.perform(MockMvcRequestBuilders.get(filesUrl)
-                .header("Authorization", "Bearer " + adminToken))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
-
-        System.out.println("filesResponse: " + filesResponse);
-
-        JSONArray array = new JSONArray(filesResponse);
-
-        // The endpoint sorts the file names according to String.CASE_INSENSITIVE_ORDER
-        // Get the first file in the array
-        String firstFile = array.get(0).toString();
-
-        System.out.println(firstFile);
+        String teamMemberId = new JSONObject()
+            .put("userId", adminUser.getLong("userId"))
+            .put("competitionId", competitionId)
+            .put("teamName", teamName)
+            .toString();
 
         // Download the first file in the list, it should match the file we just uploaded
-        byte[] downloadResponse = mockMvc.perform(MockMvcRequestBuilders.get(downloadUrl + "/" + firstFile)
-                .header("Authorization", "Bearer " + adminToken))
+        byte[] downloadResponse = mockMvc.perform(MockMvcRequestBuilders.get(downloadUrl)
+                .header("Authorization", "Bearer " + adminToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(teamMemberId))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
