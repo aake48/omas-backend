@@ -1,7 +1,6 @@
 package com.omas.webapp.controller;
 
 import com.omas.webapp.entity.requests.AddCompetitionRequest;
-import com.omas.webapp.entity.requests.GetCompetitionTeamsRequest;
 import com.omas.webapp.entity.response.*;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
@@ -128,25 +127,28 @@ public class CompetitionController {
         return new MessageResponse("Invalid year.", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("competition/teams")
-    public ResponseEntity<?> getCompetitionTeams(GetCompetitionTeamsRequest request) {
+    @GetMapping(params = { "page", "size", "search" }, value = "competition/teams")
+    public ResponseEntity<?> queryTeamsByCompetition(
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size,
+        @RequestParam(value = "search", required = false) String search
+    ) {
 
-        String competitionName = request.getCompetitionName();
-
-        Optional<Competition> competitionOptional = competitionService.getCompetition(competitionName);
-
-        if (competitionOptional.isEmpty()) {
-            return new MessageResponse("No competition found with the given name.", HttpStatus.BAD_REQUEST);
+        if (page < 0) {
+            return new MessageResponse("Invalid page number.", HttpStatus.BAD_REQUEST);
         }
 
-        List<Team> teams = teamService.getTeamsParticipatingInCompetition(competitionName);
-        List<TeamInformation> teamInformation = new ArrayList<>(teams.size());
-
-        for (Team team : teams) {
-            teamInformation.add(new TeamInformation(team.getTeamName(), team.getTeamDisplayName()));
+        if (search == null || search.isBlank()) {
+            search = "";
         }
 
-        return new ResponseEntity<>(new CompetitionTeamListResponse(competitionOptional.get().getCompetitionId(), teamInformation), HttpStatus.OK);
+        Page<Team> resultPage = teamService.findWithPaginatedSearchByCompetitionId(page, size, search);
+
+        if (page > resultPage.getTotalPages()) {
+            return new MessageResponse("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
     @GetMapping("competition/{name}")
