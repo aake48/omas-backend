@@ -142,4 +142,8 @@ public class TeamService {
     public Page<Team> findWithPaginatedsearchByClub(int page, int size, String search) {
         return teamRepository.findByClubNameContaining(search, PageRequest.of(page, size));
     }
+
+    public Page<Team> findWithPaginatedSearchByCompetitionId(int page, int size, String search) {
+        return teamRepository.findByCompetitionIdContaining(search, PageRequest.of(page, size));
+    }
 }
