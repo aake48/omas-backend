@@ -1,5 +1,6 @@
 package com.omas.webapp.table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -119,5 +120,10 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
         this.competitionId = teamMemberId.getCompetitionId();
         this.teamName = teamMemberId.getTeamName();
         this.creationDate = new Date(Instant.now().toEpochMilli());
+    }
+
+    @JsonIgnore
+    public TeamMemberId getTeamMemberId() {
+        return new TeamMemberId(userId, competitionId, teamName);
     }
 }
