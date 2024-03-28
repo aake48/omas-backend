@@ -16,6 +16,8 @@
       - [update email](#update-email)
       - [forgot password](#forgot-password)
       - [reset password](#reset-password)
+      - [get user's team in competition](#get-users-team-in-competition)
+      - [get all user's teams](#get-all-users-teams-in-all-competitions)
 
     - [admin](#admin-related)
       - [search users](#search-users)
@@ -217,8 +219,20 @@ returns code 200 if email was sent, 400 if not
 ### reset password
 ```
 POST https://localhost:8080/api/reset_password?token=${token}&password=${newPassword}
-
 ```
+
+### Get user's team in competition
+```
+GET https://localhost:8080/api/user/team?competitionId={competitionId}
+```
+returns [team](#team)
+
+### Get all user's teams in all competitions
+```
+GET https://localhost:8080/api/user/teams
+```
+returns list of [team](#team)s
+
 returns code 200 if password was updated, 400 if not
 ## admin related
 ### search users
