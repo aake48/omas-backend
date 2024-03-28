@@ -15,4 +15,6 @@ public interface TeamRepository extends JpaRepository<Team, TeamId> {
 
     Page<Team> findByClubNameContaining(String search, PageRequest of);
 
+    Page<Team> findByCompetitionIdContaining(String search, PageRequest of);
+
 }
