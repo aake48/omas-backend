@@ -47,10 +47,14 @@ public class AdminControllerTests {
 
         TestUtils.getToken(mockMvc, username);
 
+        String deleteRequest = new JSONObject()
+            .put("username", username)
+            .toString();
+
         String deletionResponse = mockMvc.perform(MockMvcRequestBuilders.delete(deletionUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + adminToken)
-                .content(username))
+                .content(deleteRequest))
                 .andExpect(jsonPath("$.message").value("User deleted"))
                 .andExpect(status().isOk())
                 .andReturn()

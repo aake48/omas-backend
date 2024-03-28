@@ -274,7 +274,9 @@ Returns arbitrary message. StatusCodes => 200=success, 400=failure
 ```
 DELETE https://localhost:8080/api/admin/delete
 Content-Type: application/json
-username
+{
+  "username": string
+}
 ```
 returns code 200 if the user was deleted, 400 if something went wrong
 Note: this endpoint requires admin role

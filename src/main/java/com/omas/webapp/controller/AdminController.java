@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import com.omas.webapp.entity.requests.DeleteRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -118,11 +119,11 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteUser(@RequestBody String username) {
+    public ResponseEntity<?> deleteUser(@RequestBody DeleteRequest deleteRequest) {
 
         UserInfoDetails details = UserInfoDetails.getDetails();
 
-        Optional<User> userOptional = userService.getUserByUsername(username);
+        Optional<User> userOptional = userService.getUserByUsername(deleteRequest.getUsername());
 
         if (userOptional.isEmpty()) {
             return new MessageResponse("No user found with that name", HttpStatus.BAD_REQUEST);
