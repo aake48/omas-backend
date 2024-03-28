@@ -1,6 +1,8 @@
 package com.omas.webapp.service;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -122,6 +124,35 @@ public class TeamService {
     public List<Team> getTeamsParticipatingInCompetition(String competition) {
         
         return teamRepository.findByCompetitionId(competition);
+    }
+
+    /**
+     * Find team by user id and competition id
+     * @param userId the user's id
+     * @param competitionId the competition's id
+     * @return optional containing the user's team or empty optional
+     */
+    public Optional<Team> getUserTeam(Long userId, String competitionId) {
+        TeamMember teamMember = teamMemberRepository.findByUserIdAndCompetitionId(userId, competitionId);
+        return teamRepository.findById(teamMember.getTeamId());
+    }
+
+    // TODO: Restrict this to valid competitions
+    /**
+     * Get all the user's team from all competitions
+     * @param userId the user's id
+     * @return all the teams the user is in
+     */
+    public List<Team> getUserTeams(Long userId) {
+
+        List<TeamMember> teamMembers = teamMemberRepository.findByUserId(userId);
+        List<TeamId> teamIds = new ArrayList<>(teamMembers.size());
+
+        for (TeamMember teamMember : teamMembers) {
+            teamIds.add(teamMember.getTeamId());
+        }
+
+        return teamRepository.findAllById(teamIds);
     }
 
 

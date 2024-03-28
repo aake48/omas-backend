@@ -4,13 +4,11 @@ import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.*;
+import com.omas.webapp.table.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -53,6 +51,9 @@ public class UserController {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private TeamService teamService;
 
     @Value("${frontend.RecoveryPage}")
     private String recoveryPage;
@@ -186,6 +187,36 @@ public class UserController {
             service.updatePassword(user, resetRequest.getPassword());
             return new ResponseEntity<>(Map.of("message", "password updated"), HttpStatus.OK);
         }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @GetMapping("/user/team")
+    public ResponseEntity<?> getUserTeam(@RequestParam(name = "competitionId") String competitionId) {
+
+        Long userId = UserInfoDetails.getDetails().getId();
+
+        Optional<Team> teamOptional = teamService.getUserTeam(userId, competitionId);
+
+        if (teamOptional.isEmpty()) {
+            return new MessageResponse("That user is not in a team in that competition", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(teamOptional.get(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @GetMapping("/user/teams")
+    public ResponseEntity<?> getUserTeams() {
+
+        Long userId = UserInfoDetails.getDetails().getId();
+
+        List<Team> teams = teamService.getUserTeams(userId);
+
+        if (teams.isEmpty()) {
+            return new MessageResponse("That user is not in a team in that competition", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(teams, HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

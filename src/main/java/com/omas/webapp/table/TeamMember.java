@@ -65,6 +65,16 @@ public class TeamMember {
                 Objects.equals(competitionId, that.competitionId);
     }
 
+    @JsonIgnore
+    public TeamMemberId getId() {
+        return new TeamMemberId(userId, competitionId, teamName);
+    }
+
+    @JsonIgnore
+    public TeamId getTeamId() {
+        return new TeamId(competitionId, teamName);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(userId, competitionId);

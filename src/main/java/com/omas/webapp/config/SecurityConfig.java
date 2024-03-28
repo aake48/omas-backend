@@ -43,6 +43,7 @@ public class SecurityConfig {
                         "/api/auth/club/join**, /api/competition/team/member/add/**", "/api/competition/team/member/add/sum/**", "/api/competition/team/member/add/sum/admin**",
                         "/api/competition/team/member/score/add/**",
                         "/api/file/**",
+                        "/api/user/**",
                         "/api/admin/delete/**", "/api/admin/delete/**", "/api/admin/promote/**", "/api/admin/demote/**", "/api/admin/**",
                         "api/competition/team/member/isMember**").authenticated())
                 .sessionManagement(management -> management

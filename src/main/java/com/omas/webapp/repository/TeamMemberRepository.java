@@ -18,5 +18,8 @@ public interface TeamMemberRepository extends JpaRepository<TeamMember, TeamMemb
 
     Optional<List<TeamMember>> findByteamNameAndCompetitionId(String teamName, String competitionId);
 
+    List<TeamMember> findByUserId(Long userId);
+
+    TeamMember findByUserIdAndCompetitionId(Long userId, String competitionId);
 
 }
