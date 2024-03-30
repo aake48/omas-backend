@@ -124,6 +124,11 @@ public class TeamController {
 
         Optional<Team> team = teamService.getUserTeam(userId, request.getCompetitionName());
 
+        if(team==null){
+            return new ResponseEntity<>(Map.of("message", "This user is not participating in this competition"),
+            HttpStatus.NO_CONTENT);
+        }
+
         if (team.isPresent()) {
             return new ResponseEntity<>(team.get(), HttpStatus.OK);
 
