@@ -51,6 +51,7 @@
       - [get team's score](#get-team-scores)
       - [teamExists](#check-if-team-exists)
       - [Get all teams participating in a competition](#get-all-teams-participating-in-a-competition)
+      - [get club's team that are in active competitions](#get-clubs-team-that-are-in-active-competitions)
       - [get team with member IDs](#get-team-with-member-ids)
     - [team members](#team-member)
       - [add team member to team](#add-team-member-to-team)
@@ -552,6 +553,13 @@ and HTTP status code 400 if the competition is not found, or
 }
 ```
 and HTTP status code 200 if the competition is found
+
+### get club's team that are in active competitions
+```
+GET api/competition/team/active/query?club=${clubName:sring}&page=${pageNumber:number}&size=${sizeOfPage:number}
+```
+[returns page of club's teams](#page) which are in active competitions(comps where(startDate<now && endDate>now))
+
 
 ### Get team with member IDs
 ```

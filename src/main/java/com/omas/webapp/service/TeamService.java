@@ -177,4 +177,8 @@ public class TeamService {
     public Page<Team> findWithPaginatedSearchByCompetitionId(int page, int size, String search) {
         return teamRepository.findByCompetitionIdContaining(search, PageRequest.of(page, size));
     }
+
+    public Page<Team> findThisClubsTeamsWhichAreInActiveCompetitions(int page, int size, String club) {
+        return teamRepository.findThisClubsTeamsWhichAreInActiveCompetitions(PageRequest.of(page, size), club, new java.sql.Date(System.currentTimeMillis()));
+    }
 }

@@ -115,6 +115,29 @@ public class TeamController {
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
+    @GetMapping(params = { "page", "size", "club" }, value = "active/query")
+    public ResponseEntity<?> queryUsers(@RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "club", required = false) String club) throws Exception {
+
+        if (page < 0) {
+            return new MessageResponse("Invalid page number.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (club == null || club.isBlank()) {
+            club = "";
+        }
+
+        Page<Team> resultPage = teamService.findThisClubsTeamsWhichAreInActiveCompetitions(page, size, club);
+
+        if (page > resultPage.getTotalPages()) {
+            return new MessageResponse("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(resultPage, HttpStatus.OK);
+
+    }
+
     
     @GetMapping("/teamExists")
     public ResponseEntity<?> hasTeam(@Valid @RequestBody teamIdRequest request) {
