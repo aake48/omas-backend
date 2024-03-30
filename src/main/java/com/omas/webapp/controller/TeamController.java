@@ -2,6 +2,7 @@ package com.omas.webapp.controller;
 
 import com.omas.webapp.Util;
 import com.omas.webapp.entity.requests.AddTeamRequest;
+import com.omas.webapp.entity.requests.CompetitionNameRequest;
 import com.omas.webapp.entity.requests.TeamScoreRequest;
 import com.omas.webapp.entity.requests.teamIdRequest;
 import com.omas.webapp.entity.response.MessageResponse;
@@ -113,6 +114,22 @@ public class TeamController {
         }
 
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @GetMapping(value = "/amParticipating")
+    public ResponseEntity<?> getTeamInWhichThisUserIsParticipating(@Valid @RequestBody CompetitionNameRequest request) {
+
+        Long userId = UserInfoDetails.getDetails().getId();
+
+        Optional<Team> team = teamService.getUserTeam(userId, request.getCompetitionName());
+
+        if (team.isPresent()) {
+            return new ResponseEntity<>(team.get(), HttpStatus.OK);
+
+        }
+        return new ResponseEntity<>(Map.of("message", "This user is not participating in this competition"),
+                HttpStatus.NO_CONTENT);
     }
 
     @GetMapping(params = { "page", "size", "club" }, value = "active/query")

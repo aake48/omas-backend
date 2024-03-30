@@ -44,6 +44,8 @@
       - [Search for competitions with pagination](#search-for-competitions-with-pagination)
       - [query active competitions](#query-active-competitions)
       - [Get results](#get-competition-results)
+      - [am I participating in this competition?](#am-i-participating-in-this-competition)
+
 
     - [teams](#teams)
       - [query teams with clubName](#query-teams-with-clubname)
@@ -480,6 +482,17 @@ teams and scores are sorted descending by totalScore and sum
 GET api/competition/result/{competitionName}
 ```
 returns [CompetitionResponse](#competitionresponse)
+### am I participating in this competition
+```
+GET https://localhost:8080/api/competition/team/amParticipating
+Authorization: required (ROLE_USER)
+Content-Type: application/json
+{
+    "competitionName": string
+}
+```
+If user is in [a team](#team) team of this competition, team object will be returned with code 200. If this competition exist but user is not participating in it, code 204 will be returned. 400 if this competition does not exist.
+
 ## Teams
 
 ### query teams with clubName
