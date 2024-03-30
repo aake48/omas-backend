@@ -1,5 +1,6 @@
 package com.omas.webapp.repository;
 
+import java.sql.Date;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, String
 
     @Query(value = "SELECT * FROM Competition c WHERE EXTRACT(YEAR FROM c.start_date) = :year", nativeQuery = true)
     Page<Competition> findByYear(@Param("year") int year, PageRequest pageRequest);
+
+    @Query(value = "SELECT * FROM Competition c WHERE c.start_date <= :now AND c.end_date >= :now", nativeQuery = true)
+    Page<Competition> findActiveCompetitions(Date now, PageRequest of);
 }
