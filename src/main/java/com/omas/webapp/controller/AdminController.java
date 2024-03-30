@@ -141,6 +141,7 @@ public class AdminController {
             return new MessageResponse("You cannot delete other admins", HttpStatus.BAD_REQUEST);
         }
 
+        roleService.removeRoles(user.getId());
         userService.deleteUser(user.getId());
 
         return new MessageResponse("User deleted", HttpStatus.OK);

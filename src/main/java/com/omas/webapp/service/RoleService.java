@@ -41,9 +41,9 @@ public class RoleService {
         repository.delete(roleToBeRemoved);
     }
 
-    // TODO: Implement this method.
-    public Boolean removeRoles(long id) {
-        return null;
+    public void removeRoles(long id) {
+            List<Role> roles = repository.findDistinctByuserId(id);
+            repository.deleteAll(roles);
     }
 
     public Optional<Role> findRole(RoleId roleId) {
