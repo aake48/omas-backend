@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.omas.webapp.Constants;
 import com.omas.webapp.Json;
 import com.omas.webapp.TestUtils;
-import org.aspectj.lang.annotation.Before;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,6 @@ public class UserTests {
 
     private static final String baseUrl = "/api/user/";
 
-    private static JSONObject adminUser;
     private static String adminToken;
 
     private static final String competitionId = "kuvanlatauskilpailu";
@@ -40,7 +37,7 @@ public class UserTests {
 
         JSONObject loginResponse = new JSONObject(TestUtils.loginUser(mockMvc, Constants.adminUsername, Constants.adminPassword));
 
-        adminUser = loginResponse.getJSONObject("user");
+        loginResponse.getJSONObject("user");
         adminToken = loginResponse.getString("token");
 
         TestUtils.addRifleCompetition(mockMvc, competitionId, adminToken);

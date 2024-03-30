@@ -2,11 +2,9 @@ package com.omas.webapp.service;
 
 import com.omas.webapp.config.FileStorageProperties;
 import com.omas.webapp.repository.FileRepository;
-import com.omas.webapp.repository.TeamMemberScoreRepository;
 import com.omas.webapp.table.ImageProof;
 import com.omas.webapp.table.TeamMemberId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,9 +24,6 @@ public class FileService {
 
     @Autowired
     private FileRepository fileRepository;
-
-    @Autowired
-    private TeamMemberScoreRepository teamMemberScoreRepository;
 
     private final Path fileDirectory;
 
