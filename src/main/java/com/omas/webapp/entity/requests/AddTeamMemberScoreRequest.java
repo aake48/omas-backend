@@ -18,6 +18,8 @@ public class AddTeamMemberScoreRequest {
 	@NotEmpty(message = "teamName cannot be empty")
 	private String teamName;
 
+	private Long userId = null;
+
 	@ValidScoreList
     @NotEmpty(message = "ScoreList cannot be empty")
 	private List<Double> ScoreList; 

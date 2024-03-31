@@ -619,23 +619,27 @@ Content-Type: application/json
 ```
 returns [TeamMemberScore](#teammemberscoreresponse) if a score for this user exist.
 
-### Submit user's score
+### submit user's score
 Note: the following conditions must be met before user can submit his scores: 
 - The user must be [a team member](#add-team-member-to-team) for the competition before he is able to submit his scores
+- userId is optional. If left empty, userId is will be gotten from token. UserId must be a member of the team.
 ```
 POST api/competition/team/member/score/add
 Authorization: required
 Content-Type: application/json
 {
-  "competitionName": string,
-  "teamName": string,
-  "scoreList": number[]
+  competitionName: string,
+  teamName: string,
+  userId: number, // optional
+  scoreList: number[]
 }
 ```
 Returns [TeamMemberScore](#teammemberscore) if submission was successful.
-### Submit user's score as a sum
+### Submit  score as a sum
 Note: the following conditions must be met before user can submit his scores: 
 - The user must be [a team member](#add-team-member-to-team) for the competition before he is able to submit his scores
+- userId is optional. If left empty, userId is will be gotten from token. UserId must be a member of the team.
+
 ```
 POST api/competition/team/member/score/add/sum
 Authorization: required
@@ -644,6 +648,7 @@ Content-Type: application/json
   competitionName: string,
   teamName: string,
   score: number,
+  userId: number // optional
   bullsEyeCount: number
 }
 ```

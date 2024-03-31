@@ -20,6 +20,8 @@ public class AddTeamMemberScoreAsSumRequest {
     @NotNull(message = "bullsEyeCount cannot be empty")
 	private double score; 
 
+	private Long userId = null;
+
     @NotNull(message = "bullsEyeCount cannot be empty")
 	private int bullsEyeCount; 
 

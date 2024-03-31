@@ -123,6 +123,8 @@ public class TeamMemberController {
             return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
         }
 
+
+
         try {
 
             long userId  = ((UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
@@ -131,6 +133,12 @@ public class TeamMemberController {
             // validates that user is part of the team and that the team has entered this
             // competition
             TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(userId, request.getCompetitionName(), request.getTeamName());
+
+            // validates that userId is part of the team and that the team has entered this
+            // competition
+            if(request.getUserId()!=null){
+                teamMemberId = teamsService.CanUserSubmitScores(request.getUserId(), request.getCompetitionName(), request.getTeamName());
+            }
 
             String type = competition.getType();
             TeamMemberScore score;
@@ -224,6 +232,13 @@ public class TeamMemberController {
             // competition
             TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(userId, request.getCompetitionName(),
                     request.getTeamName());
+
+            // validates that userId is part of the team and that the team has entered this
+            // competition
+            if (request.getUserId() != null) {
+                teamMemberId = teamsService.CanUserSubmitScores(request.getUserId(), request.getCompetitionName(),
+                        request.getTeamName());
+            }
 
             TeamMemberScore score = teamMemberScoreService.addSum(teamMemberId, request.getBullsEyeCount(),
                     request.getScore());
