@@ -135,7 +135,7 @@ public class TeamService {
     public Optional<Team> getUserTeam(Long userId, String competitionId) {
         TeamMember teamMember = teamMemberRepository.findByUserIdAndCompetitionId(userId, competitionId);
         if(teamMember==null){
-            return null;
+            return Optional.empty();
         }
         return teamRepository.findById(teamMember.getTeamId());
     }
