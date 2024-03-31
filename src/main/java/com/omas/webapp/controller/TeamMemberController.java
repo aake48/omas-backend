@@ -65,8 +65,8 @@ public class TeamMemberController {
 
         Competition competition = competitionOptional.get();
 
-        if (competition.hasEnded()) {
-            return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+        if (!competition.isActive()) {
+            return new MessageResponse("The requested competition is not active.", HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -119,11 +119,9 @@ public class TeamMemberController {
 
         Competition competition = competitionOptional.get();
 
-        if (competition.hasEnded()) {
-            return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+        if (!competition.isActive()) {
+            return new MessageResponse("The requested competition is not active.", HttpStatus.BAD_REQUEST);
         }
-
-
 
         try {
 
@@ -190,8 +188,8 @@ public class TeamMemberController {
 
             Competition competition = competitionOptional.get();
 
-            if (competition.hasEnded()) {
-                return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+            if (!competition.isActive()) {
+                return new MessageResponse("The requested competition is not active.", HttpStatus.BAD_REQUEST);
             }
 
             TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(request.getUserId(),
@@ -220,8 +218,8 @@ public class TeamMemberController {
 
         Competition competition = competitionOptional.get();
 
-        if (competition.hasEnded()) {
-            return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+        if (!competition.isActive()) {
+            return new MessageResponse("The requested competition is not active.", HttpStatus.BAD_REQUEST);
         }
 
         try {

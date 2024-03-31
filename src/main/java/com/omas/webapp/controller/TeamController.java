@@ -56,13 +56,13 @@ public class TeamController {
 
         // Handles prior thisCompetitionExists check
         if (competitionOptional.isEmpty()) {
-            return new MessageResponse("This competition does not exist", HttpStatus.BAD_REQUEST);
+            return new MessageResponse("The requested competition does not exist", HttpStatus.BAD_REQUEST);
         }
 
         Competition competition = competitionOptional.get();
 
-        if (competition.hasEnded()) {
-            return new MessageResponse("This competition has ended", HttpStatus.FORBIDDEN);
+        if (competition.isActive()) {
+            return new MessageResponse("The requested competition is not active.", HttpStatus.BAD_REQUEST);
         }
 
         // This section of the code performs two operations on the 'Id', teamName:
