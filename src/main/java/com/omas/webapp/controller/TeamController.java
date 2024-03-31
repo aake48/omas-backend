@@ -1,6 +1,5 @@
 package com.omas.webapp.controller;
 
-import com.omas.webapp.Util;
 import com.omas.webapp.entity.requests.AddTeamRequest;
 import com.omas.webapp.entity.requests.CompetitionNameRequest;
 import com.omas.webapp.entity.requests.TeamScoreRequest;
@@ -167,23 +166,10 @@ public class TeamController {
         @RequestParam(name = "competition") String competition
     ) {
 
-        String teamName = Util.sanitizeName(team);
-        String competitionId = Util.sanitizeName(competition);
-
-        // Sanity check even though it should theoretically be safe already
-        if (teamName == null) {
-            return new MessageResponse("Team name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$ after sanitation", HttpStatus.BAD_REQUEST);
-        }
-
-        // Sanity check even though it should theoretically be safe already
-        if (competitionId == null) {
-            return new MessageResponse("Competition name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$ after sanitation", HttpStatus.BAD_REQUEST);
-        }
-
-        Optional<Team> teamOptional = teamService.getTeam(competitionId, teamName);
+        Optional<Team> teamOptional = teamService.getTeam(competition, team);
 
         if (teamOptional.isEmpty()) {
-            return new MessageResponse("No team found with the given parameters.", HttpStatus.NOT_FOUND);
+            return new MessageResponse("No team found with the given parameters.", HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(teamOptional.get(), HttpStatus.OK);
