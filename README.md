@@ -43,6 +43,7 @@
       - [Get all competitions](#get-all-competitions)
       - [Search for competitions with pagination](#search-for-competitions-with-pagination)
       - [query active competitions](#query-active-competitions)
+      - [query inactive competitions](#query-inactive-competitions)
       - [Get results](#get-competition-results)
       - [am I participating in this competition?](#am-i-participating-in-this-competition)
 
@@ -475,7 +476,11 @@ GET https://localhost:8080/api/competition/query?search=${search}&page=${page}&s
 GET https://localhost:8080/api/competition/active/query?page=${page:number}&size=${size:number}
 ```
 [returns page of competitions](#page) which have begun and have not ended yet (startDate<now && endDate>now).
-
+### query inactive competitions
+```
+GET https://localhost:8080/api/competition/inactive/query?page=${page:number}&size=${size:number}
+```
+[returns page of competitions](#page) which have already ended (endDate<now).
 ### Get competition results
 teams and scores are sorted descending by totalScore and sum
 ``` 
