@@ -140,15 +140,14 @@ public class TeamService {
         return teamRepository.findById(teamMember.getTeamId());
     }
 
-    // TODO: Restrict this to valid competitions
     /**
-     * Get all the user's team from all competitions
+     * Get all the user's team from all competitions which are still ongoing
      * @param userId the user's id
      * @return all the teams the user is in
      */
     public List<Team> getUserTeams(Long userId) {
 
-        List<TeamMember> teamMembers = teamMemberRepository.findByUserId(userId);
+        List<TeamMember> teamMembers = teamMemberRepository.findThisUsersTeamMembershipsForActiveCompetitions(userId, new java.sql.Date(System.currentTimeMillis()));
         List<TeamId> teamIds = new ArrayList<>(teamMembers.size());
 
         for (TeamMember teamMember : teamMembers) {
