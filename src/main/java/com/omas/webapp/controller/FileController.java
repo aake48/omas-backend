@@ -69,16 +69,9 @@ public class FileController {
         return new ResponseEntity<>(file.get(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/files")
-    public List<String> getFileNames() {
-        return this.fileService.getFiles();
-    }
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public String handleValidationExceptions(
-        HttpMessageNotReadableException ex) {
+    public String handleValidationExceptions(HttpMessageNotReadableException ex) {
 
         ex.printStackTrace();
 
