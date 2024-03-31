@@ -706,7 +706,6 @@ Note: used to be called competitionResults.team.scores
   "userId": number,
   "competitionId": string,
   "teamName": string,
-  "uuid": string,
   "sum": number,
   "bullsEyeCount": number,
   "scorePerShot": string,

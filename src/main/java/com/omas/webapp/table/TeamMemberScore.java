@@ -46,9 +46,6 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
     @Id
     private String teamName;
 
-    @Getter
-    @UuidGenerator(style = UuidGenerator.Style.TIME)
-    private UUID uuid;
 
     @Getter
     private double sum;
