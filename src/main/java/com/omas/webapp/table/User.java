@@ -29,7 +29,7 @@ public class User {
 	private long id; 
 	@Column(unique = true)
 	private String username; 
-	private String legalname; 
+	private String legalName;
 	@Column(unique = true)
 	private String email;
 	@JsonIgnore
