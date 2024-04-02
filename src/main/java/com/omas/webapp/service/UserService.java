@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService {
 
 
         public Page<User> findWithPaginatedSearch(int page, int size, String search) {
-        return repository.findBylegalnameContaining(search, PageRequest.of(page, size));
+        return repository.findByLegalNameContaining(search, PageRequest.of(page, size));
     }
 
     @Override
@@ -92,7 +92,7 @@ public class UserService implements UserDetailsService {
 
         User user = new User();
         user.setUsername(request.getUsername());
-        user.setLegalname(request.getName());
+        user.setLegalName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
         user.setCreationDate(new Date(Instant.now().toEpochMilli()));
@@ -137,7 +137,7 @@ public class UserService implements UserDetailsService {
 
         User user = userOptional.get();
 
-        user.setLegalname(user.getPartOfClub());
+        user.setLegalName(user.getPartOfClub());
         user.setUsername(null);
         user.setPartOfClub(null);
         user.setPassword(null);
@@ -170,7 +170,7 @@ public class UserService implements UserDetailsService {
     public String getName(Long userId) {
         try {
             User user = repository.findById(userId).get();
-            return user.getLegalname();
+            return user.getLegalName();
         } catch (Exception e) {
             log.info("getName(): " + e);
             return "user name not found";

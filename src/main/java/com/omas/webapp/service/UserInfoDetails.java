@@ -32,7 +32,7 @@ public class UserInfoDetails implements UserDetails {
 	public UserInfoDetails(User user, List<String> roles) {
 
 		username = user.getUsername();
-		legalName = user.getLegalname();
+		legalName = user.getLegalName();
 		password = user.getPassword();
 		email = user.getEmail();
 		id = user.getId();
