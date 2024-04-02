@@ -2,6 +2,7 @@ package com.omas.webapp;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -151,6 +152,7 @@ public class TestUtils {
                 String json = new JSONObject()
                 .put("competitionName", competitionName)
                 .put("competitionType", rifleCompetitionType)
+                .put("startDate", Instant.now().minusSeconds(3600).toEpochMilli())
                 .toString();
                 
 

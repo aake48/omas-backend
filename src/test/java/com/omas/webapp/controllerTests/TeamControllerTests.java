@@ -42,7 +42,7 @@ public class TeamControllerTests {
 
                 mockMvc.perform(MockMvcRequestBuilders.get(getTeamUrl)
                         .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isNotFound());
+                        .andExpect(status().isBadRequest());
         }
 
         @Test

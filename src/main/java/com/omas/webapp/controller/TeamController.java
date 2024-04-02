@@ -60,7 +60,7 @@ public class TeamController {
 
         Competition competition = competitionOptional.get();
 
-        if (competition.isActive()) {
+        if (!competition.isActive()) {
             return new MessageResponse("The requested competition is not active.", HttpStatus.BAD_REQUEST);
         }
 
