@@ -178,16 +178,21 @@ public class UserController {
     public ResponseEntity<?> processResetPassword(HttpServletRequest request,
             @Valid PasswordResetRequest resetRequest) {
 
-        User user = service.getByResetPasswordToken(resetRequest.getToken());
-
-        if (user == null) {
+        User user = null;
+        try {
+            user = service.getByResetPasswordToken(resetRequest.getToken());
+            if (user == null) {
+                return new ResponseEntity<>(Map.of("message", "Token is either invalid or expired"),
+                        HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
             return new ResponseEntity<>(Map.of("message", "Token is either invalid or expired"),
                     HttpStatus.BAD_REQUEST);
-        } else {
-            service.updatePassword(user, resetRequest.getPassword());
-            return new ResponseEntity<>(Map.of("message", "password updated"), HttpStatus.OK);
         }
+        service.updatePassword(user, resetRequest.getPassword());
+        return new ResponseEntity<>(Map.of("message", "password updated"), HttpStatus.OK);
     }
+    
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/user/team")
