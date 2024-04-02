@@ -62,9 +62,19 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public User getByResetPasswordToken(String token) {
+    /**
+     * Retrieves a user by their reset password token. If token was retrieved, it will be deleted.
+     *
+     * @param token The reset password token to search for.
+     * @return The user associated with the reset password token, or null if the token has expired or no user is found.
+     */
+    public User getByResetPasswordToken(String token) throws Exception {
 
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByResetPasswordToken(token);
+        if (passwordResetToken == null) {
+            return null;
+        }
+        passwordResetTokenRepository.delete(passwordResetToken);
 
         if (passwordResetToken.hasExpired()) {
             return null;
