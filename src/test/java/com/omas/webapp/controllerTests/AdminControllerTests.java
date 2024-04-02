@@ -43,12 +43,16 @@ public class AdminControllerTests {
     @Test
     void registerAndDeleteUser() throws Exception {
 
-        String username = "johnDoe";
+        String user = "johndoe";
+        String password = "password123";
 
-        TestUtils.getToken(mockMvc, username);
+        TestUtils.registerUser(mockMvc, user, password);
+        String loginResponse = TestUtils.loginUser(mockMvc, user, password);
+        JSONObject userObject = new JSONObject(loginResponse).getJSONObject("user");
+        Long userId = userObject.getLong("userId");
 
         String deleteRequest = new JSONObject()
-            .put("username", username)
+            .put("userId", userId)
             .toString();
 
         String deletionResponse = mockMvc.perform(MockMvcRequestBuilders.delete(deletionUrl)

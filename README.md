@@ -280,7 +280,7 @@ Returns arbitrary message. StatusCodes => 200=success, 400=failure
 DELETE https://localhost:8080/api/admin/delete
 Content-Type: application/json
 {
-  "username": string
+  userId: number
 }
 ```
 returns code 200 if the user was deleted, 400 if something went wrong
@@ -303,7 +303,7 @@ Content-Type: application/json
 }
 ```
 ### set passkey
-Note: Note: A user must obtain clubAdmin status either by  [creating a club](#create-new-club) or by being [promoted](#promote-user) by an sys admin in order to have the authority to update passkeys for that club.
+Note: A user must obtain clubAdmin status either by  [creating a club](#create-new-club) or by being [promoted](#promote-user) by an sys admin in order to have the authority to update passkeys for that club.
 ```
 POST https://localhost:8080/api/club/setPasskey
 Authorization: required clubAdmin Role
