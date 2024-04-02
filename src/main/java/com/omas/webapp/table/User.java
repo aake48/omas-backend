@@ -29,6 +29,7 @@ public class User {
 	private long id; 
 	@Column(unique = true)
 	private String username; 
+	@JsonIgnore
 	private String legalName;
 	@Column(unique = true)
 	private String email;
@@ -41,5 +42,12 @@ public class User {
     @Getter
     private List<Role> roles = new ArrayList<>();
 
+	public String getLegalname(){
+		return legalName;
+	}
+
+	public void setLegalname(String legalName){
+		this.legalName = legalName;
+	}
 
 } 
