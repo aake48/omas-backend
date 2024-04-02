@@ -37,9 +37,9 @@ public class TeamMember {
     @Id
     Long userId;
 
-    public String getLegalname() {
+    public String getLegalName() {
         if(user!=null){
-            return user.getLegalname();
+            return user.getLegalName();
         }
         return null;
     }

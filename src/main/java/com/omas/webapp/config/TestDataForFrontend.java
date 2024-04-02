@@ -166,7 +166,7 @@ public class TestDataForFrontend implements CommandLineRunner {
         for (String name : usernames) {
             User user = new User();
             user.setUsername(name);
-            user.setLegalname(name);
+            user.setLegalName(name);
             user.setPartOfClub(ClubName);
             users.add(user);
         }
