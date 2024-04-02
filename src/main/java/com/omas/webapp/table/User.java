@@ -42,12 +42,4 @@ public class User {
     @Getter
     private List<Role> roles = new ArrayList<>();
 
-	public String getLegalname(){
-		return legalName;
-	}
-
-	public void setLegalname(String legalName){
-		this.legalName = legalName;
-	}
-
 } 
