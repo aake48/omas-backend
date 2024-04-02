@@ -123,7 +123,7 @@ public class AdminController {
 
         UserInfoDetails details = UserInfoDetails.getDetails();
 
-        Optional<User> userOptional = userService.getUserByUsername(deleteRequest.getUsername());
+        Optional<User> userOptional = userService.getUserByUserId(deleteRequest.getUserId());
 
         if (userOptional.isEmpty()) {
             return new MessageResponse("No user found with that name", HttpStatus.BAD_REQUEST);
