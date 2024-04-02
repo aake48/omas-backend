@@ -24,7 +24,7 @@ public class AddCompetitionRequest {
     private String competitionType;
 
     @ValidEpochMilli(daysBehind = 1, daysAhead = 365, message = "invalid start")
-    private Long startDate = System.currentTimeMillis();
+    private Long startDate = System.currentTimeMillis() - 5L * 60 * 1000; // first digit is minutes == 5m
 
     @ValidEpochMilli(daysBehind = 0, daysAhead = 365, message = "invalid EndDate")
     private Long endDate = System.currentTimeMillis() + 7L * 24 * 60 * 60 * 1000;//adds +7 days
