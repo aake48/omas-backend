@@ -2,7 +2,6 @@ package com.omas.webapp.controllerTests;
 
 import com.omas.webapp.Constants;
 import com.omas.webapp.TestUtils;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.apache.tomcat.util.http.fileupload.MultipartStream;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,9 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.codec.multipart.MultipartHttpMessageReader;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
@@ -22,8 +19,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -76,10 +73,12 @@ public class FileTests {
         TestUtils.joinTeam(mockMvc, competitionId, teamName, userToken);
         TestUtils.addScores(mockMvc, competitionId, teamName, userToken);
 
+        int fileSize = 1_000_000;
+
         for (int i = 0; i < 6; i++) {
 
-            // Generate 10000 random bytes to send to the server
-            byte[] randomBytes = new byte[10000];
+            // Generate 1000000 random bytes to send to the server
+            byte[] randomBytes = new byte[fileSize];
 
             ThreadLocalRandom.current().nextBytes(randomBytes);
 
@@ -87,10 +86,8 @@ public class FileTests {
 
             String uploadResponse = mockMvc.perform(MockMvcRequestBuilders.multipart(uploadUrl)
                     .file(file)
-                    // Admin is also a user
+                    // Upload as user
                     .header("Authorization", "Bearer " + userToken)
-                    // Currently there is no validation for the competition
-                    // It will be added soon
                     .param("competitionId", competitionId))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -142,7 +139,7 @@ public class FileTests {
             stream.readBodyData(output);
 
             System.out.println("Body " + index + ":\nBytes: " + output.size());
-            assertEquals(10000, output.size(), "Sent data and received data should be the same length");
+            assertEquals(fileSize, output.size(), "Sent data and received data should be the same length");
 
             nextPart = stream.readBoundary();
             index++;
