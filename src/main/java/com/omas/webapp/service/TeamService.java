@@ -3,9 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.omas.webapp.entity.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.omas.webapp.repository.TeamMemberRepository;
 import com.omas.webapp.repository.TeamRepository;
@@ -40,6 +42,15 @@ public class TeamService {
     }
 
     /**
+     * Check if the given user can join a team in the given competition
+     * by checking if the user is already in a team in the given competition
+     * @return true if the user can join a team, false if not
+     */
+    public boolean canUserJoinTeamInCompetition(Long userId, String competitionId) {
+        return getUserTeam(userId, competitionId).isEmpty();
+    }
+
+    /**
      * validates that the user has privileges to administer teams of this club 
      */
     public boolean isAdminInclub(String club) {
@@ -64,8 +75,8 @@ public class TeamService {
         if (isTeamPartOfCompetition(teamMemberId.getCompetitionId(), teamMemberId.getTeamName())) {
             return teamMemberRepository.save(new TeamMember(teamMemberId));
         }
-        throw new Exception("this team does not exist");
 
+        throw new Exception("this team does not exist");
     }
 
     /** @return TeamMemberId if this user has permissions to submit scores to given competition
@@ -85,8 +96,7 @@ public class TeamService {
     /**
      * Checks if a user is a member of a specific team.
      *
-     * @param userId The ID of the user.
-     * @param teamId The ID of the team.
+     * @param teamMemberId The ID of the user.
      * @return true if the user is in the team, false otherwise.
      */
     public boolean thisUserIsTeamMember(TeamMemberId teamMemberId) {

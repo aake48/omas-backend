@@ -48,6 +48,7 @@ public class TeamMemberControllerTests {
                 TestUtils.addClub(mockMvc, clubName, userToken);
                 TestUtils.joinClub(mockMvc, clubName, userToken);
                 TestUtils.addRifleCompetition(mockMvc, competitionNameId, userToken);
+                TestUtils.addTeam(mockMvc, competitionNameId, teamName + "_2", userToken);
                 TestUtils.addTeam(mockMvc, competitionNameId, teamName, userToken);
         }
 
@@ -68,6 +69,34 @@ public class TeamMemberControllerTests {
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.competitionId").value(competitionNameId));
 
+        }
+
+        @Test
+        public void addTeamMemberToTwoTeamsInTheSameCompetition() throws Exception {
+
+                String firstTeamJson = new JSONObject()
+                    .put("competitionName", competitionNameId)
+                    .put("teamName", teamName)
+                    .toString();
+
+                String secondTeamJson = new JSONObject()
+                    .put("competitionName", competitionNameId)
+                    .put("teamName", teamName + "_2")
+                    .toString();
+
+
+                mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + userToken)
+                        .content(firstTeamJson))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.competitionId").value(competitionNameId));
+
+                mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + userToken)
+                        .content(secondTeamJson))
+                    .andExpect(status().isBadRequest());
         }
 
         @Test
@@ -96,12 +125,15 @@ public class TeamMemberControllerTests {
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.competitionId").value(competitionNameId));
 
+                // TODO: Intended to join the team twice?
+                /*
                 mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .header("Authorization", "Bearer " + token)
                                 .content(json))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.competitionId").value(competitionNameId));
+                 */
 
                 List<Double> shots = TestUtils.give60shots();
                 ObjectMapper mapper = new ObjectMapper();
