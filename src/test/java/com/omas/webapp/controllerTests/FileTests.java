@@ -19,8 +19,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -73,6 +75,8 @@ public class FileTests {
         TestUtils.joinTeam(mockMvc, competitionId, teamName, userToken);
         TestUtils.addScores(mockMvc, competitionId, teamName, userToken);
 
+        HashMap<String, byte[]> fileMap = new HashMap<>();
+
         int fileSize = 1_000_000;
 
         for (int i = 0; i < 6; i++) {
@@ -82,7 +86,10 @@ public class FileTests {
 
             ThreadLocalRandom.current().nextBytes(randomBytes);
 
-            MockMultipartFile file = new MockMultipartFile("file", "myimage_" + i + ".png", "application/octet-stream", randomBytes);
+            String fileName = "myimage_" + i + ".png";
+
+            MockMultipartFile file = new MockMultipartFile("file", fileName, "application/octet-stream", randomBytes);
+            fileMap.put(fileName, randomBytes);
 
             String uploadResponse = mockMvc.perform(MockMvcRequestBuilders.multipart(uploadUrl)
                     .file(file)
@@ -134,12 +141,16 @@ public class FileTests {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             String partHeaders = stream.readHeaders();
 
+            int nameIndex = partHeaders.indexOf("name=\"") + 6;
+            String fileName = partHeaders.substring(nameIndex, partHeaders.indexOf("\"", nameIndex));
+
             System.out.println("\n\nHeaders " + index + ":\n" + partHeaders);
 
             stream.readBodyData(output);
 
             System.out.println("Body " + index + ":\nBytes: " + output.size());
             assertEquals(fileSize, output.size(), "Sent data and received data should be the same length");
+            assertArrayEquals(fileMap.get(fileName), output.toByteArray(), "Array content should remain the same");
 
             nextPart = stream.readBoundary();
             index++;
