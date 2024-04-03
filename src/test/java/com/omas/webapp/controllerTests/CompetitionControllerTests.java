@@ -63,7 +63,7 @@ public class CompetitionControllerTests {
 
         String response = mockMvc.perform(MockMvcRequestBuilders.get(url))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.type").value(TestUtils.rifleCompetitionType))
+                .andExpect(jsonPath("$.type").value(Constants.RIFLE_TYPE))
                 .andExpect(jsonPath("$.displayName").value(competitionNameId))
                 .andExpect(jsonPath("$.startDate").exists())
                 .andExpect(jsonPath("$.endDate").exists())
@@ -106,7 +106,7 @@ public class CompetitionControllerTests {
 
         String json = new JSONObject()
                 .put("competitionName", competitionDisplayName)
-                .put("competitionType", TestUtils.rifleCompetitionType)
+                .put("competitionType", Constants.RIFLE_TYPE)
                 .toString();
 
 
@@ -116,7 +116,7 @@ public class CompetitionControllerTests {
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content(json))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.type").value(TestUtils.rifleCompetitionType))
+                .andExpect(jsonPath("$.type").value(Constants.RIFLE_TYPE))
                 .andExpect(jsonPath("$.displayName").value(competitionDisplayName))
                 .andExpect(jsonPath("$.startDate").exists())
                 .andExpect(jsonPath("$.endDate").exists())
@@ -131,7 +131,7 @@ public class CompetitionControllerTests {
 
         String json = new JSONObject()
                 .put("competitionName", competitionDisplayName)
-                .put("competitionType", TestUtils.pistolCompetitionType)
+                .put("competitionType", Constants.PISTOL_TYPE)
                 .toString();
 
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
@@ -139,7 +139,7 @@ public class CompetitionControllerTests {
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content(json))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.type").value(TestUtils.pistolCompetitionType))
+                .andExpect(jsonPath("$.type").value(Constants.PISTOL_TYPE))
                 .andExpect(jsonPath("$.displayName").value(competitionDisplayName))
                 .andExpect(jsonPath("$.startDate").exists())
                 .andExpect(jsonPath("$.endDate").exists())
@@ -181,7 +181,7 @@ public class CompetitionControllerTests {
 
         String json = new JSONObject()
                 .put("competitionName", competitionNameId)
-                .put("competitionType", TestUtils.rifleCompetitionType)
+                .put("competitionType", Constants.RIFLE_TYPE)
                 .toString();
 
         // adds competition

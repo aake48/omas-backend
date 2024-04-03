@@ -18,8 +18,8 @@ public class AddCompetitionRequest {
     @Size( min = 3, message = "Competition name cannot be fewer than 3 characters.")
     private String competitionName;
     
-    @StringOptions(value = {Constants.pistolType, Constants.rifleType},
-    message = "Competition Type must be either "+Constants.pistolType+"  or "+Constants.pistolType)
+    @StringOptions(value = {Constants.PISTOL_TYPE, Constants.RIFLE_TYPE},
+    message = "Competition Type must be either "+Constants.PISTOL_TYPE +"  or "+Constants.PISTOL_TYPE)
     @NotEmpty(message = "competition type cannot be empty.")
     private String competitionType;
 

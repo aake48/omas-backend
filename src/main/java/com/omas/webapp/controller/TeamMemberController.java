@@ -145,10 +145,10 @@ public class TeamMemberController {
             String type = competition.getType();
             TeamMemberScore score;
             switch (type) {
-                case Constants.rifleType -> {
+                case Constants.RIFLE_TYPE -> {
                     score = teamMemberScoreService.addRifleScore(teamMemberId, request.getScoreList());
                 }
-                case Constants.pistolType -> {
+                case Constants.PISTOL_TYPE -> {
                     score = teamMemberScoreService.addPistolScore(teamMemberId, request.getScoreList());
                 }
                 default -> throw new Exception("Invalid competition type");

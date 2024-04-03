@@ -44,7 +44,7 @@ public class FileTests {
     @BeforeEach
     private void registerUser() throws Exception {
 
-        JSONObject loginResponse = new JSONObject(TestUtils.loginUser(mockMvc, Constants.adminUsername, Constants.adminPassword));
+        JSONObject loginResponse = new JSONObject(TestUtils.loginUser(mockMvc, Constants.ADMIN_USERNAME, Constants.ADMIN_PASSWORD));
 
         adminUser = loginResponse.getJSONObject("user");
         adminToken = loginResponse.getString("token");

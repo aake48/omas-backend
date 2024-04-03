@@ -36,7 +36,7 @@ public class AdminControllerTests {
     private void registerUser() throws Exception {
 
         // login admin
-        adminToken = new JSONObject(TestUtils.loginUser(mockMvc, Constants.adminUsername, Constants.adminPassword))
+        adminToken = new JSONObject(TestUtils.loginUser(mockMvc, Constants.ADMIN_USERNAME, Constants.ADMIN_PASSWORD))
                 .getString("token");
     }
 

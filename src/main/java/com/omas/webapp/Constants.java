@@ -6,11 +6,11 @@ public final class Constants {
         // restrict instantiation
     }
 
-    public static final String pistolType = "pistol";
-    public static final String rifleType = "rifle";
+    public static final String PISTOL_TYPE = "pistol";
+    public static final String RIFLE_TYPE = "rifle";
 
-    public static final String adminUsername = "admin";
-    public static final String adminPassword = "adminPassword";
+    public static final String ADMIN_USERNAME = "admin";
+    public static final String ADMIN_PASSWORD = "adminPassword";
 
     public static String createIdString(String name) {
 
