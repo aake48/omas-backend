@@ -49,11 +49,8 @@ public class Competition {
 
 	public boolean isActive() {
 
-		Instant currentTime = Instant.now();
+		long currentTime = System.currentTimeMillis();
 
-		Instant endTime = Instant.ofEpochMilli(endDate.getTime());
-		Instant startTime = Instant.ofEpochMilli(startDate.getTime());
-
-		return startTime.isBefore(currentTime) && endTime.isAfter(currentTime);
+		return startDate.getTime() <= currentTime && endDate.getTime() > currentTime;
 	}
 }
