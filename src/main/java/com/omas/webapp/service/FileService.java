@@ -5,6 +5,7 @@ import com.omas.webapp.table.ImageProof;
 import com.omas.webapp.table.TeamMemberId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class FileService {
      * @param teamMemberId the id name of the file
      * @return the file bytes to be sent or null if no file was found at the location
      */
+    @Transactional
     public List<ImageProof> getFiles(TeamMemberId teamMemberId) {
         return this.fileRepository.findByTeamMemberId(teamMemberId);
     }
@@ -57,6 +59,7 @@ public class FileService {
      * @param fileName the file name
      * @return one image
      */
+    @Transactional
     public Optional<ImageProof> getFile(TeamMemberId teamMemberId, String fileName) {
         return this.fileRepository.findByTeamMemberIdAndFileName(teamMemberId, fileName);
     }

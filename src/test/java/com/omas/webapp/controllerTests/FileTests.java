@@ -2,6 +2,8 @@ package com.omas.webapp.controllerTests;
 
 import com.omas.webapp.Constants;
 import com.omas.webapp.TestUtils;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import org.apache.tomcat.util.http.fileupload.MultipartStream;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,10 +12,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.codec.multipart.MultipartHttpMessageReader;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,6 +39,8 @@ public class FileTests {
 
     private static JSONObject adminUser;
     private static String adminToken;
+    private static JSONObject user;
+    private static String userToken;
 
     @BeforeEach
     private void registerUser() throws Exception {
@@ -38,10 +49,17 @@ public class FileTests {
 
         adminUser = loginResponse.getJSONObject("user");
         adminToken = loginResponse.getString("token");
+
+        TestUtils.registerUser(mockMvc, "sometestuser", "password123");
+
+        JSONObject userLoginResponse = new JSONObject(TestUtils.loginUser(mockMvc, "sometestuser", "password123"));
+
+        user = userLoginResponse.getJSONObject("user");
+        userToken = userLoginResponse.getString("token");
     }
 
-    // TODO: Figure this test out later
-    /*@Test
+
+    @Test
     public void uploadAndDownloadFile() throws Exception {
 
         String uploadUrl = baseUrl + "/upload";
@@ -50,55 +68,87 @@ public class FileTests {
         String competitionId = "kuvanlatauskilpailu";
         String teamName = "kuvajoukkue";
 
-        System.out.println("add competition: " + TestUtils.addRifleCompetition(mockMvc, competitionId, adminToken));
+        TestUtils.addRifleCompetition(mockMvc, competitionId, adminToken);
         TestUtils.addClub(mockMvc, "kuvaseura", adminToken);
         TestUtils.joinClub(mockMvc, "kuvaseura", adminToken);
+        TestUtils.joinClub(mockMvc, "kuvaseura", userToken);
         TestUtils.addTeam(mockMvc, competitionId, teamName, adminToken);
-        TestUtils.joinTeam(mockMvc, competitionId, teamName, adminToken);
-        TestUtils.addScores(mockMvc, competitionId, teamName, adminToken);
+        TestUtils.joinTeam(mockMvc, competitionId, teamName, userToken);
+        TestUtils.addScores(mockMvc, competitionId, teamName, userToken);
 
-        // Generate 1000 random bytes to send to the server
-        byte[] randomBytes = new byte[1000];
+        for (int i = 0; i < 6; i++) {
 
-        ThreadLocalRandom.current().nextBytes(randomBytes);
+            // Generate 10000 random bytes to send to the server
+            byte[] randomBytes = new byte[10000];
 
-        MockMultipartFile file = new MockMultipartFile("file", "myimage.png", "application/octet-stream", randomBytes);
+            ThreadLocalRandom.current().nextBytes(randomBytes);
 
-        String uploadResponse = mockMvc.perform(MockMvcRequestBuilders.multipart(uploadUrl)
-                .file(file)
-                // Admin is also a user
-                .header("Authorization", "Bearer " + adminToken)
-                // Currently there is no validation for the competition
-                // It will be added soon
-                .param("competitionId", competitionId))
+            MockMultipartFile file = new MockMultipartFile("file", "myimage_" + i + ".png", "application/octet-stream", randomBytes);
+
+            String uploadResponse = mockMvc.perform(MockMvcRequestBuilders.multipart(uploadUrl)
+                    .file(file)
+                    // Admin is also a user
+                    .header("Authorization", "Bearer " + userToken)
+                    // Currently there is no validation for the competition
+                    // It will be added soon
+                    .param("competitionId", competitionId))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
-        System.out.println("uploadResponse: " + uploadResponse);
+            System.out.println("uploadResponse: " + uploadResponse);
+        }
 
         String teamMemberId = new JSONObject()
-            .put("userId", adminUser.getLong("userId"))
+            .put("userId", user.getLong("userId"))
             .put("competitionId", competitionId)
             .put("teamName", teamName)
             .toString();
 
         // Download the first file in the list, it should match the file we just uploaded
-        byte[] downloadResponse = mockMvc.perform(MockMvcRequestBuilders.multipart(downloadUrl)
+        MockHttpServletResponse downloadResponse = mockMvc.perform(MockMvcRequestBuilders.get(downloadUrl)
                 .header("Authorization", "Bearer " + adminToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(teamMemberId))
-                .andExpect(status().isOk())
                 .andReturn()
-                .getResponse()
-                .getContentAsByteArray();
+                .getResponse();
 
-        System.out.println("downloadResponse length: " + downloadResponse.length);
+        // Get the boundary from the Content-Type headers
+        String contentType = downloadResponse.getHeader("Content-Type");
+        // the Content-Type header should contain something like
+        // multipart/form-data;boundary=34aP8kfR4FcO1eRV-v-eFgSeHJLYsmnJWVUpiihM
+        // the boundary value is not always the same, so we need to parse it here
+        String boundary = contentType.substring(contentType.indexOf("boundary=") + 9);
 
-        assertEquals(downloadResponse.length, randomBytes.length, "Sent data and received data should be the same length");
+        System.out.println("contentType: " + contentType);
+        System.out.println("boundary: " + boundary);
+
+        byte[] bytes = downloadResponse.getContentAsByteArray();
+
+        MultipartStream stream = new MultipartStream(new ByteArrayInputStream(bytes), boundary.getBytes(StandardCharsets.UTF_8), null);
+
+        boolean nextPart = stream.skipPreamble();
+
+        int index = 1;
+
+        while (nextPart) {
+
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            String partHeaders = stream.readHeaders();
+
+            System.out.println("\n\nHeaders " + index + ":\n" + partHeaders);
+
+            stream.readBodyData(output);
+
+            System.out.println("Body " + index + ":\nBytes: " + output.size());
+            assertEquals(10000, output.size(), "Sent data and received data should be the same length");
+
+            nextPart = stream.readBoundary();
+            index++;
+        }
     }
-    */
+
 
 
 }

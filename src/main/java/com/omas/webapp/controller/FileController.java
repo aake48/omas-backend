@@ -19,6 +19,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -112,8 +113,8 @@ public class FileController {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public String handleValidationExceptions(HttpMessageNotReadableException ex) {
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public String handleValidationExceptions(HttpRequestMethodNotSupportedException ex) {
         ex.printStackTrace();
         return ex.getMessage();
     }
