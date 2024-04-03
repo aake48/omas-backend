@@ -5,33 +5,47 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+
+import java.sql.Date;
+import java.util.UUID;
 
 @Entity
 @Table
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@IdClass(TeamMemberId.class)
+@IdClass(ImageProofId.class)
 public class ImageProof {
 
     private @Id Long userId;
     private @Id String competitionId;
     private @Id String teamName;
+    private @Id String fileName;
 
-    private long timeStamp;
+    private Date timeStamp;
 
     @Lob
     private byte[] image;
 
-    public ImageProof(TeamMemberId teamMemberId, byte[] image) {
+    public ImageProof(TeamMemberId teamMemberId, String fileName, byte[] image) {
         this.userId = teamMemberId.getUserId();
         this.competitionId = teamMemberId.getCompetitionId();
         this.teamName = teamMemberId.getTeamName();
+        this.fileName = fileName;
         this.image = image;
-        this.timeStamp = System.currentTimeMillis();
+        this.timeStamp = new Date(System.currentTimeMillis());
     }
+
+    @ManyToOne
+    @JoinColumns({
+        @JoinColumn(name = "userId", referencedColumnName = "userId", insertable = false, updatable = false),
+        @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false, updatable = false),
+        @JoinColumn(name = "teamName", referencedColumnName = "teamName", insertable = false, updatable = false)
+    })
+    private TeamMemberScore teamMemberScore;
 
     @JsonIgnore
     public Resource getImageResource() {

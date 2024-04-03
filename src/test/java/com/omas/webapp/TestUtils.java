@@ -150,11 +150,10 @@ public class TestUtils {
                 final String url = "/api/auth/competition/new";
 
                 String json = new JSONObject()
-                .put("competitionName", competitionName)
-                .put("competitionType", rifleCompetitionType)
-                .put("startDate", Instant.now().minusSeconds(3600).toEpochMilli())
-                .toString();
-                
+                        .put("competitionName", competitionName)
+                        .put("competitionType", rifleCompetitionType)
+                        .put("startDate", System.currentTimeMillis() - 8 * 60 * 60 * 1000)
+                        .toString();
 
                 return mockMvc.perform(MockMvcRequestBuilders.post(url)
                                 .contentType(MediaType.APPLICATION_JSON)
