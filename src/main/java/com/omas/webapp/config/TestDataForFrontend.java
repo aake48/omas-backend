@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Log4j2
 @Component
@@ -53,11 +54,33 @@ public class TestDataForFrontend implements CommandLineRunner {
     @Autowired
     TeamMemberRepository teamMemberRepository;
 
+    // The 10 most common male names and 10 most common female names as of 1.4.2024
+    // additionally the names of people involved in this project
+    private final List<String> FINNISH_FIRST_NAMES = List.of(
+        "Juhani", "Johannes", "Olavi", "Antero",
+        "Tapani", "Kalevi", "Tapio", "Matti", "Mikael", "Ilmari",
+        "Maria", "Helena", "Johanna", "Anneli", "Kaarina",
+        "Marjatta", "Anna", "Liisa", "Sofia", "Annikki",
+        "Lauri", "Ville", "Ari", "Janne", "Lassi", "Antti",
+        "Markus", "Teemu", "Walter"
+    );
+
+    // The 10 most common Finnish last names as of 1.4.2024
+    // and the last names of people involved with this project
+    private final List<String> FINNISH_LAST_NAMES = List.of(
+        "Korhonen", "Virtanen", "Mäkinen",
+        "Nieminen", "Mäkelä", "Hämäläinen",
+        "Laine", "Heikkinen", "Koskinen",
+        "Järvinen", "Lehtinen", "Holappa",
+        "Komulainen", "Ollakka", "Juustila",
+        "Kumpulainen", "Kelanti", "Määttä"
+    );
+
     @Override
     public void run(String... args) throws Exception {
 
-        final String pistolCompetitionTypeName = Constants.pistolType;
-        final String rifleCompetitionTypeName = Constants.rifleType;
+        final String pistolCompetitionTypeName = Constants.PISTOL_TYPE;
+        final String rifleCompetitionTypeName = Constants.RIFLE_TYPE;
 
         List<String> rifleCompetitionList = Arrays.asList(
                 "kesan_ampujaiset",
@@ -114,6 +137,27 @@ public class TestDataForFrontend implements CommandLineRunner {
 
     }
 
+    private List<String> generateXUsers(int x) {
+
+        List<String> users = new ArrayList<>(x);
+
+        for (int i = 0; i < x; i++) {
+            users.add(generateRandomName());
+        }
+
+        return users;
+    }
+
+    private String generateRandomName() {
+
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+
+        String firstName = FINNISH_FIRST_NAMES.get(random.nextInt(FINNISH_LAST_NAMES.size()));
+        String lastName = FINNISH_LAST_NAMES.get(random.nextInt(FINNISH_LAST_NAMES.size()));
+
+        return firstName + " " + lastName;
+    }
+
     private List<String> getXStrings(int x) {
         List<String> strings = new ArrayList<>();
 
@@ -164,12 +208,14 @@ public class TestDataForFrontend implements CommandLineRunner {
         List<User> users = new ArrayList<>();
 
         for (String name : usernames) {
+
             User user = new User();
             user.setUsername(name);
-            user.setLegalName(name);
+            user.setLegalName(generateRandomName());
             user.setPartOfClub(ClubName);
             users.add(user);
         }
+
         return userRepository.saveAll(users);
     }
 
@@ -208,7 +254,7 @@ public class TestDataForFrontend implements CommandLineRunner {
         log.info("adding member and scores");
 
         Boolean acceptDecimals = false;
-        if (compType.equals(Constants.rifleType)) {
+        if (compType.equals(Constants.RIFLE_TYPE)) {
             acceptDecimals = true;
         }
 
