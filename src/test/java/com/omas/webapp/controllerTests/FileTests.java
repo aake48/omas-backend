@@ -78,12 +78,13 @@ public class FileTests {
         // Map to store files in to check their integrity later
         HashMap<String, byte[]> fileMap = new HashMap<>();
 
-        int fileSize = 1_000_000;
+        int fileSizeMin = 800_000;
+        int fileSizeMax = 2_000_000;
 
         for (int i = 0; i < 6; i++) {
 
             // Generate 1000000 random bytes to send to the server
-            byte[] randomBytes = new byte[fileSize];
+            byte[] randomBytes = new byte[ThreadLocalRandom.current().nextInt(fileSizeMin, fileSizeMax)];
 
             ThreadLocalRandom.current().nextBytes(randomBytes);
 
@@ -151,9 +152,12 @@ public class FileTests {
 
             stream.readBodyData(output);
 
+            // Get the previously stored file
+            byte[] storedFile = fileMap.get(fileName);
+
             System.out.println("Body " + index + ":\nBytes: " + output.size());
-            assertEquals(fileSize, output.size(), "Sent data and received data should be the same length");
-            assertArrayEquals(fileMap.get(fileName), output.toByteArray(), "Array content should remain the same");
+            assertEquals(storedFile.length, output.size(), "Sent data and received data should be the same length");
+            assertArrayEquals(storedFile, output.toByteArray(), "Array content should remain the same");
 
             hasNextPart = stream.readBoundary();
             index++;
