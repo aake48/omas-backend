@@ -57,7 +57,7 @@ public class TeamMemberController {
 
         UserInfoDetails userDetails = UserInfoDetails.getDetails();
 
-        if (teamsService.canUserJoinTeamInCompetition(userDetails.getId(), request.getCompetitionName())) {
+        if (!teamsService.canUserJoinTeamInCompetition(userDetails.getId(), request.getCompetitionName())) {
             return new MessageResponse("You are already in a team in this competition.", HttpStatus.BAD_REQUEST);
         }
 
