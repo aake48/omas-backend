@@ -75,6 +75,7 @@ public class FileTests {
         TestUtils.joinTeam(mockMvc, competitionId, teamName, userToken);
         TestUtils.addScores(mockMvc, competitionId, teamName, userToken);
 
+        // Map to store files in to check their integrity later
         HashMap<String, byte[]> fileMap = new HashMap<>();
 
         int fileSize = 1_000_000;
@@ -101,7 +102,7 @@ public class FileTests {
                 .getResponse()
                 .getContentAsString();
 
-            System.out.println("uploadResponse: " + uploadResponse);
+            System.out.println(fileName + " uploadResponse: " + uploadResponse);
         }
 
         String teamMemberId = new JSONObject()
@@ -129,18 +130,20 @@ public class FileTests {
         System.out.println("boundary: " + boundary);
 
         byte[] bytes = downloadResponse.getContentAsByteArray();
+        byte[] boundaryBytes = boundary.getBytes(StandardCharsets.UTF_8);
 
-        MultipartStream stream = new MultipartStream(new ByteArrayInputStream(bytes), boundary.getBytes(StandardCharsets.UTF_8), null);
+        MultipartStream stream = new MultipartStream(new ByteArrayInputStream(bytes), boundaryBytes, null);
 
-        boolean nextPart = stream.skipPreamble();
+        boolean hasNextPart = stream.skipPreamble();
 
         int index = 1;
 
-        while (nextPart) {
+        while (hasNextPart) {
 
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             String partHeaders = stream.readHeaders();
 
+            // Once again the library does not fully parse the headers for us
             int nameIndex = partHeaders.indexOf("name=\"") + 6;
             String fileName = partHeaders.substring(nameIndex, partHeaders.indexOf("\"", nameIndex));
 
@@ -152,7 +155,7 @@ public class FileTests {
             assertEquals(fileSize, output.size(), "Sent data and received data should be the same length");
             assertArrayEquals(fileMap.get(fileName), output.toByteArray(), "Array content should remain the same");
 
-            nextPart = stream.readBoundary();
+            hasNextPart = stream.readBoundary();
             index++;
         }
     }
