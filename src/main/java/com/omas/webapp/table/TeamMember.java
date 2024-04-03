@@ -20,49 +20,20 @@ import lombok.NoArgsConstructor;
 @IdClass(TeamMemberId.class)
 public class TeamMember {
 
+    @Getter @Id Long userId;
+    @Getter @Id String competitionId;
+    @Getter @Id String teamName;
+
     public TeamMember(String competitionId, Long userId, String teamName) {
         this.competitionId = competitionId;
         this.userId = userId;
         this.teamName = teamName;
-
     }
 
     public TeamMember(TeamMemberId teamMemberId) {
         this.userId = teamMemberId.getUserId();
         this.competitionId = teamMemberId.getCompetitionId();
         this.teamName = teamMemberId.getTeamName();
-    }
-
-    @Getter
-    @Id
-    Long userId;
-
-    public String getLegalName() {
-        if(user!=null){
-            return user.getLegalName();
-        }
-        return null;
-    }
-
-
-
-    @Getter
-    @Id
-    String competitionId;
-
-    @Getter
-    @Id
-    String teamName;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        TeamMember that = (TeamMember) o;
-        return Objects.equals(userId, that.userId) &&
-                Objects.equals(competitionId, that.competitionId);
     }
 
     @JsonIgnore
@@ -76,6 +47,17 @@ public class TeamMember {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        TeamMember that = (TeamMember) o;
+        return Objects.equals(userId, that.userId) &&
+            Objects.equals(competitionId, that.competitionId);
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(userId, competitionId);
     }
@@ -83,6 +65,13 @@ public class TeamMember {
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
+
+    public String getLegalName() {
+        if (user != null) {
+            return user.getLegalName();
+        }
+        return null;
+    }
 
     @ManyToOne
     @JoinColumns(value = {

@@ -17,22 +17,12 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class Team {
 
-    @Id
-    @Getter
     @Column(nullable = false)
-    private String competitionId;
+    private @Getter @Id String competitionId;
 
-    @Id
-    @Getter
     @Column(nullable = false)
-    private String teamName;
+    private @Getter @Id String teamName;
 
-    public Team(TeamId teamId) {
-        this.competitionId = teamId.getCompetitionId();
-        this.teamName = teamId.getTeamName();
-    }
-
-    
     @Getter
     @Column(nullable = false)
     private String clubName;
@@ -40,6 +30,18 @@ public class Team {
     @Getter
     @Column(nullable = false)
     private String teamDisplayName;
+
+    public Team(TeamId teamId, String teamDisplayName, String club) {
+        this.competitionId = teamId.getCompetitionId();
+        this.teamName = teamId.getTeamName();
+        this.teamDisplayName = teamDisplayName;
+        this.clubName = club;
+    }
+
+    @JsonIgnore
+    public TeamId getTeamId() {
+        return new TeamId(competitionId, teamName);
+    }
 
     @ManyToOne
     @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false, updatable = false)
@@ -52,17 +54,5 @@ public class Team {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     @Getter
     private List<TeamMember> teamMembers = new ArrayList<>();
-
-    public Team(TeamId teamId, String teamDisplayName, String club) {
-        competitionId = teamId.getCompetitionId();
-        teamName = teamId.getTeamName();
-        this.teamDisplayName = teamDisplayName;
-        this.clubName=club;
-    }
-
-    @JsonIgnore
-    public TeamId getTeamId() {
-        return new TeamId(competitionId, teamName);
-    }
 
 }

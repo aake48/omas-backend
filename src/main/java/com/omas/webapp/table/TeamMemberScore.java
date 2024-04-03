@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * It contains information such as the user ID, club ID, competition ID, sum of
  * scores,
  * number of bullseyes, score per shot, and creation date.
- * 
+ * <br><br>
  * This class also provides a constructor that accepts a `TeamMemberId` object,
  * a list of scores,
  * and a boolean value indicating whether decimal points should be accepted. The
@@ -31,19 +31,9 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class TeamMemberScore implements Comparable<TeamMemberScore> {
 
-    @Getter
-    @Id
-    private Long userId;
-
-
-    @Getter
-    @Id
-    private String competitionId;
-
-    @Getter
-    @Id
-    private String teamName;
-
+    private @Getter @Id Long userId;
+    private @Getter @Id String competitionId;
+    private @Getter @Id String teamName;
 
     @Getter
     private double sum;
@@ -57,17 +47,6 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
 
     @Getter
     private Date creationDate;
-
-
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "userId", referencedColumnName = "userId", insertable = false, updatable = false),
-            @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false, updatable = false),
-            @JoinColumn(name = "teamName", referencedColumnName = "teamName", insertable = false, updatable = false)
-
-    })
-    private TeamMember teamMember;
-  
 
     /**
      * use acceptDecimals=true for rifle-like competitions
@@ -102,11 +81,6 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
         this.creationDate = new Date(Instant.now().toEpochMilli());
     }
 
-    @Override
-    public int compareTo(TeamMemberScore o) {
-        return Double.compare(sum, o.sum);
-    }
-
     public TeamMemberScore(TeamMemberId teamMemberId, double score, int bullsEyeCount) {
         this.bullsEyeCount = bullsEyeCount;
         this.sum = score;
@@ -121,4 +95,19 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
     public TeamMemberId getTeamMemberId() {
         return new TeamMemberId(userId, competitionId, teamName);
     }
+
+    @Override
+    public int compareTo(TeamMemberScore o) {
+        return Double.compare(sum, o.sum);
+    }
+
+    @ManyToOne
+    @JoinColumns({
+        @JoinColumn(name = "userId", referencedColumnName = "userId", insertable = false, updatable = false),
+        @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false, updatable = false),
+        @JoinColumn(name = "teamName", referencedColumnName = "teamName", insertable = false, updatable = false)
+
+    })
+    private TeamMember teamMember;
+
 }

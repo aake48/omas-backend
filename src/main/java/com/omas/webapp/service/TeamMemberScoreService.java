@@ -22,9 +22,7 @@ public class TeamMemberScoreService {
      * @return saved TeamMemberScore
      */
     public TeamMemberScore addRifleScore(TeamMemberId teamMemberId, List<Double> score) {
-
-        TeamMemberScore teamMemberScore = new TeamMemberScore(teamMemberId, score, true);
-        return teamMemberScoreRepository.save(teamMemberScore);
+        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, score, true));
     }
 
     /**
@@ -34,9 +32,7 @@ public class TeamMemberScoreService {
      * @return saved TeamMemberScore
      */
     public TeamMemberScore addPistolScore(TeamMemberId teamMemberId, List<Double> score) {
-
-        TeamMemberScore teamMemberScore = new TeamMemberScore(teamMemberId, score, false);
-        return teamMemberScoreRepository.save(teamMemberScore);
+        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, score, false));
     }
 
     public List<TeamMemberScore> getAllScores() {
