@@ -33,6 +33,26 @@ public final class Json {
         return MAPPER.treeToValue(node, clazz);
     }
 
+    public static JsonNode tree(Object... objects) {
+
+        if (objects.length % 2 != 0) {
+            throw new IllegalArgumentException("Object count must be even");
+        }
+
+        ObjectNode node = MAPPER.createObjectNode();
+
+        for (int i = 0; i < objects.length; i += 2) {
+            String key = (String) objects[i];
+            node.putPOJO(key, objects[i + 1]);
+        }
+
+        return node;
+    }
+
+    public static String stringify(Object value) throws JsonProcessingException {
+        return stringify(value, false);
+    }
+
     public static String stringify(Object value, boolean pretty) throws JsonProcessingException {
 
         ObjectWriter writer = MAPPER.writer();
