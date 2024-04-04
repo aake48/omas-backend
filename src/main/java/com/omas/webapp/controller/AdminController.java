@@ -72,10 +72,11 @@ public class AdminController {
     public ResponseEntity<?> promote(@Valid @RequestBody PromoteDemoteRoleRequest request) {
 
         if (!userService.userExists(request.getUserId())) {
-            return new ResponseEntity<>(Map.of("message", "there is no user with the given userId"),
-                    HttpStatus.BAD_REQUEST);
+            return new MessageResponse("There is no user with the given userId", HttpStatus.BAD_REQUEST);
         }
+
         Role role = roleService.addRole(request.getUserId(), request.getRole());
+
         return new ResponseEntity<>(role, HttpStatus.OK);
     }
 

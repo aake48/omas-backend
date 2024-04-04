@@ -168,10 +168,10 @@ public class UserController {
             String resetPasswordLink = recoveryPage + "?token=" + token;
             mailService.sendRecoveryEmail(email, resetPasswordLink);
         } catch (Exception e) {
-            return new ResponseEntity<>(Map.of("message", "email not sent, " + e.getMessage()),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+            return new MessageResponse("Email not sent, " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(Map.of("message", "email sent"), HttpStatus.OK);
+
+        return new MessageResponse("Email sent", HttpStatus.OK);
     }
 
     @PostMapping("/reset_password")
@@ -182,15 +182,14 @@ public class UserController {
         try {
             user = service.getByResetPasswordToken(resetRequest.getToken());
             if (user == null) {
-                return new ResponseEntity<>(Map.of("message", "Token is either invalid or expired"),
-                        HttpStatus.BAD_REQUEST);
+                return new MessageResponse("Token is either invalid or expired", HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
-            return new ResponseEntity<>(Map.of("message", "Token is either invalid or expired"),
-                    HttpStatus.BAD_REQUEST);
+            return new MessageResponse("Token is either invalid or expired", HttpStatus.BAD_REQUEST);
         }
         service.updatePassword(user, resetRequest.getPassword());
-        return new ResponseEntity<>(Map.of("message", "password updated"), HttpStatus.OK);
+
+        return new MessageResponse("Password updated", HttpStatus.OK);
     }
     
 

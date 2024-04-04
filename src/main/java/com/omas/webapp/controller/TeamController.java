@@ -47,8 +47,8 @@ public class TeamController {
 
         String club = UserInfoDetails.getDetails().getPartOfClub();
 
-        if(club==null){
-            return new ResponseEntity<>(Map.of("messsage", "user creating a team needs to be in a club"), HttpStatus.BAD_REQUEST);
+        if (club == null) {
+            return new MessageResponse("User creating a team needs to be in a club", HttpStatus.BAD_REQUEST);
         }
 
         Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());

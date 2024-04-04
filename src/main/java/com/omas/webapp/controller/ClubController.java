@@ -79,10 +79,11 @@ public class ClubController {
         try {
             clubService.checkPasskeyMatch(club.getClubName(), club.getPasskey());
             userService.joinClub(userDetails.getId(), club.getClubName());
-            return new ResponseEntity<>(Map.of("message", "Club joined successfully."), HttpStatus.OK);
+
+            return new MessageResponse("Club join successfully.", HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -101,10 +102,10 @@ public class ClubController {
 
         try {
             clubService.setPassKey(request.getClubName(), request.getPasskey());
-            return new ResponseEntity<>(Map.of("message", "passkey updated"), HttpStatus.OK);
 
+            return new MessageResponse("passkey updated", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
     }
