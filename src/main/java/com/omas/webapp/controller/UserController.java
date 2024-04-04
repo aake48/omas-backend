@@ -6,6 +6,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import com.omas.webapp.Json;
 import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.*;
 import com.omas.webapp.table.Team;
@@ -22,10 +24,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.omas.webapp.entity.requests.AuthRequest;
 import com.omas.webapp.entity.requests.PasswordRecoveryRequest;
 import com.omas.webapp.entity.requests.RegistrationRequest;
@@ -122,35 +120,29 @@ public class UserController {
 
             String token = jwtService.generateToken(authRequest.getUsername());
             UserInfoDetails userDetails = service.loadUserByUsername(authRequest.getUsername());
-            ObjectMapper mapper = new ObjectMapper();
 
             Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
             List<String> rolesList = roles.stream()
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
-            JsonNode rolesNode = mapper.valueToTree(rolesList);
 
-            ObjectNode user = mapper.createObjectNode()
-                    .put("username", userDetails.getUsername())
-                    .put("legalName", userDetails.getLegalName())
-                    .put("email", userDetails.getEmail())
-                    .put("userId", userDetails.getId())
-                    .put("creationDate", userDetails.getCreationDate().toString())
-                    .put("club", userDetails.getPartOfClub());
+            String json = Json.tree(
+                "user", Json.tree(
+                    "username", userDetails.getUsername(),
+                    "legalName", userDetails.getLegalName(),
+                    "email", userDetails.getEmail(),
+                    "userId", userDetails.getId(),
+                    "creationDate", userDetails.getCreationDate().toString(),
+                    "club", userDetails.getPartOfClub(),
+                    "roles", rolesList
+                ),
+                "token", token
+            ).toString();
 
-            user.set("roles", rolesNode);
-
-            ObjectNode root = mapper.createObjectNode();
-            root.set("user", user);
-            root.put("token", token);
-            String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);
-
-            return new ResponseEntity<>(jsonString, HttpStatus.OK);
+            return new ResponseEntity<>(json, HttpStatus.OK);
 
         } catch (AuthenticationException e) {
             return new MessageResponse(e.getMessage(), HttpStatus.FORBIDDEN);
-        } catch (JsonProcessingException e) {
-            return new MessageResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
