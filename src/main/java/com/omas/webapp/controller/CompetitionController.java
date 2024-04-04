@@ -1,5 +1,6 @@
 package com.omas.webapp.controller;
 
+import com.omas.webapp.Util;
 import com.omas.webapp.entity.requests.AddCompetitionRequest;
 import com.omas.webapp.entity.response.*;
 import com.omas.webapp.service.CompetitionService;
@@ -40,34 +41,20 @@ public class CompetitionController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/auth/competition/new")
-    public ResponseEntity<?> addCompetition(@Valid @RequestBody AddCompetitionRequest competitionRequest) {
+    public ResponseEntity<?> addCompetition(@Valid @RequestBody AddCompetitionRequest request) {
 
-        
+        String competitionName = request.getCompetitionName();
+        String competitionId = Util.sanitizeName(competitionName);
 
-        // This section of the code performs two operations on the 'Id',
-        // competitionName:
-        // 1. It removes whitespaces and characters 'ä', 'ö', 'å' from the 'Id'.
-        // 2. It stores the original, unaltered version of 'Id' into 'nameNonId'.
-        // If 'Id' still contains unsafe characters after these alterations, the code
-        // returns a 400 status.
-        String nonIdName = competitionRequest.getCompetitionName();
-        String competitionName = competitionRequest.getCompetitionName()
-                .replace('ä', 'a').replace('Ä', 'A')
-                .replace('ö', 'o').replace('Ö', 'O')
-                .replace('å', 'a').replace('Å', 'A')
-                .replace(' ', '_');
-
-        String regex = "^[a-zA-Z0-9-_]+$";
-        if (!competitionName.matches(regex)) {
+        // Util.sanitizeName returns null if the sanitation was not possible
+        if (competitionId == null) {
             return new MessageResponse("Competition name contains characters which are forbidden.", HttpStatus.BAD_REQUEST);
         }
 
         Competition comp = competitionService.addCompetition(
-                new Competition(competitionName, 
-                nonIdName, 
-                competitionRequest.getCompetitionType()
-                ,competitionRequest.getStartDate()
-                ,competitionRequest.getEndDate()));
+                new Competition(competitionId, competitionName, request.getCompetitionType(), request.getStartDate(), request.getEndDate())
+        );
+
         if (comp != null) {
             return new ResponseEntity<>(comp, HttpStatus.CREATED);
         }
@@ -76,9 +63,11 @@ public class CompetitionController {
     }
 
     @GetMapping(params = { "page", "size", "search" }, value = "competition/query")
-    public ResponseEntity<?> queryCompetitions(@RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "search", required = false) String search) throws Exception {
+    public ResponseEntity<?> queryCompetitions(
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size,
+        @RequestParam(value = "search", required = false) String search
+    ) {
 
         if (page < 0) {
             return new MessageResponse("Invalid page number.", HttpStatus.BAD_REQUEST);
@@ -106,8 +95,9 @@ public class CompetitionController {
 
     @GetMapping(params = { "page", "size" }, value = "competition/active/query")
     public ResponseEntity<?> queryActiveCompetitions(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size) throws Exception {
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
 
         if (page < 0) {
             return new MessageResponse("Invalid page number.", HttpStatus.BAD_REQUEST);
@@ -124,8 +114,9 @@ public class CompetitionController {
 
     @GetMapping(params = { "page", "size" }, value = "competition/inactive/query")
     public ResponseEntity<?> queryCompetitionsThatHaveEnded(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size) throws Exception {
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
 
         if (page < 0) {
             return new MessageResponse("Invalid page number.", HttpStatus.BAD_REQUEST);
@@ -140,44 +131,35 @@ public class CompetitionController {
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
-
-
-
     @GetMapping(params = { "page", "size", "year" }, value = "competition/query")
-    public ResponseEntity<?> queryCompetitionByYear(@RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "year", required = true) int year) {
-
-        if (page < 0) {
-            return new MessageResponse("Invalid page number.", HttpStatus.BAD_REQUEST);
-        }
-
-        if (year > 1990 && year < 2100) {
-            Page<Competition> resultPage = competitionService.findByYear(page, size, year);
-
-            if (page > resultPage.getTotalPages()) {
-                return new MessageResponse("Requested page does not exist.", HttpStatus.BAD_REQUEST);
-            }
-
-            return new ResponseEntity<>(resultPage, HttpStatus.OK);
-        }
-
-        return new MessageResponse("Invalid year.", HttpStatus.BAD_REQUEST);
-    }
-
-    @GetMapping(params = { "page", "size", "search" }, value = "competition/teams")
-    public ResponseEntity<?> queryTeamsByCompetition(
+    public ResponseEntity<?> queryCompetitionByYear(
         @RequestParam(value = "page", defaultValue = "0") int page,
         @RequestParam(value = "size", defaultValue = "10") int size,
-        @RequestParam(value = "search", required = false) String search
+        @RequestParam(value = "year") int year
     ) {
 
         if (page < 0) {
             return new MessageResponse("Invalid page number.", HttpStatus.BAD_REQUEST);
         }
 
-        if (search == null || search.isBlank()) {
-            search = "";
+        Page<Competition> resultPage = competitionService.findByYear(page, size, year);
+
+        if (page > resultPage.getTotalPages()) {
+            return new MessageResponse("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(resultPage, HttpStatus.OK);
+    }
+
+    @GetMapping(params = { "page", "size", "search" }, value = "competition/teams")
+    public ResponseEntity<?> queryTeamsByCompetition(
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size,
+        @RequestParam(value = "search", required = false, defaultValue = "") String search
+    ) {
+
+        if (page < 0) {
+            return new MessageResponse("Invalid page number.", HttpStatus.BAD_REQUEST);
         }
 
         Page<Team> resultPage = teamService.findWithPaginatedSearchByCompetitionId(page, size, search);
@@ -231,7 +213,7 @@ public class CompetitionController {
             List<TeamMemberScoreResponse> scoreResponses = new ArrayList<>(scores.size());
 
             for (TeamMemberScore score : scores) {
-                scoreResponses.add(new TeamMemberScoreResponse(score,  userService.getName(score.getUserId())));
+                scoreResponses.add(new TeamMemberScoreResponse(score, userService.getLegalName(score.getUserId())));
             }
 
             // Sort the scores in descending order

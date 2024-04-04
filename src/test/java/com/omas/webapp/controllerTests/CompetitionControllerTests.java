@@ -177,6 +177,36 @@ public class CompetitionControllerTests {
     }
 
     @Test
+    public void searchCompetitionsById() throws Exception {
+
+        String firstToken = TestUtils.getToken(mockMvc, TestUtils.getRandomString());
+        String secondToken = TestUtils.getToken(mockMvc, TestUtils.getRandomString());
+
+        TestUtils.addRifleCompetition(mockMvc, "testname", firstToken);
+        TestUtils.addRifleCompetition(mockMvc, "testname2", secondToken);
+
+        TestUtils.addClub(mockMvc, "Seura 1", firstToken);
+        TestUtils.joinClub(mockMvc, "Seura 1", firstToken);
+        TestUtils.joinClub(mockMvc, "Seura 1", secondToken);
+
+        TestUtils.addTeam(mockMvc, "testname", "Joukkue 1", firstToken);
+        TestUtils.addTeam(mockMvc, "testname", "Joukkue 2", secondToken);
+        TestUtils.addTeam(mockMvc, "testname2", "Joukkue 3", firstToken);
+        TestUtils.addTeam(mockMvc, "testname2", "Joukkue 4", secondToken);
+
+        String searchUrl = "/api/competition/teams?search=testname&page=0&size=10";
+
+        String response = mockMvc.perform(MockMvcRequestBuilders.get(searchUrl))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.numberOfElements").value(4))
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+        System.out.println(Json.stringify(Json.parse(response), true));
+    }
+
+    @Test
     public void getByID() throws Exception {
 
         String json = new JSONObject()
