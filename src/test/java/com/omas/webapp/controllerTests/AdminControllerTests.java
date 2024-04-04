@@ -10,10 +10,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.omas.webapp.Constants;
 import com.omas.webapp.TestUtils;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -37,7 +40,7 @@ public class AdminControllerTests {
 
         // login admin
         adminToken = new JSONObject(TestUtils.loginUser(mockMvc, Constants.ADMIN_USERNAME, Constants.ADMIN_PASSWORD))
-                .getString("token");
+            .getString("token");
     }
 
     @Test
@@ -59,11 +62,11 @@ public class AdminControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + adminToken)
                 .content(deleteRequest))
-                .andExpect(jsonPath("$.message").value("User deleted"))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+            .andExpect(jsonPath("$.message").value("User deleted"))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
         System.out.println("deletionResponse: " + deletionResponse);
     }
@@ -73,14 +76,14 @@ public class AdminControllerTests {
 
         String response = mockMvc.perform(MockMvcRequestBuilders.get(queryUrl)
                 .header("Authorization", "Bearer " + adminToken))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").exists())
-                .andExpect(jsonPath("$.content").exists())
-                .andExpect(jsonPath("$.numberOfElements").exists())
-                .andExpect(jsonPath("$.numberOfElements").value(1))
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.totalElements").exists())
+            .andExpect(jsonPath("$.content").exists())
+            .andExpect(jsonPath("$.numberOfElements").exists())
+            .andExpect(jsonPath("$.numberOfElements").value(1))
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
         JSONArray array = new JSONObject(response).getJSONArray("content");
         JSONObject user = array.getJSONObject(0);
@@ -111,8 +114,8 @@ public class AdminControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + adminToken)
                 .content(json))
-                .andExpect(status().isBadRequest())
-                .andReturn().getResponse().getContentAsString();
+            .andExpect(status().isBadRequest())
+            .andReturn().getResponse().getContentAsString();
 
         System.out.println("deleteResponse: " + response);
     }
@@ -128,27 +131,27 @@ public class AdminControllerTests {
         String url = baseUrl + "demote";
 
         String json = new JSONObject()
-                .put("userId", userId)
-                .put("role", "ROLE_USER")
-                .toString();
+            .put("userId", userId)
+            .put("role", "ROLE_USER")
+            .toString();
 
         mockMvc.perform(MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + adminToken)
                 .content(json))
-                .andExpect(status().isOk());
+            .andExpect(status().isOk());
 
         String queryUrl = "/api/admin/user/query?search=johan&page=0&size=5";
 
         String response = mockMvc.perform(MockMvcRequestBuilders.get(queryUrl)
                 .header("Authorization", "Bearer " + adminToken))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").exists())
-                .andExpect(jsonPath("$.content").exists())
-                .andExpect(jsonPath("$.numberOfElements").exists())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.totalElements").exists())
+            .andExpect(jsonPath("$.content").exists())
+            .andExpect(jsonPath("$.numberOfElements").exists())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
         JSONArray array = new JSONObject(response).getJSONArray("content");
         JSONObject user = array.getJSONObject(0);
@@ -172,27 +175,27 @@ public class AdminControllerTests {
         String role = "ROLE_KALASTAJA";
 
         String json = new JSONObject()
-                .put("userId", userId)
-                .put("role", role)
-                .toString();
+            .put("userId", userId)
+            .put("role", role)
+            .toString();
 
         mockMvc.perform(MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + adminToken)
                 .content(json))
-                .andExpect(status().isOk());
+            .andExpect(status().isOk());
 
         String queryUrl = "/api/admin/user/query?search=johan&page=0&size=5";
 
         String response = mockMvc.perform(MockMvcRequestBuilders.get(queryUrl)
                 .header("Authorization", "Bearer " + adminToken))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").exists())
-                .andExpect(jsonPath("$.content").exists())
-                .andExpect(jsonPath("$.numberOfElements").exists())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.totalElements").exists())
+            .andExpect(jsonPath("$.content").exists())
+            .andExpect(jsonPath("$.numberOfElements").exists())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
         JSONArray array = new JSONObject(response).getJSONArray("content");
         System.out.println("array: " + array);

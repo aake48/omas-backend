@@ -53,10 +53,10 @@ public class UserTests {
 
         String response = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "team?competitionId=" + competitionId)
                 .header("Authorization", "Bearer " + adminToken))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
         JsonNode node = Json.parse(response);
 
@@ -68,10 +68,10 @@ public class UserTests {
 
         String response = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "teams")
                 .header("Authorization", "Bearer " + adminToken))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
         JsonNode node = Json.parse(response);
 

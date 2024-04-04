@@ -117,8 +117,8 @@ public class FileTests {
                 .header("Authorization", "Bearer " + adminToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(teamMemberId))
-                .andReturn()
-                .getResponse();
+            .andReturn()
+            .getResponse();
 
         // Get the boundary from the Content-Type headers
         String contentType = downloadResponse.getHeader("Content-Type");
@@ -163,7 +163,6 @@ public class FileTests {
             index++;
         }
     }
-
 
 
 }
