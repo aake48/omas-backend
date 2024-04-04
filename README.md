@@ -26,7 +26,7 @@
       - [Delete user](#delete-user)
 
     - [club admins](#reset-password)
-      - [update team member's scores](#update-team-members-score)
+      - [update team member's scores](#update-team-members-scores)
       - [set passkey](#set-passkey)
 
     - [Clubs](#clubs)
@@ -636,7 +636,7 @@ Content-Type: application/json
 }
 ```
 Returns [TeamMemberScore](#teammemberscore) if submission was successful.
-### Submit  score as a sum
+### Submit user's score as a sum
 Note: the following conditions must be met before user can submit his scores: 
 - The user must be [a team member](#add-team-member-to-team) for the competition before he is able to submit his scores
 - userId is optional. If left empty, userId is will be gotten from token. UserId must be a member of the team.
