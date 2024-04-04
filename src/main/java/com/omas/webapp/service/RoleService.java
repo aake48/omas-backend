@@ -36,14 +36,18 @@ public class RoleService {
         return repository.save(newRole);
     }
 
+    public boolean hasRole(long id, String role) {
+        return repository.findById(new RoleId(id, role)).isPresent();
+    }
+
     public void removeRole(long id, String role) {
         Role roleToBeRemoved = new Role(id, role);
         repository.delete(roleToBeRemoved);
     }
 
     public void removeRoles(long id) {
-            List<Role> roles = repository.findDistinctByuserId(id);
-            repository.deleteAll(roles);
+        List<Role> roles = repository.findDistinctByuserId(id);
+        repository.deleteAll(roles);
     }
 
     public Optional<Role> findRole(RoleId roleId) {

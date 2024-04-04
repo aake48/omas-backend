@@ -93,6 +93,31 @@ public class AdminControllerTests {
     }
 
     @Test
+    void removeNonExistentRole() throws Exception {
+
+        TestUtils.registerUser(mockMvc, "johanDoey", "johanDoey");
+        String resp = TestUtils.loginUser(mockMvc, "johanDoey", "johanDoey");
+        JSONObject userObject = new JSONObject(resp).getJSONObject("user");
+        long userId = userObject.getLong("userId");
+
+        String url = baseUrl + "demote";
+
+        String json = new JSONObject()
+            .put("userId", userId)
+            .put("role", "kuvaseura/admin")
+            .toString();
+
+        String response = mockMvc.perform(MockMvcRequestBuilders.post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + adminToken)
+                .content(json))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResponse().getContentAsString();
+
+        System.out.println("deleteResponse: " + response);
+    }
+
+    @Test
     void demoteUser() throws Exception {
 
         TestUtils.registerUser(mockMvc, "johanDoey", "johanDoey");

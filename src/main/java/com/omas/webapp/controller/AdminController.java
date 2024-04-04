@@ -86,21 +86,24 @@ public class AdminController {
         Long id = UserInfoDetails.getDetails().getId();
 
         if (!userService.userExists(request.getUserId())) {
-            return new ResponseEntity<>(Map.of("message", "there is no user with the given userId"),
-                    HttpStatus.BAD_REQUEST);
+            return new MessageResponse("There is no user with the given userId", HttpStatus.BAD_REQUEST);
         }
+
         if (request.getUserId() == id) {
-            return new ResponseEntity<>(Map.of("message", "you may not demote yourself"), HttpStatus.BAD_REQUEST);
+            return new MessageResponse("You may not demote yourself", HttpStatus.BAD_REQUEST);
         }
 
         if (request.getRole().equals("ROLE_ADMIN")) {
-            return new ResponseEntity<>(Map.of("message", "you may not demote admin roles"), HttpStatus.BAD_REQUEST);
+            return new MessageResponse("You may not demote admin roles", HttpStatus.BAD_REQUEST);
+        }
+
+        if (!roleService.hasRole(id, request.getRole())) {
+            return new MessageResponse("Cannot delete nonexistent role", HttpStatus.BAD_REQUEST);
         }
         
         roleService.removeRole(request.getUserId(), request.getRole());
-        return new ResponseEntity<>(
-                Map.of("message", "role: " + request.getRole() + "removed from user: " + request.getUserId()),
-                HttpStatus.OK);
+
+        return new MessageResponse("Role: " + request.getRole() + " removed from user: " + request.getUserId(), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
