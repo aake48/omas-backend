@@ -632,6 +632,7 @@ Content-Type: application/json
   competitionName: string,
   teamName: string,
   userId: number, // optional
+  requestType: set || append, optional
   scoreList: number[]
 }
 ```

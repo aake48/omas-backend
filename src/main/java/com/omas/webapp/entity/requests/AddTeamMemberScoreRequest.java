@@ -1,6 +1,8 @@
 package com.omas.webapp.entity.requests;
 
 import java.util.List;
+
+import com.omas.webapp.Constants;
 import com.omas.webapp.entity.validators.scoreValidator.ValidScoreList;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor; 
@@ -19,6 +21,8 @@ public class AddTeamMemberScoreRequest {
 	private String teamName;
 
 	private Long userId = null;
+
+	private String requestType = Constants.ADD_METHOD_SET;
 
 	@ValidScoreList
     @NotEmpty(message = "ScoreList cannot be empty")

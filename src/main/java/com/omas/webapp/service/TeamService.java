@@ -3,11 +3,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.omas.webapp.entity.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.omas.webapp.repository.TeamMemberRepository;
 import com.omas.webapp.repository.TeamRepository;
@@ -51,7 +49,7 @@ public class TeamService {
     }
 
     /**
-     * validates that the user has privileges to administer teams of this club 
+     * validates that the user has privileges to administer teams of this club
      */
     public boolean isAdminInclub(String club) {
         Long id = UserInfoDetails.getDetails().getId();
@@ -83,14 +81,37 @@ public class TeamService {
      * checks that user is member of the team
      * @throws Exception throws an exception if validation fails
     */
-    public TeamMemberId CanUserSubmitScores(Long userId, String competitionName, String teamName) throws Exception {
+    public TeamMemberId canUserSubmitScores(Long userId, String competitionName, String teamName) throws Exception {
 
         if (thisUserIsTeamMember(new TeamMemberId(userId, competitionName, teamName))){
             return new TeamMemberId(userId, new TeamId( competitionName, teamName));
         }
 
         throw new Exception("error: this user is not in the team");
+    }
 
+    /**
+     * Figure out which {@link TeamMemberId} to use. If the given userId is null, the authenticated user's id will be used.
+     * Otherwise, the given userId will be used.
+     * This method is used when the authenticated user might be posting a score for another team member
+     * @return the resolved {@link TeamMemberId}
+     * @throws Exception if the users are not in the same team
+     */
+    public TeamMemberId resolveTeamMemberId(Long userId, String competitionName, String teamName) throws Exception {
+
+        long authenticatedUserId  = UserInfoDetails.getDetails().getId();
+
+        // validates that user is part of the team and that the team has entered this
+        // competition
+        TeamMemberId teamMemberId = canUserSubmitScores(authenticatedUserId, competitionName, teamName);
+
+        // validates that userId is part of the team and that the team has entered this
+        // competition
+        if (userId != null) {
+            teamMemberId = canUserSubmitScores(userId, competitionName, teamName);
+        }
+
+        return teamMemberId;
     }
 
     /**
@@ -100,12 +121,7 @@ public class TeamService {
      * @return true if the user is in the team, false otherwise.
      */
     public boolean thisUserIsTeamMember(TeamMemberId teamMemberId) {
-        Optional<TeamMember> teamMate = teamMemberRepository.findById(teamMemberId);
-        if (teamMate.isPresent()) {
-
-            return true;
-        }
-        return false;
+        return teamMemberRepository.findById(teamMemberId).isPresent();
     }
 
     /**
@@ -116,13 +132,7 @@ public class TeamService {
      * @return true if the team is part of the competition, false otherwise.
      */
     public boolean isTeamPartOfCompetition(String activeCompetition, String teamName) {
-
-        Optional<Team> participatingTeam = teamRepository.findById(new TeamId(activeCompetition, teamName));
-
-        if (participatingTeam.isPresent()) {
-            return true;
-        }
-        return false;
+        return teamRepository.findById(new TeamId(activeCompetition, teamName)).isPresent();
     }
 
     /**
