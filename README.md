@@ -46,8 +46,6 @@
       - [query inactive competitions](#query-inactive-competitions)
       - [Get results](#get-competition-results)
       - [am I participating in this competition?](#am-i-participating-in-this-competition)
-
-
     - [teams](#teams)
       - [query teams with clubName](#query-teams-with-clubname)
       - [create new team](#create-new-team)
@@ -62,6 +60,9 @@
       - [submit user's score](#submit-users-score)
       - [submit user's score as a sum](#submit-users-score-as-a-sum)
       - [isMember](#ismember)
+    - [images](#image)
+      - [upload image](#upload-image)
+      - [download image](#download-image)
 
 
 - [<ins>__Types__</ins>](#Types)
@@ -664,6 +665,30 @@ Content-Type: application/json
 }
 ```
 returns true if the team is in the competition and the user is part of it
+
+# Image
+### upload image
+```
+POST api/file/upload/
+Authorization: required
+Content-Type: multipart/form-data
+```
+Requires competitionId field and file field for the image. Currently only accepts one image at a time.
+
+### download image
+```
+GET api/file/download/
+Authorization: required
+Content-Type: application/json
+{
+  "userId": number,
+  "competitiondId": string,
+  "teamName": string,
+  "fileName": string || null
+}
+```
+Returns files in multipart/form-data format with the image name as the name and the image bytes as the value.
+If filename is null, all images associated with the TeamMemberId will be returned.
 
 # Types 
 ## CompetitionResponse
