@@ -141,7 +141,7 @@ public class AdminController {
         }
 
         // Prevent deleting other admins
-        if (roleService.FindUsersRoles(user.getId()).contains("ROLE_ADMIN")) {
+        if (roleService.findUsersRoles(user.getId()).contains("ROLE_ADMIN")) {
             return new MessageResponse("You cannot delete other admins", HttpStatus.BAD_REQUEST);
         }
 

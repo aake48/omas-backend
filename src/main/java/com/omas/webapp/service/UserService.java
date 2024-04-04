@@ -46,7 +46,7 @@ public class UserService implements UserDetailsService {
 
         if (user.isPresent()) {
             User foundUser = user.get();
-            List<String> roles = roleService.FindUsersRoles(foundUser.getId());
+            List<String> roles = roleService.findUsersRoles(foundUser.getId());
             return new UserInfoDetails(foundUser, roles);
         }
         throw new UsernameNotFoundException("User not found " + username);
@@ -101,25 +101,24 @@ public class UserService implements UserDetailsService {
         if (repository.findByUsername(user.getUsername()).isPresent()) {
             return false;
         }
+
         // hash and salt password before saving it to db
         user.setPassword(encoder.encode(user.getPassword()));
+
         try {
             User createdUser = repository.save(user);
             roleService.addUserRole(createdUser.getId());
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("ex : " + e);
             return false;
         }
+
         return true;
     }
 
     public boolean userExists(long id) {
-        Optional<User> userOptional = repository.findById(id);
-
-        if (userOptional.isEmpty()) {
-            return false;
-        }
-        return true;
+        return repository.findById(id).isPresent();
     }
 
     /**
@@ -151,31 +150,28 @@ public class UserService implements UserDetailsService {
      * Joins a user to a club.
      * This method does not perform any validation on 'club' String
      *
-     * @param id   the ID of the user
+     * @param userId the ID of the user
      * @param club the name of the club to join
      * @return true if the user was successfully joined to the club, false otherwise
      */
-    public boolean joinClub(Long id, String club) {
-        Optional<User> userToJoin = repository.findById(id);
+    public boolean joinClub(Long userId, String club) {
 
-        if (userToJoin.isPresent()) {
-            User user = userToJoin.get();
-            user.setPartOfClub(club);
-            repository.save(user);
-            return true;
+        Optional<User> userToJoin = repository.findById(userId);
+
+        if (userToJoin.isEmpty()) {
+            return false;
         }
-        return false;
+
+        User user = userToJoin.get();
+        user.setPartOfClub(club);
+
+        repository.save(user);
+
+        return true;
     }
 
-    public String getName(Long userId) {
-        try {
-            User user = repository.findById(userId).get();
-            return user.getLegalName();
-        } catch (Exception e) {
-            log.info("getName(): " + e);
-            return "user name not found";
-        }
-
+    public String getLegalName(Long userId) {
+        return repository.findById(userId).map(User::getLegalName).orElse("user name not found");
     }
 
     public Optional<User> getUserByUsername(String username) {

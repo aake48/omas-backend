@@ -16,7 +16,7 @@ public class RoleService {
     @Autowired
     RoleRepository repository;
 
-    public List<String> FindUsersRoles(Long userId) {
+    public List<String> findUsersRoles(Long userId) {
         List<Role> roles = repository.findDistinctByuserId(userId);
         return roles.stream().map(role -> String.valueOf(role.getRole())).toList();
     }

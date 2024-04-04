@@ -22,7 +22,6 @@ public class CompetitionResponse {
     String endDate;
     String type;
 
-    @Setter
     List<CompetitionTeamResponse> teams = new ArrayList<>();
 
     public CompetitionResponse(Competition competition) {
