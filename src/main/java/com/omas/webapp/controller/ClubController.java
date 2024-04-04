@@ -1,5 +1,6 @@
 package com.omas.webapp.controller;
 
+import com.omas.webapp.Util;
 import com.omas.webapp.entity.requests.ClubRequest;
 import com.omas.webapp.entity.requests.SetPasskeyRequest;
 import com.omas.webapp.entity.response.MessageResponse;
@@ -76,11 +77,18 @@ public class ClubController {
 
         UserInfoDetails userDetails = UserInfoDetails.getDetails();
 
-        try {
-            clubService.checkPasskeyMatch(club.getClubName(), club.getPasskey());
-            userService.joinClub(userDetails.getId(), club.getClubName());
+        String clubId = Util.sanitizeName(club.getClubName());
 
-            return new MessageResponse("Club join successfully.", HttpStatus.OK);
+        if (clubId == null) {
+            return new ResponseEntity<>("Invalid club name", HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+
+            clubService.checkPasskeyMatch(clubId, club.getPasskey());
+            userService.joinClub(userDetails.getId(), clubId);
+
+            return new MessageResponse("Club joined successfully.", HttpStatus.OK);
 
         } catch (Exception e) {
             return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
