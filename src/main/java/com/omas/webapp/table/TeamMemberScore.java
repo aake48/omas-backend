@@ -86,7 +86,7 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
      * @param competitionType the competition type
      * @throws IllegalArgumentException if the competitionType is invalid
      */
-    private void countBullsEyes(List<Double> list, String competitionType) throws IllegalArgumentException {
+    private List<Double> countBullsEyes(List<Double> list, String competitionType) throws IllegalArgumentException {
 
         list = roundScores(list, competitionType);
 
@@ -96,6 +96,7 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
             default -> throw new IllegalArgumentException("Invalid competition type");
         }
 
+        return list;
     }
 
     /**
@@ -138,22 +139,16 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
 
         // If the entry has no scores available we can replace it
         if (this.scorePerShot != null && !this.scorePerShot.startsWith("[")) {
-            System.out.println("scorePerShot does not start with [");
-            this.scorePerShot = Json.stringify(roundScores(scores, competitionType));
+            // Recalculate bullseyes and round the values
+            this.scorePerShot = Json.stringify(countBullsEyes(scores, competitionType));
         } else {
 
             List<Double> oldScores = Json.fromString(this.scorePerShot, new TypeReference<>(){});
 
-            System.out.println("oldScores before add: " + oldScores);
-
             oldScores.addAll(scores);
 
-            System.out.println("oldScores after add: " + oldScores);
-
-            // Call the round method again in case the new data is not rounded or the list exceeds the maximum size
-            oldScores = roundScores(oldScores, competitionType);
-
-            System.out.println("oldScores after round: " + oldScores);
+            // Recalculate bullseyes and round the values
+            oldScores = countBullsEyes(oldScores, competitionType);
 
             this.scorePerShot = Json.stringify(oldScores, false);
         }
