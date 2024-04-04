@@ -1,6 +1,7 @@
 package com.omas.webapp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -22,6 +23,10 @@ public final class Json {
 
     public static <T> T fromString(String string, Class<T> clazz) throws JsonProcessingException {
         return MAPPER.readValue(string, clazz);
+    }
+
+    public static <T> T fromString(String string, TypeReference<T> reference) throws JsonProcessingException {
+        return MAPPER.readValue(string, reference);
     }
 
     public static <T> T fromJson(JsonNode node, Class<T> clazz) throws JsonProcessingException {
