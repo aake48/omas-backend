@@ -109,7 +109,6 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
     private List<Double> roundScores(List<Double> list, String competitionType) {
 
         switch (competitionType) {
-            // TODO: Is the 60 shot limit desirable?
             case Constants.RIFLE_TYPE -> {
                 return list.subList(0, Math.min(list.size(), 60))
                     .stream()
@@ -117,7 +116,6 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
                     .collect(Collectors.toList());
             }
             case Constants.PISTOL_TYPE -> {
-                // TODO: Is the 60 shot limit desirable?
                 return list.subList(0, Math.min(list.size(), 60))
                     .stream()
                     .map(Math::floor)
