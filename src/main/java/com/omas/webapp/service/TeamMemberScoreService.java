@@ -1,6 +1,7 @@
 package com.omas.webapp.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.omas.webapp.Constants;
 import com.omas.webapp.repository.TeamMemberScoreRepository;
 import com.omas.webapp.table.TeamId;
 import com.omas.webapp.table.TeamMemberId;
@@ -53,6 +54,21 @@ public class TeamMemberScoreService {
         return teamMemberScoreRepository.save(score);
     }
 
+    /**
+     * Delete the given team member's score entry
+     * @param teamMemberId the id of the team member
+     * @return true if the scores were deleted, false if not
+     */
+    public boolean removeScore(TeamMemberId teamMemberId) {
+
+        if (teamMemberScoreRepository.existsById(teamMemberId)) {
+            teamMemberScoreRepository.deleteById(teamMemberId);
+            return true;
+        }
+
+        return false;
+    }
+
     public List<TeamMemberScore> getAllScores() {
         return teamMemberScoreRepository.findAll();
     }
@@ -92,6 +108,28 @@ public class TeamMemberScoreService {
         double newScore = teamMemberScore.getSum() + score;
 
         return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, newScore, newBullsEyeCount));
+    }
+
+    /**
+     * Modify the score sum based on the provided add method
+     * <br>{@link Constants#ADD_METHOD_SET} will set the score overwriting any score already present in the database
+     * <br>{@link Constants#ADD_METHOD_UPDATE} will attempt to add to the existing score or set it if it does not exist yet
+     * @return the modified or set {@link TeamMemberScore}
+     */
+    public TeamMemberScore modifyScoreSum(TeamMemberId teamMemberId, int bullsEyeCount, double score, String addMethod) {
+
+        switch (addMethod) {
+            case Constants.ADD_METHOD_SET -> {
+                return setSum(teamMemberId, bullsEyeCount, score);
+            }
+            case Constants.ADD_METHOD_UPDATE -> {
+                return addSum(teamMemberId, bullsEyeCount, score);
+            }
+            default -> {
+                throw new IllegalArgumentException("Invalid add method");
+            }
+        }
+
     }
 
 }

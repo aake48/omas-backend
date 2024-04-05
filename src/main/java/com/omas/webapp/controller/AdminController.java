@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import com.omas.webapp.entity.requests.AdminAddScoreRequest;
 import com.omas.webapp.entity.requests.DeleteRequest;
+import com.omas.webapp.service.TeamMemberScoreService;
+import com.omas.webapp.table.TeamMemberScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -43,6 +46,9 @@ public class AdminController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private TeamMemberScoreService teamMemberScoreService;
 
     @GetMapping(params = { "page", "size", "search" }, value = "user/query")
     public ResponseEntity<?> queryUsers(@RequestParam(value = "page", defaultValue = "0") int page,
@@ -109,16 +115,27 @@ public class AdminController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/addScores")
-    public ResponseEntity<?> addScores(@RequestBody TeamMemberId id) {
-        // TODO: Implement this method.
-        return null;
+    public ResponseEntity<?> addScores(@RequestBody AdminAddScoreRequest request) {
+
+        TeamMemberId teamMemberId = new TeamMemberId(request.getUserId(), request.getCompetitionName(), request.getTeamName());
+
+        TeamMemberScore score = teamMemberScoreService.modifyScoreSum(
+            teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType()
+        );
+
+        return new ResponseEntity<>(score, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/removeScores")
     public ResponseEntity<?> removeScores(@RequestBody TeamMemberId id) {
-        // TODO: Implement this method.
-        return null;
+
+        if (teamMemberScoreService.removeScore(id)) {
+            return new MessageResponse("Score removed", HttpStatus.OK);
+        } else {
+            return new MessageResponse("No score found", HttpStatus.OK);
+        }
+
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
