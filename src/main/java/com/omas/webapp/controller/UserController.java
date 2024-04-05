@@ -170,15 +170,12 @@ public class UserController {
     public ResponseEntity<?> processResetPassword(HttpServletRequest request,
             @Valid PasswordResetRequest resetRequest) {
 
-        User user = null;
-        try {
-            user = service.getByResetPasswordToken(resetRequest.getToken());
-            if (user == null) {
-                return new MessageResponse("Token is either invalid or expired", HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
+        User user = service.getByResetPasswordToken(resetRequest.getToken());
+
+        if (user == null) {
             return new MessageResponse("Token is either invalid or expired", HttpStatus.BAD_REQUEST);
         }
+
         service.updatePassword(user, resetRequest.getPassword());
 
         return new MessageResponse("Password updated", HttpStatus.OK);

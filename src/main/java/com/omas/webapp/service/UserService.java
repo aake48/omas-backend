@@ -68,19 +68,21 @@ public class UserService implements UserDetailsService {
      * @param token The reset password token to search for.
      * @return The user associated with the reset password token, or null if the token has expired or no user is found.
      */
-    public User getByResetPasswordToken(String token) throws Exception {
+    public User getByResetPasswordToken(String token) {
 
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByResetPasswordToken(token);
+
         if (passwordResetToken == null) {
             return null;
         }
+
         passwordResetTokenRepository.delete(passwordResetToken);
 
         if (passwordResetToken.hasExpired()) {
             return null;
         }
 
-        return repository.findById(passwordResetToken.getId()).get();
+        return repository.findById(passwordResetToken.getId()).orElse(null);
     }
 
     public void updatePassword(User user, String newPassword) {
