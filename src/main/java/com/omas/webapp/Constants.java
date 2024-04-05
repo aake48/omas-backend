@@ -13,7 +13,7 @@ public final class Constants {
     public static final String ADMIN_PASSWORD = "adminPassword";
 
     public static final String ADD_METHOD_SET = "set";
-    public static final String ADD_METHOD_APPEND = "append";
+    public static final String ADD_METHOD_UPDATE = "update";
 
     public static String createIdString(String name) {
 

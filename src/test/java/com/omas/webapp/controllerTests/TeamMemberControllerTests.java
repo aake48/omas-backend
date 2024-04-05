@@ -250,7 +250,7 @@ public class TeamMemberControllerTests {
         String appendJson = Json.tree(
             "competitionName", competitionNameId,
             "teamName", teamName,
-            "requestType", Constants.ADD_METHOD_APPEND,
+            "requestType", Constants.ADD_METHOD_UPDATE,
             "scoreList", shotsToAppend
         ).toString();
 
@@ -269,6 +269,80 @@ public class TeamMemberControllerTests {
             .andExpect(jsonPath("scorePerShot").value(Json.stringify(correctList)));
     }
 
+    @Test
+    public void setTeamMemberScoreAsSum() throws Exception {
+
+        TestUtils.joinTeam(mockMvc, competitionNameId, teamName, userToken);
+
+        // Submit some sum
+        String submitSumJson = new JSONObject()
+            .put("competitionName", competitionNameId)
+            .put("teamName", teamName)
+            .put("bullsEyeCount", 3)
+            .put("score", 240D)
+            .toString();
+
+        mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add/sum")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + userToken)
+                .content(submitSumJson))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.sum").isNotEmpty())
+            .andExpect(jsonPath("$.sum").value(240D))
+            .andExpect(jsonPath("$.bullsEyeCount").value(3));
+
+        // Now set it to something else
+        String setSumJson = new JSONObject()
+            .put("competitionName", competitionNameId)
+            .put("teamName", teamName)
+            .put("bullsEyeCount", 5)
+            .put("score", 300D)
+            .put("requestType", Constants.ADD_METHOD_SET)
+            .toString();
+
+        mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add/sum")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + userToken)
+                .content(setSumJson))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.sum").isNotEmpty())
+            .andExpect(jsonPath("$.sum").value(300D))
+            .andExpect(jsonPath("$.bullsEyeCount").value(5));
+    }
+
+    @Test
+    public void updateTeamMemberScoreSum() throws Exception {
+
+        TestUtils.joinTeam(mockMvc, competitionNameId, teamName, userToken);
+
+        // Submit some sum
+        String submitSumJson = new JSONObject()
+            .put("competitionName", competitionNameId)
+            .put("teamName", teamName)
+            .put("bullsEyeCount", 3)
+            .put("score", 240D)
+            .put("requestType", Constants.ADD_METHOD_UPDATE)
+            .toString();
+
+        mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add/sum")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + userToken)
+                .content(submitSumJson))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.sum").isNotEmpty())
+            .andExpect(jsonPath("$.sum").value(240D));
+
+        // Submit the same thing again
+        mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add/sum")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + userToken)
+                .content(submitSumJson))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.sum").isNotEmpty())
+            .andExpect(jsonPath("$.bullsEyeCount").value(6))
+            .andExpect(jsonPath("$.sum").value(480D));
+
+    }
 
     @Test
     public void PostTeamMemberScoreAsSum() throws Exception {

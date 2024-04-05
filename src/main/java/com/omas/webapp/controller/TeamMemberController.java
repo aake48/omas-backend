@@ -136,7 +136,7 @@ public class TeamMemberController {
                 case Constants.ADD_METHOD_SET -> {
                     score = teamMemberScoreService.setScore(teamMemberId, request.getScoreList(), competition.getType());
                 }
-                case Constants.ADD_METHOD_APPEND -> {
+                case Constants.ADD_METHOD_UPDATE -> {
                     score = teamMemberScoreService.addScore(teamMemberId, request.getScoreList(), competition.getType());
                 }
                 default -> {
@@ -191,8 +191,19 @@ public class TeamMemberController {
                     request.getCompetitionName(),
                     request.getTeamName());
 
-            TeamMemberScore score = teamMemberScoreService.addSum(teamMemberId, request.getBullsEyeCount(),
-                    request.getScore());
+            TeamMemberScore score;
+
+            switch (request.getRequestType()) {
+                case Constants.ADD_METHOD_SET -> {
+                    score = teamMemberScoreService.setSum(teamMemberId, request.getBullsEyeCount(), request.getScore());
+                }
+                case Constants.ADD_METHOD_UPDATE -> {
+                    score = teamMemberScoreService.addSum(teamMemberId, request.getBullsEyeCount(), request.getScore());
+                }
+                default -> {
+                    throw new IllegalArgumentException("Invalid request type");
+                }
+            }
 
             return new ResponseEntity<>(score, HttpStatus.OK);
 
@@ -221,10 +232,20 @@ public class TeamMemberController {
 
             TeamMemberId teamMemberId = teamsService.resolveTeamMemberId(request.getUserId(), request.getCompetitionName(), request.getTeamName());
 
-            TeamMemberScore score = teamMemberScoreService.addSum(teamMemberId, request.getBullsEyeCount(),
-                    request.getScore());
+            TeamMemberScore score;
 
-            // if the scores already exist in the DB, they will be overwritten
+            switch (request.getRequestType()) {
+                case Constants.ADD_METHOD_SET -> {
+                    score = teamMemberScoreService.setSum(teamMemberId, request.getBullsEyeCount(), request.getScore());
+                }
+                case Constants.ADD_METHOD_UPDATE -> {
+                    score = teamMemberScoreService.addSum(teamMemberId, request.getBullsEyeCount(), request.getScore());
+                }
+                default -> {
+                    throw new IllegalArgumentException("Invalid request type");
+                }
+            }
+
             return new ResponseEntity<>(score, HttpStatus.OK);
         } catch (Exception e) {
             return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);

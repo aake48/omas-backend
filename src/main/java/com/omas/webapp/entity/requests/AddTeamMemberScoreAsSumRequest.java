@@ -1,5 +1,6 @@
 package com.omas.webapp.entity.requests;
 
+import com.omas.webapp.Constants;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor; 
@@ -21,6 +22,8 @@ public class AddTeamMemberScoreAsSumRequest {
 	private double score; 
 
 	private Long userId = null;
+
+	private String requestType = Constants.ADD_METHOD_SET;
 
     @NotNull(message = "bullsEyeCount cannot be empty")
 	private int bullsEyeCount; 

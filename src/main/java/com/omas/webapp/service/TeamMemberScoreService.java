@@ -66,11 +66,32 @@ public class TeamMemberScoreService {
     }
 
     /**
-     * Add the scores and bullseyes directly without doing any calculations
+     * Adds the scores and bullseyes directly
+     * @return the saved {@link TeamMemberScore}
+     */
+    public TeamMemberScore setSum(TeamMemberId teamMemberId, int bullsEyeCount, double score) {
+        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, score, bullsEyeCount));
+    }
+
+    /**
+     * Updates the scores and bullseyes directly
      * @return the saved {@link TeamMemberScore}
      */
     public TeamMemberScore addSum(TeamMemberId teamMemberId, int bullsEyeCount, double score) {
-        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, score, bullsEyeCount));
+
+        Optional<TeamMemberScore> optional = teamMemberScoreRepository.findById(teamMemberId);
+
+        // If there is no score, just set it
+        if (optional.isEmpty()) {
+            return setSum(teamMemberId, bullsEyeCount, score);
+        }
+
+        TeamMemberScore teamMemberScore = optional.get();
+
+        int newBullsEyeCount = teamMemberScore.getBullsEyeCount() + bullsEyeCount;
+        double newScore = teamMemberScore.getSum() + score;
+
+        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, newScore, newBullsEyeCount));
     }
 
 }

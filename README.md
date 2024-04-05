@@ -300,6 +300,7 @@ Content-Type: application/json
   clubName:String,
   userId:number,
   score:number,
+  requestType: set || update, optional
   bullsEyeCount:number
 }
 ```
@@ -632,7 +633,7 @@ Content-Type: application/json
   competitionName: string,
   teamName: string,
   userId: number, // optional
-  requestType: set || append, optional
+  requestType: set || update, optional
   scoreList: number[]
 }
 ```
@@ -651,6 +652,7 @@ Content-Type: application/json
   teamName: string,
   score: number,
   userId: number // optional
+  requestType: set || update, optional
   bullsEyeCount: number
 }
 ```
