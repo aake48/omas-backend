@@ -88,15 +88,12 @@ public class TeamMemberController {
 
         long userId = UserInfoDetails.getDetails().getId();
 
-        try {
-            teamsService.canUserSubmitScores(userId, request.getCompetitionName(), request.getTeamName());
-            return new ResponseEntity<>(true, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(false, HttpStatus.OK);
-        }
+        TeamMemberId teamMemberId = new TeamMemberId(userId, request.getCompetitionName(), request.getTeamName());
 
+        boolean isMember = teamsService.thisUserIsTeamMember(teamMemberId);
+
+        return new ResponseEntity<>(isMember, HttpStatus.OK);
     }
-
 
     @GetMapping("/score")
     public ResponseEntity<?> getScore(@Valid @RequestBody TeamMemberScoreRequest request) {
@@ -232,19 +229,9 @@ public class TeamMemberController {
 
             TeamMemberId teamMemberId = teamsService.resolveTeamMemberId(request.getUserId(), request.getCompetitionName(), request.getTeamName());
 
-            TeamMemberScore score;
-
-            switch (request.getRequestType()) {
-                case Constants.ADD_METHOD_SET -> {
-                    score = teamMemberScoreService.setSum(teamMemberId, request.getBullsEyeCount(), request.getScore());
-                }
-                case Constants.ADD_METHOD_UPDATE -> {
-                    score = teamMemberScoreService.addSum(teamMemberId, request.getBullsEyeCount(), request.getScore());
-                }
-                default -> {
-                    throw new IllegalArgumentException("Invalid request type");
-                }
-            }
+            TeamMemberScore score = teamMemberScoreService.modifyScoreSum(
+                teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType()
+            );
 
             return new ResponseEntity<>(score, HttpStatus.OK);
         } catch (Exception e) {
