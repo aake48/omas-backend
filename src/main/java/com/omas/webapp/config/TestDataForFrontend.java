@@ -1,5 +1,6 @@
 package com.omas.webapp.config;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.omas.webapp.Constants;
 import com.omas.webapp.repository.*;
 import com.omas.webapp.service.*;
@@ -250,13 +251,8 @@ public class TestDataForFrontend implements CommandLineRunner {
         return teamRepository.saveAll(teams);
     }
 
-    private void addMemberWithScores(List<User> users, List<Competition> competitions, String compType) {
+    private void addMemberWithScores(List<User> users, List<Competition> competitions, String compType) throws JsonProcessingException {
         log.info("adding member and scores");
-
-        Boolean acceptDecimals = false;
-        if (compType.equals(Constants.RIFLE_TYPE)) {
-            acceptDecimals = true;
-        }
 
         for (User user : users) {
             for (Competition comp : competitions) {
@@ -265,9 +261,7 @@ public class TestDataForFrontend implements CommandLineRunner {
                 teamMember = teamMemberRepository.save(teamMember);
                 log.info(" club: " + user.getPartOfClub());
 
-                TeamMemberScore teamMemberScore = new TeamMemberScore(
-                        new TeamMemberId(user.getId(), comp.getCompetitionId(), user.getPartOfClub()), give60shots(),
-                        acceptDecimals);
+                TeamMemberScore teamMemberScore = new TeamMemberScore(new TeamMemberId(user.getId(), comp.getCompetitionId(), user.getPartOfClub()), give60shots(), compType);
 
                 TeamMemberScore score = teamMemberScoreRepository.save(teamMemberScore);
                 log.info(" userId: " + score.getUserId());
