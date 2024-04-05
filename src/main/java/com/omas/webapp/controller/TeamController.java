@@ -3,7 +3,7 @@ package com.omas.webapp.controller;
 import com.omas.webapp.entity.requests.AddTeamRequest;
 import com.omas.webapp.entity.requests.CompetitionNameRequest;
 import com.omas.webapp.entity.requests.TeamScoreRequest;
-import com.omas.webapp.entity.requests.teamIdRequest;
+import com.omas.webapp.entity.requests.TeamIdRequest;
 import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
@@ -154,7 +154,7 @@ public class TeamController {
 
     
     @GetMapping("/teamExists")
-    public ResponseEntity<?> hasTeam(@Valid @RequestBody teamIdRequest request) {
+    public ResponseEntity<?> hasTeam(@Valid @RequestBody TeamIdRequest request) {
 
         Boolean value = teamService.isTeamPartOfCompetition(request.getCompetitionName(), request.getTeamName());
         return new ResponseEntity<>(value, HttpStatus.OK);

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class adminAddScoreRequest { 
+public class AdminAddScoreRequest {
     
 	@NotEmpty(message = "competitionName cannot be empty")
 	private String competitionName; 

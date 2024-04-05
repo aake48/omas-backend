@@ -20,8 +20,8 @@ import com.omas.webapp.entity.requests.AddTeamMemberScoreAsSumRequest;
 import com.omas.webapp.entity.requests.AddTeamMemberScoreRequest;
 import com.omas.webapp.entity.requests.TeamMemberJoinRequest;
 import com.omas.webapp.entity.requests.TeamMemberScoreRequest;
-import com.omas.webapp.entity.requests.adminAddScoreRequest;
-import com.omas.webapp.entity.requests.teamIdRequest;
+import com.omas.webapp.entity.requests.AdminAddScoreRequest;
+import com.omas.webapp.entity.requests.TeamIdRequest;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
@@ -84,7 +84,7 @@ public class TeamMemberController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/isMember")
-    public ResponseEntity<?> isMember(@Valid @RequestBody teamIdRequest request) {
+    public ResponseEntity<?> isMember(@Valid @RequestBody TeamIdRequest request) {
 
         long userId = UserInfoDetails.getDetails().getId();
 
@@ -158,7 +158,7 @@ public class TeamMemberController {
      */
     @PreAuthorize("@teamService.isAdminInclub(#request.clubName)")
     @PostMapping("/score/add/sum/admin")
-    public ResponseEntity<?> addScoresSumAdmin(@Valid @RequestBody adminAddScoreRequest request) {
+    public ResponseEntity<?> addScoresSumAdmin(@Valid @RequestBody AdminAddScoreRequest request) {
 
         try {
 

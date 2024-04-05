@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class teamIdRequest { 
+public class TeamIdRequest {
     
     @NotEmpty(message = "Competition name cannot be empty.")
     private String competitionName;
