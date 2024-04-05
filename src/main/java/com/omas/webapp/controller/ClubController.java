@@ -38,37 +38,27 @@ public class ClubController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/auth/club/new")
-    public ResponseEntity<?> newClub(@Valid @RequestBody ClubRequest clubRequest) {
+    public ResponseEntity<?> newClub(@Valid @RequestBody ClubRequest request) {
 
-        // This section of the code performs two operations on the 'Id', clubName:
-        // 1. It removes whitespaces and characters 'ä', 'ö', 'å' from the 'Id'.
-        // 2. It stores the original, unaltered version of 'Id' into 'nameNonId'.
-        // If 'Id' still contains unsafe characters after these alterations, the code
-        // returns a 400 status.
-        String clubNameNonId = clubRequest.getClubName();
-        String clubName = clubRequest.getClubName()
-                .replace('ä', 'a').replace('Ä', 'A')
-                .replace('ö', 'o').replace('Ö', 'O')
-                .replace('å', 'a').replace('Å', 'A')
-                .replace(' ', '_');
+        String clubName = request.getClubName();
+        String clubId = Util.sanitizeName(clubName);
 
-        String regex = "^[a-zA-Z0-9-_]+$";
-
-        if (!clubName.matches(regex)) {
+        if (clubId == null) {
             return new MessageResponse("Club name contains characters which are forbidden.", HttpStatus.BAD_REQUEST);
         }
 
         UserInfoDetails userDetails = UserInfoDetails.getDetails();
 
-        Club createdClub = clubService.registerClub(new Club(clubNameNonId, clubName, userDetails.getId()));
+        Club createdClub = clubService.registerClub(new Club(clubName, clubId, userDetails.getId()));
 
-        if (createdClub != null) {
-            Long id = UserInfoDetails.getDetails().getId();
-            roleService.addRole(id, clubName + "/admin");
-            return new ResponseEntity<>(createdClub, HttpStatus.OK);
+        if (createdClub == null) {
+            return new MessageResponse("Club name has already been taken.", HttpStatus.BAD_REQUEST);
         }
 
-        return new MessageResponse("Club name has already been taken.", HttpStatus.BAD_REQUEST);
+        Long id = UserInfoDetails.getDetails().getId();
+        roleService.addRole(id, clubName + "/admin");
+
+        return new ResponseEntity<>(createdClub, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
@@ -80,7 +70,7 @@ public class ClubController {
         String clubId = Util.sanitizeName(club.getClubName());
 
         if (clubId == null) {
-            return new ResponseEntity<>("Invalid club name", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Club name contains characters which are forbidden.", HttpStatus.BAD_REQUEST);
         }
 
         try {
