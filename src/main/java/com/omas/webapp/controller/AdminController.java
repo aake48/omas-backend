@@ -98,7 +98,7 @@ public class AdminController {
             return new MessageResponse("You may not demote admin roles", HttpStatus.BAD_REQUEST);
         }
 
-        if (!roleService.hasRole(id, request.getRole())) {
+        if (!roleService.hasRole(request.getUserId(), request.getRole())) {
             return new MessageResponse("Cannot delete nonexistent role", HttpStatus.BAD_REQUEST);
         }
         
