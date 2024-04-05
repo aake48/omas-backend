@@ -436,8 +436,8 @@ Content-Type: application/json
 {
     "competitionName": string,
     "competitionType": "rifle" || "pistol"
-    "startDate": string,
-    "endDate": string,
+    "startDate": number,
+    "endDate": number,
 }
 ```
 returns [competition](#competition)
@@ -446,8 +446,8 @@ returns [competition](#competition)
   "competitionId": string,
   "displayName": string,
   "type": "rifle" || "pistol"
-  "startDate": string,
-  "endDate": string,
+  "startDate": number,
+  "endDate": number,
   "creationDate": string
 }
 ```
@@ -700,9 +700,9 @@ If filename is null, all images associated with the TeamMemberId will be returne
   "competitionId": string,
   "displayName": string,
   "competitionType": string,
-  "creationDate": string,
-  "startDate": string,
-  "endDate": string
+  "creationDate": number,
+  "startDate": number,
+  "endDate": number,
   "teams": CompetitionTeamResponse[]
 }
 ```
@@ -787,8 +787,8 @@ Mm. onnistunut kilpailun luominen palauttaa tälläisen.
     "competitionId": string,
     "displayName": string,
     "type": "rifle" || "pistol"
-    "startDate": string,
-    "endDate": string,
+    "startDate": number,
+    "endDate": number,
     "creationDate": string
 }
 ```
@@ -798,7 +798,7 @@ Mm. onnistunut seuran luominen palauttaa tälläisen.
 {
   "name": string, // @id
   "nameNonId": string,
-  "creationDate": string,
+  "creationDate": number,
   "idCreator": number
 }
 ```
