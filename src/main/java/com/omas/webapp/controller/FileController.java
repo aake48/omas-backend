@@ -6,16 +6,13 @@ import com.omas.webapp.service.FileService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.ImageProof;
-import com.omas.webapp.table.ImageProofId;
 import com.omas.webapp.table.TeamMemberId;
 import com.omas.webapp.table.TeamMemberScore;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -24,9 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.FileAlreadyExistsException;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/file")
@@ -66,7 +61,7 @@ public class FileController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/download")
+    @PostMapping("/download")
     public ResponseEntity<?> downloadFile(@RequestBody FileDownloadRequest request) {
 
         final TeamMemberId id = request.getTeamMemberId();
@@ -107,7 +102,7 @@ public class FileController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("files")
+    @PostMapping("files")
     public ResponseEntity<?> getFileNames(@RequestBody TeamMemberId teamMemberId) {
         return new ResponseEntity<>(this.fileService.getFileNames(teamMemberId), HttpStatus.OK);
     }

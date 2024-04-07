@@ -113,7 +113,7 @@ public class FileTests {
             .toString();
 
         // Download the first file in the list, it should match the file we just uploaded
-        MockHttpServletResponse downloadResponse = mockMvc.perform(MockMvcRequestBuilders.get(downloadUrl)
+        MockHttpServletResponse downloadResponse = mockMvc.perform(MockMvcRequestBuilders.post(downloadUrl)
                 .header("Authorization", "Bearer " + adminToken)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(teamMemberId))
