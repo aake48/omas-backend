@@ -77,4 +77,8 @@ public class CompetitionService {
     public Page<Competition> findInactiveCompetitions(int page, int size) {
         return competitionRepository.findInactiveCompetitions(new java.sql.Date(System.currentTimeMillis()), PageRequest.of(page, size));
     }
+
+    public Page<Competition> findUpcomingCompetitions(int page, int size) {
+        return competitionRepository.findUpcomingCompetitions(new java.sql.Date(System.currentTimeMillis()), PageRequest.of(page, size));
+    }
 }
