@@ -4,6 +4,7 @@ import com.omas.webapp.entity.requests.FileDownloadRequest;
 import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.FileService;
 import com.omas.webapp.service.TeamMemberScoreService;
+import com.omas.webapp.service.TeamService;
 import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.ImageProof;
 import com.omas.webapp.table.TeamMemberId;
@@ -32,6 +33,9 @@ public class FileController {
 
     @Autowired
     private TeamMemberScoreService scoreService;
+
+    @Autowired
+    private TeamService teamService;
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/upload")
@@ -65,6 +69,15 @@ public class FileController {
     public ResponseEntity<?> downloadFile(@RequestBody FileDownloadRequest request) {
 
         final TeamMemberId id = request.getTeamMemberId();
+
+        if (!this.teamService.thisUserIsTeamMember(id)) {
+            return new MessageResponse("That team member does not exist", HttpStatus.BAD_REQUEST);
+        }
+
+        if (!this.fileService.hasFilesPostedByTeamMember(id)) {
+            return new MessageResponse("That team member has not posted any files", HttpStatus.BAD_REQUEST);
+        }
+
         final String fileName = request.getFileName();
 
         final HttpHeaders headers = new HttpHeaders();

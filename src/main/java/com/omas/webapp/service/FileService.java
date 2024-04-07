@@ -64,13 +64,20 @@ public class FileService {
         return this.fileRepository.findByTeamMemberIdAndFileName(teamMemberId, fileName);
     }
 
+
     /**
      * Get all file names associated with the provided {@link TeamMemberId}.
      * @param teamMemberId the id of the team member
      * @return a list of strings
      */
+    @Transactional
     public List<String> getFileNames(TeamMemberId teamMemberId) {
         return this.fileRepository.findByTeamMemberId(teamMemberId).stream().map(ImageProof::getFileName).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public boolean hasFilesPostedByTeamMember(TeamMemberId id) {
+        return this.fileRepository.findByTeamMemberId(id).isEmpty();
     }
 
 }
