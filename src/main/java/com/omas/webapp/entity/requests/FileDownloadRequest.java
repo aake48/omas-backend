@@ -2,6 +2,7 @@ package com.omas.webapp.entity.requests;
 
 import com.omas.webapp.table.TeamMemberId;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FileDownloadRequest {
 
-    @NotEmpty(message = "userId cannot be empty")
+    @NotNull(message = "userId cannot be empty")
     private Long userId;
 
     @NotEmpty(message = "competitionId cannot be empty")
@@ -20,7 +21,7 @@ public class FileDownloadRequest {
     @NotEmpty(message = "teamName cannot be empty")
     private String teamName;
 
-    private String fileName;
+    private String fileName = null;
 
     public TeamMemberId getTeamMemberId() {
         return new TeamMemberId(userId, competitionId, teamName);

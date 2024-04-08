@@ -9,6 +9,7 @@ import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.ImageProof;
 import com.omas.webapp.table.TeamMemberId;
 import com.omas.webapp.table.TeamMemberScore;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,12 +18,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.FileAlreadyExistsException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import org.springframework.validation.FieldError;
 
 @RestController
 @RequestMapping("/api/file")
@@ -40,9 +44,8 @@ public class FileController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/upload")
     public ResponseEntity<?> uploadFiles(
-        @RequestParam("competitionId") String competitionId,
-        @RequestParam("file") MultipartFile file
-    ) {
+            @RequestParam("competitionId") String competitionId,
+            @RequestParam("file") MultipartFile file) {
 
         Long userId = UserInfoDetails.getDetails().getId();
         TeamMemberScore score = this.scoreService.getUsersScore(userId, competitionId);
@@ -52,13 +55,17 @@ public class FileController {
         }
 
         try {
-            // This naming may be confusing but the idea is that here the server is downloading the image uploaded by the user
+            // This naming may be confusing but the idea is that here the server is
+            // downloading the image uploaded by the user
             this.fileService.receiveAndWriteFileFully(score.getTeamMemberId(), file);
+
         } catch (FileAlreadyExistsException ex) {
-            return new MessageResponse("Could not upload an image with that file name: The file already exists.", HttpStatus.BAD_REQUEST);
+            return new MessageResponse("Could not upload an image with that file name: The file already exists.",
+                    HttpStatus.BAD_REQUEST);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return new MessageResponse("Something went wrong with uploading the image: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+            return new MessageResponse("Something went wrong with uploading the image: " + ex.getMessage(),
+                    HttpStatus.BAD_REQUEST);
         }
 
         return new MessageResponse("File uploaded successfully", HttpStatus.OK);
@@ -66,7 +73,7 @@ public class FileController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/download")
-    public ResponseEntity<?> downloadFile(@RequestBody FileDownloadRequest request) {
+    public ResponseEntity<?> downloadFile(@RequestBody @Valid FileDownloadRequest request) {
 
         final TeamMemberId id = request.getTeamMemberId();
 
@@ -74,7 +81,7 @@ public class FileController {
             return new MessageResponse("That team member does not exist", HttpStatus.BAD_REQUEST);
         }
 
-        if (!this.fileService.hasFilesPostedByTeamMember(id)) {
+        if (this.fileService.hasFilesPostedByTeamMember(id)) {
             return new MessageResponse("That team member has not posted any files", HttpStatus.BAD_REQUEST);
         }
 
@@ -121,10 +128,16 @@ public class FileController {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public String handleValidationExceptions(HttpRequestMethodNotSupportedException ex) {
-        ex.printStackTrace();
-        return ex.getMessage();
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 
 }
