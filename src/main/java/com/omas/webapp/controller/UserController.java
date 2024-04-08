@@ -19,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.validation.FieldError;
@@ -114,11 +115,12 @@ public class UserController {
     public ResponseEntity<?> authenticateAndGetToken(@Valid @RequestBody AuthRequest authRequest) {
         try {
             //authenticate throws an exception if it fails to authenticate user
-            authenticationManager.authenticate(
+            Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+                    UserInfoDetails userInfo = (UserInfoDetails) authentication.getPrincipal();
 
 
-            String token = jwtService.generateToken(authRequest.getUsername());
+            String token = jwtService.generateToken(authRequest.getUsername(), userInfo.getId());
             UserInfoDetails userDetails = service.loadUserByUsername(authRequest.getUsername());
 
             Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();

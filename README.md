@@ -115,6 +115,7 @@ MAIL-USERNAME= //johan.liebert@gmail.com; for example
 MAIL-PASSWORD= //password1; for example
 MAIL-PORT=587
 RecoveryPage= // url for the frontend's recovery page. for example: https://localhost:3000/recovery
+DURATIONOFVALIDTY=28800000
 ```
 ## 3rd run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>

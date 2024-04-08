@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.omas.webapp.service.JwtService;
+import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.service.UserService;
 
 import java.io.IOException; 
@@ -24,7 +25,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	private JwtService jwtService; 
 
 	@Autowired
-	private UserService userDetailsService; 
+	private UserService userService; 
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -38,9 +39,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		} 
 
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) { 
-			UserDetails userDetails = userDetailsService.loadUserByUsername(username); 
-			if (jwtService.validateToken(token, userDetails)) { 
-				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); 
+			UserInfoDetails userInfoDetails = userService.loadUserByUsername(username); 
+			if (jwtService.validateToken(token, userInfoDetails)) { 
+				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userInfoDetails, null, userInfoDetails.getAuthorities()); 
 				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)); 
 				SecurityContextHolder.getContext().setAuthentication(authToken); 
 			} 
