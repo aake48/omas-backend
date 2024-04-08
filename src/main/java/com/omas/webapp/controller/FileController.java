@@ -74,7 +74,7 @@ public class FileController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/download")
-    public ResponseEntity<?> downloadFile(@RequestBody FileRequest request) {
+    public ResponseEntity<?> downloadFile(@RequestBody @Valid FileRequest request) {
 
         final TeamMemberId id = request.getTeamMemberId();
 
