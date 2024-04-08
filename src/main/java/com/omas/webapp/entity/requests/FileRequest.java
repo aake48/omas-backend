@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FileDownloadRequest {
+public class FileRequest {
 
     @NotNull(message = "userId cannot be empty")
     private Long userId;

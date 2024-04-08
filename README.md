@@ -685,7 +685,7 @@ Requires competitionId field and file field for the image. Currently only accept
 
 ### download image
 ```
-GET api/file/download/
+POST api/file/download/
 Authorization: required
 Content-Type: application/json
 {
@@ -697,6 +697,20 @@ Content-Type: application/json
 ```
 Returns files in multipart/form-data format with the image name as the name and the image bytes as the value.
 If filename is null, all images associated with the TeamMemberId will be returned.
+
+### delete image
+```
+POST api/file/delete/
+Authorization: required,
+Content-Type: application/json
+{
+  "userId": number,
+  "competitiondId": string,
+  "teamName": string,
+  "fileName": string
+}
+```
+Deletes a file by the given id. The fileName must be provided.
 
 # Types 
 ## CompetitionResponse
