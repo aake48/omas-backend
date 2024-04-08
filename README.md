@@ -685,7 +685,7 @@ Requires competitionId field and file field for the image. Currently only accept
 
 ### download image
 ```
-GET api/file/download/
+POST api/file/download/
 Authorization: required
 Content-Type: application/json
 {
