@@ -2,6 +2,7 @@ package com.omas.webapp.service;
 
 import com.omas.webapp.repository.FileRepository;
 import com.omas.webapp.table.ImageProof;
+import com.omas.webapp.table.ImageProofId;
 import com.omas.webapp.table.TeamMemberId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -78,6 +79,14 @@ public class FileService {
     @Transactional
     public boolean hasFilesPostedByTeamMember(TeamMemberId id) {
         return this.fileRepository.findByTeamMemberId(id).isEmpty();
+    }
+
+    /**
+     * Delete a file by its id
+     * @param id the id of the file to delete
+     */
+    public void deleteFileById(ImageProofId id) {
+        this.fileRepository.deleteById(id);
     }
 
 }

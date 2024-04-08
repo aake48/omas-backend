@@ -1,12 +1,13 @@
 package com.omas.webapp.controller;
 
-import com.omas.webapp.entity.requests.FileDownloadRequest;
+import com.omas.webapp.entity.requests.FileRequest;
 import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.FileService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
 import com.omas.webapp.service.UserInfoDetails;
 import com.omas.webapp.table.ImageProof;
+import com.omas.webapp.table.ImageProofId;
 import com.omas.webapp.table.TeamMemberId;
 import com.omas.webapp.table.TeamMemberScore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class FileController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/download")
-    public ResponseEntity<?> downloadFile(@RequestBody FileDownloadRequest request) {
+    public ResponseEntity<?> downloadFile(@RequestBody FileRequest request) {
 
         final TeamMemberId id = request.getTeamMemberId();
 
@@ -112,6 +113,31 @@ public class FileController {
             return new ResponseEntity<>(form, headers, HttpStatus.OK);
         }
 
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteFile(@RequestBody FileRequest request) {
+
+        final TeamMemberId id = request.getTeamMemberId();
+
+        if (!this.teamService.thisUserIsTeamMember(id)) {
+            return new MessageResponse("That team member does not exist", HttpStatus.BAD_REQUEST);
+        }
+
+        if (!this.fileService.hasFilesPostedByTeamMember(id)) {
+            return new MessageResponse("That team member has not posted any files", HttpStatus.BAD_REQUEST);
+        }
+
+        final String fileName = request.getFileName();
+
+        if (fileName == null) {
+            return new MessageResponse("You must provide a file name", HttpStatus.BAD_REQUEST);
+        }
+
+        this.fileService.deleteFileById(new ImageProofId(id, fileName));
+
+        return new MessageResponse("File deleted", HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
