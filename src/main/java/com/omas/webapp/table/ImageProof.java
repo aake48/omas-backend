@@ -5,12 +5,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UuidGenerator;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-
 import java.sql.Date;
-import java.util.UUID;
 
 @Entity
 @Table

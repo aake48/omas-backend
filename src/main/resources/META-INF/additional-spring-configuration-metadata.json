@@ -2,11 +2,16 @@
   {
     "name": "jwt.secret",
     "type": "java.lang.String",
-    "description": "key for jwtService'"
+    "description": "The secret key used for signing jwt authentication tokens"
   },
   {
     "name": "frontend.RecoveryPage",
     "type": "java.lang.String",
-    "description": "URL for passwordRecovery page in URL, that will be linked to recovery email"
+    "description": "A variable storing the URL of the password recovery page. This URL is included in the recovery email and allows users to reset their passwords"
+  },
+  {
+    "name": "jwt.durationOfValidity",
+    "type": "java.lang.String",
+    "description": "Long, millis, a variable representing the duration, in milliseconds, for which JWT tokens remain valid"
   }
 ]}
