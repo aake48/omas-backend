@@ -82,7 +82,7 @@ public class FileController {
             return new MessageResponse("That team member does not exist", HttpStatus.BAD_REQUEST);
         }
 
-        if (this.fileService.hasFilesPostedByTeamMember(id)) {
+        if (this.fileService.hasNoFilesPostedByTeamMember(id)) {
             return new MessageResponse("That team member has not posted any files", HttpStatus.BAD_REQUEST);
         }
 
@@ -132,7 +132,7 @@ public class FileController {
             return new MessageResponse("That team member does not exist", HttpStatus.BAD_REQUEST);
         }
 
-        if (!this.fileService.hasFilesPostedByTeamMember(id)) {
+        if (this.fileService.hasNoFilesPostedByTeamMember(id)) {
             return new MessageResponse("That team member has not posted any files", HttpStatus.BAD_REQUEST);
         }
 

@@ -77,7 +77,7 @@ public class FileService {
     }
 
     @Transactional
-    public boolean hasFilesPostedByTeamMember(TeamMemberId id) {
+    public boolean hasNoFilesPostedByTeamMember(TeamMemberId id) {
         return this.fileRepository.findByTeamMemberId(id).isEmpty();
     }
 
