@@ -124,7 +124,7 @@ public class FileController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/delete")
-    public ResponseEntity<?> deleteFile(@RequestBody FileRequest request) {
+    public ResponseEntity<?> deleteFile(@RequestBody @Valid FileRequest request) {
 
         final TeamMemberId id = request.getTeamMemberId();
 
