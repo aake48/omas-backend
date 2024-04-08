@@ -5,7 +5,6 @@ import com.omas.webapp.repository.PasswordResetTokenRepository;
 import com.omas.webapp.repository.UserRepository;
 import com.omas.webapp.table.PasswordResetToken;
 import com.omas.webapp.table.User;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +18,6 @@ import java.util.Optional;
 import java.util.List;
 
 @Service
-@Log4j2
 public class UserService implements UserDetailsService {
 
     @Autowired

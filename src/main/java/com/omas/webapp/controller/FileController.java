@@ -10,26 +10,18 @@ import com.omas.webapp.table.ImageProof;
 import com.omas.webapp.table.ImageProofId;
 import com.omas.webapp.table.TeamMemberId;
 import com.omas.webapp.table.TeamMemberScore;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.nio.file.FileAlreadyExistsException;
-import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Optional;
-import org.springframework.validation.FieldError;
 
 @RestController
 @RequestMapping("/api/file")
