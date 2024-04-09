@@ -123,27 +123,43 @@ public class TestDataForFrontend implements CommandLineRunner {
                 "ampumataito");
 
         List<User> users = new ArrayList<>();
-        for (int i = 0; i < clubList.size(); i++) {
-            users.addAll((saveUserToDB(getXStrings(5), clubList.get(i))));
+
+        for (String clubName : clubList) {
+
+            int memberCount = ThreadLocalRandom.current().nextInt(3, 6);
+
+            Club club = new Club(clubName, clubName, 0);
+            clubRepository.save(club);
+
+            users.addAll(generateUsersForClub(memberCount, clubName));
         }
 
-        List<Competition> rifleComps = saveCompetitions(rifleCompetitionList,
-                rifleCompetitionTypeName);
-        List<Competition> pistolComps = saveCompetitions(pistolCompetitionList,
-                pistolCompetitionTypeName);
+        userRepository.saveAll(users);
+
+        List<Competition> rifleComps = saveCompetitions(rifleCompetitionList, rifleCompetitionTypeName);
+        List<Competition> pistolComps = saveCompetitions(pistolCompetitionList, pistolCompetitionTypeName);
+
         saveTeamsToComps(rifleComps, clubList);
         saveTeamsToComps(pistolComps, clubList);
+
         addMemberWithScores(users, pistolComps, pistolCompetitionTypeName);
         addMemberWithScores(users, rifleComps, rifleCompetitionTypeName);
 
     }
 
-    private List<String> generateXUsers(int x) {
+    private List<User> generateUsersForClub(int x, String clubName) {
 
-        List<String> users = new ArrayList<>(x);
+        List<User> users = new ArrayList<>(x);
 
         for (int i = 0; i < x; i++) {
-            users.add(generateRandomName());
+
+            User user = new User();
+
+            user.setUsername(generateRandomString(10));
+            user.setLegalName(generateRandomName());
+            user.setPartOfClub(clubName);
+
+            users.add(user);
         }
 
         return users;
@@ -181,17 +197,15 @@ public class TestDataForFrontend implements CommandLineRunner {
         return sb.toString();
     }
 
-    private static List<Double> give60shots() {
-        Random rand = new Random();
-        List<Double> shots = new ArrayList<>();
+    public static double give60shots() {
+
+        double sum = 0.0;
 
         for (int i = 0; i < 60; i++) {
-            double shot = rand.nextDouble() * 10.9;
-            shot = Math.round(shot * 10.0) / 10.0;
-            shots.add(shot);
+            sum += ThreadLocalRandom.current().nextDouble() * 10.9;
         }
-        return shots;
 
+        return sum;
     }
 
     /**
@@ -261,7 +275,8 @@ public class TestDataForFrontend implements CommandLineRunner {
                 teamMember = teamMemberRepository.save(teamMember);
                 log.info(" club: " + user.getPartOfClub());
 
-                TeamMemberScore teamMemberScore = new TeamMemberScore(new TeamMemberId(user.getId(), comp.getCompetitionId(), user.getPartOfClub()), give60shots(), compType);
+                TeamMemberId teamMemberId = new TeamMemberId(user.getId(), comp.getCompetitionId(), user.getPartOfClub());
+                TeamMemberScore teamMemberScore = new TeamMemberScore(teamMemberId, give60shots(), 10);
 
                 TeamMemberScore score = teamMemberScoreRepository.save(teamMemberScore);
                 log.info(" userId: " + score.getUserId());
