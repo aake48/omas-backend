@@ -54,10 +54,15 @@ public class TeamMemberController {
     @PostMapping("/add")
     public ResponseEntity<?> addUserToTeam(@Valid @RequestBody TeamMemberJoinRequest request) {
 
-        UserInfoDetails userDetails = UserInfoDetails.getDetails();
+        Long userId = UserInfoDetails.getDetails().getId();
 
-        if (!teamsService.canUserJoinTeamInCompetition(userDetails.getId(), request.getCompetitionName())) {
+        if (teamsService.isUserParticipatingInThisCompetition(userId, request.getCompetitionName())) {
             return new MessageResponse("You are already in a team in this competition.", HttpStatus.BAD_REQUEST);
+        }
+
+        if(teamsService.isThisTeamFull(request.getCompetitionName(), request.getTeamName())){
+            return new MessageResponse("The team is full.", HttpStatus.BAD_REQUEST);
+
         }
 
         Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
@@ -73,7 +78,7 @@ public class TeamMemberController {
         }
 
         try {
-            TeamMember savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userDetails.getId(), request.getCompetitionName(), request.getTeamName()));
+            TeamMember savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userId, request.getCompetitionName(), request.getTeamName()));
             return new ResponseEntity<>(savedTeamMember, HttpStatus.OK);
 
         } catch (Exception e) {

@@ -44,8 +44,8 @@ public class TeamService {
      * by checking if the user is already in a team in the given competition
      * @return true if the user can join a team, false if not
      */
-    public boolean canUserJoinTeamInCompetition(Long userId, String competitionId) {
-        return getUserTeam(userId, competitionId).isEmpty();
+    public boolean isUserParticipatingInThisCompetition(Long userId, String competitionId) {
+        return !getUserTeam(userId, competitionId).isEmpty();
     }
 
     /**
@@ -202,5 +202,13 @@ public class TeamService {
 
     public Page<Team> findThisClubsTeamsWhichAreInActiveCompetitions(int page, int size, String club) {
         return teamRepository.findThisClubsTeamsWhichAreInActiveCompetitions(PageRequest.of(page, size), club, new java.sql.Date(System.currentTimeMillis()));
+    }
+
+    public boolean isThisTeamFull(String competitionName, String teamName) {
+        Optional<List<TeamMember>> optional = teamMemberRepository.findByTeamId(new TeamId(competitionName, teamName));
+        if(optional.isPresent()){
+            return optional.get().size()>=5;
+        }
+        return false;
     }
 }
