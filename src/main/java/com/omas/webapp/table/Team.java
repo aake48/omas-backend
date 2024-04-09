@@ -20,7 +20,7 @@ public class Team {
     @Column(nullable = false)
     private @Getter @Id String competitionId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private @Getter @Id String teamName;
 
     @Getter
