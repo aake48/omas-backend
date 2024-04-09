@@ -2,15 +2,7 @@ package com.omas.webapp.controllerTests;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import com.omas.webapp.Constants;
-import com.omas.webapp.Json;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -126,24 +118,25 @@ public class TeamMemberControllerTests {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.competitionId").value(competitionNameId));
 
-        List<Double> shots = TestUtils.give60shots();
-        ObjectMapper mapper = new ObjectMapper();
-        String postScoreJson = mapper.writeValueAsString(Map.of(
-            "competitionName", competitionNameId,
-            "teamName", teamName,
-            "scoreList", shots));
+        double score = TestUtils.give60shots();
+
+        String postScoreJson = new JSONObject()
+            .put("competitionName", competitionNameId)
+            .put("teamName", teamName)
+            .put("score", score)
+            .put("bullsEyeCount", 10)
+            .toString();
 
         // Post user score
-        mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
+        mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add/sum")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
                 .content(postScoreJson))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.sum").isNotEmpty());
+            .andExpect(jsonPath("$.sum").isNotEmpty())
+            .andExpect(jsonPath("$.bullsEyeCount").isNotEmpty());
 
         // getUserScore
-
-
         mockMvc.perform(MockMvcRequestBuilders.get(ScoreUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
@@ -173,100 +166,22 @@ public class TeamMemberControllerTests {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.competitionId").value(competitionNameId));
 
-        List<Double> shots = TestUtils.give60shots();
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(Map.of(
-            "competitionName", competitionNameId,
-            "teamName", teamName,
-            "scoreList", shots));
+        double score = TestUtils.give60shots();
+
+        String json = new JSONObject()
+            .put("competitionName", competitionNameId)
+            .put("teamName", teamName)
+            .put("score", score)
+            .put("bullsEyeCount", 10)
+            .toString();
 
         // Post user score
-        mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
+        mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add/sum")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + userToken)
                 .content(json))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.sum").isNotEmpty());
-    }
-
-    @Test
-    public void setTeamMemberScore() throws Exception {
-
-        TestUtils.joinTeam(mockMvc, competitionNameId, teamName, userToken);
-
-        // First add scores normally
-        TestUtils.addScores(mockMvc, competitionNameId, teamName, userToken);
-
-        // Then set the scores and see if they changed
-        List<Double> newShots = List.of(10.21, 9.126, 2.312);
-
-        String json = Json.tree(
-            "competitionName", competitionNameId,
-            "teamName", teamName,
-            "requestType", Constants.ADD_METHOD_SET,
-            "scoreList", newShots
-        ).toString();
-
-        String correctShotString = Json.stringify(newShots);
-
-        // Post the score
-        String response = mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + userToken)
-                .content(json))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("scorePerShot").value(correctShotString))
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
-
-        System.out.println(response);
-    }
-
-    @Test
-    public void appendTeamMemberScore() throws Exception {
-
-        TestUtils.joinTeam(mockMvc, competitionNameId, teamName, userToken);
-
-        List<Double> shotsToSet = List.of(10.21, 9.126, 2.312);
-
-        // First set some scores
-        String setJson = Json.tree(
-            "competitionName", competitionNameId,
-            "teamName", teamName,
-            "requestType", Constants.ADD_METHOD_SET,
-            "scoreList", shotsToSet
-        ).toString();
-
-        mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + userToken)
-                .content(setJson))
-            .andExpect(status().isOk());
-
-        List<Double> shotsToAppend = List.of(9.99, 1.2, 6.362);
-
-        // Then append some scores
-        String appendJson = Json.tree(
-            "competitionName", competitionNameId,
-            "teamName", teamName,
-            "requestType", Constants.ADD_METHOD_UPDATE,
-            "scoreList", shotsToAppend
-        ).toString();
-
-        List<Double> correctList = new ArrayList<>(shotsToSet);
-        correctList.addAll(shotsToAppend);
-
-        // Round the numbers like the score adding code does
-        // In this case the competition is a rifle competition
-        correctList = correctList.stream().map(score -> Math.floor(score * 10.0) / 10.0).collect(Collectors.toList());
-
-        mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + userToken)
-                .content(appendJson))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("scorePerShot").value(Json.stringify(correctList)));
     }
 
     @Test
@@ -427,6 +342,7 @@ public class TeamMemberControllerTests {
             .put("competitionName", competitionNameId)
             .put("teamName", teamName)
             .toString();
+
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + userToken)
@@ -434,34 +350,15 @@ public class TeamMemberControllerTests {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.competitionId").value(competitionNameId));
 
-        List<Double> shots = new ArrayList<>();
-        shots.add(11d);
-
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(Map.of(
-            "competitionName", competitionNameId,
-            "scoreList", shots));
+        String json = new JSONObject()
+            .put("competitionName", competitionNameId)
+            .put("teamName", teamName)
+            .put("score", 700D)
+            .put("bullsEyeCount", 100D)
+            .toString();
 
         // Post user score
-        mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + userToken)
-                .content(json))
-            .andExpect(status().isBadRequest());
-    }
-
-
-    @Test
-    public void PostScoresToNonExistentCompetition() throws Exception {
-
-
-        List<Double> shots = TestUtils.give60shots();
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(Map.of(
-            "competitionName", "no",
-            "scoreList", shots));
-
-        mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add")
+        mockMvc.perform(MockMvcRequestBuilders.post(ScoreUrl + "/add/sum")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + userToken)
                 .content(json))

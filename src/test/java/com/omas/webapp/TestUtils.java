@@ -4,7 +4,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -12,8 +11,6 @@ import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -184,27 +181,29 @@ public class TestUtils {
             .getResponse().getContentAsString();
     }
 
-    public static List<Double> give60shots() {
-        Random rand = new Random();
-        List<Double> shots = new ArrayList<>();
+    public static double give60shots() {
+
+        double sum = 0.0;
 
         for (int i = 0; i < 60; i++) {
-            shots.add(rand.nextDouble() * 10.9);
+            sum += ThreadLocalRandom.current().nextDouble() * 10.9;
         }
-        return shots;
 
+        return sum;
     }
 
     public static String addScores(MockMvc mockMvc, String competitionName, String teamName, String userToken) throws Exception {
 
-        final String url = "/api/competition/team/member/score/add";
+        final String url = "/api/competition/team/member/score/add/sum";
 
-        List<Double> shots = give60shots();
-        ObjectMapper mapper = new ObjectMapper();
-        String postScoreJson = mapper.writeValueAsString(Map.of(
-            "competitionName", competitionName,
-            "teamName", teamName,
-            "scoreList", shots));
+        double score = give60shots();
+
+        String postScoreJson = new JSONObject()
+            .put("competitionName", competitionName)
+            .put("teamName", teamName)
+            .put("score", score)
+            .put("bullsEyeCount", 10)
+            .toString();
 
         return mockMvc.perform(MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.APPLICATION_JSON)

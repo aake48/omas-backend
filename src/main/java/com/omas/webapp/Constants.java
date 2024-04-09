@@ -15,6 +15,9 @@ public final class Constants {
     public static final String ADD_METHOD_SET = "set";
     public static final String ADD_METHOD_UPDATE = "update";
 
+    public static final double MAX_SCORE = 654;
+    public static final int MAX_BULLS_EYES = 60;
+
     public static String createIdString(String name) {
 
         String idString = name

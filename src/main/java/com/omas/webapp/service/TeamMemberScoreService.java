@@ -1,6 +1,5 @@
 package com.omas.webapp.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.omas.webapp.Constants;
 import com.omas.webapp.repository.TeamMemberScoreRepository;
 import com.omas.webapp.table.TeamId;
@@ -17,42 +16,6 @@ public class TeamMemberScoreService {
 
     @Autowired
     private TeamMemberScoreRepository teamMemberScoreRepository;
-
-    /**
-     * Set the team member's scores. This will replace any old scores.
-     * @param teamMemberId the {@link TeamMemberId} for whom these scores are being set.
-     * @param scores the new scores
-     * @param competitionType the competition type
-     * @return the saved {@link TeamMemberScore}
-     * @throws JsonProcessingException if converting the score list into a string fails for some reason
-     */
-    public TeamMemberScore setScore(TeamMemberId teamMemberId, List<Double> scores, String competitionType) throws JsonProcessingException {
-        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, scores, competitionType));
-    }
-
-    /**
-     * Add a score with the provided competition type
-     * @param teamMemberId the {@link TeamMemberId} of the team member for whom these scores are being added
-     * @param newScores the new scores
-     * @param competitionType the competition type
-     * @return the saved {@link TeamMemberScore}
-     */
-    public TeamMemberScore addScore(TeamMemberId teamMemberId, List<Double> newScores, String competitionType) throws JsonProcessingException {
-
-        Optional<TeamMemberScore> oldScore = teamMemberScoreRepository.findById(teamMemberId);
-
-        // If there are no scores, just set them
-        if (oldScore.isEmpty()) {
-            return setScore(teamMemberId, newScores, competitionType);
-        }
-
-        // If there are scores the scorePerShot variable needs to be updated
-        TeamMemberScore score = oldScore.get();
-
-        score.appendScores(newScores, competitionType);
-
-        return teamMemberScoreRepository.save(score);
-    }
 
     /**
      * Delete the given team member's score entry
@@ -85,7 +48,16 @@ public class TeamMemberScoreService {
      * Adds the scores and bullseyes directly
      * @return the saved {@link TeamMemberScore}
      */
-    public TeamMemberScore setSum(TeamMemberId teamMemberId, int bullsEyeCount, double score) {
+    public TeamMemberScore setSum(TeamMemberId teamMemberId, int bullsEyeCount, double score) throws IllegalArgumentException {
+
+        if (score > Constants.MAX_SCORE) {
+            throw new IllegalArgumentException("Score exceeds maximum score");
+        }
+
+        if (bullsEyeCount > Constants.MAX_BULLS_EYES) {
+            throw new IllegalArgumentException("Bulls eye count exceeds maximum bulls eye count");
+        }
+
         return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, score, bullsEyeCount));
     }
 
@@ -93,7 +65,7 @@ public class TeamMemberScoreService {
      * Updates the scores and bullseyes directly
      * @return the saved {@link TeamMemberScore}
      */
-    public TeamMemberScore addSum(TeamMemberId teamMemberId, int bullsEyeCount, double score) {
+    public TeamMemberScore addSum(TeamMemberId teamMemberId, int bullsEyeCount, double score) throws IllegalArgumentException {
 
         Optional<TeamMemberScore> optional = teamMemberScoreRepository.findById(teamMemberId);
 
@@ -107,6 +79,14 @@ public class TeamMemberScoreService {
         int newBullsEyeCount = teamMemberScore.getBullsEyeCount() + bullsEyeCount;
         double newScore = teamMemberScore.getSum() + score;
 
+        if (newScore > Constants.MAX_SCORE) {
+            throw new IllegalArgumentException("New score exceeds maximum score");
+        }
+
+        if (newBullsEyeCount > Constants.MAX_BULLS_EYES) {
+            throw new IllegalArgumentException("New bulls eye count exceeds maximum bulls eye count");
+        }
+
         return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, newScore, newBullsEyeCount));
     }
 
@@ -116,7 +96,7 @@ public class TeamMemberScoreService {
      * <br>{@link Constants#ADD_METHOD_UPDATE} will attempt to add to the existing score or set it if it does not exist yet
      * @return the modified or set {@link TeamMemberScore}
      */
-    public TeamMemberScore modifyScoreSum(TeamMemberId teamMemberId, int bullsEyeCount, double score, String addMethod) {
+    public TeamMemberScore modifyScoreSum(TeamMemberId teamMemberId, int bullsEyeCount, double score, String addMethod) throws IllegalArgumentException {
 
         switch (addMethod) {
             case Constants.ADD_METHOD_SET -> {

@@ -1,6 +1,7 @@
 package com.omas.webapp.entity.requests;
 
 import com.omas.webapp.Constants;
+import com.omas.webapp.entity.validators.scoreValidator.ValidScore;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor; 
@@ -24,12 +25,13 @@ public class AdminAddScoreRequest {
     @NotNull(message = "userId cannot be Null")
 	private long userId;
 
+	@ValidScore
     @NotNull(message = "score cannot be empty")
-	private double score;
+	private Double score;
 
 	private String requestType = Constants.ADD_METHOD_SET;
 
     @NotNull(message = "bullsEyeCount cannot be empty")
-	private int bullsEyeCount; 
+	private Integer bullsEyeCount;
 
 }

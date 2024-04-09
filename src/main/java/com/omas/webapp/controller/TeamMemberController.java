@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import com.omas.webapp.Constants;
 import com.omas.webapp.entity.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.omas.webapp.entity.requests.AddTeamMemberScoreAsSumRequest;
-import com.omas.webapp.entity.requests.AddTeamMemberScoreRequest;
 import com.omas.webapp.entity.requests.TeamMemberJoinRequest;
 import com.omas.webapp.entity.requests.TeamMemberScoreRequest;
 import com.omas.webapp.entity.requests.AdminAddScoreRequest;
@@ -60,9 +58,8 @@ public class TeamMemberController {
             return new MessageResponse("You are already in a team in this competition.", HttpStatus.BAD_REQUEST);
         }
 
-        if(teamsService.isThisTeamFull(request.getCompetitionName(), request.getTeamName())){
+        if (teamsService.isThisTeamFull(request.getCompetitionName(), request.getTeamName())){
             return new MessageResponse("The team is full.", HttpStatus.BAD_REQUEST);
-
         }
 
         Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
@@ -111,47 +108,6 @@ public class TeamMemberController {
         return new MessageResponse("No score found", HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PostMapping("/score/add")
-    public ResponseEntity<?> addScores(@Valid @RequestBody AddTeamMemberScoreRequest request) {
-
-        Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
-
-        if (competitionOptional.isEmpty()) {
-            return new MessageResponse("The requested competition does not exist", HttpStatus.BAD_REQUEST);
-        }
-
-        Competition competition = competitionOptional.get();
-
-        if (!competition.isActive()) {
-            return new MessageResponse("The requested competition is not active.", HttpStatus.BAD_REQUEST);
-        }
-
-        try {
-
-            // Figure out which TeamMemberId to add the scores for
-            TeamMemberId teamMemberId = teamsService.resolveTeamMemberId(request.getUserId(), request.getCompetitionName(), request.getTeamName());
-
-            TeamMemberScore score;
-
-            switch (request.getRequestType().toLowerCase()) {
-                case Constants.ADD_METHOD_SET -> {
-                    score = teamMemberScoreService.setScore(teamMemberId, request.getScoreList(), competition.getType());
-                }
-                case Constants.ADD_METHOD_UPDATE -> {
-                    score = teamMemberScoreService.addScore(teamMemberId, request.getScoreList(), competition.getType());
-                }
-                default -> {
-                    throw new IllegalArgumentException("Invalid request type");
-                }
-            }
-
-            return new ResponseEntity<>(score, HttpStatus.OK);
-        } catch (Exception e) {
-            return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
     /**
      * As admin of the team's club, Adds the sum of scores for a team member.
      * Uses teamService.isAdminInClub() to validate that the user has privileges to administer teams of this club
@@ -193,19 +149,9 @@ public class TeamMemberController {
                     request.getCompetitionName(),
                     request.getTeamName());
 
-            TeamMemberScore score;
-
-            switch (request.getRequestType()) {
-                case Constants.ADD_METHOD_SET -> {
-                    score = teamMemberScoreService.setSum(teamMemberId, request.getBullsEyeCount(), request.getScore());
-                }
-                case Constants.ADD_METHOD_UPDATE -> {
-                    score = teamMemberScoreService.addSum(teamMemberId, request.getBullsEyeCount(), request.getScore());
-                }
-                default -> {
-                    throw new IllegalArgumentException("Invalid request type");
-                }
-            }
+            TeamMemberScore score = teamMemberScoreService.modifyScoreSum(
+                teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType()
+            );
 
             return new ResponseEntity<>(score, HttpStatus.OK);
 

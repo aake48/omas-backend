@@ -14,7 +14,6 @@ public class TeamMemberScoreResponse implements Comparable<TeamMemberScoreRespon
     double sum;
     long userId;
     String name;
-    String scorePerShot;
     String creationDate;
 
     public TeamMemberScoreResponse(TeamMemberScore score, String name) {
@@ -22,7 +21,6 @@ public class TeamMemberScoreResponse implements Comparable<TeamMemberScoreRespon
         this.sum = score.getSum();
         this.userId = score.getUserId();
         this.name = name;
-        this.scorePerShot = score.getScorePerShot();
         this.creationDate = score.getCreationDate().toString();
     }
 
