@@ -42,6 +42,7 @@
       - [Get competition by Id](#get-competition-by-id)
       - [Get all competitions](#get-all-competitions)
       - [Search for competitions with pagination](#search-for-competitions-with-pagination)
+      - [get competition by year](#get-competition-by-year)
       - [query active competitions](#query-active-competitions)
       - [query inactive competitions](#query-inactive-competitions)
       - [query upcoming competitions](#query-upcoming-competitions)
@@ -474,6 +475,10 @@ Note the following:
 
 ```
 GET https://localhost:8080/api/competition/query?search=${search}&page=${page}&size=${size}
+```
+### get competition by year
+```
+GET https://localhost:8080/api/competition/query?year=${year:number}&page=${page}&size=${size}
 ```
 ### query active competitions
 ```
