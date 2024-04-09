@@ -1,5 +1,6 @@
 package com.omas.webapp.controller;
 
+import com.omas.webapp.Util;
 import com.omas.webapp.entity.requests.AddTeamRequest;
 import com.omas.webapp.entity.requests.CompetitionNameRequest;
 import com.omas.webapp.entity.requests.TeamScoreRequest;
@@ -51,6 +52,17 @@ public class TeamController {
             return new MessageResponse("User creating a team needs to be in a club", HttpStatus.BAD_REQUEST);
         }
 
+        String teamDisplayName = request.getTeamName();
+        String teamName = Util.sanitizeName(teamDisplayName);
+
+        if (teamName == null) {
+            return new MessageResponse("Team name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$", HttpStatus.BAD_REQUEST);
+        }
+
+        if (teamService.teamExists(request.getCompetitionName(), teamName)) {
+            return new MessageResponse("A team with that name already exists.", HttpStatus.BAD_REQUEST);
+        }
+
         Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
 
         // Handles prior thisCompetitionExists check
@@ -62,24 +74,6 @@ public class TeamController {
 
         if (!competition.isActive()) {
             return new MessageResponse("The requested competition is not active.", HttpStatus.BAD_REQUEST);
-        }
-
-        // This section of the code performs two operations on the 'Id', teamName:
-        // 1. It removes whitespaces and characters 'ä', 'ö', 'å' from the 'Id'.
-        // 2. It stores the original, unaltered version of 'Id' into 'nameNonId'.
-        // If 'Id' still contains unsafe characters after these alterations, the code
-        // returns a 400 status.
-        String teamDisplayName = request.getTeamName();
-        String teamName = request.getTeamName()
-                .replace('ä', 'a').replace('Ä', 'A')
-                .replace('ö', 'o').replace('Ö', 'O')
-                .replace('å', 'a').replace('Å', 'A')
-                .replace(' ', '_');
-
-        String regex = "^[a-zA-Z0-9-_]+$";
-
-        if (!teamName.matches(regex)) {
-            return new MessageResponse("Team name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$", HttpStatus.BAD_REQUEST);
         }
         
         try {

@@ -67,6 +67,35 @@ public class TeamControllerTests {
     }
 
     @Test
+    void addTeamWithSameNameAgain() throws Exception {
+
+        String token = TestUtils.getToken(mockMvc, "johndoe");
+
+        TestUtils.addClub(mockMvc, clubName, token);
+        TestUtils.joinClub(mockMvc, clubName, token);
+        TestUtils.addRifleCompetition(mockMvc, competitionName, token);
+
+        String json = new JSONObject()
+            .put("teamName", teamNameId)
+            .put("competitionName", competitionNameId)
+            .toString();
+
+
+        mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .content(json))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.competitionId").value(competitionNameId));
+
+        mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token)
+                .content(json))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void queryTeamsByClub() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(queryTeamsByClubUrl))
             .andExpect(status().isOk())

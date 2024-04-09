@@ -40,6 +40,16 @@ public class TeamService {
     }
 
     /**
+     * Check if a team exists.
+     * @param competitionId the id of the competition
+     * @param teamName the sanitized team name
+     * @return true of the team exists, false if not
+     */
+    public boolean teamExists(String competitionId, String teamName) {
+        return teamRepository.existsById(new TeamId(competitionId, teamName));
+    }
+
+    /**
      * Check if the given user can join a team in the given competition
      * by checking if the user is already in a team in the given competition
      * @return true if the user can join a team, false if not
