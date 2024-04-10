@@ -14,7 +14,19 @@
 
 #Uncomment above if gradle build is needed.
 
+
 FROM openjdk:latest
+
+ENV DB-URL=jdbc:postgresql://localhost:5432/omas
+ENV DB-USERNAME=postgres
+ENV DB-PASSWORD=password
+ENV SECRET=48794134879942idontlikedogs1323572342328789
+ENV MAIL-HOST=smtp.gmail.com
+ENV MAIL-USERNAME=someexample@gmail.com
+ENV MAIL-PASSWORD=password1
+ENV MAIL-PORT=587
+ENV RecoveryPage=https://localhost:3000/recovery
+ENV DURATIONOFVALIDTY=28800000
 
 WORKDIR /app
 
