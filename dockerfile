@@ -12,7 +12,7 @@
 # Remove -x test if you want to run the tests
 #RUN gradle build -x test --no-daemon
 
-#Uncomment above if gradle build is needed
+#Uncomment above if gradle build is needed.
 
 FROM openjdk:latest
 
