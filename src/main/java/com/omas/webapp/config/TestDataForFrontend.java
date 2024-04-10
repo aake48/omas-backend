@@ -1,5 +1,6 @@
 package com.omas.webapp.config;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.omas.webapp.Constants;
 import com.omas.webapp.repository.*;
 import com.omas.webapp.service.*;
@@ -8,11 +9,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Log4j2
 @Component
@@ -54,11 +55,33 @@ public class TestDataForFrontend implements CommandLineRunner {
     @Autowired
     TeamMemberRepository teamMemberRepository;
 
+    // The 10 most common male names and 10 most common female names as of 1.4.2024
+    // additionally the names of people involved in this project
+    private final List<String> FINNISH_FIRST_NAMES = List.of(
+        "Juhani", "Johannes", "Olavi", "Antero",
+        "Tapani", "Kalevi", "Tapio", "Matti", "Mikael", "Ilmari",
+        "Maria", "Helena", "Johanna", "Anneli", "Kaarina",
+        "Marjatta", "Anna", "Liisa", "Sofia", "Annikki",
+        "Lauri", "Ville", "Ari", "Janne", "Lassi", "Antti",
+        "Markus", "Teemu", "Walter"
+    );
+
+    // The 10 most common Finnish last names as of 1.4.2024
+    // and the last names of people involved with this project
+    private final List<String> FINNISH_LAST_NAMES = List.of(
+        "Korhonen", "Virtanen", "Mäkinen",
+        "Nieminen", "Mäkelä", "Hämäläinen",
+        "Laine", "Heikkinen", "Koskinen",
+        "Järvinen", "Lehtinen", "Holappa",
+        "Komulainen", "Ollakka", "Juustila",
+        "Kumpulainen", "Kelanti", "Määttä"
+    );
+
     @Override
     public void run(String... args) throws Exception {
 
-        final String pistolCompetitionTypeName = Constants.pistolType;
-        final String rifleCompetitionTypeName = Constants.rifleType;
+        final String pistolCompetitionTypeName = Constants.PISTOL_TYPE;
+        final String rifleCompetitionTypeName = Constants.RIFLE_TYPE;
 
         List<String> rifleCompetitionList = Arrays.asList(
                 "kesan_ampujaiset",
@@ -100,19 +123,56 @@ public class TestDataForFrontend implements CommandLineRunner {
                 "ampumataito");
 
         List<User> users = new ArrayList<>();
-        for (int i = 0; i < clubList.size(); i++) {
-            users.addAll((saveUserToDB(getXStrings(5), clubList.get(i))));
+
+        for (String clubName : clubList) {
+
+            int memberCount = ThreadLocalRandom.current().nextInt(3, 6);
+
+            Club club = new Club(clubName, clubName, 0);
+            clubRepository.save(club);
+
+            users.addAll(generateUsersForClub(memberCount, clubName));
         }
 
-        List<Competition> rifleComps = saveCompetitions(rifleCompetitionList,
-                rifleCompetitionTypeName);
-        List<Competition> pistolComps = saveCompetitions(pistolCompetitionList,
-                pistolCompetitionTypeName);
+        userRepository.saveAll(users);
+
+        List<Competition> rifleComps = saveCompetitions(rifleCompetitionList, rifleCompetitionTypeName);
+        List<Competition> pistolComps = saveCompetitions(pistolCompetitionList, pistolCompetitionTypeName);
+
         saveTeamsToComps(rifleComps, clubList);
         saveTeamsToComps(pistolComps, clubList);
+
         addMemberWithScores(users, pistolComps, pistolCompetitionTypeName);
         addMemberWithScores(users, rifleComps, rifleCompetitionTypeName);
 
+    }
+
+    private List<User> generateUsersForClub(int x, String clubName) {
+
+        List<User> users = new ArrayList<>(x);
+
+        for (int i = 0; i < x; i++) {
+
+            User user = new User();
+
+            user.setUsername(generateRandomString(10));
+            user.setLegalName(generateRandomName());
+            user.setPartOfClub(clubName);
+
+            users.add(user);
+        }
+
+        return users;
+    }
+
+    private String generateRandomName() {
+
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+
+        String firstName = FINNISH_FIRST_NAMES.get(random.nextInt(FINNISH_LAST_NAMES.size()));
+        String lastName = FINNISH_LAST_NAMES.get(random.nextInt(FINNISH_LAST_NAMES.size()));
+
+        return firstName + " " + lastName;
     }
 
     private List<String> getXStrings(int x) {
@@ -137,17 +197,15 @@ public class TestDataForFrontend implements CommandLineRunner {
         return sb.toString();
     }
 
-    private static List<Double> give60shots() {
-        Random rand = new Random();
-        List<Double> shots = new ArrayList<>();
+    public static double give60shots() {
+
+        double sum = 0.0;
 
         for (int i = 0; i < 60; i++) {
-            double shot = rand.nextDouble() * 10.9;
-            shot = Math.round(shot * 10.0) / 10.0;
-            shots.add(shot);
+            sum += ThreadLocalRandom.current().nextDouble() * 10.9;
         }
-        return shots;
 
+        return sum;
     }
 
     /**
@@ -165,12 +223,14 @@ public class TestDataForFrontend implements CommandLineRunner {
         List<User> users = new ArrayList<>();
 
         for (String name : usernames) {
+
             User user = new User();
             user.setUsername(name);
-            user.setLegalname(name);
+            user.setLegalName(generateRandomName());
             user.setPartOfClub(ClubName);
             users.add(user);
         }
+
         return userRepository.saveAll(users);
     }
 
@@ -205,13 +265,8 @@ public class TestDataForFrontend implements CommandLineRunner {
         return teamRepository.saveAll(teams);
     }
 
-    private void addMemberWithScores(List<User> users, List<Competition> competitions, String compType) {
+    private void addMemberWithScores(List<User> users, List<Competition> competitions, String compType) throws JsonProcessingException {
         log.info("adding member and scores");
-
-        Boolean acceptDecimals = false;
-        if (compType.equals(Constants.rifleType)) {
-            acceptDecimals = true;
-        }
 
         for (User user : users) {
             for (Competition comp : competitions) {
@@ -220,9 +275,8 @@ public class TestDataForFrontend implements CommandLineRunner {
                 teamMember = teamMemberRepository.save(teamMember);
                 log.info(" club: " + user.getPartOfClub());
 
-                TeamMemberScore teamMemberScore = new TeamMemberScore(
-                        new TeamMemberId(user.getId(), comp.getCompetitionId(), user.getPartOfClub()), give60shots(),
-                        acceptDecimals);
+                TeamMemberId teamMemberId = new TeamMemberId(user.getId(), comp.getCompetitionId(), user.getPartOfClub());
+                TeamMemberScore teamMemberScore = new TeamMemberScore(teamMemberId, give60shots(), 10);
 
                 TeamMemberScore score = teamMemberScoreRepository.save(teamMemberScore);
                 log.info(" userId: " + score.getUserId());

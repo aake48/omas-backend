@@ -10,10 +10,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.omas.webapp.Constants;
 import com.omas.webapp.TestUtils;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -26,36 +29,55 @@ public class AdminControllerTests {
     private MockMvc mockMvc;
 
     private String adminToken;
+    private JSONObject adminUser;
 
     private final String baseUrl = "/api/admin/";
     private final String queryUrl = "/api/admin/user/query?search=&page=0&size=5";
 
     private final String deletionUrl = "/api/admin/delete";
+    private final String adminAddScoresUrl = "/api/admin/addScores";
+    private final String adminRemoveScoresUrl = "/api/admin/removeScores";
+
+    private final String clubName = "testiseura";
+    private final String competitionId = "testikilpailu";
+    private final String teamName = "testitiimi";
+
+
 
     @BeforeEach
     private void registerUser() throws Exception {
 
         // login admin
-        adminToken = new JSONObject(TestUtils.loginUser(mockMvc, Constants.adminUsername, Constants.adminPassword))
-                .getString("token");
+        JSONObject response = new JSONObject(TestUtils.loginUser(mockMvc, Constants.ADMIN_USERNAME, Constants.ADMIN_PASSWORD));
+
+        adminToken = response.getString("token");
+        adminUser = response.getJSONObject("user");
     }
 
     @Test
     void registerAndDeleteUser() throws Exception {
 
-        String username = "johnDoe";
+        String user = "johndoe";
+        String password = "password123";
 
-        TestUtils.getToken(mockMvc, username);
+        TestUtils.registerUser(mockMvc, user, password);
+        String loginResponse = TestUtils.loginUser(mockMvc, user, password);
+        JSONObject userObject = new JSONObject(loginResponse).getJSONObject("user");
+        Long userId = userObject.getLong("userId");
+
+        String deleteRequest = new JSONObject()
+            .put("userId", userId)
+            .toString();
 
         String deletionResponse = mockMvc.perform(MockMvcRequestBuilders.delete(deletionUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + adminToken)
-                .content(username))
-                .andExpect(jsonPath("$.message").value("User deleted"))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+                .content(deleteRequest))
+            .andExpect(jsonPath("$.message").value("User deleted"))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
         System.out.println("deletionResponse: " + deletionResponse);
     }
@@ -65,14 +87,14 @@ public class AdminControllerTests {
 
         String response = mockMvc.perform(MockMvcRequestBuilders.get(queryUrl)
                 .header("Authorization", "Bearer " + adminToken))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").exists())
-                .andExpect(jsonPath("$.content").exists())
-                .andExpect(jsonPath("$.numberOfElements").exists())
-                .andExpect(jsonPath("$.numberOfElements").value(1))
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.totalElements").exists())
+            .andExpect(jsonPath("$.content").exists())
+            .andExpect(jsonPath("$.numberOfElements").exists())
+            .andExpect(jsonPath("$.numberOfElements").value(1))
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
         JSONArray array = new JSONObject(response).getJSONArray("content");
         JSONObject user = array.getJSONObject(0);
@@ -82,6 +104,31 @@ public class AdminControllerTests {
 
         System.out.println("role: " + ar);
 
+    }
+
+    @Test
+    void removeNonExistentRole() throws Exception {
+
+        TestUtils.registerUser(mockMvc, "johanDoey", "johanDoey");
+        String resp = TestUtils.loginUser(mockMvc, "johanDoey", "johanDoey");
+        JSONObject userObject = new JSONObject(resp).getJSONObject("user");
+        long userId = userObject.getLong("userId");
+
+        String url = baseUrl + "demote";
+
+        String json = new JSONObject()
+            .put("userId", userId)
+            .put("role", "kuvaseura/admin")
+            .toString();
+
+        String response = mockMvc.perform(MockMvcRequestBuilders.post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + adminToken)
+                .content(json))
+            .andExpect(status().isBadRequest())
+            .andReturn().getResponse().getContentAsString();
+
+        System.out.println("deleteResponse: " + response);
     }
 
     @Test
@@ -95,27 +142,27 @@ public class AdminControllerTests {
         String url = baseUrl + "demote";
 
         String json = new JSONObject()
-                .put("userId", userId)
-                .put("role", "ROLE_USER")
-                .toString();
+            .put("userId", userId)
+            .put("role", "ROLE_USER")
+            .toString();
 
         mockMvc.perform(MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + adminToken)
                 .content(json))
-                .andExpect(status().isOk());
+            .andExpect(status().isOk());
 
         String queryUrl = "/api/admin/user/query?search=johan&page=0&size=5";
 
         String response = mockMvc.perform(MockMvcRequestBuilders.get(queryUrl)
                 .header("Authorization", "Bearer " + adminToken))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").exists())
-                .andExpect(jsonPath("$.content").exists())
-                .andExpect(jsonPath("$.numberOfElements").exists())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.totalElements").exists())
+            .andExpect(jsonPath("$.content").exists())
+            .andExpect(jsonPath("$.numberOfElements").exists())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
         JSONArray array = new JSONObject(response).getJSONArray("content");
         JSONObject user = array.getJSONObject(0);
@@ -139,27 +186,27 @@ public class AdminControllerTests {
         String role = "ROLE_KALASTAJA";
 
         String json = new JSONObject()
-                .put("userId", userId)
-                .put("role", role)
-                .toString();
+            .put("userId", userId)
+            .put("role", role)
+            .toString();
 
         mockMvc.perform(MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + adminToken)
                 .content(json))
-                .andExpect(status().isOk());
+            .andExpect(status().isOk());
 
         String queryUrl = "/api/admin/user/query?search=johan&page=0&size=5";
 
         String response = mockMvc.perform(MockMvcRequestBuilders.get(queryUrl)
                 .header("Authorization", "Bearer " + adminToken))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.totalElements").exists())
-                .andExpect(jsonPath("$.content").exists())
-                .andExpect(jsonPath("$.numberOfElements").exists())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.totalElements").exists())
+            .andExpect(jsonPath("$.content").exists())
+            .andExpect(jsonPath("$.numberOfElements").exists())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
         JSONArray array = new JSONObject(response).getJSONArray("content");
         System.out.println("array: " + array);
@@ -180,6 +227,125 @@ public class AdminControllerTests {
         }
 
         assertTrue(found);
+    }
+
+    @Test
+    public void setTeamMemberScoreAsSumAsAdmin() throws Exception {
+
+        TestUtils.addClub(mockMvc, clubName, adminToken);
+        TestUtils.joinClub(mockMvc, clubName, adminToken);
+        TestUtils.addRifleCompetition(mockMvc, competitionId, adminToken);
+        TestUtils.addTeam(mockMvc, competitionId, teamName, adminToken);
+        TestUtils.joinTeam(mockMvc, competitionId, teamName, adminToken);
+
+        // Submit some sum
+        String submitSumJson = new JSONObject()
+            .put("userId", adminUser.getLong("userId"))
+            .put("clubName", clubName)
+            .put("competitionName", competitionId)
+            .put("teamName", teamName)
+            .put("bullsEyeCount", 3)
+            .put("score", 240D)
+            .toString();
+
+        mockMvc.perform(MockMvcRequestBuilders.post(adminAddScoresUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + adminToken)
+                .content(submitSumJson))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.sum").isNotEmpty())
+            .andExpect(jsonPath("$.sum").value(240D))
+            .andExpect(jsonPath("$.bullsEyeCount").value(3));
+
+        // Now set it to something else
+        String setSumJson = new JSONObject()
+            .put("userId", adminUser.getLong("userId"))
+            .put("clubName", clubName)
+            .put("competitionName", competitionId)
+            .put("teamName", teamName)
+            .put("bullsEyeCount", 5)
+            .put("score", 300D)
+            .put("requestType", Constants.ADD_METHOD_SET)
+            .toString();
+
+        mockMvc.perform(MockMvcRequestBuilders.post(adminAddScoresUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + adminToken)
+                .content(setSumJson))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.sum").isNotEmpty())
+            .andExpect(jsonPath("$.sum").value(300D))
+            .andExpect(jsonPath("$.bullsEyeCount").value(5));
+    }
+
+    @Test
+    public void updateTeamMemberScoreSumAsAdmin() throws Exception {
+
+        TestUtils.addClub(mockMvc, clubName, adminToken);
+        TestUtils.joinClub(mockMvc, clubName, adminToken);
+        TestUtils.addRifleCompetition(mockMvc, competitionId, adminToken);
+        TestUtils.addTeam(mockMvc, competitionId, teamName, adminToken);
+        TestUtils.joinTeam(mockMvc, competitionId, teamName, adminToken);
+
+        // Submit some sum
+        String submitSumJson = new JSONObject()
+            .put("userId", adminUser.getLong("userId"))
+            .put("clubName", clubName)
+            .put("competitionName", competitionId)
+            .put("teamName", teamName)
+            .put("bullsEyeCount", 3)
+            .put("score", 240D)
+            .put("requestType", Constants.ADD_METHOD_UPDATE)
+            .toString();
+
+        mockMvc.perform(MockMvcRequestBuilders.post(adminAddScoresUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + adminToken)
+                .content(submitSumJson))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.sum").isNotEmpty())
+            .andExpect(jsonPath("$.sum").value(240D));
+
+        // Submit the same thing again
+        mockMvc.perform(MockMvcRequestBuilders.post(adminAddScoresUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + adminToken)
+                .content(submitSumJson))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.sum").isNotEmpty())
+            .andExpect(jsonPath("$.bullsEyeCount").value(6))
+            .andExpect(jsonPath("$.sum").value(480D));
+
+    }
+
+    @Test
+    public void removeTeamMemberScore() throws Exception {
+
+        TestUtils.registerUser(mockMvc, "testuser", "testpassword");
+        JSONObject response = new JSONObject(TestUtils.loginUser(mockMvc, "testuser", "testpassword"));
+
+        JSONObject user = response.getJSONObject("user");
+        String userToken = response.getString("token");
+
+        TestUtils.addClub(mockMvc, clubName, adminToken);
+        TestUtils.joinClub(mockMvc, clubName, adminToken);
+        TestUtils.addRifleCompetition(mockMvc, competitionId, adminToken);
+        TestUtils.addTeam(mockMvc, competitionId, teamName, adminToken);
+        TestUtils.joinTeam(mockMvc, competitionId, teamName, userToken);
+        TestUtils.addScores(mockMvc, competitionId, teamName, userToken);
+
+        String teamMemberIdJson = new JSONObject()
+            .put("userId", user.getLong("userId"))
+            .put("competitionId", competitionId)
+            .put("teamName", teamName)
+            .toString();
+
+        // Remove the score
+        mockMvc.perform(MockMvcRequestBuilders.post(adminRemoveScoresUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + adminToken)
+                .content(teamMemberIdJson))
+            .andExpect(status().isOk());
     }
 
 }

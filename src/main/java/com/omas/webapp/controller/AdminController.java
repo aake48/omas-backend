@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import com.omas.webapp.entity.requests.AdminAddScoreRequest;
+import com.omas.webapp.entity.requests.DeleteRequest;
+import com.omas.webapp.service.TeamMemberScoreService;
+import com.omas.webapp.table.TeamMemberScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -43,6 +47,9 @@ public class AdminController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private TeamMemberScoreService teamMemberScoreService;
+
     @GetMapping(params = { "page", "size", "search" }, value = "user/query")
     public ResponseEntity<?> queryUsers(@RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
@@ -71,10 +78,11 @@ public class AdminController {
     public ResponseEntity<?> promote(@Valid @RequestBody PromoteDemoteRoleRequest request) {
 
         if (!userService.userExists(request.getUserId())) {
-            return new ResponseEntity<>(Map.of("message", "there is no user with the given userId"),
-                    HttpStatus.BAD_REQUEST);
+            return new MessageResponse("There is no user with the given userId", HttpStatus.BAD_REQUEST);
         }
+
         Role role = roleService.addRole(request.getUserId(), request.getRole());
+
         return new ResponseEntity<>(role, HttpStatus.OK);
     }
 
@@ -85,44 +93,58 @@ public class AdminController {
         Long id = UserInfoDetails.getDetails().getId();
 
         if (!userService.userExists(request.getUserId())) {
-            return new ResponseEntity<>(Map.of("message", "there is no user with the given userId"),
-                    HttpStatus.BAD_REQUEST);
+            return new MessageResponse("There is no user with the given userId", HttpStatus.BAD_REQUEST);
         }
+
         if (request.getUserId() == id) {
-            return new ResponseEntity<>(Map.of("message", "you may not demote yourself"), HttpStatus.BAD_REQUEST);
+            return new MessageResponse("You may not demote yourself", HttpStatus.BAD_REQUEST);
         }
 
         if (request.getRole().equals("ROLE_ADMIN")) {
-            return new ResponseEntity<>(Map.of("message", "you may not demote admin roles"), HttpStatus.BAD_REQUEST);
+            return new MessageResponse("You may not demote admin roles", HttpStatus.BAD_REQUEST);
+        }
+
+        if (!roleService.hasRole(request.getUserId(), request.getRole())) {
+            return new MessageResponse("Cannot delete nonexistent role", HttpStatus.BAD_REQUEST);
         }
         
         roleService.removeRole(request.getUserId(), request.getRole());
-        return new ResponseEntity<>(
-                Map.of("message", "role: " + request.getRole() + "removed from user: " + request.getUserId()),
-                HttpStatus.OK);
+
+        return new MessageResponse("Role: " + request.getRole() + " removed from user: " + request.getUserId(), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/addScores")
-    public ResponseEntity<?> addScores(@RequestBody TeamMemberId id) {
-        // TODO: Implement this method.
-        return null;
+    public ResponseEntity<?> addScores(@RequestBody AdminAddScoreRequest request) {
+
+        TeamMemberId teamMemberId = new TeamMemberId(request.getUserId(), request.getCompetitionName(), request.getTeamName());
+
+        TeamMemberScore score = teamMemberScoreService.modifyScoreSum(
+            teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType()
+        );
+
+        return new ResponseEntity<>(score, HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/removeScores")
     public ResponseEntity<?> removeScores(@RequestBody TeamMemberId id) {
-        // TODO: Implement this method.
-        return null;
+
+        if (teamMemberScoreService.removeScore(id)) {
+            return new MessageResponse("Score removed", HttpStatus.OK);
+        } else {
+            return new MessageResponse("No score found", HttpStatus.OK);
+        }
+
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteUser(@RequestBody String username) {
+    public ResponseEntity<?> deleteUser(@RequestBody DeleteRequest deleteRequest) {
 
         UserInfoDetails details = UserInfoDetails.getDetails();
 
-        Optional<User> userOptional = userService.getUserByUsername(username);
+        Optional<User> userOptional = userService.getUserByUserId(deleteRequest.getUserId());
 
         if (userOptional.isEmpty()) {
             return new MessageResponse("No user found with that name", HttpStatus.BAD_REQUEST);
@@ -136,10 +158,11 @@ public class AdminController {
         }
 
         // Prevent deleting other admins
-        if (roleService.FindUsersRoles(user.getId()).contains("ROLE_ADMIN")) {
+        if (roleService.findUsersRoles(user.getId()).contains("ROLE_ADMIN")) {
             return new MessageResponse("You cannot delete other admins", HttpStatus.BAD_REQUEST);
         }
 
+        roleService.removeRoles(user.getId());
         userService.deleteUser(user.getId());
 
         return new MessageResponse("User deleted", HttpStatus.OK);

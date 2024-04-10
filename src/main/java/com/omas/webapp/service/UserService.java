@@ -5,7 +5,6 @@ import com.omas.webapp.repository.PasswordResetTokenRepository;
 import com.omas.webapp.repository.UserRepository;
 import com.omas.webapp.table.PasswordResetToken;
 import com.omas.webapp.table.User;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +18,6 @@ import java.util.Optional;
 import java.util.List;
 
 @Service
-@Log4j2
 public class UserService implements UserDetailsService {
 
     @Autowired
@@ -36,7 +34,7 @@ public class UserService implements UserDetailsService {
 
 
         public Page<User> findWithPaginatedSearch(int page, int size, String search) {
-        return repository.findBylegalnameContaining(search, PageRequest.of(page, size));
+        return repository.findByLegalNameContaining(search, PageRequest.of(page, size));
     }
 
     @Override
@@ -46,7 +44,7 @@ public class UserService implements UserDetailsService {
 
         if (user.isPresent()) {
             User foundUser = user.get();
-            List<String> roles = roleService.FindUsersRoles(foundUser.getId());
+            List<String> roles = roleService.findUsersRoles(foundUser.getId());
             return new UserInfoDetails(foundUser, roles);
         }
         throw new UsernameNotFoundException("User not found " + username);
@@ -62,15 +60,27 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    /**
+     * Retrieves a user by their reset password token. If token was retrieved, it will be deleted.
+     *
+     * @param token The reset password token to search for.
+     * @return The user associated with the reset password token, or null if the token has expired or no user is found.
+     */
     public User getByResetPasswordToken(String token) {
 
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByResetPasswordToken(token);
+
+        if (passwordResetToken == null) {
+            return null;
+        }
+
+        passwordResetTokenRepository.delete(passwordResetToken);
 
         if (passwordResetToken.hasExpired()) {
             return null;
         }
 
-        return repository.findById(passwordResetToken.getId()).get();
+        return repository.findById(passwordResetToken.getId()).orElse(null);
     }
 
     public void updatePassword(User user, String newPassword) {
@@ -82,7 +92,7 @@ public class UserService implements UserDetailsService {
 
         User user = new User();
         user.setUsername(request.getUsername());
-        user.setLegalname(request.getName());
+        user.setLegalName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
         user.setCreationDate(new Date(Instant.now().toEpochMilli()));
@@ -91,25 +101,24 @@ public class UserService implements UserDetailsService {
         if (repository.findByUsername(user.getUsername()).isPresent()) {
             return false;
         }
+
         // hash and salt password before saving it to db
         user.setPassword(encoder.encode(user.getPassword()));
+
         try {
             User createdUser = repository.save(user);
             roleService.addUserRole(createdUser.getId());
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("ex : " + e);
             return false;
         }
+
         return true;
     }
 
     public boolean userExists(long id) {
-        Optional<User> userOptional = repository.findById(id);
-
-        if (userOptional.isEmpty()) {
-            return false;
-        }
-        return true;
+        return repository.findById(id).isPresent();
     }
 
     /**
@@ -127,7 +136,7 @@ public class UserService implements UserDetailsService {
 
         User user = userOptional.get();
 
-        user.setLegalname(user.getPartOfClub());
+        user.setLegalName(user.getPartOfClub());
         user.setUsername(null);
         user.setPartOfClub(null);
         user.setPassword(null);
@@ -141,31 +150,28 @@ public class UserService implements UserDetailsService {
      * Joins a user to a club.
      * This method does not perform any validation on 'club' String
      *
-     * @param id   the ID of the user
+     * @param userId the ID of the user
      * @param club the name of the club to join
      * @return true if the user was successfully joined to the club, false otherwise
      */
-    public boolean joinClub(Long id, String club) {
-        Optional<User> userToJoin = repository.findById(id);
+    public boolean joinClub(Long userId, String club) {
 
-        if (userToJoin.isPresent()) {
-            User user = userToJoin.get();
-            user.setPartOfClub(club);
-            repository.save(user);
-            return true;
+        Optional<User> userToJoin = repository.findById(userId);
+
+        if (userToJoin.isEmpty()) {
+            return false;
         }
-        return false;
+
+        User user = userToJoin.get();
+        user.setPartOfClub(club);
+
+        repository.save(user);
+
+        return true;
     }
 
-    public String getName(Long userId) {
-        try {
-            User user = repository.findById(userId).get();
-            return user.getLegalname();
-        } catch (Exception e) {
-            log.info("getName(): " + e);
-            return "user name not found";
-        }
-
+    public String getLegalName(Long userId) {
+        return repository.findById(userId).map(User::getLegalName).orElse("user name not found");
     }
 
     public Optional<User> getUserByUsername(String username) {
@@ -183,6 +189,10 @@ public class UserService implements UserDetailsService {
         User user = userOptional.get();
         user.setEmail(email);
         repository.save(user);
+    }
+
+    public Optional<User> getUserByUserId(Long userId) {
+        return repository.findById(userId);
     }
 
 }

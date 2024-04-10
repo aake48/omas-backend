@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -53,7 +54,6 @@ public class CompetitionControllerTests {
         List<String> otherClubs = Arrays.asList("team1", "team2", "team3");
 
 
-
         // sets up first 5 clubs with each 5 teamMembers
         TestUtils.setupScores(mockMvc, firstClubs, competitionNameId, 5);
 
@@ -62,21 +62,21 @@ public class CompetitionControllerTests {
 
 
         String response = mockMvc.perform(MockMvcRequestBuilders.get(url))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.type").value(TestUtils.rifleCompetitionType))
-                .andExpect(jsonPath("$.displayName").value(competitionNameId))
-                .andExpect(jsonPath("$.startDate").exists())
-                .andExpect(jsonPath("$.endDate").exists())
-                .andExpect(jsonPath("$.creationDate").exists())
-                .andExpect(jsonPath("$.competitionId").value(competitionNameId))
-                .andExpect(jsonPath("$.teams").exists())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.type").value(Constants.RIFLE_TYPE))
+            .andExpect(jsonPath("$.displayName").value(competitionNameId))
+            .andExpect(jsonPath("$.startDate").exists())
+            .andExpect(jsonPath("$.endDate").exists())
+            .andExpect(jsonPath("$.creationDate").exists())
+            .andExpect(jsonPath("$.competitionId").value(competitionNameId))
+            .andExpect(jsonPath("$.teams").exists())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
-                //checks that there are 8 teams
-                JSONObject object = new JSONObject(response);
-                assertTrue(object.getJSONArray("teams").length()==8);
+        //checks that there are 8 teams
+        JSONObject object = new JSONObject(response);
+        assertTrue(object.getJSONArray("teams").length() == 8);
 
         CompetitionResponse competitionResponse = Json.fromString(response, CompetitionResponse.class);
 
@@ -105,23 +105,22 @@ public class CompetitionControllerTests {
     public void addRifleCompetition() throws Exception {
 
         String json = new JSONObject()
-                .put("competitionName", competitionDisplayName)
-                .put("competitionType", TestUtils.rifleCompetitionType)
-                .toString();
-
+            .put("competitionName", competitionDisplayName)
+            .put("competitionType", Constants.RIFLE_TYPE)
+            .toString();
 
 
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content(json))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.type").value(TestUtils.rifleCompetitionType))
-                .andExpect(jsonPath("$.displayName").value(competitionDisplayName))
-                .andExpect(jsonPath("$.startDate").exists())
-                .andExpect(jsonPath("$.endDate").exists())
-                .andExpect(jsonPath("$.creationDate").exists())
-                .andExpect(jsonPath("$.competitionId").value(competitionNameId));
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.type").value(Constants.RIFLE_TYPE))
+            .andExpect(jsonPath("$.displayName").value(competitionDisplayName))
+            .andExpect(jsonPath("$.startDate").exists())
+            .andExpect(jsonPath("$.endDate").exists())
+            .andExpect(jsonPath("$.creationDate").exists())
+            .andExpect(jsonPath("$.competitionId").value(competitionNameId));
 
 
     }
@@ -130,72 +129,102 @@ public class CompetitionControllerTests {
     public void addPistolScore() throws Exception {
 
         String json = new JSONObject()
-                .put("competitionName", competitionDisplayName)
-                .put("competitionType", TestUtils.pistolCompetitionType)
-                .toString();
+            .put("competitionName", competitionDisplayName)
+            .put("competitionType", Constants.PISTOL_TYPE)
+            .toString();
 
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content(json))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.type").value(TestUtils.pistolCompetitionType))
-                .andExpect(jsonPath("$.displayName").value(competitionDisplayName))
-                .andExpect(jsonPath("$.startDate").exists())
-                .andExpect(jsonPath("$.endDate").exists())
-                .andExpect(jsonPath("$.creationDate").exists())
-                .andExpect(jsonPath("$.competitionId").value(competitionNameId));
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.type").value(Constants.PISTOL_TYPE))
+            .andExpect(jsonPath("$.displayName").value(competitionDisplayName))
+            .andExpect(jsonPath("$.startDate").exists())
+            .andExpect(jsonPath("$.endDate").exists())
+            .andExpect(jsonPath("$.creationDate").exists())
+            .andExpect(jsonPath("$.competitionId").value(competitionNameId));
     }
 
     @Test
     public void getAll() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get(getAllUrl))
-                .andExpect(status().isOk());
+            .andExpect(status().isOk());
 
     }
 
-/**
- * Checks that correct number of elements if found 
- */
+    /**
+     * Checks that correct number of elements if found
+     */
     @Test
     public void searchCompetitions() throws Exception {
 
-            int size = 6;
-            for (int i = 0; i < size; i++) {
-                    TestUtils.addRifleCompetition(
-                                    mockMvc, TestUtils.getRandomString(),
-                                    TestUtils.getToken(mockMvc, TestUtils.getRandomString()));
-            }
+        int size = 6;
+        for (int i = 0; i < size; i++) {
+            TestUtils.addRifleCompetition(
+                mockMvc, TestUtils.getRandomString(),
+                TestUtils.getToken(mockMvc, TestUtils.getRandomString()));
+        }
 
-            mockMvc.perform(MockMvcRequestBuilders.get(searchUrl))
-                            .andExpect(status().isOk())
-                            .andExpect(jsonPath("$.totalElements").value(size))
-                            .andExpect(jsonPath("$.content").exists())
-                            .andExpect(jsonPath("$.numberOfElements").value(5));
+        mockMvc.perform(MockMvcRequestBuilders.get(searchUrl))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.totalElements").value(size))
+            .andExpect(jsonPath("$.content").exists())
+            .andExpect(jsonPath("$.numberOfElements").value(5));
 
+    }
+
+    @Test
+    public void searchCompetitionsById() throws Exception {
+
+        String firstToken = TestUtils.getToken(mockMvc, TestUtils.getRandomString());
+        String secondToken = TestUtils.getToken(mockMvc, TestUtils.getRandomString());
+
+        TestUtils.addRifleCompetition(mockMvc, "testname", firstToken);
+        TestUtils.addRifleCompetition(mockMvc, "testname2", secondToken);
+
+        TestUtils.addClub(mockMvc, "Seura 1", firstToken);
+        TestUtils.joinClub(mockMvc, "Seura 1", firstToken);
+        TestUtils.joinClub(mockMvc, "Seura 1", secondToken);
+
+        TestUtils.addTeam(mockMvc, "testname", "Joukkue 1", firstToken);
+        TestUtils.addTeam(mockMvc, "testname", "Joukkue 2", secondToken);
+        TestUtils.addTeam(mockMvc, "testname2", "Joukkue 3", firstToken);
+        TestUtils.addTeam(mockMvc, "testname2", "Joukkue 4", secondToken);
+
+        String searchUrl = "/api/competition/teams?search=testname&page=0&size=10";
+
+        String response = mockMvc.perform(MockMvcRequestBuilders.get(searchUrl))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.numberOfElements").value(4))
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+        System.out.println(Json.stringify(Json.parse(response), true));
     }
 
     @Test
     public void getByID() throws Exception {
 
         String json = new JSONObject()
-                .put("competitionName", competitionNameId)
-                .put("competitionType", TestUtils.rifleCompetitionType)
-                .toString();
+            .put("competitionName", competitionNameId)
+            .put("competitionType", Constants.RIFLE_TYPE)
+            .toString();
 
         // adds competition
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "johndoe"))
                 .content(json))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.competitionId").value(competitionNameId));
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.competitionId").value(competitionNameId));
 
         // gets competition
         mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "/" + competitionNameId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.competitionId").value(competitionNameId));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.competitionId").value(competitionNameId));
 
     }
 

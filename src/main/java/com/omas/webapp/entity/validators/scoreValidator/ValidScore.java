@@ -5,11 +5,11 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = ScoreListValidator.class)
+@Constraint(validatedBy = ScoreValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidScoreList {
-    String message() default "Invalid score in ScoreList";
+public @interface ValidScore {
+    String message() default "Invalid score. Must be in the range [0, 654]";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

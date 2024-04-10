@@ -1,9 +1,23 @@
 package com.omas.webapp.repository;
 
 import com.omas.webapp.table.ImageProof;
+import com.omas.webapp.table.ImageProofId;
 import com.omas.webapp.table.TeamMemberId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface FileRepository extends JpaRepository<ImageProof, TeamMemberId> {
+import java.util.List;
+import java.util.Optional;
+
+public interface FileRepository extends JpaRepository<ImageProof, ImageProofId> {
+
+    default List<ImageProof> findByTeamMemberId(TeamMemberId id) {
+        return findByUserIdAndCompetitionIdAndTeamName(id.getUserId(), id.getCompetitionId(), id.getTeamName());
+    }
+
+    List<ImageProof> findByUserIdAndCompetitionIdAndTeamName(Long userId, String competitionId, String teamName);
+
+    default Optional<ImageProof> findByTeamMemberIdAndFileName(TeamMemberId id, String fileName) {
+        return findById(new ImageProofId(id, fileName));
+    }
 
 }

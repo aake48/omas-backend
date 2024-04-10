@@ -53,8 +53,8 @@ public class ClubService {
     public void setPassKey(String clubName, String passkey) throws Exception {
         Optional<Club> optional = repository.findById(clubName);
 
-        if (!optional.isPresent()) {
-            throw new Exception("There is no club With the given name. " + clubName);
+        if (optional.isEmpty()) {
+            throw new Exception("There is no club with the given name. " + clubName);
         }
 
         Club club = optional.get();
@@ -67,15 +67,15 @@ public class ClubService {
      * checks that passkeys match.
      *
      * @param clubName the name of the club
-     * @param passkey  the passkey to set
+     * @param passKey  the passkey to set
      * @throws Exception if there is no club with the given name or if the passkeys
      *                   do not match
      */
     public void checkPasskeyMatch(String clubName, String passKey) throws Exception {
         Optional<Club> optional = repository.findById(clubName);
 
-        if (!optional.isPresent()) {
-            throw new Exception("There is no club With the given name. " + clubName);
+        if (optional.isEmpty()) {
+            throw new Exception("There is no club with the given name. " + clubName);
         }
 
         Club club = optional.get();

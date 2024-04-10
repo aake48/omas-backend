@@ -20,11 +20,14 @@ import lombok.NoArgsConstructor;
 @IdClass(TeamMemberId.class)
 public class TeamMember {
 
+    @Getter @Id Long userId;
+    @Getter @Id String competitionId;
+    @Getter @Id String teamName;
+
     public TeamMember(String competitionId, Long userId, String teamName) {
         this.competitionId = competitionId;
         this.userId = userId;
         this.teamName = teamName;
-
     }
 
     public TeamMember(TeamMemberId teamMemberId) {
@@ -33,26 +36,15 @@ public class TeamMember {
         this.teamName = teamMemberId.getTeamName();
     }
 
-    @Getter
-    @Id
-    Long userId;
-
-    public String getLegalname() {
-        if(user!=null){
-            return user.getLegalname();
-        }
-        return null;
+    @JsonIgnore
+    public TeamMemberId getId() {
+        return new TeamMemberId(userId, competitionId, teamName);
     }
 
-
-
-    @Getter
-    @Id
-    String competitionId;
-
-    @Getter
-    @Id
-    String teamName;
+    @JsonIgnore
+    public TeamId getTeamId() {
+        return new TeamId(competitionId, teamName);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -62,7 +54,7 @@ public class TeamMember {
             return false;
         TeamMember that = (TeamMember) o;
         return Objects.equals(userId, that.userId) &&
-                Objects.equals(competitionId, that.competitionId);
+            Objects.equals(competitionId, that.competitionId);
     }
 
     @Override
@@ -73,6 +65,13 @@ public class TeamMember {
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id", insertable = false, updatable = false)
     private User user;
+
+    public String getLegalName() {
+        if (user != null) {
+            return user.getLegalName();
+        }
+        return null;
+    }
 
     @ManyToOne
     @JoinColumns(value = {

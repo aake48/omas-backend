@@ -4,11 +4,8 @@ import com.omas.webapp.table.Competition;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +19,6 @@ public class CompetitionResponse {
     String endDate;
     String type;
 
-    @Setter
     List<CompetitionTeamResponse> teams = new ArrayList<>();
 
     public CompetitionResponse(Competition competition) {

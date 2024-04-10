@@ -18,13 +18,13 @@ public class AddCompetitionRequest {
     @Size( min = 3, message = "Competition name cannot be fewer than 3 characters.")
     private String competitionName;
     
-    @StringOptions(value = {Constants.pistolType, Constants.rifleType},
-    message = "Competition Type must be either "+Constants.pistolType+"  or "+Constants.pistolType)
+    @StringOptions(value = {Constants.PISTOL_TYPE, Constants.RIFLE_TYPE},
+    message = "Competition Type must be either "+Constants.PISTOL_TYPE +"  or "+Constants.PISTOL_TYPE)
     @NotEmpty(message = "competition type cannot be empty.")
     private String competitionType;
 
     @ValidEpochMilli(daysBehind = 1, daysAhead = 365, message = "invalid start")
-    private Long startDate = System.currentTimeMillis();
+    private Long startDate = System.currentTimeMillis() - 5L * 60 * 1000; // first digit is minutes == 5m
 
     @ValidEpochMilli(daysBehind = 0, daysAhead = 365, message = "invalid EndDate")
     private Long endDate = System.currentTimeMillis() + 7L * 24 * 60 * 60 * 1000;//adds +7 days

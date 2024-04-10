@@ -16,7 +16,7 @@ public class RoleService {
     @Autowired
     RoleRepository repository;
 
-    public List<String> FindUsersRoles(Long userId) {
+    public List<String> findUsersRoles(Long userId) {
         List<Role> roles = repository.findDistinctByuserId(userId);
         return roles.stream().map(role -> String.valueOf(role.getRole())).toList();
     }
@@ -36,14 +36,18 @@ public class RoleService {
         return repository.save(newRole);
     }
 
+    public boolean hasRole(long id, String role) {
+        return repository.findById(new RoleId(id, role)).isPresent();
+    }
+
     public void removeRole(long id, String role) {
         Role roleToBeRemoved = new Role(id, role);
         repository.delete(roleToBeRemoved);
     }
 
-    // TODO: Implement this method.
-    public Boolean removeRoles(long id) {
-        return null;
+    public void removeRoles(long id) {
+        List<Role> roles = repository.findDistinctByuserId(id);
+        repository.deleteAll(roles);
     }
 
     public Optional<Role> findRole(RoleId roleId) {

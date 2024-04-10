@@ -1,6 +1,8 @@
 package com.omas.webapp.service;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,7 +40,26 @@ public class TeamService {
     }
 
     /**
-     * validates that the user has privileges to administer teams of this club 
+     * Check if a team exists.
+     * @param competitionId the id of the competition
+     * @param teamName the sanitized team name
+     * @return true of the team exists, false if not
+     */
+    public boolean teamExists(String competitionId, String teamName) {
+        return teamRepository.existsById(new TeamId(competitionId, teamName));
+    }
+
+    /**
+     * Check if the given user can join a team in the given competition
+     * by checking if the user is already in a team in the given competition
+     * @return true if the user can join a team, false if not
+     */
+    public boolean isUserParticipatingInThisCompetition(Long userId, String competitionId) {
+        return !getUserTeam(userId, competitionId).isEmpty();
+    }
+
+    /**
+     * validates that the user has privileges to administer teams of this club
      */
     public boolean isAdminInclub(String club) {
         Long id = UserInfoDetails.getDetails().getId();
@@ -62,38 +83,55 @@ public class TeamService {
         if (isTeamPartOfCompetition(teamMemberId.getCompetitionId(), teamMemberId.getTeamName())) {
             return teamMemberRepository.save(new TeamMember(teamMemberId));
         }
-        throw new Exception("this team does not exist");
 
+        throw new Exception("this team does not exist");
     }
 
     /** @return TeamMemberId if this user has permissions to submit scores to given competition
      * checks that user is member of the team
      * @throws Exception throws an exception if validation fails
     */
-    public TeamMemberId CanUserSubmitScores(Long userId, String competitionName, String teamName) throws Exception {
+    public TeamMemberId canUserSubmitScores(Long userId, String competitionName, String teamName) throws Exception {
 
         if (thisUserIsTeamMember(new TeamMemberId(userId, competitionName, teamName))){
             return new TeamMemberId(userId, new TeamId( competitionName, teamName));
         }
 
         throw new Exception("error: this user is not in the team");
+    }
 
+    /**
+     * Figure out which {@link TeamMemberId} to use. If the given userId is null, the authenticated user's id will be used.
+     * Otherwise, the given userId will be used.
+     * This method is used when the authenticated user might be posting a score for another team member
+     * @return the resolved {@link TeamMemberId}
+     * @throws Exception if the users are not in the same team
+     */
+    public TeamMemberId resolveTeamMemberId(Long userId, String competitionName, String teamName) throws Exception {
+
+        long authenticatedUserId  = UserInfoDetails.getDetails().getId();
+
+        // validates that user is part of the team and that the team has entered this
+        // competition
+        TeamMemberId teamMemberId = canUserSubmitScores(authenticatedUserId, competitionName, teamName);
+
+        // validates that userId is part of the team and that the team has entered this
+        // competition
+        if (userId != null) {
+            teamMemberId = canUserSubmitScores(userId, competitionName, teamName);
+        }
+
+        return teamMemberId;
     }
 
     /**
      * Checks if a user is a member of a specific team.
      *
-     * @param userId The ID of the user.
-     * @param teamId The ID of the team.
+     * @param teamMemberId The ID of the user.
      * @return true if the user is in the team, false otherwise.
      */
     public boolean thisUserIsTeamMember(TeamMemberId teamMemberId) {
-        Optional<TeamMember> teamMate = teamMemberRepository.findById(teamMemberId);
-        if (teamMate.isPresent()) {
-
-            return true;
-        }
-        return false;
+        return teamMemberRepository.findById(teamMemberId).isPresent();
     }
 
     /**
@@ -104,13 +142,7 @@ public class TeamService {
      * @return true if the team is part of the competition, false otherwise.
      */
     public boolean isTeamPartOfCompetition(String activeCompetition, String teamName) {
-
-        Optional<Team> participatingTeam = teamRepository.findById(new TeamId(activeCompetition, teamName));
-
-        if (participatingTeam.isPresent()) {
-            return true;
-        }
-        return false;
+        return teamRepository.findById(new TeamId(activeCompetition, teamName)).isPresent();
     }
 
     /**
@@ -122,6 +154,37 @@ public class TeamService {
     public List<Team> getTeamsParticipatingInCompetition(String competition) {
         
         return teamRepository.findByCompetitionId(competition);
+    }
+
+    /**
+     * Find team by user id and competition id
+     * @param userId the user's id
+     * @param competitionId the competition's id
+     * @return optional containing the user's team or empty optional
+     */
+    public Optional<Team> getUserTeam(Long userId, String competitionId) {
+        TeamMember teamMember = teamMemberRepository.findByUserIdAndCompetitionId(userId, competitionId);
+        if(teamMember==null){
+            return Optional.empty();
+        }
+        return teamRepository.findById(teamMember.getTeamId());
+    }
+
+    /**
+     * Get all the user's team from all competitions which are still ongoing
+     * @param userId the user's id
+     * @return all the teams the user is in
+     */
+    public List<Team> getUserTeams(Long userId) {
+
+        List<TeamMember> teamMembers = teamMemberRepository.findThisUsersTeamMembershipsForActiveCompetitions(userId, new java.sql.Date(System.currentTimeMillis()));
+        List<TeamId> teamIds = new ArrayList<>(teamMembers.size());
+
+        for (TeamMember teamMember : teamMembers) {
+            teamIds.add(teamMember.getTeamId());
+        }
+
+        return teamRepository.findAllById(teamIds);
     }
 
 
@@ -145,5 +208,17 @@ public class TeamService {
 
     public Page<Team> findWithPaginatedSearchByCompetitionId(int page, int size, String search) {
         return teamRepository.findByCompetitionIdContaining(search, PageRequest.of(page, size));
+    }
+
+    public Page<Team> findThisClubsTeamsWhichAreInActiveCompetitions(int page, int size, String club) {
+        return teamRepository.findThisClubsTeamsWhichAreInActiveCompetitions(PageRequest.of(page, size), club, new java.sql.Date(System.currentTimeMillis()));
+    }
+
+    public boolean isThisTeamFull(String competitionName, String teamName) {
+        Optional<List<TeamMember>> optional = teamMemberRepository.findByTeamId(new TeamId(competitionName, teamName));
+        if(optional.isPresent()){
+            return optional.get().size()>=5;
+        }
+        return false;
     }
 }

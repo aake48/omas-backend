@@ -28,8 +28,8 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private long id; 
 	@Column(unique = true)
-	private String username; 
-	private String legalname; 
+	private String username;
+	private String legalName;
 	@Column(unique = true)
 	private String email;
 	@JsonIgnore
@@ -40,6 +40,5 @@ public class User {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     @Getter
     private List<Role> roles = new ArrayList<>();
-
 
 } 

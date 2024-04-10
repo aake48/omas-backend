@@ -1,22 +1,26 @@
 package com.omas.webapp.controller;
 
+import com.omas.webapp.entity.requests.FileRequest;
 import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.FileService;
 import com.omas.webapp.service.TeamMemberScoreService;
+import com.omas.webapp.service.TeamService;
 import com.omas.webapp.service.UserInfoDetails;
+import com.omas.webapp.table.ImageProof;
+import com.omas.webapp.table.ImageProofId;
 import com.omas.webapp.table.TeamMemberId;
 import com.omas.webapp.table.TeamMemberScore;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.nio.file.FileAlreadyExistsException;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
@@ -28,6 +32,9 @@ public class FileController {
 
     @Autowired
     private TeamMemberScoreService scoreService;
+
+    @Autowired
+    private TeamService teamService;
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/upload")
@@ -57,31 +64,109 @@ public class FileController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/download")
-    public ResponseEntity<?> downloadFile(@RequestBody TeamMemberId teamMemberId) {
+    @PostMapping("/download")
+    public ResponseEntity<?> downloadFile(@RequestBody FileRequest request) {
 
-        Optional<Resource> file = this.fileService.getFile(teamMemberId);
+        final TeamMemberId id = request.getTeamMemberId();
 
-        if (file.isEmpty()) {
-            return new MessageResponse("The requested file could not be found", HttpStatus.BAD_REQUEST);
+        if (!this.teamService.thisUserIsTeamMember(id)) {
+            return new MessageResponse("That team member does not exist", HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(file.get(), HttpStatus.OK);
+        if (this.fileService.hasNoFilesPostedByTeamMember(id)) {
+            return new MessageResponse("That team member has not posted any files", HttpStatus.BAD_REQUEST);
+        }
+
+        final String fileName = request.getFileName();
+
+        final HttpHeaders headers = new HttpHeaders();
+        // headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Return all files associated with the TeamMemberId if no file name is provided
+        if (fileName == null) {
+
+            // MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
+
+            // for (ImageProof proof : this.fileService.getFiles(id)) {
+            //     form.add(proof.getFileName(), proof.getImageResource());
+            // }
+
+            // return new ResponseEntity<>(form, headers, HttpStatus.OK);
+
+            ArrayList<ImageProof> al = new ArrayList<>();
+
+            for (ImageProof proof : this.fileService.getFiles(id)) {
+                al.add(proof);
+            }
+
+            return new ResponseEntity<>(al, headers, HttpStatus.OK);
+
+            // else statement for clarity
+        } else {
+
+            // Optional<ImageProof> file = this.fileService.getFile(id, fileName);
+
+            // if (file.isEmpty()) {
+            //     return new MessageResponse("The requested file could not be found", HttpStatus.BAD_REQUEST);
+            // }
+
+            // ImageProof proof = file.get();
+
+            // MultiValueMap<String, Object> form = new LinkedMultiValueMap<>();
+
+            // form.add(proof.getFileName(), proof.getImageResource());
+
+            // return new ResponseEntity<>(form, headers, HttpStatus.OK);
+
+            Optional<ImageProof> file = this.fileService.getFile(id, fileName);
+
+            if (file.isEmpty()) {
+                return new MessageResponse("The requested file could not be found", HttpStatus.BAD_REQUEST);
+            }
+
+            ImageProof proof = file.get();
+
+            return new ResponseEntity<>(proof, headers, HttpStatus.OK);
+        }
+
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/files")
-    public List<String> getFileNames() {
-        return this.fileService.getFiles();
+    @PostMapping("/delete")
+    public ResponseEntity<?> deleteFile(@RequestBody FileRequest request) {
+
+        final TeamMemberId id = request.getTeamMemberId();
+
+        if (!this.teamService.thisUserIsTeamMember(id)) {
+            return new MessageResponse("That team member does not exist", HttpStatus.BAD_REQUEST);
+        }
+
+        if (this.fileService.hasNoFilesPostedByTeamMember(id)) {
+            return new MessageResponse("That team member has not posted any files", HttpStatus.BAD_REQUEST);
+        }
+
+        final String fileName = request.getFileName();
+
+        if (fileName == null) {
+            return new MessageResponse("You must provide a file name", HttpStatus.BAD_REQUEST);
+        }
+
+        this.fileService.deleteFileById(new ImageProofId(id, fileName));
+
+        return new MessageResponse("File deleted", HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping("files")
+    public ResponseEntity<?> getFileNames(@RequestBody TeamMemberId teamMemberId) {
+        return new ResponseEntity<>(this.fileService.getFileNames(teamMemberId), HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public String handleValidationExceptions(
-        HttpMessageNotReadableException ex) {
-
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public String handleValidationExceptions(HttpRequestMethodNotSupportedException ex) {
         ex.printStackTrace();
-
         return ex.getMessage();
     }
 

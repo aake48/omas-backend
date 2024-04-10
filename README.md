@@ -16,6 +16,8 @@
       - [update email](#update-email)
       - [forgot password](#forgot-password)
       - [reset password](#reset-password)
+      - [get user's team in competition](#get-users-team-in-competition)
+      - [get all user's teams](#get-all-users-teams-in-all-competitions)
 
     - [admin](#admin-related)
       - [search users](#search-users)
@@ -24,7 +26,7 @@
       - [Delete user](#delete-user)
 
     - [club admins](#reset-password)
-      - [update team member's scores](#update-team-members-score)
+      - [update team member's scores](#update-team-members-scores)
       - [set passkey](#set-passkey)
 
     - [Clubs](#clubs)
@@ -40,14 +42,19 @@
       - [Get competition by Id](#get-competition-by-id)
       - [Get all competitions](#get-all-competitions)
       - [Search for competitions with pagination](#search-for-competitions-with-pagination)
+      - [get competition by year](#get-competition-by-year)
+      - [query active competitions](#query-active-competitions)
+      - [query inactive competitions](#query-inactive-competitions)
+      - [query upcoming competitions](#query-upcoming-competitions)
       - [Get results](#get-competition-results)
-
+      - [am I participating in this competition?](#am-i-participating-in-this-competition)
     - [teams](#teams)
       - [query teams with clubName](#query-teams-with-clubname)
       - [create new team](#create-new-team)
       - [get team's score](#get-team-scores)
       - [teamExists](#check-if-team-exists)
       - [Get all teams participating in a competition](#get-all-teams-participating-in-a-competition)
+      - [get club's team that are in active competitions](#get-clubs-team-that-are-in-active-competitions)
       - [get team with member IDs](#get-team-with-member-ids)
     - [team members](#team-member)
       - [add team member to team](#add-team-member-to-team)
@@ -55,6 +62,9 @@
       - [submit user's score](#submit-users-score)
       - [submit user's score as a sum](#submit-users-score-as-a-sum)
       - [isMember](#ismember)
+    - [images](#image)
+      - [upload image](#upload-image)
+      - [download image](#download-image)
 
 
 - [<ins>__Types__</ins>](#Types)
@@ -106,6 +116,7 @@ MAIL-USERNAME= //johan.liebert@gmail.com; for example
 MAIL-PASSWORD= //password1; for example
 MAIL-PORT=587
 RecoveryPage= // url for the frontend's recovery page. for example: https://localhost:3000/recovery
+DURATIONOFVALIDTY=28800000
 ```
 ## 3rd run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>
@@ -217,8 +228,20 @@ returns code 200 if email was sent, 400 if not
 ### reset password
 ```
 POST https://localhost:8080/api/reset_password?token=${token}&password=${newPassword}
-
 ```
+
+### Get user's team in competition
+```
+GET https://localhost:8080/api/user/team?competitionId={competitionId}
+```
+returns [team](#team)
+
+### Get all user's teams in all competitions
+```
+GET https://localhost:8080/api/user/teams
+```
+returns list of [team](#team)s
+
 returns code 200 if password was updated, 400 if not
 ## admin related
 ### search users
@@ -260,7 +283,9 @@ Returns arbitrary message. StatusCodes => 200=success, 400=failure
 ```
 DELETE https://localhost:8080/api/admin/delete
 Content-Type: application/json
-username
+{
+  userId: number
+}
 ```
 returns code 200 if the user was deleted, 400 if something went wrong
 Note: this endpoint requires admin role
@@ -278,11 +303,12 @@ Content-Type: application/json
   clubName:String,
   userId:number,
   score:number,
+  requestType: set || update, optional
   bullsEyeCount:number
 }
 ```
 ### set passkey
-Note: Note: A user must obtain clubAdmin status either by  [creating a club](#create-new-club) or by being [promoted](#promote-user) by an sys admin in order to have the authority to update passkeys for that club.
+Note: A user must obtain clubAdmin status either by  [creating a club](#create-new-club) or by being [promoted](#promote-user) by an sys admin in order to have the authority to update passkeys for that club.
 ```
 POST https://localhost:8080/api/club/setPasskey
 Authorization: required clubAdmin Role
@@ -413,8 +439,8 @@ Content-Type: application/json
 {
     "competitionName": string,
     "competitionType": "rifle" || "pistol"
-    "startDate": string,
-    "endDate": string,
+    "startDate": number,
+    "endDate": number,
 }
 ```
 returns [competition](#competition)
@@ -423,8 +449,8 @@ returns [competition](#competition)
   "competitionId": string,
   "displayName": string,
   "type": "rifle" || "pistol"
-  "startDate": string,
-  "endDate": string,
+  "startDate": number,
+  "endDate": number,
   "creationDate": string
 }
 ```
@@ -450,14 +476,41 @@ Note the following:
 ```
 GET https://localhost:8080/api/competition/query?search=${search}&page=${page}&size=${size}
 ```
-[returns page of competitions](#page)
-
+### get competition by year
+```
+GET https://localhost:8080/api/competition/query?year=${year:number}&page=${page}&size=${size}
+```
+### query active competitions
+```
+GET https://localhost:8080/api/competition/active/query?page=${page:number}&size=${size:number}
+```
+[returns page of competitions](#page) which have begun and have not ended yet (startDate<now && endDate>now).
+### query inactive competitions
+```
+GET https://localhost:8080/api/competition/inactive/query?page=${page:number}&size=${size:number}
+```
+### query upcoming competitions
+```
+GET https://localhost:8080/api/competition/upcoming/query?page=${page:number}&size=${size:number}
+```
+[returns page of competitions](#page) which have not started yet (startDate>now).
 ### Get competition results
 teams and scores are sorted descending by totalScore and sum
 ``` 
 GET api/competition/result/{competitionName}
 ```
 returns [CompetitionResponse](#competitionresponse)
+### am I participating in this competition
+```
+GET https://localhost:8080/api/competition/team/amParticipating
+Authorization: required (ROLE_USER)
+Content-Type: application/json
+{
+    "competitionName": string
+}
+```
+If user is in [a team](#team) team of this competition, team object will be returned with code 200. If this competition exist but user is not participating in it, code 204 will be returned. 400 if this competition does not exist.
+
 ## Teams
 
 ### query teams with clubName
@@ -532,6 +585,13 @@ and HTTP status code 400 if the competition is not found, or
 ```
 and HTTP status code 200 if the competition is found
 
+### get club's team that are in active competitions
+```
+GET api/competition/team/active/query?club=${clubName:sring}&page=${pageNumber:number}&size=${sizeOfPage:number}
+```
+[returns page of club's teams](#page) which are in active competitions(comps where(startDate<now && endDate>now))
+
+
 ### Get team with member IDs
 ```
 GET api/competition/team?team={teamName}&competition={competitionName}
@@ -572,23 +632,28 @@ Content-Type: application/json
 ```
 returns [TeamMemberScore](#teammemberscoreresponse) if a score for this user exist.
 
-### Submit user's score
+### submit user's score
 Note: the following conditions must be met before user can submit his scores: 
 - The user must be [a team member](#add-team-member-to-team) for the competition before he is able to submit his scores
+- userId is optional. If left empty, userId is will be gotten from token. UserId must be a member of the team.
 ```
 POST api/competition/team/member/score/add
 Authorization: required
 Content-Type: application/json
 {
-  "competitionName": string,
-  "teamName": string,
-  "scoreList": number[]
+  competitionName: string,
+  teamName: string,
+  userId: number, // optional
+  requestType: set || update, optional
+  scoreList: number[]
 }
 ```
 Returns [TeamMemberScore](#teammemberscore) if submission was successful.
 ### Submit user's score as a sum
 Note: the following conditions must be met before user can submit his scores: 
 - The user must be [a team member](#add-team-member-to-team) for the competition before he is able to submit his scores
+- userId is optional. If left empty, userId is will be gotten from token. UserId must be a member of the team.
+
 ```
 POST api/competition/team/member/score/add/sum
 Authorization: required
@@ -597,6 +662,8 @@ Content-Type: application/json
   competitionName: string,
   teamName: string,
   score: number,
+  userId: number // optional
+  requestType: set || update, optional
   bullsEyeCount: number
 }
 ```
@@ -613,6 +680,44 @@ Content-Type: application/json
 ```
 returns true if the team is in the competition and the user is part of it
 
+# Image
+### upload image
+```
+POST api/file/upload/
+Authorization: required
+Content-Type: multipart/form-data
+```
+Requires competitionId field and file field for the image. Currently only accepts one image at a time.
+
+### download image
+```
+POST api/file/download/
+Authorization: required
+Content-Type: application/json
+{
+  "userId": number,
+  "competitiondId": string,
+  "teamName": string,
+  "fileName": string || null
+}
+```
+Returns files in multipart/form-data format with the image name as the name and the image bytes as the value.
+If filename is null, all images associated with the TeamMemberId will be returned.
+
+### delete image
+```
+POST api/file/delete/
+Authorization: required,
+Content-Type: application/json
+{
+  "userId": number,
+  "competitiondId": string,
+  "teamName": string,
+  "fileName": string
+}
+```
+Deletes a file by the given id. The fileName must be provided.
+
 # Types 
 ## CompetitionResponse
 ``` 
@@ -620,9 +725,9 @@ returns true if the team is in the competition and the user is part of it
   "competitionId": string,
   "displayName": string,
   "competitionType": string,
-  "creationDate": string,
-  "startDate": string,
-  "endDate": string
+  "creationDate": number,
+  "startDate": number,
+  "endDate": number,
   "teams": CompetitionTeamResponse[]
 }
 ```
@@ -659,7 +764,6 @@ Note: used to be called competitionResults.team.scores
   "userId": number,
   "competitionId": string,
   "teamName": string,
-  "uuid": string,
   "sum": number,
   "bullsEyeCount": number,
   "scorePerShot": string,
@@ -708,8 +812,8 @@ Mm. onnistunut kilpailun luominen palauttaa tälläisen.
     "competitionId": string,
     "displayName": string,
     "type": "rifle" || "pistol"
-    "startDate": string,
-    "endDate": string,
+    "startDate": number,
+    "endDate": number,
     "creationDate": string
 }
 ```
@@ -719,7 +823,7 @@ Mm. onnistunut seuran luominen palauttaa tälläisen.
 {
   "name": string, // @id
   "nameNonId": string,
-  "creationDate": string,
+  "creationDate": number,
   "idCreator": number
 }
 ```

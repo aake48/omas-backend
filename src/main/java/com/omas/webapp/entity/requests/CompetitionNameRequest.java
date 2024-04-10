@@ -2,18 +2,13 @@ package com.omas.webapp.entity.requests;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor; 
 import lombok.Data; 
-import lombok.NoArgsConstructor;
-
+import lombok.NoArgsConstructor; 
+  
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class teamIdRequest { 
+public class CompetitionNameRequest { 
     
-    @NotEmpty(message = "Competition name cannot be empty.")
+    @NotEmpty(message = "competitionName cannot be empty.")
     private String competitionName;
-
-    @NotEmpty(message = "teamName cannot be empty.")
-    private String teamName;
-    
-
 }

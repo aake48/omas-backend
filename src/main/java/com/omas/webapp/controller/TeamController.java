@@ -2,8 +2,9 @@ package com.omas.webapp.controller;
 
 import com.omas.webapp.Util;
 import com.omas.webapp.entity.requests.AddTeamRequest;
+import com.omas.webapp.entity.requests.CompetitionNameRequest;
 import com.omas.webapp.entity.requests.TeamScoreRequest;
-import com.omas.webapp.entity.requests.teamIdRequest;
+import com.omas.webapp.entity.requests.TeamIdRequest;
 import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
@@ -47,39 +48,32 @@ public class TeamController {
 
         String club = UserInfoDetails.getDetails().getPartOfClub();
 
-        if(club==null){
-            return new ResponseEntity<>(Map.of("messsage", "user creating a team needs to be in a club"), HttpStatus.BAD_REQUEST);
+        if (club == null) {
+            return new MessageResponse("User creating a team needs to be in a club", HttpStatus.BAD_REQUEST);
+        }
+
+        String teamDisplayName = request.getTeamName();
+        String teamName = Util.sanitizeName(teamDisplayName);
+
+        if (teamName == null) {
+            return new MessageResponse("Team name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$", HttpStatus.BAD_REQUEST);
+        }
+
+        if (teamService.teamExists(request.getCompetitionName(), teamName)) {
+            return new MessageResponse("A team with that name already exists.", HttpStatus.BAD_REQUEST);
         }
 
         Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
 
         // Handles prior thisCompetitionExists check
         if (competitionOptional.isEmpty()) {
-            return new MessageResponse("This competition does not exist", HttpStatus.BAD_REQUEST);
+            return new MessageResponse("The requested competition does not exist", HttpStatus.BAD_REQUEST);
         }
 
         Competition competition = competitionOptional.get();
 
-        if (competition.hasEnded()) {
-            return new MessageResponse("This competition has ended", HttpStatus.FORBIDDEN);
-        }
-
-        // This section of the code performs two operations on the 'Id', teamName:
-        // 1. It removes whitespaces and characters 'ä', 'ö', 'å' from the 'Id'.
-        // 2. It stores the original, unaltered version of 'Id' into 'nameNonId'.
-        // If 'Id' still contains unsafe characters after these alterations, the code
-        // returns a 400 status.
-        String teamDisplayName = request.getTeamName();
-        String teamName = request.getTeamName()
-                .replace('ä', 'a').replace('Ä', 'A')
-                .replace('ö', 'o').replace('Ö', 'O')
-                .replace('å', 'a').replace('Å', 'A')
-                .replace(' ', '_');
-
-        String regex = "^[a-zA-Z0-9-_]+$";
-
-        if (!teamName.matches(regex)) {
-            return new MessageResponse("Team name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$", HttpStatus.BAD_REQUEST);
+        if (!competition.isActive()) {
+            return new MessageResponse("The requested competition is not active.", HttpStatus.BAD_REQUEST);
         }
         
         try {
@@ -115,9 +109,46 @@ public class TeamController {
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @GetMapping(value = "/amParticipating")
+    public ResponseEntity<?> getTeamInWhichThisUserIsParticipating(@Valid @RequestBody CompetitionNameRequest request) {
+
+        Long userId = UserInfoDetails.getDetails().getId();
+
+        Optional<Team> team = teamService.getUserTeam(userId, request.getCompetitionName());
+
+        if (team.isPresent()) {
+            return new ResponseEntity<>(team.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping(params = { "page", "size", "club" }, value = "active/query")
+    public ResponseEntity<?> queryUsers(@RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "club", required = false) String club) throws Exception {
+
+        if (page < 0) {
+            return new MessageResponse("Invalid page number.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (club == null || club.isBlank()) {
+            club = "";
+        }
+
+        Page<Team> resultPage = teamService.findThisClubsTeamsWhichAreInActiveCompetitions(page, size, club);
+
+        if (page > resultPage.getTotalPages()) {
+            return new MessageResponse("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(resultPage, HttpStatus.OK);
+
+    }
+
     
     @GetMapping("/teamExists")
-    public ResponseEntity<?> hasTeam(@Valid @RequestBody teamIdRequest request) {
+    public ResponseEntity<?> hasTeam(@Valid @RequestBody TeamIdRequest request) {
 
         Boolean value = teamService.isTeamPartOfCompetition(request.getCompetitionName(), request.getTeamName());
         return new ResponseEntity<>(value, HttpStatus.OK);
@@ -129,23 +160,10 @@ public class TeamController {
         @RequestParam(name = "competition") String competition
     ) {
 
-        String teamName = Util.sanitizeName(team);
-        String competitionId = Util.sanitizeName(competition);
-
-        // Sanity check even though it should theoretically be safe already
-        if (teamName == null) {
-            return new MessageResponse("Team name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$ after sanitation", HttpStatus.BAD_REQUEST);
-        }
-
-        // Sanity check even though it should theoretically be safe already
-        if (competitionId == null) {
-            return new MessageResponse("Competition name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$ after sanitation", HttpStatus.BAD_REQUEST);
-        }
-
-        Optional<Team> teamOptional = teamService.getTeam(competitionId, teamName);
+        Optional<Team> teamOptional = teamService.getTeam(competition, team);
 
         if (teamOptional.isEmpty()) {
-            return new MessageResponse("No team found with the given parameters.", HttpStatus.NOT_FOUND);
+            return new MessageResponse("No team found with the given parameters.", HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(teamOptional.get(), HttpStatus.OK);

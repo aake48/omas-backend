@@ -12,18 +12,16 @@ public class TeamMemberId implements Serializable {
     private String competitionId;    
     private String teamName;
 
-
     public TeamMemberId(Long userId, String competitionId, String teamName) {
         this.userId = userId;
         this.competitionId = competitionId;        
-        this.teamName =teamName;
-
+        this.teamName = teamName;
     }
 
     public TeamMemberId(Long id, TeamId teamId) {
         this.userId = id;
         this.competitionId = teamId.getCompetitionId();
-        this.teamName =teamId.getTeamName();
+        this.teamName = teamId.getTeamName();
     }
 
 }

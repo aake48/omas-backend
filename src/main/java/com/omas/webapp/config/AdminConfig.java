@@ -21,10 +21,10 @@ public class AdminConfig implements CommandLineRunner {
     public void addAdminUser() {
 
         RegistrationRequest registrationRequest = new RegistrationRequest();
-        registrationRequest.setEmail(Constants.adminUsername);
-        registrationRequest.setName(Constants.adminUsername);
-        registrationRequest.setUsername(Constants.adminUsername);
-        registrationRequest.setPassword(Constants.adminPassword);
+        registrationRequest.setEmail(Constants.ADMIN_USERNAME);
+        registrationRequest.setName(Constants.ADMIN_USERNAME);
+        registrationRequest.setUsername(Constants.ADMIN_USERNAME);
+        registrationRequest.setPassword(Constants.ADMIN_PASSWORD);
 
         userService.registerUser(registrationRequest);
 

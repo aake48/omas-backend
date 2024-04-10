@@ -12,6 +12,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     public User findByEmail(String email);
 
-    public Page<User> findBylegalnameContaining(String search, PageRequest pageRequest);
+    public Page<User> findByLegalNameContaining(String search, PageRequest pageRequest);
 
 }

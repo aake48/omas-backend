@@ -42,4 +42,15 @@ public class Competition {
 	public boolean hasEnded() {
 		return Instant.ofEpochMilli(endDate.getTime()).isBefore(Instant.now());
 	}
+
+	public boolean hasStarted() {
+		return Instant.now().isBefore(Instant.ofEpochMilli(startDate.getTime()));
+	}
+
+	public boolean isActive() {
+
+		long currentTime = System.currentTimeMillis();
+
+		return startDate.getTime() <= currentTime && endDate.getTime() > currentTime;
+	}
 }

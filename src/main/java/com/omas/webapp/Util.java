@@ -7,7 +7,14 @@ public class Util {
     private static final Pattern NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9-_]+$");
 
     /**
-     * Perform simple sanitation on the given name to make it url friendly
+     * Performs simple sanitation by replacing characters as follows:
+     * <br>ä -> a
+     * <br>ö -> o
+     * <br>å -> a
+     * <br>Ä -> A
+     * <br>Ö -> O
+     * <br>Å -> A
+     * <br>space -> _
      * @param name the name to sanitize
      * @return the sanitized name or null if the sanitation could not be done
      */

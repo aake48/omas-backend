@@ -9,20 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import com.omas.webapp.Constants;
 import com.omas.webapp.entity.requests.AddTeamMemberScoreAsSumRequest;
-import com.omas.webapp.entity.requests.AddTeamMemberScoreRequest;
 import com.omas.webapp.entity.requests.TeamMemberJoinRequest;
 import com.omas.webapp.entity.requests.TeamMemberScoreRequest;
-import com.omas.webapp.entity.requests.adminAddScoreRequest;
-import com.omas.webapp.entity.requests.teamIdRequest;
+import com.omas.webapp.entity.requests.AdminAddScoreRequest;
+import com.omas.webapp.entity.requests.TeamIdRequest;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
@@ -55,7 +52,15 @@ public class TeamMemberController {
     @PostMapping("/add")
     public ResponseEntity<?> addUserToTeam(@Valid @RequestBody TeamMemberJoinRequest request) {
 
-        UserInfoDetails userDetails = UserInfoDetails.getDetails();
+        Long userId = UserInfoDetails.getDetails().getId();
+
+        if (teamsService.isUserParticipatingInThisCompetition(userId, request.getCompetitionName())) {
+            return new MessageResponse("You are already in a team in this competition.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (teamsService.isThisTeamFull(request.getCompetitionName(), request.getTeamName())){
+            return new MessageResponse("The team is full.", HttpStatus.BAD_REQUEST);
+        }
 
         Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
 
@@ -65,12 +70,12 @@ public class TeamMemberController {
 
         Competition competition = competitionOptional.get();
 
-        if (competition.hasEnded()) {
-            return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+        if (!competition.isActive()) {
+            return new MessageResponse("The requested competition is not active.", HttpStatus.BAD_REQUEST);
         }
 
         try {
-            TeamMember savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userDetails.getId(), request.getCompetitionName(), request.getTeamName()));
+            TeamMember savedTeamMember = teamsService.addTeamMember(new TeamMemberId(userId, request.getCompetitionName(), request.getTeamName()));
             return new ResponseEntity<>(savedTeamMember, HttpStatus.OK);
 
         } catch (Exception e) {
@@ -81,84 +86,37 @@ public class TeamMemberController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/isMember")
-    public ResponseEntity<?> isMember(@Valid @RequestBody teamIdRequest request) {
+    public ResponseEntity<?> isMember(@Valid @RequestBody TeamIdRequest request) {
 
-        long userId  = ((UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal()).getId();
-        try {
-            teamsService.CanUserSubmitScores(userId, request.getCompetitionName(), request.getTeamName());
-            return new ResponseEntity<>(true, HttpStatus.OK);
+        long userId = UserInfoDetails.getDetails().getId();
 
-        } catch (Exception e) {
-            return new ResponseEntity<>(false, HttpStatus.OK);
-        }
+        TeamMemberId teamMemberId = new TeamMemberId(userId, request.getCompetitionName(), request.getTeamName());
 
+        boolean isMember = teamsService.thisUserIsTeamMember(teamMemberId);
+
+        return new ResponseEntity<>(isMember, HttpStatus.OK);
     }
-
 
     @GetMapping("/score")
     public ResponseEntity<?> getScore(@Valid @RequestBody TeamMemberScoreRequest request) {
         
         TeamMemberScore score = teamMemberScoreService.getUsersScore(request.getUserId(), request.getCompetitionName());
-        if(score!=null){
+        if (score != null) {
             return new ResponseEntity<>(score, HttpStatus.OK);
         }
 
         return new MessageResponse("No score found", HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PostMapping("/score/add")
-    public ResponseEntity<?> addScores(@Valid @RequestBody AddTeamMemberScoreRequest request) {
-
-        Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
-
-        if (competitionOptional.isEmpty()) {
-            return new MessageResponse("The requested competition does not exist", HttpStatus.BAD_REQUEST);
-        }
-
-        Competition competition = competitionOptional.get();
-
-        if (competition.hasEnded()) {
-            return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
-        }
-
-        try {
-
-            long userId  = ((UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
-            .getPrincipal()).getId();
-
-            // validates that user is part of the team and that the team has entered this
-            // competition
-            TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(userId, request.getCompetitionName(), request.getTeamName());
-
-            String type = competition.getType();
-            TeamMemberScore score;
-            switch (type) {
-                case Constants.rifleType -> {
-                    score = teamMemberScoreService.addRifleScore(teamMemberId, request.getScoreList());
-                }
-                case Constants.pistolType -> {
-                    score = teamMemberScoreService.addPistolScore(teamMemberId, request.getScoreList());
-                }
-                default -> throw new Exception("Invalid competition type");
-            }
-            // if the scores already exist in the DB, they will be overwritten
-            return new ResponseEntity<>(score, HttpStatus.OK);
-        } catch (Exception e) {
-            return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
     /**
      * As admin of the team's club, Adds the sum of scores for a team member.
-     * Uses teamService.isAdminInClub() to validate that the user has privileges to administer teams of this club 
+     * Uses teamService.isAdminInClub() to validate that the user has privileges to administer teams of this club
      * @param request the request object containing the necessary information for adding scores
      * @return a ResponseEntity containing the added team member score if successful, or an error message if unsuccessful
      */
     @PreAuthorize("@teamService.isAdminInclub(#request.clubName)")
     @PostMapping("/score/add/sum/admin")
-    public ResponseEntity<?> addScoresSumAdmin(@Valid @RequestBody adminAddScoreRequest request) {
+    public ResponseEntity<?> addScoresSumAdmin(@Valid @RequestBody AdminAddScoreRequest request) {
 
         try {
 
@@ -170,6 +128,7 @@ public class TeamMemberController {
                 club = team.getClubName();
             }
 
+            // TODO: What does this mean? Possible to return a MessageResponse?
             if (club == null || !club.equals(request.getClubName())) {
                 throw new Exception("this team belongs to another team");
             }
@@ -182,16 +141,17 @@ public class TeamMemberController {
 
             Competition competition = competitionOptional.get();
 
-            if (competition.hasEnded()) {
-                return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+            if (!competition.isActive()) {
+                return new MessageResponse("The requested competition is not active.", HttpStatus.BAD_REQUEST);
             }
 
-            TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(request.getUserId(),
+            TeamMemberId teamMemberId = teamsService.canUserSubmitScores(request.getUserId(),
                     request.getCompetitionName(),
                     request.getTeamName());
 
-            TeamMemberScore score = teamMemberScoreService.addSum(teamMemberId, request.getBullsEyeCount(),
-                    request.getScore());
+            TeamMemberScore score = teamMemberScoreService.modifyScoreSum(
+                teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType()
+            );
 
             return new ResponseEntity<>(score, HttpStatus.OK);
 
@@ -212,27 +172,29 @@ public class TeamMemberController {
 
         Competition competition = competitionOptional.get();
 
-        if (competition.hasEnded()) {
-            return new MessageResponse("The requested competition has ended.", HttpStatus.FORBIDDEN);
+        if (!competition.isActive()) {
+            return new MessageResponse("The requested competition is not active.", HttpStatus.BAD_REQUEST);
         }
 
         try {
-            long userId = ((UserInfoDetails) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal()).getId();
 
-            // validates that user is part of the team and that the team has entered this
-            // competition
-            TeamMemberId teamMemberId = teamsService.CanUserSubmitScores(userId, request.getCompetitionName(),
-                    request.getTeamName());
+            TeamMemberId teamMemberId = teamsService.resolveTeamMemberId(request.getUserId(), request.getCompetitionName(), request.getTeamName());
 
-            TeamMemberScore score = teamMemberScoreService.addSum(teamMemberId, request.getBullsEyeCount(),
-                    request.getScore());
+            TeamMemberScore score = teamMemberScoreService.modifyScoreSum(
+                teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType()
+            );
 
-            // if the scores already exist in the DB, they will be overwritten
             return new ResponseEntity<>(score, HttpStatus.OK);
         } catch (Exception e) {
             return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(Exception.class)
+    public String handleOtherExceptions(Exception ex) {
+        ex.printStackTrace();
+        return ex.getMessage();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
