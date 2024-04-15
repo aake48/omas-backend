@@ -1,42 +1,57 @@
-#FROM gradle:latest AS build
+# Base image
+FROM alpine:latest
 
-#WORKDIR /home/gradle/src
+# Install Java (OpenJDK 17) and PostgreSQL
+RUN apk add --no-cache openjdk17 postgresql postgresql-client
 
-#COPY env.properties .
+# Set up environment variables
+ENV DB_URL="jdbc:postgresql://localhost:5432/omas" \
+    DB_USERNAME="postgres" \
+    DB_PASSWORD="password" \
+    SECRET="48794134879942idontlikedogs1323572342328789" \
+    MAIL_HOST="smtp.gmail.com" \
+    MAIL_USERNAME="someexample@gmail.com" \
+    MAIL_PASSWORD="password1" \
+    MAIL_PORT="587" \
+    RECOVERY_PAGE="https://localhost:3000/recovery" \
+    DURATIONOFVALIDITY="288000"
 
-#COPY build.gradle .
-#COPY settings.gradle .
+# Set permissions and initialize the database
+RUN mkdir -p /var/log/postgresql /var/lib/postgresql/data /run/postgresql && \
+    chown -R postgres:postgres /var/log/postgresql /var/lib/postgresql/data /run/postgresql && \
+    su postgres -c "initdb -D /var/lib/postgresql/data"
 
-#COPY src src
+# Create a database
+RUN echo "CREATE DATABASE omas;" > /create_db.sql && \
+    chown postgres:postgres /create_db.sql && \
+    su postgres -c "pg_ctl start -D /var/lib/postgresql/data -l /var/log/postgresql/postgres.log" && \
+    su postgres -c "psql -f /create_db.sql"
 
-# Remove -x test if you want to run the tests
-#RUN gradle build -x test --no-daemon
+# Prepare startup scripts
+RUN echo "#!/bin/sh" > /start-postgres.sh && \
+    echo "su postgres -c 'pg_ctl start -D /var/lib/postgresql/data -l /var/log/postgresql/postgres.log'" >> /start-postgres.sh && \
+    echo "sleep infinity" >> /start-postgres.sh && chmod +x /start-postgres.sh
 
-#Uncomment above if gradle build is needed.
-
-
-FROM openjdk:latest
-
-# ENV DB-URL=jdbc:postgresql://database-omas.fly.dev:5432/database-omas?user=postgres&password=password
-ENV DB-USERNAME=postgres
-ENV DB-PASSWORD=password
-ENV SECRET=48794134879942idontlikedogs1323572342328789
-ENV MAIL-HOST=smtp.gmail.com
-ENV MAIL-USERNAME=someexample@gmail.com
-ENV MAIL-PASSWORD=password1
-ENV MAIL-PORT=587
-ENV RecoveryPage=https://localhost:3000/recovery
-ENV DURATIONOFVALIDTY=28800000
-
+# Set working directory
 WORKDIR /app
 
-
-COPY env.properties .
+# Copy application files
 COPY /build/libs/webapp-0.0.1-SNAPSHOT.jar webapp-0.0.1-SNAPSHOT.jar
-COPY src/main/resources/keystore/omas.p12 omas.p12
+COPY env.properties .
+COPY src/main/resources/keystore/omas.p12 .
 
-# Expose port 8080
+# Start script
+RUN echo "#!/bin/sh" > /start.sh && \
+    echo "echo 'Starting PostgreSQL...'" >> /start.sh && \
+    echo "/start-postgres.sh &" >> /start.sh && \
+    echo "echo 'PostgreSQL started'" >> /start.sh && \
+    echo "echo 'Starting Java application...'" >> /start.sh && \
+    echo "java -jar /app/webapp-0.0.1-SNAPSHOT.jar || echo 'Java application failed with status \$?'" >> /start.sh && \
+    echo "echo 'Java application exited'" >> /start.sh && \
+    echo "tail -f /dev/null" >> /start.sh && chmod +x /start.sh
+
+# Expose port
 EXPOSE 8080
 
-# Command to run the application
-CMD ["java", "-jar", "webapp-0.0.1-SNAPSHOT.jar"]
+# Run command
+CMD ["/bin/sh", "/start.sh"]
