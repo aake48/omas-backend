@@ -37,6 +37,10 @@ public class UserService implements UserDetailsService {
         return repository.findByLegalNameContaining(search, PageRequest.of(page, size));
     }
 
+
+    /**
+     * Loads a user by their username and updates their last login information to the current date and time.
+     */
     @Override
     public UserInfoDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -45,9 +49,13 @@ public class UserService implements UserDetailsService {
         if (user.isPresent()) {
             User foundUser = user.get();
             List<String> roles = roleService.findUsersRoles(foundUser.getId());
+            if(roles.isEmpty()){
+                throw new UsernameNotFoundException("User has no active roles ");
+            }
+            foundUser = repository.save(foundUser.updateLastLogin());
             return new UserInfoDetails(foundUser, roles);
         }
-        throw new UsernameNotFoundException("User not found " + username);
+        throw new UsernameNotFoundException("User not found: " + username);
     }
 
     public void updateResetPasswordToken(String token, String email) throws Exception {

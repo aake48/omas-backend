@@ -1,6 +1,7 @@
 package com.omas.webapp.table;
 
 import java.sql.Date;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,11 @@ import lombok.NoArgsConstructor;
 @Table(name = "user_")
 public class User { 
 
+	public User updateLastLogin(){
+		lastLogin = new Date(Instant.now().toEpochMilli());
+		return this;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private long id; 
@@ -34,7 +40,8 @@ public class User {
 	private String email;
 	@JsonIgnore
 	private String password;
-	private Date CreationDate;
+	private Date creationDate;
+	private Date lastLogin;
 	private String partOfClub;
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
