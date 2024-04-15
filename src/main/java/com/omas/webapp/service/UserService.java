@@ -6,6 +6,7 @@ import com.omas.webapp.repository.UserRepository;
 import com.omas.webapp.table.PasswordResetToken;
 import com.omas.webapp.table.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -96,7 +97,7 @@ public class UserService implements UserDetailsService {
         repository.save(user);
     }
 
-    public boolean registerUser(RegistrationRequest request) {
+    public void registerUser(RegistrationRequest request) throws Exception{
 
         User user = new User();
         user.setUsername(request.getUsername());
@@ -107,22 +108,18 @@ public class UserService implements UserDetailsService {
 
         // checks whether a user with this username already exists in the db
         if (repository.findByUsername(user.getUsername()).isPresent()) {
-            return false;
+            throw new Exception("The username '" + user.getUsername() + "' is already taken.");
         }
 
         // hash and salt password before saving it to db
         user.setPassword(encoder.encode(user.getPassword()));
-
         try {
             User createdUser = repository.save(user);
             roleService.addUserRole(createdUser.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("ex : " + e);
-            return false;
+        } catch (DataIntegrityViolationException e) {
+            throw new Exception("The email '" + user.getEmail() + "' is already in use.");
         }
 
-        return true;
     }
 
     public boolean userExists(long id) {

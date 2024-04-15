@@ -60,10 +60,12 @@ public class UserController {
     @PostMapping("/reg")
     public ResponseEntity<?> addNewUser(@Valid @RequestBody RegistrationRequest request) {
 
-        if (service.registerUser(request)) {
+        try {
+            service.registerUser(request);
             return new MessageResponse("User added", HttpStatus.OK);
-        } else {
-            return new MessageResponse("Username has already been taken.", HttpStatus.FORBIDDEN);
+
+        } catch (Exception e) {
+            return new MessageResponse(e.getMessage(), HttpStatus.FORBIDDEN);
         }
     }
 
