@@ -16,6 +16,7 @@ public class WebappApplication {
 		try {
 			SpringApplication.run(WebappApplication.class, args);
 		} catch (Exception ex) {
+			
 			ex.printStackTrace();
 		}
 	}

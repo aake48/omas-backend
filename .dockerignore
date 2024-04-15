@@ -1,41 +1,41 @@
-# flyctl launch added from .gitignore
-**\HELP.md
-**\.gradle
-# **\build
-!**\gradle\wrapper\gradle-wrapper.jar
-# !**\**\src\main\**\build
-!**\**\src\test\**\build
+# # flyctl launch added from .gitignore
+# **\HELP.md
+# # **\.gradle
+# # **\build
+# # !**\gradle\wrapper\gradle-wrapper.jar
+# # !**\**\src\main\**\build
+# !**\**\src\test\**\build
 
-### STS ###
-**\.apt_generated
-**\.classpath
-**\.factorypath
-**\.project
-**\.settings
-**\.springBeans
-**\.sts4-cache
-**\bin
-!**\**\src\main\**\bin
-!**\**\src\test\**\bin
+# ### STS ###
+# **\.apt_generated
+# **\.classpath
+# **\.factorypath
+# **\.project
+# **\.settings
+# **\.springBeans
+# **\.sts4-cache
+# **\bin
+# # !**\**\src\main\**\bin
+# !**\**\src\test\**\bin
 
-### IntelliJ IDEA ###
-**\.idea
-**\*.iws
-**\*.iml
-**\*.ipr
-**\out
-!**\**\src\main\**\out
-!**\**\src\test\**\out
+# ### IntelliJ IDEA ###
+# **\.idea
+# **\*.iws
+# **\*.iml
+# **\*.ipr
+# **\out
+# # !**\**\src\main\**\out
+# !**\**\src\test\**\out
 
-### NetBeans ###
-nbproject\private
-nbbuild
-dist
-nbdist
-.nb-gradle
+# ### NetBeans ###
+# nbproject\private
+# nbbuild
+# dist
+# nbdist
+# .nb-gradle
 
-### VS Code ###
-**\.vscode
-# **\env.properties
-**\*.rest
-fly.toml
+# ### VS Code ###
+# **\.vscode
+# # **\env.properties
+# **\*.rest
+# fly.toml

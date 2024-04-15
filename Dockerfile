@@ -17,7 +17,7 @@
 
 FROM openjdk:latest
 
-ENV DB-URL=jdbc:postgresql://localhost:5432/omas
+# ENV DB-URL=jdbc:postgresql://database-omas.fly.dev:5432/database-omas?user=postgres&password=password
 ENV DB-USERNAME=postgres
 ENV DB-PASSWORD=password
 ENV SECRET=48794134879942idontlikedogs1323572342328789
