@@ -116,6 +116,8 @@ OMAS_SMTP_PASSWORD=
 OMAS_SMTP_PORT=587 
 OMAS_RECOVERY_PAGE_URL=https://localhost:3000/recovery
 OMAS_TOKEN_VALIDITY_DURATION=28800000
+OMAS_MAX_LOGIN_ATTEMPTS=10
+OMAS_BAN_DURATION=86400000
 ```
 ## 3rd run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>
