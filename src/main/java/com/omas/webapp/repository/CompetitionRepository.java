@@ -13,7 +13,7 @@ public interface CompetitionRepository extends JpaRepository<Competition, String
 
     Page<Competition> findByCompetitionIdContaining(String name, PageRequest pageRequest);
 
-    @Query(value = "SELECT * FROM Competition c WHERE EXTRACT(YEAR FROM c.start_date) = :year", nativeQuery = true)
+    @Query(value = "SELECT * FROM Competition c WHERE EXTRACT(YEAR FROM c.start_date) = :year ORDER BY c.start_date ASC", nativeQuery = true)
     Page<Competition> findByYear(@Param("year") int year, PageRequest pageRequest);
 
     @Query(value = "SELECT * FROM Competition c WHERE c.start_date <= :now AND c.end_date >= :now ORDER BY c.start_date ASC", nativeQuery = true)
