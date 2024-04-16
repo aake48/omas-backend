@@ -1,5 +1,7 @@
 package com.omas.webapp;
 
+import java.util.regex.Pattern;
+
 public final class Constants {
 
     private Constants() {
@@ -18,6 +20,8 @@ public final class Constants {
     public static final double MAX_SCORE = 654;
     public static final int MAX_BULLS_EYES = 60;
 
+    public static final Pattern VALID_NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9-_]+$");
+
     public static String createIdString(String name) {
 
         String idString = name
@@ -25,6 +29,10 @@ public final class Constants {
         .replace('ö', 'o').replace('Ö', 'O')
         .replace('å', 'a').replace('Å', 'A')
         .replace(' ', '_');
+
+        if (!VALID_NAME_PATTERN.matcher(idString).matches()) {
+            return null;
+        }
 
         return idString;
     }
