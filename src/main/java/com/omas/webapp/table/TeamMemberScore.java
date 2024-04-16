@@ -62,6 +62,8 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
     }
 
     @ManyToOne
+    @JsonIgnore
+    @Getter
     @JoinColumns({
         @JoinColumn(name = "userId", referencedColumnName = "userId", insertable = false, updatable = false),
         @JoinColumn(name = "competitionId", referencedColumnName = "competitionId", insertable = false, updatable = false),

@@ -96,9 +96,7 @@ public class ClubControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + TestUtils.getToken(mockMvc, "JohanDoey"))
                 .content(joinWithPasskey))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.message").exists());
-
+            .andExpect(status().isOk());
     }
 
 

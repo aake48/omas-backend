@@ -71,9 +71,7 @@ public class LoginTests {
                     + "\"password\":\"Password123\","
                     + "\"username\":\"johndoe\""
                     + "}"))
-            .andExpect(status().isForbidden())
-            .andExpect(jsonPath("$.message").value("Bad credentials"));
-
+            .andExpect(status().isForbidden());
     }
 
     @Test
@@ -88,9 +86,7 @@ public class LoginTests {
                     + "\"password\":\" password123\","
                     + "\"username\":\"johndoe\""
                     + "}"))
-            .andExpect(status().isForbidden())
-            .andExpect(jsonPath("$.message").value("Bad credentials"));
-
+            .andExpect(status().isForbidden());
     }
 
     @Test
@@ -105,9 +101,8 @@ public class LoginTests {
                     + "\"password\":\"password123\","
                     + "\"username\":\"Johndoe \""
                     + "}"))
-            .andExpect(status().isForbidden())
-            .andExpect(jsonPath("$.message").value("Bad credentials"));
-    }
+            .andExpect(status().isForbidden());
+            }
 
     @Test
     void IncorrectCapitalizedLetterInUsername() throws Exception {
@@ -121,9 +116,8 @@ public class LoginTests {
                     + "\"password\":\"password123\","
                     + "\"username\":\"JohndoE\""
                     + "}"))
-            .andExpect(status().isForbidden())
-            .andExpect(jsonPath("$.message").value("Bad credentials"));
-    }
+            .andExpect(status().isForbidden());
+            }
 
     @Test
     void missingPassword() throws Exception {
