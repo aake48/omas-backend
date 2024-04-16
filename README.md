@@ -114,7 +114,7 @@ OMAS_SMTP_HOST=smtp.gmail.com
 OMAS_SMTP_USERNAME=
 OMAS_SMTP_PASSWORD=
 OMAS_SMTP_PORT=587 
-OMAS_RECOVERY_PAGE_URL=https://localhost:3000/recoveryPage //change this
+OMAS_RECOVERY_PAGE_URL=https://localhost:3000/recovery
 OMAS_TOKEN_VALIDITY_DURATION=28800000
 ```
 ## 3rd run 
