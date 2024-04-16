@@ -241,10 +241,20 @@ public class TestDataForFrontend implements CommandLineRunner {
         List<Competition> competitions = new ArrayList<>();
 
         for (String competitionName : competitionNames) {
-            Competition competition = new Competition(competitionName, competitionName,
-                    type,
-                    System.currentTimeMillis(), System.currentTimeMillis() + 7L * 24 * 60 * 60 *
-                            1000);
+
+            long currentTime = System.currentTimeMillis();
+
+            long day = 24 * 60 * 60 * 1000;
+
+            // Generate random number of days
+            int minusDays = ThreadLocalRandom.current().nextInt(0, 730);
+            int plusDays = ThreadLocalRandom.current().nextInt(0, 730);
+
+            long startDate = currentTime + (day * minusDays);
+            long endDate = currentTime + (day * plusDays);
+
+            Competition competition = new Competition(competitionName, competitionName, type, startDate, endDate);
+
             competitions.add(competition);
         }
         return competitionRepository.saveAll(competitions);
