@@ -240,7 +240,7 @@ public class CompetitionController {
                             .put("bullsEyeCount", score.getBullsEyeCount())
                             .put("sum", score.getSum())
                             .put("userId", score.getUserId())
-                            .put("name", userService.getLegalName(score.getUserId()));
+                            .put("name", score.getTeamMember().getLegalName());
                     teamTotal += score.getSum();
                     teamScores.add(scoreNode);
                 }

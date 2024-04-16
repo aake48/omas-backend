@@ -175,9 +175,6 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public String getLegalName(Long userId) {
-        return repository.findById(userId).map(User::getLegalName).orElse("user name not found");
-    }
 
     public Optional<User> getUserByUsername(String username) {
         return repository.findByUsername(username);
