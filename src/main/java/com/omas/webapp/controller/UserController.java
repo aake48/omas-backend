@@ -56,6 +56,12 @@ public class UserController {
     @Autowired
     private TeamService teamService;
 
+    @Autowired
+    private LoginAttemptService loginAttemptService;
+
+    @Autowired
+    private HttpServletRequest request;
+
     @Value("${frontend.RecoveryPage}")
     private String recoveryPage;
 
@@ -117,6 +123,11 @@ public class UserController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> authenticateAndGetToken(@Valid @RequestBody AuthRequest authRequest) {
+
+        if (loginAttemptService.isBlocked()) {
+            return new ResponseEntity<>("Too many failed login attempts", HttpStatus.FORBIDDEN);
+        }
+
         try {
             //authenticate throws an exception if it fails to authenticate user
             Authentication authentication = authenticationManager.authenticate(

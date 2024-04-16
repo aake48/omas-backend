@@ -176,6 +176,7 @@ public class TeamMemberController {
 
         try {
 
+            // Allow posting score for another team member by figuring out if the request contains a user id
             TeamMemberId teamMemberId = teamsService.resolveTeamMemberId(request.getUserId(), request.getCompetitionName(), request.getTeamName());
 
             TeamMemberScore score = teamMemberScoreService.modifyScoreSum(
