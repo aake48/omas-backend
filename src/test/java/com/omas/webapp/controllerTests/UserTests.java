@@ -1,8 +1,6 @@
 package com.omas.webapp.controllerTests;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.omas.webapp.Constants;
-import com.omas.webapp.Json;
 import com.omas.webapp.TestUtils;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,31 +49,24 @@ public class UserTests {
     @Test
     public void getUserTeam() throws Exception {
 
-        String response = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "team?competitionId=" + competitionId)
+        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "team?competitionId=" + competitionId)
                 .header("Authorization", "Bearer " + adminToken))
             .andExpect(status().isOk())
             .andReturn()
             .getResponse()
             .getContentAsString();
 
-        JsonNode node = Json.parse(response);
-
-        System.out.println(Json.stringify(node, true));
     }
 
     @Test
     public void getUserTeams() throws Exception {
 
-        String response = mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "teams")
+        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "teams")
                 .header("Authorization", "Bearer " + adminToken))
             .andExpect(status().isOk())
             .andReturn()
             .getResponse()
             .getContentAsString();
-
-        JsonNode node = Json.parse(response);
-
-        System.out.println(Json.stringify(node, true));
 
     }
 

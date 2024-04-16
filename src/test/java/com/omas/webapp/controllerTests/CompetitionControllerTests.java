@@ -1,7 +1,6 @@
 package com.omas.webapp.controllerTests;
 
 import com.omas.webapp.Constants;
-import com.omas.webapp.Json;
 import com.omas.webapp.TestUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -198,14 +197,13 @@ public class CompetitionControllerTests {
 
         String searchUrl = "/api/competition/teams?search=testname&page=0&size=10";
 
-        String response = mockMvc.perform(MockMvcRequestBuilders.get(searchUrl))
+        mockMvc.perform(MockMvcRequestBuilders.get(searchUrl))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.numberOfElements").value(4))
             .andReturn()
             .getResponse()
             .getContentAsString();
 
-        System.out.println(Json.stringify(Json.parse(response), true));
     }
 
     @Test
