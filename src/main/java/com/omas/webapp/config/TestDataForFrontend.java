@@ -250,7 +250,7 @@ public class TestDataForFrontend implements CommandLineRunner {
             int minusDays = ThreadLocalRandom.current().nextInt(0, 730);
             int plusDays = ThreadLocalRandom.current().nextInt(0, 730);
 
-            long startDate = currentTime + (day * minusDays);
+            long startDate = currentTime - (day * minusDays);
             long endDate = currentTime + (day * plusDays);
 
             Competition competition = new Competition(competitionName, competitionName, type, startDate, endDate);
