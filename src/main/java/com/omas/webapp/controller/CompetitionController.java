@@ -1,10 +1,12 @@
 package com.omas.webapp.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.omas.webapp.Util;
 import com.omas.webapp.entity.requests.AddCompetitionRequest;
-import com.omas.webapp.entity.response.CompetitionResponse;
-import com.omas.webapp.entity.response.CompetitionTeamResponse;
-import com.omas.webapp.entity.response.TeamMemberScoreResponse;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
 import com.omas.webapp.service.TeamService;
@@ -218,37 +220,66 @@ public class CompetitionController {
     @GetMapping(value = "/competition/result/{name}", produces = "application/json")
     public ResponseEntity<?> getResultsForCompetition(@PathVariable String name) {
 
-        Optional<Competition> competitionOptional = competitionService.getCompetition(name);
+        try {
+            Competition competition = competitionService.getCompetition(name).get();
+            List<Team> teams = teamService.getTeamsParticipatingInCompetition(name);
+            ObjectMapper mapper = new ObjectMapper();
+            List<JsonNode> teamNodesList = new ArrayList<>();
 
-        if (competitionOptional.isEmpty()) {
-            return new ResponseEntity<>("No competition found with the given name", HttpStatus.BAD_REQUEST);
-        }
-
-        Competition competition = competitionOptional.get();
-        CompetitionResponse competitionResponse = new CompetitionResponse(competition);
-        List<Team> teams = teamService.getTeamsParticipatingInCompetition(name);
-
-        for (Team team : teams) {
-
-            List<TeamMemberScore> scores = teamMemberScoreService.getTeamScores(new TeamId(team.getCompetitionId(), team.getTeamName()));
-            List<TeamMemberScoreResponse> scoreResponses = new ArrayList<>(scores.size());
-
-            for (TeamMemberScore score : scores) {
-                scoreResponses.add(new TeamMemberScoreResponse(score, userService.getLegalName(score.getUserId())));
+            // Creates teamNode that includes teamMemberScores and adds it to teamNodesList
+            for (Team team : teams) {
+                // The scores are pre-sorted in descending order by the repository class based
+                // on the sum, user's total score.
+                List<TeamMemberScore> scores = teamMemberScoreService
+                        .getTeamScores(new TeamId(team.getCompetitionId(), team.getTeamName()));
+                ArrayNode teamScores = mapper.createArrayNode();
+                double teamTotal = 0;
+                // adds teamMemberScores into a JSON array
+                for (TeamMemberScore score : scores) {
+                    ObjectNode scoreNode = mapper.createObjectNode()
+                            .put("bullsEyeCount", score.getBullsEyeCount())
+                            .put("sum", score.getSum())
+                            .put("userId", score.getUserId())
+                            .put("name", userService.getLegalName(score.getUserId()));
+                    teamTotal += score.getSum();
+                    teamScores.add(scoreNode);
+                }
+                ObjectNode teamNode = mapper.createObjectNode()
+                        .put("totalScore", Math.floor(teamTotal * 10.0) / 10.0)
+                        .put("teamName", team.getTeamName())
+                        .put("teamDisplayName", team.getTeamDisplayName())
+                        .set("scores", teamScores);
+                teamNodesList.add(teamNode);
             }
+            // sorts teams to descending order
+            teamNodesList.sort((node1, node2) -> {
+                double totalScore1 = node1.get("totalScore").asDouble();
+                double totalScore2 = node2.get("totalScore").asDouble();
+                // Compare the totalScore values
+                return Double.compare(totalScore2, totalScore1);
+            });
+            ArrayNode teamNodes = mapper.createArrayNode();
+            teamNodesList.forEach(teamNodes::add);
+            ObjectNode competitionNode = mapper.createObjectNode()
+                    .put("competitionId", competition.getCompetitionId())
+                    .put("type", competition.getType())
+                    .put("displayName", competition.getDisplayName())
+                    .put("competitionType", competition.getType())
+                    .put("creationDate", competition.getCreationDate().toString())
+                    .put("startDate", competition.getStartDate().toString())
+                    .put("endDate", competition.getEndDate().toString())
+                    .set("teams", teamNodes);
+            String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(competitionNode);
+            return new ResponseEntity<>(json, HttpStatus.OK);
 
-            // Sort the scores in descending order
-            Collections.sort(scoreResponses);
-
-            // The score sum is calculated in the CompetitionTeamResponse constructor so there is no need to calculate it here
-            competitionResponse.addTeam(new CompetitionTeamResponse(team.getTeamName(), team.getTeamDisplayName(), scoreResponses));
+        } catch (JsonProcessingException e) {
+            return new ResponseEntity<>(Map.of("error", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            return new ResponseEntity<>(Map.of("message", "No competition found with the given name"),
+                    HttpStatus.BAD_REQUEST);
         }
-
-        // Sort the teams in descending order
-        Collections.sort(competitionResponse.getTeams());
-
-        return new ResponseEntity<>(competitionResponse, HttpStatus.OK);
     }
+
 
     @GetMapping("competition/all")
     public List<Competition> getCompetitions() {

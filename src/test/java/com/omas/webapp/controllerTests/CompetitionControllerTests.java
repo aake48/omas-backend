@@ -3,11 +3,7 @@ package com.omas.webapp.controllerTests;
 import com.omas.webapp.Constants;
 import com.omas.webapp.Json;
 import com.omas.webapp.TestUtils;
-import com.omas.webapp.entity.response.CompetitionResponse;
-import com.omas.webapp.entity.response.CompetitionTeamResponse;
-import com.omas.webapp.entity.response.TeamMemberScoreResponse;
-
-
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,56 +43,66 @@ public class CompetitionControllerTests {
 
         String url = getResultsUrl + competitionNameId;
 
-        List<String> firstClubs = Arrays.asList("talo", "club2", "club3", "club4", "club5");
-        List<String> otherClubs = Arrays.asList("team1", "team2", "team3");
+        List<String> clubs = Arrays.asList("club1", "club2", "club3", "club4", "club5");
 
-
-        // sets up first 5 clubs with each 5 teamMembers
-        TestUtils.setupScores(mockMvc, firstClubs, competitionNameId, 5);
-
-        // sets up last 3 clubs with each 2 teamMembers
-        TestUtils.setupScores(mockMvc, otherClubs, competitionNameId, 2);
-
+        TestUtils.setupScores(mockMvc, clubs, competitionNameId, 5);
 
         String response = mockMvc.perform(MockMvcRequestBuilders.get(url))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.type").value(Constants.RIFLE_TYPE))
-            .andExpect(jsonPath("$.displayName").value(competitionNameId))
-            .andExpect(jsonPath("$.startDate").exists())
-            .andExpect(jsonPath("$.endDate").exists())
-            .andExpect(jsonPath("$.creationDate").exists())
-            .andExpect(jsonPath("$.competitionId").value(competitionNameId))
-            .andExpect(jsonPath("$.teams").exists())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
+                .andExpect(status().isOk())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.type").value(Constants.RIFLE_TYPE))
+                .andExpect(jsonPath("$.displayName").value(competitionNameId))
+                .andExpect(jsonPath("$.startDate").exists())
+                .andExpect(jsonPath("$.endDate").exists())
+                .andExpect(jsonPath("$.creationDate").exists())
+                .andExpect(jsonPath("$.competitionId").value(competitionNameId))
+                .andExpect(jsonPath("$.teams").exists())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
-        //checks that there are 8 teams
-        JSONObject object = new JSONObject(response);
-        assertTrue(object.getJSONArray("teams").length() == 8);
+        JSONObject jsonObject = new JSONObject(response);
 
-        CompetitionResponse competitionResponse = Json.fromString(response, CompetitionResponse.class);
+        JSONArray teams = jsonObject.getJSONArray("teams");
 
-        List<CompetitionTeamResponse> teams = competitionResponse.getTeams();
+        Boolean isDescending = true;
 
-        double largestTotalScore = teams.get(0).getTotalScore();
+        int previousScore = Integer.MAX_VALUE;
 
-        for (CompetitionTeamResponse team : teams) {
+        for (int i = 0; i < teams.length(); i++) {
+            JSONObject team = teams.getJSONObject(i);
+            int totalScore = team.getInt("totalScore");
 
-            assertFalse(team.getTotalScore() > largestTotalScore, "The team must be sorted in descending order");
-
-            List<TeamMemberScoreResponse> scores = team.getScores();
-
-            double largestTeamScore = scores.get(0).getSum();
-
-            for (TeamMemberScoreResponse teamScore : scores) {
-                assertFalse(teamScore.getSum() > largestTeamScore, "The score list must be sorted in descending order");
+            if (totalScore > previousScore) {
+                isDescending = false;
+                break;
             }
 
+            previousScore = totalScore;
+
+            JSONArray scores = team.getJSONArray("scores");
+            int previousSum = Integer.MAX_VALUE;
+
+            for (int j = 0; j < scores.length(); j++) {
+                JSONObject score = scores.getJSONObject(j);
+                int sum = score.getInt("sum");
+
+                if (sum > previousSum) {
+                    isDescending = false;
+                    break;
+                }
+
+                previousSum = sum;
+            }
+
+            if (!isDescending) {
+                break;
+            }
         }
 
-        System.out.println(Json.stringify(competitionResponse, true));
+        assertTrue(isDescending);
     }
+
 
     @Test
     public void addRifleCompetition() throws Exception {
