@@ -6,6 +6,7 @@ import com.omas.webapp.repository.UserRepository;
 import com.omas.webapp.table.PasswordResetToken;
 import com.omas.webapp.table.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,6 +38,10 @@ public class UserService implements UserDetailsService {
         return repository.findByLegalNameContaining(search, PageRequest.of(page, size));
     }
 
+
+    /**
+     * Loads a user by their username and updates their last login information to the current date and time.
+     */
     @Override
     public UserInfoDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -45,9 +50,13 @@ public class UserService implements UserDetailsService {
         if (user.isPresent()) {
             User foundUser = user.get();
             List<String> roles = roleService.findUsersRoles(foundUser.getId());
+            if(roles.isEmpty()){
+                throw new UsernameNotFoundException("User has no active roles ");
+            }
+            foundUser = repository.save(foundUser.updateLastLogin());
             return new UserInfoDetails(foundUser, roles);
         }
-        throw new UsernameNotFoundException("User not found " + username);
+        throw new UsernameNotFoundException("User not found: " + username);
     }
 
     public void updateResetPasswordToken(String token, String email) throws Exception {
@@ -88,7 +97,7 @@ public class UserService implements UserDetailsService {
         repository.save(user);
     }
 
-    public boolean registerUser(RegistrationRequest request) {
+    public void registerUser(RegistrationRequest request) throws Exception{
 
         User user = new User();
         user.setUsername(request.getUsername());
@@ -99,22 +108,18 @@ public class UserService implements UserDetailsService {
 
         // checks whether a user with this username already exists in the db
         if (repository.findByUsername(user.getUsername()).isPresent()) {
-            return false;
+            throw new Exception("The username '" + user.getUsername() + "' is already taken.");
         }
 
         // hash and salt password before saving it to db
         user.setPassword(encoder.encode(user.getPassword()));
-
         try {
             User createdUser = repository.save(user);
             roleService.addUserRole(createdUser.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("ex : " + e);
-            return false;
+        } catch (DataIntegrityViolationException e) {
+            throw new Exception("The email '" + user.getEmail() + "' is already in use.");
         }
 
-        return true;
     }
 
     public boolean userExists(long id) {
@@ -170,9 +175,6 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public String getLegalName(Long userId) {
-        return repository.findById(userId).map(User::getLegalName).orElse("user name not found");
-    }
 
     public Optional<User> getUserByUsername(String username) {
         return repository.findByUsername(username);

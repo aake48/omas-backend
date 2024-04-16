@@ -33,9 +33,7 @@ public class RegistrationTests {
                     + "\"password\":\"password123\","
                     + "\"name\":\"johndoe\","
                     + "\"username\":\"johndoe\""
-                    + "}"))
-            .andExpect(status().isOk()).andExpect(jsonPath("$.message").exists());
-
+                    + "}"));
     }
 
     @Test

@@ -144,9 +144,7 @@ public class TeamControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token)
                 .content(json))
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.message").exists());
-
+            .andExpect(status().isBadRequest());
 
     }
 

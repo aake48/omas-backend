@@ -59,7 +59,6 @@
     - [team members](#team-member)
       - [add team member to team](#add-team-member-to-team)
       - [get user's score](#get-users-score)
-      - [submit user's score](#submit-users-score)
       - [submit user's score as a sum](#submit-users-score-as-a-sum)
       - [isMember](#ismember)
     - [images](#image)
@@ -107,16 +106,16 @@ Create env.properties file in the root of the project.
 
 env.properties should contain the following:
 ```
-DB-URL=jdbc:postgresql://localhost:5432/omas
-DB-USERNAME=postgres
-DB-PASSWORD=password
-SECRET=48794134879942idontlikedogs1323572342328789
-MAIL-HOST=smtp.gmail.com
-MAIL-USERNAME= //johan.liebert@gmail.com; for example
-MAIL-PASSWORD= //password1; for example
-MAIL-PORT=587
-RecoveryPage= // url for the frontend's recovery page. for example: https://localhost:3000/recovery
-DURATIONOFVALIDTY=28800000
+OMAS_DATABASE_URL=jdbc:postgresql://localhost:5432/omas
+OMAS_DATABASE_USERNAME=postgres
+OMAS_DATABASE_PASSWORD=password
+OMAS_SECRET_KEY=48794134879942idontlikedogs1323572342328789
+OMAS_SMTP_HOST=smtp.gmail.com
+OMAS_SMTP_USERNAME=
+OMAS_SMTP_PASSWORD=
+OMAS_SMTP_PORT=587 
+OMAS_RECOVERY_PAGE_URL=https://localhost:3000/recovery
+OMAS_TOKEN_VALIDITY_DURATION=28800000
 ```
 ## 3rd run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>
@@ -632,23 +631,6 @@ Content-Type: application/json
 ```
 returns [TeamMemberScore](#teammemberscoreresponse) if a score for this user exist.
 
-### submit user's score
-Note: the following conditions must be met before user can submit his scores: 
-- The user must be [a team member](#add-team-member-to-team) for the competition before he is able to submit his scores
-- userId is optional. If left empty, userId is will be gotten from token. UserId must be a member of the team.
-```
-POST api/competition/team/member/score/add
-Authorization: required
-Content-Type: application/json
-{
-  competitionName: string,
-  teamName: string,
-  userId: number, // optional
-  requestType: set || update, optional
-  scoreList: number[]
-}
-```
-Returns [TeamMemberScore](#teammemberscore) if submission was successful.
 ### Submit user's score as a sum
 Note: the following conditions must be met before user can submit his scores: 
 - The user must be [a team member](#add-team-member-to-team) for the competition before he is able to submit his scores

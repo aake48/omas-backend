@@ -73,7 +73,6 @@ public class AdminControllerTests {
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + adminToken)
                 .content(deleteRequest))
-            .andExpect(jsonPath("$.message").value("User deleted"))
             .andExpect(status().isOk())
             .andReturn()
             .getResponse()

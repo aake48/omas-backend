@@ -18,7 +18,7 @@ public class AdminConfig implements CommandLineRunner {
 
     // TODO: Implement this properly with master password/username configured
     // somewhere?
-    public void addAdminUser() {
+    public void addAdminUser() throws Exception {
 
         RegistrationRequest registrationRequest = new RegistrationRequest();
         registrationRequest.setEmail(Constants.ADMIN_USERNAME);
