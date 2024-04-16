@@ -1,6 +1,5 @@
 package com.omas.webapp.controller;
 
-import com.omas.webapp.Util;
 import com.omas.webapp.entity.requests.ClubRequest;
 import com.omas.webapp.entity.requests.SetPasskeyRequest;
 import com.omas.webapp.service.ClubService;
@@ -17,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import com.omas.webapp.Constants;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +40,7 @@ public class ClubController {
     public ResponseEntity<?> newClub(@Valid @RequestBody ClubRequest request) {
 
         String clubName = request.getClubName();
-        String clubId = Util.sanitizeName(clubName);
+        String clubId = Constants.createIdString(clubName);
 
         if (clubId == null) {
             return new ResponseEntity<>("Club name contains characters which are forbidden.", HttpStatus.BAD_REQUEST);
@@ -66,7 +66,7 @@ public class ClubController {
 
         UserInfoDetails userDetails = UserInfoDetails.getDetails();
 
-        String clubId = Util.sanitizeName(club.getClubName());
+        String clubId = Constants.createIdString(club.getClubName());
 
         if (clubId == null) {
             return new ResponseEntity<>("Club name contains characters which are forbidden.", HttpStatus.BAD_REQUEST);

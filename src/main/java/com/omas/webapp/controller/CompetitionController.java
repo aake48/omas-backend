@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.omas.webapp.Util;
+import com.omas.webapp.Constants;
 import com.omas.webapp.entity.requests.AddCompetitionRequest;
 import com.omas.webapp.service.CompetitionService;
 import com.omas.webapp.service.TeamMemberScoreService;
@@ -48,7 +48,7 @@ public class CompetitionController {
     public ResponseEntity<?> addCompetition(@Valid @RequestBody AddCompetitionRequest request) {
 
         String competitionName = request.getCompetitionName();
-        String competitionId = Util.sanitizeName(competitionName);
+        String competitionId = Constants.createIdString(competitionName);
 
         // Util.sanitizeName returns null if the sanitation was not possible
         if (competitionId == null) {

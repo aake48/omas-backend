@@ -1,6 +1,6 @@
 package com.omas.webapp.controller;
 
-import com.omas.webapp.Util;
+import com.omas.webapp.Constants;
 import com.omas.webapp.entity.requests.AddTeamRequest;
 import com.omas.webapp.entity.requests.CompetitionNameRequest;
 import com.omas.webapp.entity.requests.TeamScoreRequest;
@@ -52,7 +52,7 @@ public class TeamController {
         }
 
         String teamDisplayName = request.getTeamName();
-        String teamName = Util.sanitizeName(teamDisplayName);
+        String teamName = Constants.createIdString(teamDisplayName);
 
         if (teamName == null) {
             return new ResponseEntity<>("Team name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$", HttpStatus.BAD_REQUEST);
