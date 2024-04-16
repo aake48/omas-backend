@@ -292,6 +292,10 @@ Note: this endpoint requires admin role
 ## club admin related
 ### update team member's scores
 Update/add your fellow teamMember's Scores with this, when you have clubAdmin Role in your club
+
+requestType determines the operation used to update the user's scores. It has two possible values:
+"set" sets the score overwriting any previous while
+"update" adds to the previous score or sets the score if there are none yet
 ```
 POST https://localhost:8080/api/competition/team/member/score/add/sum/admin
 Authorization: required "{clubName}/admin" role required
@@ -636,6 +640,9 @@ Note: the following conditions must be met before user can submit his scores:
 - The user must be [a team member](#add-team-member-to-team) for the competition before he is able to submit his scores
 - userId is optional. If left empty, userId is will be gotten from token. UserId must be a member of the team.
 
+requestType determines the operation used to update the user's scores. It has two possible values:
+"set" sets the score overwriting any previous while
+"update" adds to the previous score or sets the score if there are none yet
 ```
 POST api/competition/team/member/score/add/sum
 Authorization: required
