@@ -70,6 +70,10 @@ public class CompetitionService {
         return competitionRepository.findByYear(year, PageRequest.of(page, size));
     }
 
+    public Page<Competition> findByYearContaining(int page, int size, int year, String search) {
+        return competitionRepository.findByYearContaining(year, search, PageRequest.of(page, size));
+    }
+
     public Page<Competition> findActiveCompetitions(int page, int size) {
         return competitionRepository.findActiveCompetitions(new java.sql.Date(System.currentTimeMillis()), PageRequest.of(page, size));
     }
