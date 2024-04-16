@@ -279,7 +279,13 @@ public class TestDataForFrontend implements CommandLineRunner {
 
             long endDate = startDate + (day * competitionLength);
 
-            Competition competition = new Competition(competitionName, competitionName, type, startDate, endDate);
+            String competitionId = Constants.createIdString(competitionName);
+
+            if (competitionId == null) {
+                throw new IllegalStateException("Competition id is null while creating test data");
+            }
+
+            Competition competition = new Competition(competitionId, competitionName, type, startDate, endDate);
 
             competitions.add(competition);
         }
