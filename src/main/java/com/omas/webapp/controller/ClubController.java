@@ -3,7 +3,6 @@ package com.omas.webapp.controller;
 import com.omas.webapp.Util;
 import com.omas.webapp.entity.requests.ClubRequest;
 import com.omas.webapp.entity.requests.SetPasskeyRequest;
-import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.ClubService;
 import com.omas.webapp.service.RoleService;
 import com.omas.webapp.service.UserInfoDetails;
@@ -44,7 +43,7 @@ public class ClubController {
         String clubId = Util.sanitizeName(clubName);
 
         if (clubId == null) {
-            return new MessageResponse("Club name contains characters which are forbidden.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Club name contains characters which are forbidden.", HttpStatus.BAD_REQUEST);
         }
 
         UserInfoDetails userDetails = UserInfoDetails.getDetails();
@@ -52,7 +51,7 @@ public class ClubController {
         Club createdClub = clubService.registerClub(new Club(clubName, clubId, userDetails.getId()));
 
         if (createdClub == null) {
-            return new MessageResponse("Club name has already been taken.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Club name has already been taken.", HttpStatus.BAD_REQUEST);
         }
 
         Long id = UserInfoDetails.getDetails().getId();
@@ -78,10 +77,10 @@ public class ClubController {
             clubService.checkPasskeyMatch(clubId, club.getPasskey());
             userService.joinClub(userDetails.getId(), clubId);
 
-            return new MessageResponse("Club joined successfully.", HttpStatus.OK);
+            return new ResponseEntity<>("Club joined successfully.", HttpStatus.OK);
 
         } catch (Exception e) {
-            return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -90,7 +89,7 @@ public class ClubController {
         try {
             return new ResponseEntity<>(clubService.getClub(name), HttpStatus.OK);
         } catch (Exception e) {
-            return new MessageResponse("No club found with the given name.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("No club found with the given name.", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -101,9 +100,9 @@ public class ClubController {
         try {
             clubService.setPassKey(request.getClubName(), request.getPasskey());
 
-            return new MessageResponse("passkey updated", HttpStatus.OK);
+            return new ResponseEntity<>("passkey updated", HttpStatus.OK);
         } catch (Exception e) {
-            return new MessageResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -122,7 +121,7 @@ public class ClubController {
             Page<Club> resultPage = clubService.findWithPaginatedSearch(page, size, search);
 
             if (page > resultPage.getTotalPages()) {
-                return new MessageResponse("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);
             }
 
             return new ResponseEntity<>(resultPage, HttpStatus.OK);
@@ -131,7 +130,7 @@ public class ClubController {
         Page<Club> resultPage = clubService.firstPaginated(page, size);
 
         if (page > resultPage.getTotalPages()) {
-            return new MessageResponse("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(resultPage, HttpStatus.OK);

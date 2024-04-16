@@ -8,7 +8,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.omas.webapp.Json;
-import com.omas.webapp.entity.response.MessageResponse;
 import com.omas.webapp.service.*;
 import com.omas.webapp.table.Team;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,10 +61,10 @@ public class UserController {
 
         try {
             service.registerUser(request);
-            return new MessageResponse("User added", HttpStatus.OK);
+            return new ResponseEntity<>("User added", HttpStatus.OK);
 
         } catch (Exception e) {
-            return new MessageResponse(e.getMessage(), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
     }
 
@@ -81,13 +80,13 @@ public class UserController {
                     new UsernamePasswordAuthenticationToken(userInfo.getUsername(), request.getOldPassword()));
 
             service.changePassword(userInfo.getId(), request.getNewPassword());
-            return new MessageResponse("password was updated!", HttpStatus.OK);
+            return new ResponseEntity<>("password was updated!", HttpStatus.OK);
 
         } catch (BadCredentialsException e) {
-            return new MessageResponse("password was not updated! Bad credentials", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("password was not updated! Bad credentials", HttpStatus.BAD_REQUEST);
 
         } catch (Exception e) {
-            return new MessageResponse("password was not updated!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("password was not updated!", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -103,13 +102,13 @@ public class UserController {
                     new UsernamePasswordAuthenticationToken(userInfo.getUsername(), request.getPassword()));
 
             service.changeEmail(userInfo.getId(), request.getEmail());
-            return new MessageResponse("Email was updated!", HttpStatus.OK);
+            return new ResponseEntity<>("Email was updated!", HttpStatus.OK);
 
         } catch (BadCredentialsException e) {
-            return new MessageResponse("Email was not updated! Bad credentials", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Email was not updated! Bad credentials", HttpStatus.BAD_REQUEST);
 
         } catch (Exception e) {
-            return new MessageResponse("Email was not updated!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Email was not updated!", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -146,7 +145,7 @@ public class UserController {
             return new ResponseEntity<>(json, HttpStatus.OK);
 
         } catch (AuthenticationException e) {
-            return new MessageResponse(e.getMessage(), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
         }
     }
 
@@ -164,10 +163,10 @@ public class UserController {
             String resetPasswordLink = recoveryPage + "?token=" + token;
             mailService.sendRecoveryEmail(email, resetPasswordLink);
         } catch (Exception e) {
-            return new MessageResponse("Email not sent, " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Email not sent, " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new MessageResponse("Email sent", HttpStatus.OK);
+        return new ResponseEntity<>("Email sent", HttpStatus.OK);
     }
 
     @PostMapping("/reset_password")
@@ -177,12 +176,12 @@ public class UserController {
         User user = service.getByResetPasswordToken(resetRequest.getToken());
 
         if (user == null) {
-            return new MessageResponse("Token is either invalid or expired", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Token is either invalid or expired", HttpStatus.BAD_REQUEST);
         }
 
         service.updatePassword(user, resetRequest.getPassword());
 
-        return new MessageResponse("Password updated", HttpStatus.OK);
+        return new ResponseEntity<>("Password updated", HttpStatus.OK);
     }
     
 
@@ -195,7 +194,7 @@ public class UserController {
         Optional<Team> teamOptional = teamService.getUserTeam(userId, competitionId);
 
         if (teamOptional.isEmpty()) {
-            return new MessageResponse("That user is not in a team in that competition", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("That user is not in a team in that competition", HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(teamOptional.get(), HttpStatus.OK);
@@ -210,7 +209,7 @@ public class UserController {
         List<Team> teams = teamService.getUserTeams(userId);
 
         if (teams.isEmpty()) {
-            return new MessageResponse("That user is not in a team in that competition", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("That user is not in a team in that competition", HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(teams, HttpStatus.OK);
