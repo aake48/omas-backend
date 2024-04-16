@@ -106,16 +106,16 @@ Create env.properties file in the root of the project.
 
 env.properties should contain the following:
 ```
-DB-URL=jdbc:postgresql://localhost:5432/omas
-DB-USERNAME=postgres
-DB-PASSWORD=password
-SECRET=48794134879942idontlikedogs1323572342328789
-MAIL-HOST=smtp.gmail.com
-MAIL-USERNAME= //johan.liebert@gmail.com; for example
-MAIL-PASSWORD= //password1; for example
-MAIL-PORT=587
-RecoveryPage= // url for the frontend's recovery page. for example: https://localhost:3000/recovery
-DURATIONOFVALIDTY=28800000
+OMAS_DATABASE_URL=jdbc:postgresql://localhost:5432/omas
+OMAS_DATABASE_USERNAME=postgres
+OMAS_DATABASE_PASSWORD=password
+OMAS_SECRET_KEY=48794134879942idontlikedogs1323572342328789
+OMAS_SMTP_HOST=smtp.gmail.com
+OMAS_SMTP_USERNAME=
+OMAS_SMTP_PASSWORD=
+OMAS_SMTP_PORT=587 
+OMAS_RECOVERY_PAGE_URL=https://localhost:3000/recoveryPage //change this
+OMAS_TOKEN_VALIDITY_DURATION=28800000
 ```
 ## 3rd run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>
