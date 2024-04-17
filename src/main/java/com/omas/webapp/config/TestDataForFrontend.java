@@ -84,54 +84,61 @@ public class TestDataForFrontend implements CommandLineRunner {
         final String rifleCompetitionTypeName = Constants.RIFLE_TYPE;
 
         List<String> rifleCompetitionList = Arrays.asList(
-                "kesan_ampujaiset",
-                "talvi_pistooli",
-                "lasten_ammunta",
-                "seniori-ammunta",
-                "tarkkuuslaukaus-festivaali",
-                "kivaarikilpailujen-huipennus",
-                "polaris-ampumaharjoitus",
-                "aamunkoiton-tahtays",
-                "nordic-sharpshooters-cup",
-                "taivaanranta-tulitus",
-                "lumivyory-ammunta");
+                "Kesän Ampujaiset",
+                "Talvi Pistooli",
+                "Tarkkuuslaukaus-festivaali",
+                "Kiväärikilpailujen huipennus",
+                "Polaris-ampumaharjoitus",
+                "Aamunkoiton tähtäys",
+                "Nordic Sharpshooters Cup",
+                "Taivaanranta-tulitus",
+                "Lumivyöry-ammunta");
 
         List<String> pistolCompetitionList = Arrays.asList(
-                "tarkka-ammunta-cup",
-                "nopean-laukauksen-mestaruus",
-                "moniottelu-kilpailu",
-                "kansallinen-tahtayskilpailu",
-                "kaupunkiammunta-challenge",
-                "laukausmaraton",
-                "vapaa-asekilpailu",
-                "taitoluodikko-turnaus",
-                "precision-pistol-cup",
-                "tulevaisuuden-ampuja",
-                "pikakivaari-klassikko");
+                "Tarkka-ammunta Cup",
+                "Nopean laukauksen mestaruus",
+                "Moniottelu",
+                "Kansallinen tähtäyskilpailu",
+                "Kaupunkiammunta-challenge",
+                "Laukausmaraton",
+                "Vapaa-asekilpailu",
+                "Taitoluodikko-turnaus",
+                "Precision Pistol Cup",
+                "Tulevaisuuden Ampuja",
+                "Pikakivääri-klassikko");
 
         List<String> clubList = Arrays.asList(
-                "Poliisi_seura", "Koira_seura",
-                "Hammaspeikko_seura",
+                "Poliisiseura", "Koiraseura",
+                "Hammaspeikkoseura",
                 "dog",
-                "SavuSeura",
+                "Savu Seura",
                 "OMAS",
-                "Pelle_seura",
-                "young_tallent_-seura",
-                "aseharrastajien-yhtenaisyys",
-                "tahtaysmestarit",
-                "laukausryhma-aurora",
-                "ampumataito");
+                "Pelleseura",
+                "Yung Tallent",
+                "Aseharrastajien Yhtenäisyys",
+                "Tähtäysmestarit",
+                "Laukausryhmä Aurora",
+                "Ampumataito");
 
         List<User> users = new ArrayList<>();
+        List<String> clubIds = new ArrayList<>();
 
         for (String clubName : clubList) {
 
             int memberCount = ThreadLocalRandom.current().nextInt(3, 6);
 
-            Club club = new Club(clubName, clubName, 0);
+            String clubId = Constants.createIdString(clubName);
+
+            if (clubId == null) {
+                throw new Exception("Bad input in club name");
+            }
+
+            clubIds.add(clubId);
+
+            Club club = new Club(clubName, clubId, 0);
             clubRepository.save(club);
 
-            users.addAll(generateUsersForClub(memberCount, clubName));
+            users.addAll(generateUsersForClub(memberCount, clubId));
         }
 
         userRepository.saveAll(users);
@@ -139,8 +146,8 @@ public class TestDataForFrontend implements CommandLineRunner {
         List<Competition> rifleComps = saveCompetitions(rifleCompetitionList, rifleCompetitionTypeName);
         List<Competition> pistolComps = saveCompetitions(pistolCompetitionList, pistolCompetitionTypeName);
 
-        saveTeamsToComps(rifleComps, clubList);
-        saveTeamsToComps(pistolComps, clubList);
+        saveTeamsToComps(rifleComps);
+        saveTeamsToComps(pistolComps);
 
         addMemberWithScores(users, pistolComps, pistolCompetitionTypeName);
         addMemberWithScores(users, rifleComps, rifleCompetitionTypeName);
@@ -240,35 +247,65 @@ public class TestDataForFrontend implements CommandLineRunner {
 
         List<Competition> competitions = new ArrayList<>();
 
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+
         for (String competitionName : competitionNames) {
 
             long currentTime = System.currentTimeMillis();
 
+            int competitionLengthClass = random.nextInt(2);
+
+            // Different "length classes" for competitions
+            int maxDays = switch (competitionLengthClass) {
+                case 0 -> 730;
+                case 1 -> 60;
+                default -> throw new IllegalStateException("Unexpected value: " + competitionLengthClass);
+            };
+
+            // Minimum 1 week competition
+            int competitionLength = random.nextInt(7, maxDays);
+
             long day = 24 * 60 * 60 * 1000;
+            boolean shouldStartInFuture = random.nextBoolean();
 
-            // Generate random number of days
-            int minusDays = ThreadLocalRandom.current().nextInt(0, 730);
-            int plusDays = ThreadLocalRandom.current().nextInt(0, 730);
+            long startDate;
 
-            long startDate = currentTime - (day * minusDays);
-            long endDate = currentTime + (day * plusDays);
+            // 50% chance for competition to start in the future, i.e. subtract or add the randomly generated number of days from the current time
+            if (!shouldStartInFuture) {
+                startDate = currentTime - (day * random.nextInt(0, maxDays));
+            } else {
+                startDate = currentTime + (day * random.nextInt(0, maxDays));
+            }
 
-            Competition competition = new Competition(competitionName, competitionName, type, startDate, endDate);
+            long endDate = startDate + (day * competitionLength);
+
+            String competitionId = Constants.createIdString(competitionName);
+
+            if (competitionId == null) {
+                throw new IllegalStateException("Competition id is null while creating test data");
+            }
+
+            Competition competition = new Competition(competitionId, competitionName, type, startDate, endDate);
 
             competitions.add(competition);
         }
         return competitionRepository.saveAll(competitions);
     }
 
-    private List<Team> saveTeamsToComps(List<Competition> competitions,
-            List<String> ClubNames) {
+    private List<Team> saveTeamsToComps(List<Competition> competitions) {
         log.info("adding teams");
 
         List<Team> teams = new ArrayList<>();
 
         for (Competition comp : competitions) {
-            for (String club : ClubNames) {
-                Team team = new Team(new TeamId(comp.getCompetitionId(), club), club, club);
+
+            // Add a team for each club in each competition
+            for (Club club : clubRepository.findAll()) {
+
+                TeamId teamId = new TeamId(comp.getCompetitionId(), club.getName());
+
+                Team team = new Team(teamId, club.getNameNonId(), club.getName());
+
                 teams.add(team);
             }
         }
@@ -280,9 +317,10 @@ public class TestDataForFrontend implements CommandLineRunner {
 
         for (User user : users) {
             for (Competition comp : competitions) {
-                TeamMember teamMember = new TeamMember(comp.getCompetitionId(), user.getId(),
-                        user.getPartOfClub());
-                teamMember = teamMemberRepository.save(teamMember);
+
+                TeamMember teamMember = new TeamMember(comp.getCompetitionId(), user.getId(), user.getPartOfClub());
+
+                teamMemberRepository.save(teamMember);
                 log.info(" club: " + user.getPartOfClub());
 
                 TeamMemberId teamMemberId = new TeamMemberId(user.getId(), comp.getCompetitionId(), user.getPartOfClub());

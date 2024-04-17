@@ -5,6 +5,7 @@ import com.omas.webapp.repository.PasswordResetTokenRepository;
 import com.omas.webapp.repository.UserRepository;
 import com.omas.webapp.table.PasswordResetToken;
 import com.omas.webapp.table.User;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -33,11 +34,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
 
-
-        public Page<User> findWithPaginatedSearch(int page, int size, String search) {
+    public Page<User> findWithPaginatedSearch(int page, int size, String search) {
         return repository.findByLegalNameContaining(search, PageRequest.of(page, size));
     }
-
 
     /**
      * Loads a user by their username and updates their last login information to the current date and time.
