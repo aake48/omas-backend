@@ -109,7 +109,7 @@ public class CompetitionController {
         @RequestParam(value = "page", defaultValue = "0", required = false) int page,
         @RequestParam(value = "size", defaultValue = "10", required = false) int size,
         @RequestParam(value = "year", required = false) Integer year,
-        @RequestParam(value = "search", required = false) String search
+        @RequestParam(value = "search", required = false, defaultValue = "") String search
     ) {
 
         if (page < 0) {
@@ -121,13 +121,7 @@ public class CompetitionController {
         if (year == null) {
             resultPage = competitionService.findWithPaginatedSearch(page, size, search);
         } else {
-
-            if (search == null || search.isBlank()) {
-                resultPage = competitionService.findByYear(page, size, year);
-            } else {
-                resultPage = competitionService.findByYearContaining(page, size, year, search);
-            }
-
+            resultPage = competitionService.findByYearContaining(page, size, year, search);
         }
 
         if (page > resultPage.getTotalPages()) {
