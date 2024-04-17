@@ -65,7 +65,7 @@ public class AdminController {
         Page<User> resultPage = userService.findWithPaginatedSearch(page, size, search);
 
         if (page > resultPage.getTotalPages()) {
-            return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message", "Requested page does not exist."), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
@@ -77,7 +77,7 @@ public class AdminController {
     public ResponseEntity<?> promote(@Valid @RequestBody PromoteDemoteRoleRequest request) {
 
         if (!userService.userExists(request.getUserId())) {
-            return new ResponseEntity<>("There is no user with the given userId", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>((Map.of("message", "There is no user with the given userId")), HttpStatus.BAD_REQUEST);
         }
 
         Role role = roleService.addRole(request.getUserId(), request.getRole());
@@ -92,7 +92,7 @@ public class AdminController {
         Long id = UserInfoDetails.getDetails().getId();
 
         if (!userService.userExists(request.getUserId())) {
-            return new ResponseEntity<>("There is no user with the given userId", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>((Map.of("message", "There is no user with the given userId")), HttpStatus.BAD_REQUEST);
         }
 
         if (request.getUserId() == id) {
@@ -100,16 +100,16 @@ public class AdminController {
         }
 
         if (request.getRole().equals("ROLE_ADMIN")) {
-            return new ResponseEntity<>("You may not demote admin roles", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","You may not demote admin roles"), HttpStatus.BAD_REQUEST);
         }
 
         if (!roleService.hasRole(request.getUserId(), request.getRole())) {
-            return new ResponseEntity<>("Cannot delete nonexistent role", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Cannot delete nonexistent role"), HttpStatus.BAD_REQUEST);
         }
         
         roleService.removeRole(request.getUserId(), request.getRole());
 
-        return new ResponseEntity<>("Role: " + request.getRole() + " removed from user: " + request.getUserId(), HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message","Role: " + request.getRole() + " removed from user: " + request.getUserId()), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -130,9 +130,9 @@ public class AdminController {
     public ResponseEntity<?> removeScores(@RequestBody TeamMemberId id) {
 
         if (teamMemberScoreService.removeScore(id)) {
-            return new ResponseEntity<>("Score removed", HttpStatus.OK);
+            return new ResponseEntity<>(Map.of("message","Score removed"), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("No score found", HttpStatus.OK);
+            return new ResponseEntity<>(Map.of("message","No score found"), HttpStatus.OK);
         }
 
     }
@@ -146,25 +146,25 @@ public class AdminController {
         Optional<User> userOptional = userService.getUserByUserId(deleteRequest.getUserId());
 
         if (userOptional.isEmpty()) {
-            return new ResponseEntity<>("No user found with that name", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","No user found with that name"), HttpStatus.BAD_REQUEST);
         }
 
         User user = userOptional.get();
 
         // Prevent admin from deleting themselves
         if (details.getId().equals(user.getId())) {
-            return new ResponseEntity<>("You cannot delete yourself", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","You cannot delete yourself"), HttpStatus.BAD_REQUEST);
         }
 
         // Prevent deleting other admins
         if (roleService.findUsersRoles(user.getId()).contains("ROLE_ADMIN")) {
-            return new ResponseEntity<>("You cannot delete other admins", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","You cannot delete other admins"), HttpStatus.BAD_REQUEST);
         }
 
         roleService.removeRoles(user.getId());
         userService.deleteUser(user.getId());
 
-        return new ResponseEntity<>("User deleted", HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message","User deleted"), HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

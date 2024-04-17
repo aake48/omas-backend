@@ -52,7 +52,7 @@ public class CompetitionController {
 
         // Util.sanitizeName returns null if the sanitation was not possible
         if (competitionId == null) {
-            return new ResponseEntity<>("Competition name contains characters which are forbidden.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Competition name contains characters which are forbidden."), HttpStatus.BAD_REQUEST);
         }
 
         Competition comp = competitionService.addCompetition(
@@ -63,7 +63,7 @@ public class CompetitionController {
             return new ResponseEntity<>(comp, HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<>("Competition name has already been taken", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(Map.of("message","Competition name has already been taken"), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(params = { "page", "size", "search" }, value = "competition/query")
@@ -74,14 +74,14 @@ public class CompetitionController {
     ) {
 
         if (page < 0) {
-            return new ResponseEntity<>("Invalid page number.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Invalid page number."), HttpStatus.BAD_REQUEST);
         }
 
         if (search != null && !search.isBlank()) {
             Page<Competition> resultPage = competitionService.findWithPaginatedSearch(page, size, search);
 
             if (page > resultPage.getTotalPages()) {
-                return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Map.of("message","Requested page does not exist."), HttpStatus.BAD_REQUEST);
             }
 
             return new ResponseEntity<>(resultPage, HttpStatus.OK);
@@ -90,7 +90,7 @@ public class CompetitionController {
         Page<Competition> resultPage = competitionService.firstPaginated(page, size);
 
         if (page > resultPage.getTotalPages()) {
-            return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Requested page does not exist."), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
@@ -104,13 +104,13 @@ public class CompetitionController {
     ) {
 
         if (page < 0) {
-            return new ResponseEntity<>("Invalid page number.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Invalid page number."), HttpStatus.BAD_REQUEST);
         }
 
         Page<Competition> resultPage = competitionService.findActiveCompetitions(page, size);
 
         if (page > resultPage.getTotalPages()) {
-            return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Requested page does not exist."), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
@@ -123,13 +123,13 @@ public class CompetitionController {
     ) {
 
         if (page < 0) {
-            return new ResponseEntity<>("Invalid page number.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Invalid page number."), HttpStatus.BAD_REQUEST);
         }
 
         Page<Competition> resultPage = competitionService.findUpcomingCompetitions(page, size);
 
         if (page > resultPage.getTotalPages()) {
-            return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Requested page does not exist."), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
@@ -142,13 +142,13 @@ public class CompetitionController {
     ) {
 
         if (page < 0) {
-            return new ResponseEntity<>("Invalid page number.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Invalid page number."), HttpStatus.BAD_REQUEST);
         }
 
         Page<Competition> resultPage = competitionService.findInactiveCompetitions(page, size);
 
         if (page > resultPage.getTotalPages()) {
-            return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Requested page does not exist."), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
@@ -162,7 +162,7 @@ public class CompetitionController {
     ) {
 
         if (page < 0) {
-            return new ResponseEntity<>("Invalid page number.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Invalid page number."), HttpStatus.BAD_REQUEST);
         }
 
         Page<Competition> resultPage = competitionService.findByYear(page, size, year);
@@ -182,13 +182,13 @@ public class CompetitionController {
     ) {
 
         if (page < 0) {
-            return new ResponseEntity<>("Invalid page number.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Invalid page number."), HttpStatus.BAD_REQUEST);
         }
 
         Page<Team> resultPage = teamService.findWithPaginatedSearchByCompetitionId(page, size, search);
 
         if (page > resultPage.getTotalPages()) {
-            return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Requested page does not exist."), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
@@ -199,7 +199,7 @@ public class CompetitionController {
         try {
             return new ResponseEntity<>(competitionService.getCompetition(name), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("No competition found with the given name.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","No competition found with the given name."), HttpStatus.BAD_REQUEST);
         }
     }
 
