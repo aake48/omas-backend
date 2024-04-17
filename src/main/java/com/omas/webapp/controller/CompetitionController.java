@@ -104,6 +104,25 @@ public class CompetitionController {
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
+    @GetMapping(params = { "page", "size" }, value = "competition/active/query")
+    public ResponseEntity<?> queryActiveCompetitions(
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+
+        if (page < 0) {
+            return new ResponseEntity<>(Map.of("message","Invalid page number."), HttpStatus.BAD_REQUEST);
+        }
+
+        Page<Competition> resultPage = competitionService.findActiveCompetitions(page, size);
+
+        if (page > resultPage.getTotalPages()) {
+            return new ResponseEntity<>(Map.of("message","Requested page does not exist."), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(resultPage, HttpStatus.OK);
+    }
+
     @GetMapping(value = "competition/query")
     public ResponseEntity<?> queryCompetitionByYearAndSearch(
         @RequestParam(value = "page", defaultValue = "0", required = false) int page,
