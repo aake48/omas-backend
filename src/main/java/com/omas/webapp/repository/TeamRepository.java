@@ -20,7 +20,7 @@ public interface TeamRepository extends JpaRepository<Team, TeamId> {
 
     Page<Team> findByCompetitionIdContainingIgnoreCase(String search, PageRequest of);
 
-    @Query(value = "SELECT t.* FROM Team t JOIN Competition c ON t.competition_id = c.competition_id WHERE c.start_date <= :now AND c.end_date >= :now AND LOWER(t.club_name) = LOWER(:club)", nativeQuery = true)
-    Page<Team> findThisClubsTeamsWhichAreInActiveCompetitions(PageRequest of, String club, Date now);
+    @Query(value = "SELECT t.* FROM Team t JOIN Competition c ON t.competition_id = c.competition_id WHERE c.end_date >= :now AND LOWER(t.club_name) = LOWER(:club)", nativeQuery = true)
+    Page<Team> findThisClubsTeamsWhichAreCompetitionsThatHaveNotEnded(PageRequest of, String club, Date now);
 
 }

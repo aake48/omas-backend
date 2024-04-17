@@ -211,7 +211,7 @@ public class TeamService {
     }
 
     public Page<Team> findThisClubsTeamsWhichAreInActiveCompetitions(int page, int size, String club) {
-        return teamRepository.findThisClubsTeamsWhichAreInActiveCompetitions(PageRequest.of(page, size), club, new java.sql.Date(System.currentTimeMillis()));
+        return teamRepository.findThisClubsTeamsWhichAreCompetitionsThatHaveNotEnded(PageRequest.of(page, size), club, new java.sql.Date(System.currentTimeMillis()));
     }
 
     public boolean isThisTeamFull(String competitionName, String teamName) {
