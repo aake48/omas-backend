@@ -17,9 +17,4 @@ services:
       - "8080:8080"
     depends_on:
       - postgres_database
-    environment:
-      DB-URL: jdbc:postgresql://database-omas.fly.dev:5432/database-omas?user=postgres&password=password
-      DB-USERNAME: postgres
-      DB-PASSWORD: password
-      SECRET: 48794134879942idontlikedogs1323572342328789
     image: omas/webapp

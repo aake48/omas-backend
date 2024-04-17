@@ -1,42 +1,40 @@
-#FROM gradle:latest AS build
-
-#WORKDIR /home/gradle/src
-
-#COPY env.properties .
-
-#COPY build.gradle .
-#COPY settings.gradle .
-
-#COPY src src
-
-# Remove -x test if you want to run the tests
-#RUN gradle build -x test --no-daemon
-
-#Uncomment above if gradle build is needed.
-
-
-FROM openjdk:latest
-
-# ENV DB-URL=jdbc:postgresql://database-omas.fly.dev:5432/database-omas?user=postgres&password=password
-ENV DB-USERNAME=postgres
-ENV DB-PASSWORD=password
-ENV SECRET=48794134879942idontlikedogs1323572342328789
-ENV MAIL-HOST=smtp.gmail.com
-ENV MAIL-USERNAME=someexample@gmail.com
-ENV MAIL-PASSWORD=password1
-ENV MAIL-PORT=587
-ENV RecoveryPage=https://localhost:3000/recovery
-ENV DURATIONOFVALIDTY=28800000
+# First stage: build the application
+FROM gradle:jdk17 as build
 
 WORKDIR /app
 
+# Copy the Gradle configuration files
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
 
-COPY env.properties .
-COPY /build/libs/webapp-0.0.1-SNAPSHOT.jar webapp-0.0.1-SNAPSHOT.jar
+# Install dos2unix and convert the gradlew file
+# this converts the local windows line-ended gradlew file to unix line-ended gradlew file
+# this is necessary because the local environment was windows and the docker environment is linux
+
+RUN apt-get update && apt-get install -y dos2unix && dos2unix gradlew && chmod +x gradlew
+
+# Copy the source code
+COPY src src
+
+# Build the application
+RUN ./gradlew clean build -x test
+
+# Second stage: run the application
+FROM openjdk:latest
+
+WORKDIR /app
+
+# Copy the built JAR file from the first stage
+COPY --from=build /app/build/libs/*.jar webapp.jar
 COPY src/main/resources/keystore/omas.p12 omas.p12
+
+# Copy the env.properties file
+COPY env.properties env.properties
 
 # Expose port 8080
 EXPOSE 8080
 
 # Command to run the application
-CMD ["java", "-jar", "webapp-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "webapp.jar"]
