@@ -9,11 +9,13 @@ RUN mkdir -p /var/log/postgresql /var/lib/postgresql/data /run/postgresql && \
     chown -R postgres:postgres /var/log/postgresql /var/lib/postgresql/data /run/postgresql && \
     su postgres -c "initdb -D /var/lib/postgresql/data"
 
-# Create a database
+# Create a database and initialize it with dump.sql
+COPY dump.sql /dump.sql
 RUN echo "CREATE DATABASE omas;" > /create_db.sql && \
     chown postgres:postgres /create_db.sql && \
     su postgres -c "pg_ctl start -D /var/lib/postgresql/data -l /var/log/postgresql/postgres.log" && \
-    su postgres -c "psql -f /create_db.sql"
+    su postgres -c "psql -f /create_db.sql" && \
+    su postgres -c "psql -d omas -f /dump.sql"
 
 # Set working directory
 WORKDIR /app
