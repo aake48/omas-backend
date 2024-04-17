@@ -66,36 +66,6 @@ public class CompetitionController {
         return new ResponseEntity<>("Competition name has already been taken", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(params = { "page", "size", "search" }, value = "competition/query")
-    public ResponseEntity<?> queryCompetitions(
-        @RequestParam(value = "page", defaultValue = "0") int page,
-        @RequestParam(value = "size", defaultValue = "10") int size,
-        @RequestParam(value = "search", required = false) String search
-    ) {
-
-        if (page < 0) {
-            return new ResponseEntity<>("Invalid page number.", HttpStatus.BAD_REQUEST);
-        }
-
-        if (search != null && !search.isBlank()) {
-            Page<Competition> resultPage = competitionService.findWithPaginatedSearch(page, size, search);
-
-            if (page > resultPage.getTotalPages()) {
-                return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);
-            }
-
-            return new ResponseEntity<>(resultPage, HttpStatus.OK);
-        }
-
-        Page<Competition> resultPage = competitionService.firstPaginated(page, size);
-
-        if (page > resultPage.getTotalPages()) {
-            return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(resultPage, HttpStatus.OK);
-    }
-
 
     @GetMapping(params = { "page", "size" }, value = "competition/active/query")
     public ResponseEntity<?> queryActiveCompetitions(
@@ -154,18 +124,31 @@ public class CompetitionController {
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
-    @GetMapping(params = { "page", "size", "year" }, value = "competition/query")
-    public ResponseEntity<?> queryCompetitionByYear(
-        @RequestParam(value = "page", defaultValue = "0") int page,
-        @RequestParam(value = "size", defaultValue = "10") int size,
-        @RequestParam(value = "year") int year
+    @GetMapping(value = "competition/query")
+    public ResponseEntity<?> queryCompetitionByYearAndSearch(
+        @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+        @RequestParam(value = "size", defaultValue = "10", required = false) int size,
+        @RequestParam(value = "year", required = false) Integer year,
+        @RequestParam(value = "search", required = false) String search
     ) {
 
         if (page < 0) {
             return new ResponseEntity<>("Invalid page number.", HttpStatus.BAD_REQUEST);
         }
 
-        Page<Competition> resultPage = competitionService.findByYear(page, size, year);
+        Page<Competition> resultPage;
+
+        if (year == null) {
+            resultPage = competitionService.findWithPaginatedSearch(page, size, search);
+        } else {
+
+            if (search == null || search.isBlank()) {
+                resultPage = competitionService.findByYear(page, size, year);
+            } else {
+                resultPage = competitionService.findByYearContaining(page, size, year, search);
+            }
+
+        }
 
         if (page > resultPage.getTotalPages()) {
             return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);

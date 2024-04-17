@@ -69,8 +69,8 @@ public class TeamMemberController {
 
         Competition competition = competitionOptional.get();
 
-        if (!competition.isActive()) {
-            return new ResponseEntity<>("The requested competition is not active.", HttpStatus.BAD_REQUEST);
+        if (competition.hasEnded()) {
+            return new ResponseEntity<>("The requested competition has ended.", HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -176,6 +176,7 @@ public class TeamMemberController {
 
         try {
 
+            // Allow posting score for another team member by figuring out if the request contains a user id
             TeamMemberId teamMemberId = teamsService.resolveTeamMemberId(request.getUserId(), request.getCompetitionName(), request.getTeamName());
 
             TeamMemberScore score = teamMemberScoreService.modifyScoreSum(

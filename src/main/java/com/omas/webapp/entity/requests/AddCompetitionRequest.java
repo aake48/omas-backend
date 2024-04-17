@@ -19,7 +19,7 @@ public class AddCompetitionRequest {
     private String competitionName;
     
     @StringOptions(value = {Constants.PISTOL_TYPE, Constants.RIFLE_TYPE},
-    message = "Competition Type must be either "+Constants.PISTOL_TYPE +"  or "+Constants.PISTOL_TYPE)
+    message = "Competition Type must be either "+Constants.PISTOL_TYPE +"  or "+Constants.RIFLE_TYPE)
     @NotEmpty(message = "competition type cannot be empty.")
     private String competitionType;
 
