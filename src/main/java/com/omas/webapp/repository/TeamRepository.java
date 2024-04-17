@@ -14,13 +14,13 @@ import com.omas.webapp.table.TeamId;
 public interface TeamRepository extends JpaRepository<Team, TeamId> {
 
 
-    List<Team> findByCompetitionId(String competitionId);
+    List<Team> findByCompetitionIdIgnoreCase(String competitionId);
 
-    Page<Team> findByClubNameContaining(String search, PageRequest of);
+    Page<Team> findByClubNameContainingIgnoreCase(String search, PageRequest of);
 
-    Page<Team> findByCompetitionIdContaining(String search, PageRequest of);
+    Page<Team> findByCompetitionIdContainingIgnoreCase(String search, PageRequest of);
 
-    @Query(value = "SELECT t.* FROM Team t JOIN Competition c ON t.competition_id = c.competition_id WHERE c.start_date <= :now AND c.end_date >= :now AND t.club_name = :club", nativeQuery = true)
+    @Query(value = "SELECT t.* FROM Team t JOIN Competition c ON t.competition_id = c.competition_id WHERE c.start_date <= :now AND c.end_date >= :now AND LOWER(t.club_name) = LOWER(:club)", nativeQuery = true)
     Page<Team> findThisClubsTeamsWhichAreInActiveCompetitions(PageRequest of, String club, Date now);
 
 }

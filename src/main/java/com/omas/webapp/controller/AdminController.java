@@ -50,9 +50,11 @@ public class AdminController {
     private TeamMemberScoreService teamMemberScoreService;
 
     @GetMapping(params = { "page", "size", "search" }, value = "user/query")
-    public ResponseEntity<?> queryUsers(@RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "search", required = false) String search) throws Exception {
+    public ResponseEntity<?> queryUsers(
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = "10") int size,
+        @RequestParam(value = "search", required = false) String search
+    ) throws Exception {
 
         if (page < 0) {
             return new ResponseEntity<>("Invalid page number.", HttpStatus.BAD_REQUEST);

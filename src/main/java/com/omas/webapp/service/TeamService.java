@@ -153,7 +153,7 @@ public class TeamService {
      */
     public List<Team> getTeamsParticipatingInCompetition(String competition) {
         
-        return teamRepository.findByCompetitionId(competition);
+        return teamRepository.findByCompetitionIdIgnoreCase(competition);
     }
 
     /**
@@ -163,7 +163,7 @@ public class TeamService {
      * @return optional containing the user's team or empty optional
      */
     public Optional<Team> getUserTeam(Long userId, String competitionId) {
-        TeamMember teamMember = teamMemberRepository.findByUserIdAndCompetitionId(userId, competitionId);
+        TeamMember teamMember = teamMemberRepository.findByUserIdAndCompetitionIdIgnoreCase(userId, competitionId);
         if(teamMember==null){
             return Optional.empty();
         }
@@ -203,11 +203,11 @@ public class TeamService {
     }
 
     public Page<Team> findWithPaginatedsearchByClub(int page, int size, String search) {
-        return teamRepository.findByClubNameContaining(search, PageRequest.of(page, size));
+        return teamRepository.findByClubNameContainingIgnoreCase(search, PageRequest.of(page, size));
     }
 
     public Page<Team> findWithPaginatedSearchByCompetitionId(int page, int size, String search) {
-        return teamRepository.findByCompetitionIdContaining(search, PageRequest.of(page, size));
+        return teamRepository.findByCompetitionIdContainingIgnoreCase(search, PageRequest.of(page, size));
     }
 
     public Page<Team> findThisClubsTeamsWhichAreInActiveCompetitions(int page, int size, String club) {

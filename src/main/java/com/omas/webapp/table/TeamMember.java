@@ -25,9 +25,9 @@ public class TeamMember {
     @Getter @Id String teamName;
 
     public TeamMember(String competitionId, Long userId, String teamName) {
-        this.competitionId = competitionId;
+        this.competitionId = competitionId.toLowerCase();
         this.userId = userId;
-        this.teamName = teamName;
+        this.teamName = teamName.toLowerCase();
     }
 
     public TeamMember(TeamMemberId teamMemberId) {

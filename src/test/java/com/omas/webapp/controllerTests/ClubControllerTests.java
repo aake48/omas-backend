@@ -180,7 +180,7 @@ public class ClubControllerTests {
     @Test
     public void getByID() throws Exception {
 
-        final String clubName = "SeuraajienSeura";
+        final String clubName = "seuraajienseura";
 
         // adds club
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)
@@ -200,7 +200,7 @@ public class ClubControllerTests {
     @Test
     public void joinClub() throws Exception {
 
-        final String clubName = "SeuraajienSeura";
+        final String clubName = "seuraajienseura";
 
         // adds club
         mockMvc.perform(MockMvcRequestBuilders.post(addNewUrl)

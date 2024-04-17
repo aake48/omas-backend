@@ -14,8 +14,8 @@ public class TeamMemberId implements Serializable {
 
     public TeamMemberId(Long userId, String competitionId, String teamName) {
         this.userId = userId;
-        this.competitionId = competitionId;        
-        this.teamName = teamName;
+        this.competitionId = competitionId.toLowerCase();
+        this.teamName = teamName.toLowerCase();
     }
 
     public TeamMemberId(Long id, TeamId teamId) {

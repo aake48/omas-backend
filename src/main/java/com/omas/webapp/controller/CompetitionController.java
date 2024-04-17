@@ -178,8 +178,15 @@ public class CompetitionController {
     public ResponseEntity<?> getResultsForCompetition(@PathVariable String name) {
 
         try {
-            Competition competition = competitionService.getCompetition(name).get();
-            List<Team> teams = teamService.getTeamsParticipatingInCompetition(name);
+
+            String competitionId = Constants.createIdString(name);
+
+            if (competitionId == null) {
+                return new ResponseEntity<>(Map.of("message", "Illegal characters in competition name"), HttpStatus.BAD_REQUEST);
+            }
+
+            Competition competition = competitionService.getCompetition(competitionId).get();
+            List<Team> teams = teamService.getTeamsParticipatingInCompetition(competitionId);
             ObjectMapper mapper = new ObjectMapper();
             List<JsonNode> teamNodesList = new ArrayList<>();
 

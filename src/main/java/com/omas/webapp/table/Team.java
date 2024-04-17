@@ -31,6 +31,13 @@ public class Team {
     @Column(nullable = false)
     private String teamDisplayName;
 
+    public Team(String competitionId, String teamName, String teamDisplayName, String clubName) {
+        this.competitionId = competitionId.toLowerCase();
+        this.teamName = teamName.toLowerCase();
+        this.teamDisplayName = teamDisplayName;
+        this.clubName = clubName.toLowerCase();
+    }
+
     public Team(TeamId teamId, String teamDisplayName, String club) {
         this.competitionId = teamId.getCompetitionId();
         this.teamName = teamId.getTeamName();

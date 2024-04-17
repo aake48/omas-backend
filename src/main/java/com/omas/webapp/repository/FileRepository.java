@@ -11,10 +11,10 @@ import java.util.Optional;
 public interface FileRepository extends JpaRepository<ImageProof, ImageProofId> {
 
     default List<ImageProof> findByTeamMemberId(TeamMemberId id) {
-        return findByUserIdAndCompetitionIdAndTeamName(id.getUserId(), id.getCompetitionId(), id.getTeamName());
+        return findByUserIdAndCompetitionIdIgnoreCaseAndTeamNameIgnoreCase(id.getUserId(), id.getCompetitionId(), id.getTeamName());
     }
 
-    List<ImageProof> findByUserIdAndCompetitionIdAndTeamName(Long userId, String competitionId, String teamName);
+    List<ImageProof> findByUserIdAndCompetitionIdIgnoreCaseAndTeamNameIgnoreCase(Long userId, String competitionId, String teamName);
 
     default Optional<ImageProof> findByTeamMemberIdAndFileName(TeamMemberId id, String fileName) {
         return findById(new ImageProofId(id, fileName));

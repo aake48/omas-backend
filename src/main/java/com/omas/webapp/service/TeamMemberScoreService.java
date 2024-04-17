@@ -41,7 +41,7 @@ public class TeamMemberScoreService {
     }
 
     public TeamMemberScore getUsersScore(long id, String competitionName) {
-        return teamMemberScoreRepository.findByUserIdAndCompetitionId(id, competitionName);
+        return teamMemberScoreRepository.findByUserIdAndCompetitionIdIgnoreCase(id, competitionName);
     }
 
     /**

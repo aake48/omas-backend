@@ -34,7 +34,7 @@ public class ClubService {
     }
 
     public Page<Club> findWithPaginatedSearch(int page, int size, String search) {
-        return repository.findByNameContaining(search, PageRequest.of(page, size));
+        return repository.findByNameContainingIgnoreCase(search, PageRequest.of(page, size));
     }
 
     public Page<Club> firstPaginated(int page, int size) {
@@ -51,7 +51,10 @@ public class ClubService {
      * @throws Exception if there is no club with the given name
      */
     public void setPassKey(String clubName, String passkey) throws Exception {
-        Optional<Club> optional = repository.findById(clubName);
+
+        clubName = clubName.toLowerCase();
+
+        Optional<Club> optional = repository.findById(clubName.toLowerCase());
 
         if (optional.isEmpty()) {
             throw new Exception("There is no club with the given name. " + clubName);
@@ -72,6 +75,9 @@ public class ClubService {
      *                   do not match
      */
     public void checkPasskeyMatch(String clubName, String passKey) throws Exception {
+
+        clubName = clubName.toLowerCase();
+
         Optional<Club> optional = repository.findById(clubName);
 
         if (optional.isEmpty()) {
