@@ -25,6 +25,7 @@ RUN mkdir -p /var/log/postgresql /var/lib/postgresql/data /run/postgresql && \
 RUN echo "CREATE DATABASE omas;" > /create_db.sql && \
     chown postgres:postgres /create_db.sql && \
     su postgres -c "pg_ctl start -D /var/lib/postgresql/data -l /var/log/postgresql/postgres.log" && \
+    sleep 5 && \
     su postgres -c "psql -f /create_db.sql"
 
 # Prepare startup scripts
