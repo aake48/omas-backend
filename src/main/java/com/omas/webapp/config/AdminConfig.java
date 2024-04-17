@@ -6,8 +6,10 @@ import com.omas.webapp.service.*;
 import com.omas.webapp.table.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 @Component
+@Profile("dev")
 public class AdminConfig implements CommandLineRunner {
 
     @Autowired

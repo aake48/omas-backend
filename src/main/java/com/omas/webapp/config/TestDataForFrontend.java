@@ -8,6 +8,7 @@ import com.omas.webapp.table.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Log4j2
+@Profile("dev")
 @Component
 public class TestDataForFrontend implements CommandLineRunner {
 
