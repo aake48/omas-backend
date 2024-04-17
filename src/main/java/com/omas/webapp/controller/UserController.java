@@ -148,6 +148,9 @@ public class UserController {
             root.put("token", token);
             String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);
 
+            // Reset login attempts on successful login
+            loginAttemptService.clearCache();
+
             return new ResponseEntity<>(jsonString, HttpStatus.OK);
 
         } catch (AuthenticationException e) {
