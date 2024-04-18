@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class Competition {
 
 	public Competition(String competitionId, String displayName, String competitionType, Long startDate, Long endDate) {
-		this.competitionId = competitionId;
+		this.competitionId = competitionId.toLowerCase();
 		this.displayName = displayName;
 		this.creationDate = new Date(Instant.now().toEpochMilli());
 		this.type = competitionType;

@@ -15,16 +15,16 @@ import com.omas.webapp.table.TeamMemberId;
 public interface TeamMemberRepository extends JpaRepository<TeamMember, TeamMemberId> { 
 
     default Optional<List<TeamMember>> findByTeamId(TeamId teamId) {
-        return findByteamNameAndCompetitionId(teamId.getTeamName(), teamId.getCompetitionId());
+        return findByteamNameIgnoreCaseAndCompetitionIdIgnoreCase(teamId.getTeamName(), teamId.getCompetitionId());
     }
 
-    Optional<List<TeamMember>> findByteamNameAndCompetitionId(String teamName, String competitionId);
+    Optional<List<TeamMember>> findByteamNameIgnoreCaseAndCompetitionIdIgnoreCase(String teamName, String competitionId);
 
     List<TeamMember> findByUserId(Long userId);
 
     @Query(value = "SELECT tm.* FROM Team_member tm JOIN Competition c ON tm.competition_id = c.competition_id WHERE tm.user_id = :userId AND c.end_date > :now", nativeQuery = true)
     List<TeamMember> findThisUsersTeamMembershipsForActiveCompetitions(Long userId,  Date now);
 
-    TeamMember findByUserIdAndCompetitionId(Long userId, String competitionId);
+    TeamMember findByUserIdAndCompetitionIdIgnoreCase(Long userId, String competitionId);
 
 }

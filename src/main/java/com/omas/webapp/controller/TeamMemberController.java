@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import com.omas.webapp.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,23 +55,24 @@ public class TeamMemberController {
         Long userId = UserInfoDetails.getDetails().getId();
 
         if (teamsService.isUserParticipatingInThisCompetition(userId, request.getCompetitionName())) {
-            return new ResponseEntity<>("You are already in a team in this competition.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","You are already in a team in this competition."), HttpStatus.BAD_REQUEST);
         }
 
         if (teamsService.isThisTeamFull(request.getCompetitionName(), request.getTeamName())){
-            return new ResponseEntity<>("The team is full.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","The team is full."), HttpStatus.BAD_REQUEST);
         }
 
         Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
 
         if (competitionOptional.isEmpty()) {
-            return new ResponseEntity<>("The requested competition does not exist.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","The requested competition does not exist."), HttpStatus.BAD_REQUEST);
         }
 
         Competition competition = competitionOptional.get();
 
+
         if (competition.hasEnded()) {
-            return new ResponseEntity<>("The requested competition has ended.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message", "The requested competition has ended."), HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -78,7 +80,7 @@ public class TeamMemberController {
             return new ResponseEntity<>(savedTeamMember, HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message",e.getMessage()), HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -104,7 +106,7 @@ public class TeamMemberController {
             return new ResponseEntity<>(score, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>("No score found", HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message","No score found"), HttpStatus.OK);
     }
 
     /**
@@ -119,6 +121,12 @@ public class TeamMemberController {
 
         try {
 
+            String clubId = Constants.createIdString(request.getClubName());
+
+            if (clubId == null) {
+                return new ResponseEntity<>(Map.of("message", "The club name contains illegal characters"), HttpStatus.BAD_REQUEST);
+            }
+
             Optional<Team> optionalTeam = teamsService
                     .getTeam(new TeamId(request.getCompetitionName(), request.getTeamName()));
             String club = null;
@@ -127,20 +135,20 @@ public class TeamMemberController {
                 club = team.getClubName();
             }
 
-            if (club == null || !club.equals(request.getClubName())) {
-                throw new Exception("this team belongs to another team");
+            if (club == null || !club.equals(clubId)) {
+                return new ResponseEntity<>(Map.of("message", "this team belongs to another team"), HttpStatus.BAD_REQUEST);
             }
 
             Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
 
             if (competitionOptional.isEmpty()) {
-                return new ResponseEntity<>("The requested competition does not exist", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Map.of("message","The requested competition does not exist"), HttpStatus.BAD_REQUEST);
             }
 
             Competition competition = competitionOptional.get();
 
             if (!competition.isActive()) {
-                return new ResponseEntity<>("The requested competition is not active.", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Map.of("message","The requested competition is not active."), HttpStatus.BAD_REQUEST);
             }
 
             TeamMemberId teamMemberId = teamsService.canUserSubmitScores(request.getUserId(),
@@ -154,7 +162,7 @@ public class TeamMemberController {
             return new ResponseEntity<>(score, HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message",e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -165,13 +173,13 @@ public class TeamMemberController {
         Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
 
         if (competitionOptional.isEmpty()) {
-            return new ResponseEntity<>("The requested competition does not exist", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","The requested competition does not exist"), HttpStatus.BAD_REQUEST);
         }
 
         Competition competition = competitionOptional.get();
 
         if (!competition.isActive()) {
-            return new ResponseEntity<>("The requested competition is not active.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","The requested competition is not active."), HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -185,7 +193,7 @@ public class TeamMemberController {
 
             return new ResponseEntity<>(score, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message",e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 

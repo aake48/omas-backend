@@ -59,10 +59,10 @@ public class TeamControllerTests {
         mockMvc.perform(MockMvcRequestBuilders.get(getTeamUrl)
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.competitionId").value(competitionNameId))
+            .andExpect(jsonPath("$.competitionId").value(competitionNameId.toLowerCase()))
             .andExpect(jsonPath("$.teamDisplayName").value(teamNameId))
-            .andExpect(jsonPath("$.teamName").value(teamNameId))
-            .andExpect(jsonPath("$.clubName").value(clubName))
+            .andExpect(jsonPath("$.teamName").value(teamNameId.toLowerCase()))
+            .andExpect(jsonPath("$.clubName").value(clubName.toLowerCase()))
             .andExpect(jsonPath("$.teamMembers").exists());
     }
 

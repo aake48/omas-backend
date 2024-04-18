@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -46,20 +47,20 @@ public class FileController {
         TeamMemberScore score = this.scoreService.getUsersScore(userId, competitionId);
 
         if (score == null) {
-            return new ResponseEntity<>("Could not find a score to associate this image with", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Could not find a score to associate this image with"), HttpStatus.BAD_REQUEST);
         }
 
         try {
             // This naming may be confusing but the idea is that here the server is downloading the image uploaded by the user
             this.fileService.receiveAndWriteFileFully(score.getTeamMemberId(), file);
         } catch (FileAlreadyExistsException ex) {
-            return new ResponseEntity<>("Could not upload an image with that file name: The file already exists.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Could not upload an image with that file name: The file already exists."), HttpStatus.BAD_REQUEST);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return new ResponseEntity<>("Something went wrong with uploading the image: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Something went wrong with uploading the image: " + ex.getMessage()), HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>("File uploaded successfully", HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message","File uploaded successfully"), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -69,11 +70,11 @@ public class FileController {
         final TeamMemberId id = request.getTeamMemberId();
 
         if (!this.teamService.thisUserIsTeamMember(id)) {
-            return new ResponseEntity<>("That team member does not exist", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","That team member does not exist"), HttpStatus.BAD_REQUEST);
         }
 
         if (this.fileService.hasNoFilesPostedByTeamMember(id)) {
-            return new ResponseEntity<>("That team member has not posted any files", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","That team member has not posted any files"), HttpStatus.BAD_REQUEST);
         }
 
         final String fileName = request.getFileName();
@@ -121,7 +122,7 @@ public class FileController {
             Optional<ImageProof> file = this.fileService.getFile(id, fileName);
 
             if (file.isEmpty()) {
-                return new ResponseEntity<>("The requested file could not be found", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Map.of("message","The requested file could not be found"), HttpStatus.BAD_REQUEST);
             }
 
             ImageProof proof = file.get();
@@ -138,22 +139,22 @@ public class FileController {
         final TeamMemberId id = request.getTeamMemberId();
 
         if (!this.teamService.thisUserIsTeamMember(id)) {
-            return new ResponseEntity<>("That team member does not exist", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","That team member does not exist"), HttpStatus.BAD_REQUEST);
         }
 
         if (this.fileService.hasNoFilesPostedByTeamMember(id)) {
-            return new ResponseEntity<>("That team member has not posted any files", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","That team member has not posted any files"), HttpStatus.BAD_REQUEST);
         }
 
         final String fileName = request.getFileName();
 
         if (fileName == null) {
-            return new ResponseEntity<>("You must provide a file name", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","You must provide a file name"), HttpStatus.BAD_REQUEST);
         }
 
         this.fileService.deleteFileById(new ImageProofId(id, fileName));
 
-        return new ResponseEntity<>("File deleted", HttpStatus.OK);
+        return new ResponseEntity<>(Map.of("message","File deleted"), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

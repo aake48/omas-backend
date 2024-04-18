@@ -46,6 +46,10 @@ public class LoginAttemptService {
 
     }
 
+    public void clearCache() {
+        attemptsCache.remove(getClientIP());
+    }
+
     /**
      * Signal to the service that the user behind the given IP address failed to log in and that their attempt counter should be increment
      * @param ip the IP address of the user attempting to log in

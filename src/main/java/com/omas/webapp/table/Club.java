@@ -30,7 +30,7 @@ public class Club {
 	private String passkey;
 
 	public Club(String clubName, String clubId, long creatorId) {
-		this.name = clubId;
+		this.name = clubId.toLowerCase();
 		this.nameNonId = clubName;
 		this.idCreator = creatorId;
 		this.creationDate = new Date(Instant.now().toEpochMilli());

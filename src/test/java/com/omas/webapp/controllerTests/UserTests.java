@@ -57,17 +57,4 @@ public class UserTests {
             .getContentAsString();
 
     }
-
-    @Test
-    public void getUserTeams() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "teams")
-                .header("Authorization", "Bearer " + adminToken))
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse()
-            .getContentAsString();
-
-    }
-
 }

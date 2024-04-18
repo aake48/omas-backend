@@ -48,40 +48,46 @@ public class TeamController {
         String club = UserInfoDetails.getDetails().getPartOfClub();
 
         if (club == null) {
-            return new ResponseEntity<>("User creating a team needs to be in a club", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","User creating a team needs to be in a club"), HttpStatus.BAD_REQUEST);
         }
 
         String teamDisplayName = request.getTeamName();
         String teamName = Constants.createIdString(teamDisplayName);
 
         if (teamName == null) {
-            return new ResponseEntity<>("Team name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Team name contains illegal characters. It must match ^[a-z0-9-_]+$"), HttpStatus.BAD_REQUEST);
         }
 
-        if (teamService.teamExists(request.getCompetitionName(), teamName)) {
-            return new ResponseEntity<>("A team with that name already exists.", HttpStatus.BAD_REQUEST);
+        String competitionId = Constants.createIdString(request.getCompetitionName());
+
+        if (competitionId == null) {
+            return new ResponseEntity<>(Map.of("message", "Competition name contains illegal characters. It must match ^[a-z0-9-_]+$"), HttpStatus.BAD_REQUEST);
         }
 
-        Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
+        if (teamService.teamExists(competitionId, teamName)) {
+            return new ResponseEntity<>(Map.of("message","A team with that name already exists."), HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Competition> competitionOptional = competitionService.getCompetition(competitionId);
 
         // Handles prior thisCompetitionExists check
         if (competitionOptional.isEmpty()) {
-            return new ResponseEntity<>("The requested competition does not exist", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","The requested competition does not exist"), HttpStatus.BAD_REQUEST);
         }
 
         Competition competition = competitionOptional.get();
 
         if (competition.hasEnded()) {
-            return new ResponseEntity<>("The requested competition has ended.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","The requested competition has ended."), HttpStatus.BAD_REQUEST);
         }
         
         try {
 
-            Team addedTeam = teamService.addTeam(request.getCompetitionName(), teamName, teamDisplayName, club);
+            Team addedTeam = teamService.addTeam(competitionId, teamName, teamDisplayName, club);
             return new ResponseEntity<>(addedTeam, HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message",e.getMessage()), HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -92,7 +98,7 @@ public class TeamController {
             @RequestParam(value = "search", required = false) String search) throws Exception {
 
         if (page < 0) {
-            return new ResponseEntity<>("Invalid page number.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Invalid page number."), HttpStatus.BAD_REQUEST);
         }
 
         if (search == null || search.isBlank()) {
@@ -102,7 +108,7 @@ public class TeamController {
         Page<Team> resultPage = teamService.findWithPaginatedsearchByClub(page, size, search);
 
         if (page > resultPage.getTotalPages()) {
-            return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Requested page does not exist."), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
@@ -128,7 +134,7 @@ public class TeamController {
             @RequestParam(value = "club", required = false) String club) throws Exception {
 
         if (page < 0) {
-            return new ResponseEntity<>("Invalid page number.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Invalid page number."), HttpStatus.BAD_REQUEST);
         }
 
         if (club == null || club.isBlank()) {
@@ -138,7 +144,7 @@ public class TeamController {
         Page<Team> resultPage = teamService.findThisClubsTeamsWhichAreInActiveCompetitions(page, size, club);
 
         if (page > resultPage.getTotalPages()) {
-            return new ResponseEntity<>("Requested page does not exist.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Requested page does not exist."), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
@@ -162,7 +168,7 @@ public class TeamController {
         Optional<Team> teamOptional = teamService.getTeam(competition, team);
 
         if (teamOptional.isEmpty()) {
-            return new ResponseEntity<>("No team found with the given parameters.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","No team found with the given parameters."), HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(teamOptional.get(), HttpStatus.OK);
@@ -172,14 +178,14 @@ public class TeamController {
     public ResponseEntity<?> getScores(@Valid @RequestBody TeamScoreRequest request) {
 
         if (!teamService.isTeamPartOfCompetition( request.getCompetitionName(), request.getTeamName())){
-            return new ResponseEntity<>("No team found.", HttpStatus.OK);
+            return new ResponseEntity<>(Map.of("message","No team found."), HttpStatus.OK);
         }
 
         List<TeamMemberScore> scores = scoreService.getTeamScores(new TeamId(request.getCompetitionName(), request.getTeamName()));
 
         // Notify client if there are no scores for this team id
         if (scores == null || scores.isEmpty()) {
-            return new ResponseEntity<>("This team has not yet submitted any scores.", HttpStatus.OK);
+            return new ResponseEntity<>(Map.of("message","This team has not yet submitted any scores."), HttpStatus.OK);
         }
 
         return new ResponseEntity<>(scores, HttpStatus.OK);

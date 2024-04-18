@@ -11,13 +11,13 @@ import com.omas.webapp.table.Competition;
 
 public interface CompetitionRepository extends JpaRepository<Competition, String> {
 
-    Page<Competition> findByCompetitionIdContaining(String name, PageRequest pageRequest);
+    Page<Competition> findByCompetitionIdContainingIgnoreCase(String name, PageRequest pageRequest);
 
     @Query(value = "SELECT * FROM Competition c WHERE EXTRACT(YEAR FROM c.start_date) = :year ORDER BY c.start_date ASC", nativeQuery = true)
     Page<Competition> findByYear(@Param("year") int year, PageRequest pageRequest);
 
     @Query(
-        value = "SELECT * FROM Competition c WHERE c.display_name LIKE %:search% AND EXTRACT(YEAR FROM c.start_date) = :year ORDER BY c.start_date ASC",
+        value = "SELECT * FROM Competition c WHERE LOWER(c.competition_id) iLIKE %:search% AND EXTRACT(YEAR FROM c.start_date) = :year ORDER BY c.start_date DESC",
         nativeQuery = true
     )
     Page<Competition> findByYearContaining(@Param("year") int year, @Param("search") String search, PageRequest pageRequest);
