@@ -203,18 +203,18 @@ ALTER TABLE ONLY public.user_ ALTER COLUMN id SET DEFAULT nextval('public.user__
 --
 
 COPY public.club (creation_date, id_creator, name, name_non_id, passkey) FROM stdin;
-2024-04-17	0	Poliisiseura	Poliisiseura	\N
-2024-04-17	0	Koiraseura	Koiraseura	\N
-2024-04-17	0	Hammaspeikkoseura	Hammaspeikkoseura	\N
-2024-04-17	0	dog	dog	\N
-2024-04-17	0	Savu_Seura	Savu Seura	\N
-2024-04-17	0	OMAS	OMAS	\N
-2024-04-17	0	Pelleseura	Pelleseura	\N
-2024-04-17	0	Yung_Tallent	Yung Tallent	\N
-2024-04-17	0	Aseharrastajien_Yhtenaisyys	Aseharrastajien Yhten├ñisyys	\N
-2024-04-17	0	Tahtaysmestarit	T├ñht├ñysmestarit	\N
-2024-04-17	0	Laukausryhma_Aurora	Laukausryhm├ñ Aurora	\N
-2024-04-17	0	Ampumataito	Ampumataito	\N
+2024-04-18	0	poliisiseura	Poliisiseura	\N
+2024-04-18	0	koiraseura	Koiraseura	\N
+2024-04-18	0	hammaspeikkoseura	Hammaspeikkoseura	\N
+2024-04-18	0	dog	dog	\N
+2024-04-18	0	savu_seura	Savu Seura	\N
+2024-04-18	0	omas	OMAS	\N
+2024-04-18	0	pelleseura	Pelleseura	\N
+2024-04-18	0	yung_tallent	Yung Tallent	\N
+2024-04-18	0	aseharrastajien_yhtenaisyys	Aseharrastajien Yhtenäisyys	\N
+2024-04-18	0	tahtaysmestarit	Tähtäysmestarit	\N
+2024-04-18	0	laukausryhma_aurora	Laukausryhmä Aurora	\N
+2024-04-18	0	ampumataito	Ampumataito	\N
 \.
 
 
@@ -223,26 +223,26 @@ COPY public.club (creation_date, id_creator, name, name_non_id, passkey) FROM st
 --
 
 COPY public.competition (creation_date, end_date, start_date, competition_id, display_name, type) FROM stdin;
-2024-04-17	2024-05-31	2024-05-06	Kesan_Ampujaiset	Kes├ñn Ampujaiset	rifle
-2024-04-17	2023-05-22	2022-05-07	Talvi_Pistooli	Talvi Pistooli	rifle
-2024-04-17	2024-06-30	2024-05-24	Tarkkuuslaukaus-festivaali	Tarkkuuslaukaus-festivaali	rifle
-2024-04-17	2024-05-02	2024-03-29	Kivaarikilpailujen_huipennus	Kiv├ñ├ñrikilpailujen huipennus	rifle
-2024-04-17	2022-08-19	2022-05-16	Polaris-ampumaharjoitus	Polaris-ampumaharjoitus	rifle
-2024-04-17	2024-06-21	2024-05-14	Aamunkoiton_tahtays	Aamunkoiton t├ñht├ñys	rifle
-2024-04-17	2024-02-23	2023-12-19	Nordic_Sharpshooters_Cup	Nordic Sharpshooters Cup	rifle
-2024-04-17	2024-03-28	2024-03-02	Taivaanranta-tulitus	Taivaanranta-tulitus	rifle
-2024-04-17	2026-10-26	2024-10-31	Lumivyory-ammunta	Lumivy├Âry-ammunta	rifle
-2024-04-17	2026-03-31	2025-07-04	Tarkka-ammunta_Cup	Tarkka-ammunta Cup	pistol
-2024-04-17	2024-07-07	2024-05-13	Nopean_laukauksen_mestaruus	Nopean laukauksen mestaruus	pistol
-2024-04-17	2024-06-18	2024-04-24	Moniottelu	Moniottelu	pistol
-2024-04-17	2024-06-20	2024-06-07	Kansallinen_tahtayskilpailu	Kansallinen t├ñht├ñyskilpailu	pistol
-2024-04-17	2024-04-05	2024-02-27	Kaupunkiammunta-challenge	Kaupunkiammunta-challenge	pistol
-2024-04-17	2022-12-26	2022-09-29	Laukausmaraton	Laukausmaraton	pistol
-2024-04-17	2026-02-13	2024-12-23	Vapaa-asekilpailu	Vapaa-asekilpailu	pistol
-2024-04-17	2024-11-16	2024-04-16	Taitoluodikko-turnaus	Taitoluodikko-turnaus	pistol
-2024-04-17	2026-05-04	2024-08-18	Precision_Pistol_Cup	Precision Pistol Cup	pistol
-2024-04-17	2024-11-19	2023-07-15	Tulevaisuuden_Ampuja	Tulevaisuuden Ampuja	pistol
-2024-04-17	2024-04-19	2024-03-08	Pikakivaari-klassikko	Pikakiv├ñ├ñri-klassikko	pistol
+2024-04-18	2024-06-17	2024-05-26	kesan_ampujaiset	Kesän Ampujaiset	rifle
+2024-04-18	2024-05-27	2024-05-06	talvi_pistooli	Talvi Pistooli	rifle
+2024-04-18	2024-04-22	2024-04-04	tarkkuuslaukaus-festivaali	Tarkkuuslaukaus-festivaali	rifle
+2024-04-18	2024-04-15	2024-02-16	kivaarikilpailujen_huipennus	Kiväärikilpailujen huipennus	rifle
+2024-04-18	2024-06-21	2024-05-23	polaris-ampumaharjoitus	Polaris-ampumaharjoitus	rifle
+2024-04-18	2024-04-23	2024-03-05	aamunkoiton_tahtays	Aamunkoiton tähtäys	rifle
+2024-04-18	2024-03-27	2024-03-10	nordic_sharpshooters_cup	Nordic Sharpshooters Cup	rifle
+2024-04-18	2024-11-27	2024-01-06	taivaanranta-tulitus	Taivaanranta-tulitus	rifle
+2024-04-18	2024-04-13	2024-04-03	lumivyory-ammunta	Lumivyöry-ammunta	rifle
+2024-04-18	2022-07-04	2022-05-11	tarkka-ammunta_cup	Tarkka-ammunta Cup	pistol
+2024-04-18	2026-04-25	2025-08-30	nopean_laukauksen_mestaruus	Nopean laukauksen mestaruus	pistol
+2024-04-18	2024-06-12	2024-04-27	moniottelu	Moniottelu	pistol
+2024-04-18	2024-01-25	2022-12-23	kansallinen_tahtayskilpailu	Kansallinen tähtäyskilpailu	pistol
+2024-04-18	2024-05-12	2024-04-07	kaupunkiammunta-challenge	Kaupunkiammunta-challenge	pistol
+2024-04-18	2027-03-19	2025-09-13	laukausmaraton	Laukausmaraton	pistol
+2024-04-18	2024-04-14	2022-12-04	vapaa-asekilpailu	Vapaa-asekilpailu	pistol
+2024-04-18	2024-05-31	2024-04-08	taitoluodikko-turnaus	Taitoluodikko-turnaus	pistol
+2024-04-18	2024-05-27	2024-05-03	precision_pistol_cup	Precision Pistol Cup	pistol
+2024-04-18	2024-07-28	2023-05-03	tulevaisuuden_ampuja	Tulevaisuuden Ampuja	pistol
+2024-04-18	2023-01-06	2022-08-03	pikakivaari-klassikko	Pikakivääri-klassikko	pistol
 \.
 
 
@@ -267,8 +267,8 @@ COPY public.password_reset_token (expiry_date, id, reset_password_token) FROM st
 --
 
 COPY public.role (id, user_id, role) FROM stdin;
-\N	1	ROLE_USER
-\N	1	ROLE_ADMIN
+\N	54	ROLE_USER
+\N	54	ROLE_ADMIN
 \.
 
 
@@ -277,246 +277,246 @@ COPY public.role (id, user_id, role) FROM stdin;
 --
 
 COPY public.team (club_name, competition_id, team_display_name, team_name) FROM stdin;
-Poliisiseura	Kesan_Ampujaiset	Poliisiseura	Poliisiseura
-Koiraseura	Kesan_Ampujaiset	Koiraseura	Koiraseura
-Hammaspeikkoseura	Kesan_Ampujaiset	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Kesan_Ampujaiset	dog	dog
-Savu_Seura	Kesan_Ampujaiset	Savu Seura	Savu_Seura
-OMAS	Kesan_Ampujaiset	OMAS	OMAS
-Pelleseura	Kesan_Ampujaiset	Pelleseura	Pelleseura
-Yung_Tallent	Kesan_Ampujaiset	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Kesan_Ampujaiset	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Kesan_Ampujaiset	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Kesan_Ampujaiset	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Kesan_Ampujaiset	Ampumataito	Ampumataito
-Poliisiseura	Talvi_Pistooli	Poliisiseura	Poliisiseura
-Koiraseura	Talvi_Pistooli	Koiraseura	Koiraseura
-Hammaspeikkoseura	Talvi_Pistooli	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Talvi_Pistooli	dog	dog
-Savu_Seura	Talvi_Pistooli	Savu Seura	Savu_Seura
-OMAS	Talvi_Pistooli	OMAS	OMAS
-Pelleseura	Talvi_Pistooli	Pelleseura	Pelleseura
-Yung_Tallent	Talvi_Pistooli	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Talvi_Pistooli	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Talvi_Pistooli	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Talvi_Pistooli	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Talvi_Pistooli	Ampumataito	Ampumataito
-Poliisiseura	Tarkkuuslaukaus-festivaali	Poliisiseura	Poliisiseura
-Koiraseura	Tarkkuuslaukaus-festivaali	Koiraseura	Koiraseura
-Hammaspeikkoseura	Tarkkuuslaukaus-festivaali	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Tarkkuuslaukaus-festivaali	dog	dog
-Savu_Seura	Tarkkuuslaukaus-festivaali	Savu Seura	Savu_Seura
-OMAS	Tarkkuuslaukaus-festivaali	OMAS	OMAS
-Pelleseura	Tarkkuuslaukaus-festivaali	Pelleseura	Pelleseura
-Yung_Tallent	Tarkkuuslaukaus-festivaali	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Tarkkuuslaukaus-festivaali	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Tarkkuuslaukaus-festivaali	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Tarkkuuslaukaus-festivaali	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Tarkkuuslaukaus-festivaali	Ampumataito	Ampumataito
-Poliisiseura	Kivaarikilpailujen_huipennus	Poliisiseura	Poliisiseura
-Koiraseura	Kivaarikilpailujen_huipennus	Koiraseura	Koiraseura
-Hammaspeikkoseura	Kivaarikilpailujen_huipennus	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Kivaarikilpailujen_huipennus	dog	dog
-Savu_Seura	Kivaarikilpailujen_huipennus	Savu Seura	Savu_Seura
-OMAS	Kivaarikilpailujen_huipennus	OMAS	OMAS
-Pelleseura	Kivaarikilpailujen_huipennus	Pelleseura	Pelleseura
-Yung_Tallent	Kivaarikilpailujen_huipennus	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Kivaarikilpailujen_huipennus	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Kivaarikilpailujen_huipennus	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Kivaarikilpailujen_huipennus	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Kivaarikilpailujen_huipennus	Ampumataito	Ampumataito
-Poliisiseura	Polaris-ampumaharjoitus	Poliisiseura	Poliisiseura
-Koiraseura	Polaris-ampumaharjoitus	Koiraseura	Koiraseura
-Hammaspeikkoseura	Polaris-ampumaharjoitus	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Polaris-ampumaharjoitus	dog	dog
-Savu_Seura	Polaris-ampumaharjoitus	Savu Seura	Savu_Seura
-OMAS	Polaris-ampumaharjoitus	OMAS	OMAS
-Pelleseura	Polaris-ampumaharjoitus	Pelleseura	Pelleseura
-Yung_Tallent	Polaris-ampumaharjoitus	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Polaris-ampumaharjoitus	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Polaris-ampumaharjoitus	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Polaris-ampumaharjoitus	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Polaris-ampumaharjoitus	Ampumataito	Ampumataito
-Poliisiseura	Aamunkoiton_tahtays	Poliisiseura	Poliisiseura
-Koiraseura	Aamunkoiton_tahtays	Koiraseura	Koiraseura
-Hammaspeikkoseura	Aamunkoiton_tahtays	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Aamunkoiton_tahtays	dog	dog
-Savu_Seura	Aamunkoiton_tahtays	Savu Seura	Savu_Seura
-OMAS	Aamunkoiton_tahtays	OMAS	OMAS
-Pelleseura	Aamunkoiton_tahtays	Pelleseura	Pelleseura
-Yung_Tallent	Aamunkoiton_tahtays	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Aamunkoiton_tahtays	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Aamunkoiton_tahtays	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Aamunkoiton_tahtays	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Aamunkoiton_tahtays	Ampumataito	Ampumataito
-Poliisiseura	Nordic_Sharpshooters_Cup	Poliisiseura	Poliisiseura
-Koiraseura	Nordic_Sharpshooters_Cup	Koiraseura	Koiraseura
-Hammaspeikkoseura	Nordic_Sharpshooters_Cup	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Nordic_Sharpshooters_Cup	dog	dog
-Savu_Seura	Nordic_Sharpshooters_Cup	Savu Seura	Savu_Seura
-OMAS	Nordic_Sharpshooters_Cup	OMAS	OMAS
-Pelleseura	Nordic_Sharpshooters_Cup	Pelleseura	Pelleseura
-Yung_Tallent	Nordic_Sharpshooters_Cup	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Nordic_Sharpshooters_Cup	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Nordic_Sharpshooters_Cup	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Nordic_Sharpshooters_Cup	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Nordic_Sharpshooters_Cup	Ampumataito	Ampumataito
-Poliisiseura	Taivaanranta-tulitus	Poliisiseura	Poliisiseura
-Koiraseura	Taivaanranta-tulitus	Koiraseura	Koiraseura
-Hammaspeikkoseura	Taivaanranta-tulitus	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Taivaanranta-tulitus	dog	dog
-Savu_Seura	Taivaanranta-tulitus	Savu Seura	Savu_Seura
-OMAS	Taivaanranta-tulitus	OMAS	OMAS
-Pelleseura	Taivaanranta-tulitus	Pelleseura	Pelleseura
-Yung_Tallent	Taivaanranta-tulitus	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Taivaanranta-tulitus	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Taivaanranta-tulitus	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Taivaanranta-tulitus	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Taivaanranta-tulitus	Ampumataito	Ampumataito
-Poliisiseura	Lumivyory-ammunta	Poliisiseura	Poliisiseura
-Koiraseura	Lumivyory-ammunta	Koiraseura	Koiraseura
-Hammaspeikkoseura	Lumivyory-ammunta	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Lumivyory-ammunta	dog	dog
-Savu_Seura	Lumivyory-ammunta	Savu Seura	Savu_Seura
-OMAS	Lumivyory-ammunta	OMAS	OMAS
-Pelleseura	Lumivyory-ammunta	Pelleseura	Pelleseura
-Yung_Tallent	Lumivyory-ammunta	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Lumivyory-ammunta	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Lumivyory-ammunta	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Lumivyory-ammunta	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Lumivyory-ammunta	Ampumataito	Ampumataito
-Poliisiseura	Tarkka-ammunta_Cup	Poliisiseura	Poliisiseura
-Koiraseura	Tarkka-ammunta_Cup	Koiraseura	Koiraseura
-Hammaspeikkoseura	Tarkka-ammunta_Cup	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Tarkka-ammunta_Cup	dog	dog
-Savu_Seura	Tarkka-ammunta_Cup	Savu Seura	Savu_Seura
-OMAS	Tarkka-ammunta_Cup	OMAS	OMAS
-Pelleseura	Tarkka-ammunta_Cup	Pelleseura	Pelleseura
-Yung_Tallent	Tarkka-ammunta_Cup	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Tarkka-ammunta_Cup	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Tarkka-ammunta_Cup	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Tarkka-ammunta_Cup	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Tarkka-ammunta_Cup	Ampumataito	Ampumataito
-Poliisiseura	Nopean_laukauksen_mestaruus	Poliisiseura	Poliisiseura
-Koiraseura	Nopean_laukauksen_mestaruus	Koiraseura	Koiraseura
-Hammaspeikkoseura	Nopean_laukauksen_mestaruus	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Nopean_laukauksen_mestaruus	dog	dog
-Savu_Seura	Nopean_laukauksen_mestaruus	Savu Seura	Savu_Seura
-OMAS	Nopean_laukauksen_mestaruus	OMAS	OMAS
-Pelleseura	Nopean_laukauksen_mestaruus	Pelleseura	Pelleseura
-Yung_Tallent	Nopean_laukauksen_mestaruus	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Nopean_laukauksen_mestaruus	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Nopean_laukauksen_mestaruus	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Nopean_laukauksen_mestaruus	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Nopean_laukauksen_mestaruus	Ampumataito	Ampumataito
-Poliisiseura	Moniottelu	Poliisiseura	Poliisiseura
-Koiraseura	Moniottelu	Koiraseura	Koiraseura
-Hammaspeikkoseura	Moniottelu	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Moniottelu	dog	dog
-Savu_Seura	Moniottelu	Savu Seura	Savu_Seura
-OMAS	Moniottelu	OMAS	OMAS
-Pelleseura	Moniottelu	Pelleseura	Pelleseura
-Yung_Tallent	Moniottelu	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Moniottelu	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Moniottelu	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Moniottelu	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Moniottelu	Ampumataito	Ampumataito
-Poliisiseura	Kansallinen_tahtayskilpailu	Poliisiseura	Poliisiseura
-Koiraseura	Kansallinen_tahtayskilpailu	Koiraseura	Koiraseura
-Hammaspeikkoseura	Kansallinen_tahtayskilpailu	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Kansallinen_tahtayskilpailu	dog	dog
-Savu_Seura	Kansallinen_tahtayskilpailu	Savu Seura	Savu_Seura
-OMAS	Kansallinen_tahtayskilpailu	OMAS	OMAS
-Pelleseura	Kansallinen_tahtayskilpailu	Pelleseura	Pelleseura
-Yung_Tallent	Kansallinen_tahtayskilpailu	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Kansallinen_tahtayskilpailu	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Kansallinen_tahtayskilpailu	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Kansallinen_tahtayskilpailu	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Kansallinen_tahtayskilpailu	Ampumataito	Ampumataito
-Poliisiseura	Kaupunkiammunta-challenge	Poliisiseura	Poliisiseura
-Koiraseura	Kaupunkiammunta-challenge	Koiraseura	Koiraseura
-Hammaspeikkoseura	Kaupunkiammunta-challenge	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Kaupunkiammunta-challenge	dog	dog
-Savu_Seura	Kaupunkiammunta-challenge	Savu Seura	Savu_Seura
-OMAS	Kaupunkiammunta-challenge	OMAS	OMAS
-Pelleseura	Kaupunkiammunta-challenge	Pelleseura	Pelleseura
-Yung_Tallent	Kaupunkiammunta-challenge	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Kaupunkiammunta-challenge	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Kaupunkiammunta-challenge	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Kaupunkiammunta-challenge	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Kaupunkiammunta-challenge	Ampumataito	Ampumataito
-Poliisiseura	Laukausmaraton	Poliisiseura	Poliisiseura
-Koiraseura	Laukausmaraton	Koiraseura	Koiraseura
-Hammaspeikkoseura	Laukausmaraton	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Laukausmaraton	dog	dog
-Savu_Seura	Laukausmaraton	Savu Seura	Savu_Seura
-OMAS	Laukausmaraton	OMAS	OMAS
-Pelleseura	Laukausmaraton	Pelleseura	Pelleseura
-Yung_Tallent	Laukausmaraton	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Laukausmaraton	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Laukausmaraton	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Laukausmaraton	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Laukausmaraton	Ampumataito	Ampumataito
-Poliisiseura	Vapaa-asekilpailu	Poliisiseura	Poliisiseura
-Koiraseura	Vapaa-asekilpailu	Koiraseura	Koiraseura
-Hammaspeikkoseura	Vapaa-asekilpailu	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Vapaa-asekilpailu	dog	dog
-Savu_Seura	Vapaa-asekilpailu	Savu Seura	Savu_Seura
-OMAS	Vapaa-asekilpailu	OMAS	OMAS
-Pelleseura	Vapaa-asekilpailu	Pelleseura	Pelleseura
-Yung_Tallent	Vapaa-asekilpailu	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Vapaa-asekilpailu	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Vapaa-asekilpailu	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Vapaa-asekilpailu	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Vapaa-asekilpailu	Ampumataito	Ampumataito
-Poliisiseura	Taitoluodikko-turnaus	Poliisiseura	Poliisiseura
-Koiraseura	Taitoluodikko-turnaus	Koiraseura	Koiraseura
-Hammaspeikkoseura	Taitoluodikko-turnaus	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Taitoluodikko-turnaus	dog	dog
-Savu_Seura	Taitoluodikko-turnaus	Savu Seura	Savu_Seura
-OMAS	Taitoluodikko-turnaus	OMAS	OMAS
-Pelleseura	Taitoluodikko-turnaus	Pelleseura	Pelleseura
-Yung_Tallent	Taitoluodikko-turnaus	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Taitoluodikko-turnaus	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Taitoluodikko-turnaus	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Taitoluodikko-turnaus	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Taitoluodikko-turnaus	Ampumataito	Ampumataito
-Poliisiseura	Precision_Pistol_Cup	Poliisiseura	Poliisiseura
-Koiraseura	Precision_Pistol_Cup	Koiraseura	Koiraseura
-Hammaspeikkoseura	Precision_Pistol_Cup	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Precision_Pistol_Cup	dog	dog
-Savu_Seura	Precision_Pistol_Cup	Savu Seura	Savu_Seura
-OMAS	Precision_Pistol_Cup	OMAS	OMAS
-Pelleseura	Precision_Pistol_Cup	Pelleseura	Pelleseura
-Yung_Tallent	Precision_Pistol_Cup	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Precision_Pistol_Cup	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Precision_Pistol_Cup	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Precision_Pistol_Cup	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Precision_Pistol_Cup	Ampumataito	Ampumataito
-Poliisiseura	Tulevaisuuden_Ampuja	Poliisiseura	Poliisiseura
-Koiraseura	Tulevaisuuden_Ampuja	Koiraseura	Koiraseura
-Hammaspeikkoseura	Tulevaisuuden_Ampuja	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Tulevaisuuden_Ampuja	dog	dog
-Savu_Seura	Tulevaisuuden_Ampuja	Savu Seura	Savu_Seura
-OMAS	Tulevaisuuden_Ampuja	OMAS	OMAS
-Pelleseura	Tulevaisuuden_Ampuja	Pelleseura	Pelleseura
-Yung_Tallent	Tulevaisuuden_Ampuja	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Tulevaisuuden_Ampuja	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Tulevaisuuden_Ampuja	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Tulevaisuuden_Ampuja	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Tulevaisuuden_Ampuja	Ampumataito	Ampumataito
-Poliisiseura	Pikakivaari-klassikko	Poliisiseura	Poliisiseura
-Koiraseura	Pikakivaari-klassikko	Koiraseura	Koiraseura
-Hammaspeikkoseura	Pikakivaari-klassikko	Hammaspeikkoseura	Hammaspeikkoseura
-dog	Pikakivaari-klassikko	dog	dog
-Savu_Seura	Pikakivaari-klassikko	Savu Seura	Savu_Seura
-OMAS	Pikakivaari-klassikko	OMAS	OMAS
-Pelleseura	Pikakivaari-klassikko	Pelleseura	Pelleseura
-Yung_Tallent	Pikakivaari-klassikko	Yung Tallent	Yung_Tallent
-Aseharrastajien_Yhtenaisyys	Pikakivaari-klassikko	Aseharrastajien Yhten├ñisyys	Aseharrastajien_Yhtenaisyys
-Tahtaysmestarit	Pikakivaari-klassikko	T├ñht├ñysmestarit	Tahtaysmestarit
-Laukausryhma_Aurora	Pikakivaari-klassikko	Laukausryhm├ñ Aurora	Laukausryhma_Aurora
-Ampumataito	Pikakivaari-klassikko	Ampumataito	Ampumataito
+poliisiseura	kesan_ampujaiset	Poliisiseura	poliisiseura
+koiraseura	kesan_ampujaiset	Koiraseura	koiraseura
+hammaspeikkoseura	kesan_ampujaiset	Hammaspeikkoseura	hammaspeikkoseura
+dog	kesan_ampujaiset	dog	dog
+savu_seura	kesan_ampujaiset	Savu Seura	savu_seura
+omas	kesan_ampujaiset	OMAS	omas
+pelleseura	kesan_ampujaiset	Pelleseura	pelleseura
+yung_tallent	kesan_ampujaiset	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	kesan_ampujaiset	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	kesan_ampujaiset	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	kesan_ampujaiset	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	kesan_ampujaiset	Ampumataito	ampumataito
+poliisiseura	talvi_pistooli	Poliisiseura	poliisiseura
+koiraseura	talvi_pistooli	Koiraseura	koiraseura
+hammaspeikkoseura	talvi_pistooli	Hammaspeikkoseura	hammaspeikkoseura
+dog	talvi_pistooli	dog	dog
+savu_seura	talvi_pistooli	Savu Seura	savu_seura
+omas	talvi_pistooli	OMAS	omas
+pelleseura	talvi_pistooli	Pelleseura	pelleseura
+yung_tallent	talvi_pistooli	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	talvi_pistooli	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	talvi_pistooli	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	talvi_pistooli	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	talvi_pistooli	Ampumataito	ampumataito
+poliisiseura	tarkkuuslaukaus-festivaali	Poliisiseura	poliisiseura
+koiraseura	tarkkuuslaukaus-festivaali	Koiraseura	koiraseura
+hammaspeikkoseura	tarkkuuslaukaus-festivaali	Hammaspeikkoseura	hammaspeikkoseura
+dog	tarkkuuslaukaus-festivaali	dog	dog
+savu_seura	tarkkuuslaukaus-festivaali	Savu Seura	savu_seura
+omas	tarkkuuslaukaus-festivaali	OMAS	omas
+pelleseura	tarkkuuslaukaus-festivaali	Pelleseura	pelleseura
+yung_tallent	tarkkuuslaukaus-festivaali	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	tarkkuuslaukaus-festivaali	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	tarkkuuslaukaus-festivaali	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	tarkkuuslaukaus-festivaali	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	tarkkuuslaukaus-festivaali	Ampumataito	ampumataito
+poliisiseura	kivaarikilpailujen_huipennus	Poliisiseura	poliisiseura
+koiraseura	kivaarikilpailujen_huipennus	Koiraseura	koiraseura
+hammaspeikkoseura	kivaarikilpailujen_huipennus	Hammaspeikkoseura	hammaspeikkoseura
+dog	kivaarikilpailujen_huipennus	dog	dog
+savu_seura	kivaarikilpailujen_huipennus	Savu Seura	savu_seura
+omas	kivaarikilpailujen_huipennus	OMAS	omas
+pelleseura	kivaarikilpailujen_huipennus	Pelleseura	pelleseura
+yung_tallent	kivaarikilpailujen_huipennus	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	kivaarikilpailujen_huipennus	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	kivaarikilpailujen_huipennus	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	kivaarikilpailujen_huipennus	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	kivaarikilpailujen_huipennus	Ampumataito	ampumataito
+poliisiseura	polaris-ampumaharjoitus	Poliisiseura	poliisiseura
+koiraseura	polaris-ampumaharjoitus	Koiraseura	koiraseura
+hammaspeikkoseura	polaris-ampumaharjoitus	Hammaspeikkoseura	hammaspeikkoseura
+dog	polaris-ampumaharjoitus	dog	dog
+savu_seura	polaris-ampumaharjoitus	Savu Seura	savu_seura
+omas	polaris-ampumaharjoitus	OMAS	omas
+pelleseura	polaris-ampumaharjoitus	Pelleseura	pelleseura
+yung_tallent	polaris-ampumaharjoitus	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	polaris-ampumaharjoitus	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	polaris-ampumaharjoitus	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	polaris-ampumaharjoitus	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	polaris-ampumaharjoitus	Ampumataito	ampumataito
+poliisiseura	aamunkoiton_tahtays	Poliisiseura	poliisiseura
+koiraseura	aamunkoiton_tahtays	Koiraseura	koiraseura
+hammaspeikkoseura	aamunkoiton_tahtays	Hammaspeikkoseura	hammaspeikkoseura
+dog	aamunkoiton_tahtays	dog	dog
+savu_seura	aamunkoiton_tahtays	Savu Seura	savu_seura
+omas	aamunkoiton_tahtays	OMAS	omas
+pelleseura	aamunkoiton_tahtays	Pelleseura	pelleseura
+yung_tallent	aamunkoiton_tahtays	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	aamunkoiton_tahtays	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	aamunkoiton_tahtays	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	aamunkoiton_tahtays	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	aamunkoiton_tahtays	Ampumataito	ampumataito
+poliisiseura	nordic_sharpshooters_cup	Poliisiseura	poliisiseura
+koiraseura	nordic_sharpshooters_cup	Koiraseura	koiraseura
+hammaspeikkoseura	nordic_sharpshooters_cup	Hammaspeikkoseura	hammaspeikkoseura
+dog	nordic_sharpshooters_cup	dog	dog
+savu_seura	nordic_sharpshooters_cup	Savu Seura	savu_seura
+omas	nordic_sharpshooters_cup	OMAS	omas
+pelleseura	nordic_sharpshooters_cup	Pelleseura	pelleseura
+yung_tallent	nordic_sharpshooters_cup	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	nordic_sharpshooters_cup	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	nordic_sharpshooters_cup	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	nordic_sharpshooters_cup	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	nordic_sharpshooters_cup	Ampumataito	ampumataito
+poliisiseura	taivaanranta-tulitus	Poliisiseura	poliisiseura
+koiraseura	taivaanranta-tulitus	Koiraseura	koiraseura
+hammaspeikkoseura	taivaanranta-tulitus	Hammaspeikkoseura	hammaspeikkoseura
+dog	taivaanranta-tulitus	dog	dog
+savu_seura	taivaanranta-tulitus	Savu Seura	savu_seura
+omas	taivaanranta-tulitus	OMAS	omas
+pelleseura	taivaanranta-tulitus	Pelleseura	pelleseura
+yung_tallent	taivaanranta-tulitus	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	taivaanranta-tulitus	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	taivaanranta-tulitus	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	taivaanranta-tulitus	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	taivaanranta-tulitus	Ampumataito	ampumataito
+poliisiseura	lumivyory-ammunta	Poliisiseura	poliisiseura
+koiraseura	lumivyory-ammunta	Koiraseura	koiraseura
+hammaspeikkoseura	lumivyory-ammunta	Hammaspeikkoseura	hammaspeikkoseura
+dog	lumivyory-ammunta	dog	dog
+savu_seura	lumivyory-ammunta	Savu Seura	savu_seura
+omas	lumivyory-ammunta	OMAS	omas
+pelleseura	lumivyory-ammunta	Pelleseura	pelleseura
+yung_tallent	lumivyory-ammunta	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	lumivyory-ammunta	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	lumivyory-ammunta	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	lumivyory-ammunta	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	lumivyory-ammunta	Ampumataito	ampumataito
+poliisiseura	tarkka-ammunta_cup	Poliisiseura	poliisiseura
+koiraseura	tarkka-ammunta_cup	Koiraseura	koiraseura
+hammaspeikkoseura	tarkka-ammunta_cup	Hammaspeikkoseura	hammaspeikkoseura
+dog	tarkka-ammunta_cup	dog	dog
+savu_seura	tarkka-ammunta_cup	Savu Seura	savu_seura
+omas	tarkka-ammunta_cup	OMAS	omas
+pelleseura	tarkka-ammunta_cup	Pelleseura	pelleseura
+yung_tallent	tarkka-ammunta_cup	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	tarkka-ammunta_cup	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	tarkka-ammunta_cup	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	tarkka-ammunta_cup	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	tarkka-ammunta_cup	Ampumataito	ampumataito
+poliisiseura	nopean_laukauksen_mestaruus	Poliisiseura	poliisiseura
+koiraseura	nopean_laukauksen_mestaruus	Koiraseura	koiraseura
+hammaspeikkoseura	nopean_laukauksen_mestaruus	Hammaspeikkoseura	hammaspeikkoseura
+dog	nopean_laukauksen_mestaruus	dog	dog
+savu_seura	nopean_laukauksen_mestaruus	Savu Seura	savu_seura
+omas	nopean_laukauksen_mestaruus	OMAS	omas
+pelleseura	nopean_laukauksen_mestaruus	Pelleseura	pelleseura
+yung_tallent	nopean_laukauksen_mestaruus	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	nopean_laukauksen_mestaruus	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	nopean_laukauksen_mestaruus	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	nopean_laukauksen_mestaruus	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	nopean_laukauksen_mestaruus	Ampumataito	ampumataito
+poliisiseura	moniottelu	Poliisiseura	poliisiseura
+koiraseura	moniottelu	Koiraseura	koiraseura
+hammaspeikkoseura	moniottelu	Hammaspeikkoseura	hammaspeikkoseura
+dog	moniottelu	dog	dog
+savu_seura	moniottelu	Savu Seura	savu_seura
+omas	moniottelu	OMAS	omas
+pelleseura	moniottelu	Pelleseura	pelleseura
+yung_tallent	moniottelu	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	moniottelu	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	moniottelu	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	moniottelu	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	moniottelu	Ampumataito	ampumataito
+poliisiseura	kansallinen_tahtayskilpailu	Poliisiseura	poliisiseura
+koiraseura	kansallinen_tahtayskilpailu	Koiraseura	koiraseura
+hammaspeikkoseura	kansallinen_tahtayskilpailu	Hammaspeikkoseura	hammaspeikkoseura
+dog	kansallinen_tahtayskilpailu	dog	dog
+savu_seura	kansallinen_tahtayskilpailu	Savu Seura	savu_seura
+omas	kansallinen_tahtayskilpailu	OMAS	omas
+pelleseura	kansallinen_tahtayskilpailu	Pelleseura	pelleseura
+yung_tallent	kansallinen_tahtayskilpailu	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	kansallinen_tahtayskilpailu	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	kansallinen_tahtayskilpailu	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	kansallinen_tahtayskilpailu	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	kansallinen_tahtayskilpailu	Ampumataito	ampumataito
+poliisiseura	kaupunkiammunta-challenge	Poliisiseura	poliisiseura
+koiraseura	kaupunkiammunta-challenge	Koiraseura	koiraseura
+hammaspeikkoseura	kaupunkiammunta-challenge	Hammaspeikkoseura	hammaspeikkoseura
+dog	kaupunkiammunta-challenge	dog	dog
+savu_seura	kaupunkiammunta-challenge	Savu Seura	savu_seura
+omas	kaupunkiammunta-challenge	OMAS	omas
+pelleseura	kaupunkiammunta-challenge	Pelleseura	pelleseura
+yung_tallent	kaupunkiammunta-challenge	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	kaupunkiammunta-challenge	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	kaupunkiammunta-challenge	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	kaupunkiammunta-challenge	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	kaupunkiammunta-challenge	Ampumataito	ampumataito
+poliisiseura	laukausmaraton	Poliisiseura	poliisiseura
+koiraseura	laukausmaraton	Koiraseura	koiraseura
+hammaspeikkoseura	laukausmaraton	Hammaspeikkoseura	hammaspeikkoseura
+dog	laukausmaraton	dog	dog
+savu_seura	laukausmaraton	Savu Seura	savu_seura
+omas	laukausmaraton	OMAS	omas
+pelleseura	laukausmaraton	Pelleseura	pelleseura
+yung_tallent	laukausmaraton	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	laukausmaraton	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	laukausmaraton	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	laukausmaraton	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	laukausmaraton	Ampumataito	ampumataito
+poliisiseura	vapaa-asekilpailu	Poliisiseura	poliisiseura
+koiraseura	vapaa-asekilpailu	Koiraseura	koiraseura
+hammaspeikkoseura	vapaa-asekilpailu	Hammaspeikkoseura	hammaspeikkoseura
+dog	vapaa-asekilpailu	dog	dog
+savu_seura	vapaa-asekilpailu	Savu Seura	savu_seura
+omas	vapaa-asekilpailu	OMAS	omas
+pelleseura	vapaa-asekilpailu	Pelleseura	pelleseura
+yung_tallent	vapaa-asekilpailu	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	vapaa-asekilpailu	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	vapaa-asekilpailu	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	vapaa-asekilpailu	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	vapaa-asekilpailu	Ampumataito	ampumataito
+poliisiseura	taitoluodikko-turnaus	Poliisiseura	poliisiseura
+koiraseura	taitoluodikko-turnaus	Koiraseura	koiraseura
+hammaspeikkoseura	taitoluodikko-turnaus	Hammaspeikkoseura	hammaspeikkoseura
+dog	taitoluodikko-turnaus	dog	dog
+savu_seura	taitoluodikko-turnaus	Savu Seura	savu_seura
+omas	taitoluodikko-turnaus	OMAS	omas
+pelleseura	taitoluodikko-turnaus	Pelleseura	pelleseura
+yung_tallent	taitoluodikko-turnaus	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	taitoluodikko-turnaus	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	taitoluodikko-turnaus	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	taitoluodikko-turnaus	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	taitoluodikko-turnaus	Ampumataito	ampumataito
+poliisiseura	precision_pistol_cup	Poliisiseura	poliisiseura
+koiraseura	precision_pistol_cup	Koiraseura	koiraseura
+hammaspeikkoseura	precision_pistol_cup	Hammaspeikkoseura	hammaspeikkoseura
+dog	precision_pistol_cup	dog	dog
+savu_seura	precision_pistol_cup	Savu Seura	savu_seura
+omas	precision_pistol_cup	OMAS	omas
+pelleseura	precision_pistol_cup	Pelleseura	pelleseura
+yung_tallent	precision_pistol_cup	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	precision_pistol_cup	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	precision_pistol_cup	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	precision_pistol_cup	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	precision_pistol_cup	Ampumataito	ampumataito
+poliisiseura	tulevaisuuden_ampuja	Poliisiseura	poliisiseura
+koiraseura	tulevaisuuden_ampuja	Koiraseura	koiraseura
+hammaspeikkoseura	tulevaisuuden_ampuja	Hammaspeikkoseura	hammaspeikkoseura
+dog	tulevaisuuden_ampuja	dog	dog
+savu_seura	tulevaisuuden_ampuja	Savu Seura	savu_seura
+omas	tulevaisuuden_ampuja	OMAS	omas
+pelleseura	tulevaisuuden_ampuja	Pelleseura	pelleseura
+yung_tallent	tulevaisuuden_ampuja	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	tulevaisuuden_ampuja	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	tulevaisuuden_ampuja	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	tulevaisuuden_ampuja	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	tulevaisuuden_ampuja	Ampumataito	ampumataito
+poliisiseura	pikakivaari-klassikko	Poliisiseura	poliisiseura
+koiraseura	pikakivaari-klassikko	Koiraseura	koiraseura
+hammaspeikkoseura	pikakivaari-klassikko	Hammaspeikkoseura	hammaspeikkoseura
+dog	pikakivaari-klassikko	dog	dog
+savu_seura	pikakivaari-klassikko	Savu Seura	savu_seura
+omas	pikakivaari-klassikko	OMAS	omas
+pelleseura	pikakivaari-klassikko	Pelleseura	pelleseura
+yung_tallent	pikakivaari-klassikko	Yung Tallent	yung_tallent
+aseharrastajien_yhtenaisyys	pikakivaari-klassikko	Aseharrastajien Yhtenäisyys	aseharrastajien_yhtenaisyys
+tahtaysmestarit	pikakivaari-klassikko	Tähtäysmestarit	tahtaysmestarit
+laukausryhma_aurora	pikakivaari-klassikko	Laukausryhmä Aurora	laukausryhma_aurora
+ampumataito	pikakivaari-klassikko	Ampumataito	ampumataito
 \.
 
 
@@ -525,946 +525,1066 @@ Ampumataito	Pikakivaari-klassikko	Ampumataito	Ampumataito
 --
 
 COPY public.team_member (user_id, competition_id, team_name) FROM stdin;
-2	Tarkka-ammunta_Cup	Poliisiseura
-2	Nopean_laukauksen_mestaruus	Poliisiseura
-2	Moniottelu	Poliisiseura
-2	Kansallinen_tahtayskilpailu	Poliisiseura
-2	Kaupunkiammunta-challenge	Poliisiseura
-2	Laukausmaraton	Poliisiseura
-2	Vapaa-asekilpailu	Poliisiseura
-2	Taitoluodikko-turnaus	Poliisiseura
-2	Precision_Pistol_Cup	Poliisiseura
-2	Tulevaisuuden_Ampuja	Poliisiseura
-2	Pikakivaari-klassikko	Poliisiseura
-3	Tarkka-ammunta_Cup	Poliisiseura
-3	Nopean_laukauksen_mestaruus	Poliisiseura
-3	Moniottelu	Poliisiseura
-3	Kansallinen_tahtayskilpailu	Poliisiseura
-3	Kaupunkiammunta-challenge	Poliisiseura
-3	Laukausmaraton	Poliisiseura
-3	Vapaa-asekilpailu	Poliisiseura
-3	Taitoluodikko-turnaus	Poliisiseura
-3	Precision_Pistol_Cup	Poliisiseura
-3	Tulevaisuuden_Ampuja	Poliisiseura
-3	Pikakivaari-klassikko	Poliisiseura
-4	Tarkka-ammunta_Cup	Poliisiseura
-4	Nopean_laukauksen_mestaruus	Poliisiseura
-4	Moniottelu	Poliisiseura
-4	Kansallinen_tahtayskilpailu	Poliisiseura
-4	Kaupunkiammunta-challenge	Poliisiseura
-4	Laukausmaraton	Poliisiseura
-4	Vapaa-asekilpailu	Poliisiseura
-4	Taitoluodikko-turnaus	Poliisiseura
-4	Precision_Pistol_Cup	Poliisiseura
-4	Tulevaisuuden_Ampuja	Poliisiseura
-4	Pikakivaari-klassikko	Poliisiseura
-5	Tarkka-ammunta_Cup	Koiraseura
-5	Nopean_laukauksen_mestaruus	Koiraseura
-5	Moniottelu	Koiraseura
-5	Kansallinen_tahtayskilpailu	Koiraseura
-5	Kaupunkiammunta-challenge	Koiraseura
-5	Laukausmaraton	Koiraseura
-5	Vapaa-asekilpailu	Koiraseura
-5	Taitoluodikko-turnaus	Koiraseura
-5	Precision_Pistol_Cup	Koiraseura
-5	Tulevaisuuden_Ampuja	Koiraseura
-5	Pikakivaari-klassikko	Koiraseura
-6	Tarkka-ammunta_Cup	Koiraseura
-6	Nopean_laukauksen_mestaruus	Koiraseura
-6	Moniottelu	Koiraseura
-6	Kansallinen_tahtayskilpailu	Koiraseura
-6	Kaupunkiammunta-challenge	Koiraseura
-6	Laukausmaraton	Koiraseura
-6	Vapaa-asekilpailu	Koiraseura
-6	Taitoluodikko-turnaus	Koiraseura
-6	Precision_Pistol_Cup	Koiraseura
-6	Tulevaisuuden_Ampuja	Koiraseura
-6	Pikakivaari-klassikko	Koiraseura
-7	Tarkka-ammunta_Cup	Koiraseura
-7	Nopean_laukauksen_mestaruus	Koiraseura
-7	Moniottelu	Koiraseura
-7	Kansallinen_tahtayskilpailu	Koiraseura
-7	Kaupunkiammunta-challenge	Koiraseura
-7	Laukausmaraton	Koiraseura
-7	Vapaa-asekilpailu	Koiraseura
-7	Taitoluodikko-turnaus	Koiraseura
-7	Precision_Pistol_Cup	Koiraseura
-7	Tulevaisuuden_Ampuja	Koiraseura
-7	Pikakivaari-klassikko	Koiraseura
-8	Tarkka-ammunta_Cup	Koiraseura
-8	Nopean_laukauksen_mestaruus	Koiraseura
-8	Moniottelu	Koiraseura
-8	Kansallinen_tahtayskilpailu	Koiraseura
-8	Kaupunkiammunta-challenge	Koiraseura
-8	Laukausmaraton	Koiraseura
-8	Vapaa-asekilpailu	Koiraseura
-8	Taitoluodikko-turnaus	Koiraseura
-8	Precision_Pistol_Cup	Koiraseura
-8	Tulevaisuuden_Ampuja	Koiraseura
-8	Pikakivaari-klassikko	Koiraseura
-9	Tarkka-ammunta_Cup	Koiraseura
-9	Nopean_laukauksen_mestaruus	Koiraseura
-9	Moniottelu	Koiraseura
-9	Kansallinen_tahtayskilpailu	Koiraseura
-9	Kaupunkiammunta-challenge	Koiraseura
-9	Laukausmaraton	Koiraseura
-9	Vapaa-asekilpailu	Koiraseura
-9	Taitoluodikko-turnaus	Koiraseura
-9	Precision_Pistol_Cup	Koiraseura
-9	Tulevaisuuden_Ampuja	Koiraseura
-9	Pikakivaari-klassikko	Koiraseura
-10	Tarkka-ammunta_Cup	Hammaspeikkoseura
-10	Nopean_laukauksen_mestaruus	Hammaspeikkoseura
-10	Moniottelu	Hammaspeikkoseura
-10	Kansallinen_tahtayskilpailu	Hammaspeikkoseura
-10	Kaupunkiammunta-challenge	Hammaspeikkoseura
-10	Laukausmaraton	Hammaspeikkoseura
-10	Vapaa-asekilpailu	Hammaspeikkoseura
-10	Taitoluodikko-turnaus	Hammaspeikkoseura
-10	Precision_Pistol_Cup	Hammaspeikkoseura
-10	Tulevaisuuden_Ampuja	Hammaspeikkoseura
-10	Pikakivaari-klassikko	Hammaspeikkoseura
-11	Tarkka-ammunta_Cup	Hammaspeikkoseura
-11	Nopean_laukauksen_mestaruus	Hammaspeikkoseura
-11	Moniottelu	Hammaspeikkoseura
-11	Kansallinen_tahtayskilpailu	Hammaspeikkoseura
-11	Kaupunkiammunta-challenge	Hammaspeikkoseura
-11	Laukausmaraton	Hammaspeikkoseura
-11	Vapaa-asekilpailu	Hammaspeikkoseura
-11	Taitoluodikko-turnaus	Hammaspeikkoseura
-11	Precision_Pistol_Cup	Hammaspeikkoseura
-11	Tulevaisuuden_Ampuja	Hammaspeikkoseura
-11	Pikakivaari-klassikko	Hammaspeikkoseura
-12	Tarkka-ammunta_Cup	Hammaspeikkoseura
-12	Nopean_laukauksen_mestaruus	Hammaspeikkoseura
-12	Moniottelu	Hammaspeikkoseura
-12	Kansallinen_tahtayskilpailu	Hammaspeikkoseura
-12	Kaupunkiammunta-challenge	Hammaspeikkoseura
-12	Laukausmaraton	Hammaspeikkoseura
-12	Vapaa-asekilpailu	Hammaspeikkoseura
-12	Taitoluodikko-turnaus	Hammaspeikkoseura
-12	Precision_Pistol_Cup	Hammaspeikkoseura
-12	Tulevaisuuden_Ampuja	Hammaspeikkoseura
-12	Pikakivaari-klassikko	Hammaspeikkoseura
-13	Tarkka-ammunta_Cup	Hammaspeikkoseura
-13	Nopean_laukauksen_mestaruus	Hammaspeikkoseura
-13	Moniottelu	Hammaspeikkoseura
-13	Kansallinen_tahtayskilpailu	Hammaspeikkoseura
-13	Kaupunkiammunta-challenge	Hammaspeikkoseura
-13	Laukausmaraton	Hammaspeikkoseura
-13	Vapaa-asekilpailu	Hammaspeikkoseura
-13	Taitoluodikko-turnaus	Hammaspeikkoseura
-13	Precision_Pistol_Cup	Hammaspeikkoseura
-13	Tulevaisuuden_Ampuja	Hammaspeikkoseura
-13	Pikakivaari-klassikko	Hammaspeikkoseura
-14	Tarkka-ammunta_Cup	Hammaspeikkoseura
-14	Nopean_laukauksen_mestaruus	Hammaspeikkoseura
-14	Moniottelu	Hammaspeikkoseura
-14	Kansallinen_tahtayskilpailu	Hammaspeikkoseura
-14	Kaupunkiammunta-challenge	Hammaspeikkoseura
-14	Laukausmaraton	Hammaspeikkoseura
-14	Vapaa-asekilpailu	Hammaspeikkoseura
-14	Taitoluodikko-turnaus	Hammaspeikkoseura
-14	Precision_Pistol_Cup	Hammaspeikkoseura
-14	Tulevaisuuden_Ampuja	Hammaspeikkoseura
-14	Pikakivaari-klassikko	Hammaspeikkoseura
-15	Tarkka-ammunta_Cup	dog
-15	Nopean_laukauksen_mestaruus	dog
-15	Moniottelu	dog
-15	Kansallinen_tahtayskilpailu	dog
-15	Kaupunkiammunta-challenge	dog
-15	Laukausmaraton	dog
-15	Vapaa-asekilpailu	dog
-15	Taitoluodikko-turnaus	dog
-15	Precision_Pistol_Cup	dog
-15	Tulevaisuuden_Ampuja	dog
-15	Pikakivaari-klassikko	dog
-16	Tarkka-ammunta_Cup	dog
-16	Nopean_laukauksen_mestaruus	dog
-16	Moniottelu	dog
-16	Kansallinen_tahtayskilpailu	dog
-16	Kaupunkiammunta-challenge	dog
-16	Laukausmaraton	dog
-16	Vapaa-asekilpailu	dog
-16	Taitoluodikko-turnaus	dog
-16	Precision_Pistol_Cup	dog
-16	Tulevaisuuden_Ampuja	dog
-16	Pikakivaari-klassikko	dog
-17	Tarkka-ammunta_Cup	dog
-17	Nopean_laukauksen_mestaruus	dog
-17	Moniottelu	dog
-17	Kansallinen_tahtayskilpailu	dog
-17	Kaupunkiammunta-challenge	dog
-17	Laukausmaraton	dog
-17	Vapaa-asekilpailu	dog
-17	Taitoluodikko-turnaus	dog
-17	Precision_Pistol_Cup	dog
-17	Tulevaisuuden_Ampuja	dog
-17	Pikakivaari-klassikko	dog
-18	Tarkka-ammunta_Cup	dog
-18	Nopean_laukauksen_mestaruus	dog
-18	Moniottelu	dog
-18	Kansallinen_tahtayskilpailu	dog
-18	Kaupunkiammunta-challenge	dog
-18	Laukausmaraton	dog
-18	Vapaa-asekilpailu	dog
-18	Taitoluodikko-turnaus	dog
-18	Precision_Pistol_Cup	dog
-18	Tulevaisuuden_Ampuja	dog
-18	Pikakivaari-klassikko	dog
-19	Tarkka-ammunta_Cup	Savu_Seura
-19	Nopean_laukauksen_mestaruus	Savu_Seura
-19	Moniottelu	Savu_Seura
-19	Kansallinen_tahtayskilpailu	Savu_Seura
-19	Kaupunkiammunta-challenge	Savu_Seura
-19	Laukausmaraton	Savu_Seura
-19	Vapaa-asekilpailu	Savu_Seura
-19	Taitoluodikko-turnaus	Savu_Seura
-19	Precision_Pistol_Cup	Savu_Seura
-19	Tulevaisuuden_Ampuja	Savu_Seura
-19	Pikakivaari-klassikko	Savu_Seura
-20	Tarkka-ammunta_Cup	Savu_Seura
-20	Nopean_laukauksen_mestaruus	Savu_Seura
-20	Moniottelu	Savu_Seura
-20	Kansallinen_tahtayskilpailu	Savu_Seura
-20	Kaupunkiammunta-challenge	Savu_Seura
-20	Laukausmaraton	Savu_Seura
-20	Vapaa-asekilpailu	Savu_Seura
-20	Taitoluodikko-turnaus	Savu_Seura
-20	Precision_Pistol_Cup	Savu_Seura
-20	Tulevaisuuden_Ampuja	Savu_Seura
-20	Pikakivaari-klassikko	Savu_Seura
-21	Tarkka-ammunta_Cup	Savu_Seura
-21	Nopean_laukauksen_mestaruus	Savu_Seura
-21	Moniottelu	Savu_Seura
-21	Kansallinen_tahtayskilpailu	Savu_Seura
-21	Kaupunkiammunta-challenge	Savu_Seura
-21	Laukausmaraton	Savu_Seura
-21	Vapaa-asekilpailu	Savu_Seura
-21	Taitoluodikko-turnaus	Savu_Seura
-21	Precision_Pistol_Cup	Savu_Seura
-21	Tulevaisuuden_Ampuja	Savu_Seura
-21	Pikakivaari-klassikko	Savu_Seura
-22	Tarkka-ammunta_Cup	Savu_Seura
-22	Nopean_laukauksen_mestaruus	Savu_Seura
-22	Moniottelu	Savu_Seura
-22	Kansallinen_tahtayskilpailu	Savu_Seura
-22	Kaupunkiammunta-challenge	Savu_Seura
-22	Laukausmaraton	Savu_Seura
-22	Vapaa-asekilpailu	Savu_Seura
-22	Taitoluodikko-turnaus	Savu_Seura
-22	Precision_Pistol_Cup	Savu_Seura
-22	Tulevaisuuden_Ampuja	Savu_Seura
-22	Pikakivaari-klassikko	Savu_Seura
-23	Tarkka-ammunta_Cup	Savu_Seura
-23	Nopean_laukauksen_mestaruus	Savu_Seura
-23	Moniottelu	Savu_Seura
-23	Kansallinen_tahtayskilpailu	Savu_Seura
-23	Kaupunkiammunta-challenge	Savu_Seura
-23	Laukausmaraton	Savu_Seura
-23	Vapaa-asekilpailu	Savu_Seura
-23	Taitoluodikko-turnaus	Savu_Seura
-23	Precision_Pistol_Cup	Savu_Seura
-23	Tulevaisuuden_Ampuja	Savu_Seura
-23	Pikakivaari-klassikko	Savu_Seura
-24	Tarkka-ammunta_Cup	OMAS
-24	Nopean_laukauksen_mestaruus	OMAS
-24	Moniottelu	OMAS
-24	Kansallinen_tahtayskilpailu	OMAS
-24	Kaupunkiammunta-challenge	OMAS
-24	Laukausmaraton	OMAS
-24	Vapaa-asekilpailu	OMAS
-24	Taitoluodikko-turnaus	OMAS
-24	Precision_Pistol_Cup	OMAS
-24	Tulevaisuuden_Ampuja	OMAS
-24	Pikakivaari-klassikko	OMAS
-25	Tarkka-ammunta_Cup	OMAS
-25	Nopean_laukauksen_mestaruus	OMAS
-25	Moniottelu	OMAS
-25	Kansallinen_tahtayskilpailu	OMAS
-25	Kaupunkiammunta-challenge	OMAS
-25	Laukausmaraton	OMAS
-25	Vapaa-asekilpailu	OMAS
-25	Taitoluodikko-turnaus	OMAS
-25	Precision_Pistol_Cup	OMAS
-25	Tulevaisuuden_Ampuja	OMAS
-25	Pikakivaari-klassikko	OMAS
-26	Tarkka-ammunta_Cup	OMAS
-26	Nopean_laukauksen_mestaruus	OMAS
-26	Moniottelu	OMAS
-26	Kansallinen_tahtayskilpailu	OMAS
-26	Kaupunkiammunta-challenge	OMAS
-26	Laukausmaraton	OMAS
-26	Vapaa-asekilpailu	OMAS
-26	Taitoluodikko-turnaus	OMAS
-26	Precision_Pistol_Cup	OMAS
-26	Tulevaisuuden_Ampuja	OMAS
-26	Pikakivaari-klassikko	OMAS
-27	Tarkka-ammunta_Cup	OMAS
-27	Nopean_laukauksen_mestaruus	OMAS
-27	Moniottelu	OMAS
-27	Kansallinen_tahtayskilpailu	OMAS
-27	Kaupunkiammunta-challenge	OMAS
-27	Laukausmaraton	OMAS
-27	Vapaa-asekilpailu	OMAS
-27	Taitoluodikko-turnaus	OMAS
-27	Precision_Pistol_Cup	OMAS
-27	Tulevaisuuden_Ampuja	OMAS
-27	Pikakivaari-klassikko	OMAS
-28	Tarkka-ammunta_Cup	Pelleseura
-28	Nopean_laukauksen_mestaruus	Pelleseura
-28	Moniottelu	Pelleseura
-28	Kansallinen_tahtayskilpailu	Pelleseura
-28	Kaupunkiammunta-challenge	Pelleseura
-28	Laukausmaraton	Pelleseura
-28	Vapaa-asekilpailu	Pelleseura
-28	Taitoluodikko-turnaus	Pelleseura
-28	Precision_Pistol_Cup	Pelleseura
-28	Tulevaisuuden_Ampuja	Pelleseura
-28	Pikakivaari-klassikko	Pelleseura
-29	Tarkka-ammunta_Cup	Pelleseura
-29	Nopean_laukauksen_mestaruus	Pelleseura
-29	Moniottelu	Pelleseura
-29	Kansallinen_tahtayskilpailu	Pelleseura
-29	Kaupunkiammunta-challenge	Pelleseura
-29	Laukausmaraton	Pelleseura
-29	Vapaa-asekilpailu	Pelleseura
-29	Taitoluodikko-turnaus	Pelleseura
-29	Precision_Pistol_Cup	Pelleseura
-29	Tulevaisuuden_Ampuja	Pelleseura
-29	Pikakivaari-klassikko	Pelleseura
-30	Tarkka-ammunta_Cup	Pelleseura
-30	Nopean_laukauksen_mestaruus	Pelleseura
-30	Moniottelu	Pelleseura
-30	Kansallinen_tahtayskilpailu	Pelleseura
-30	Kaupunkiammunta-challenge	Pelleseura
-30	Laukausmaraton	Pelleseura
-30	Vapaa-asekilpailu	Pelleseura
-30	Taitoluodikko-turnaus	Pelleseura
-30	Precision_Pistol_Cup	Pelleseura
-30	Tulevaisuuden_Ampuja	Pelleseura
-30	Pikakivaari-klassikko	Pelleseura
-31	Tarkka-ammunta_Cup	Pelleseura
-31	Nopean_laukauksen_mestaruus	Pelleseura
-31	Moniottelu	Pelleseura
-31	Kansallinen_tahtayskilpailu	Pelleseura
-31	Kaupunkiammunta-challenge	Pelleseura
-31	Laukausmaraton	Pelleseura
-31	Vapaa-asekilpailu	Pelleseura
-31	Taitoluodikko-turnaus	Pelleseura
-31	Precision_Pistol_Cup	Pelleseura
-31	Tulevaisuuden_Ampuja	Pelleseura
-31	Pikakivaari-klassikko	Pelleseura
-32	Tarkka-ammunta_Cup	Yung_Tallent
-32	Nopean_laukauksen_mestaruus	Yung_Tallent
-32	Moniottelu	Yung_Tallent
-32	Kansallinen_tahtayskilpailu	Yung_Tallent
-32	Kaupunkiammunta-challenge	Yung_Tallent
-32	Laukausmaraton	Yung_Tallent
-32	Vapaa-asekilpailu	Yung_Tallent
-32	Taitoluodikko-turnaus	Yung_Tallent
-32	Precision_Pistol_Cup	Yung_Tallent
-32	Tulevaisuuden_Ampuja	Yung_Tallent
-32	Pikakivaari-klassikko	Yung_Tallent
-33	Tarkka-ammunta_Cup	Yung_Tallent
-33	Nopean_laukauksen_mestaruus	Yung_Tallent
-33	Moniottelu	Yung_Tallent
-33	Kansallinen_tahtayskilpailu	Yung_Tallent
-33	Kaupunkiammunta-challenge	Yung_Tallent
-33	Laukausmaraton	Yung_Tallent
-33	Vapaa-asekilpailu	Yung_Tallent
-33	Taitoluodikko-turnaus	Yung_Tallent
-33	Precision_Pistol_Cup	Yung_Tallent
-33	Tulevaisuuden_Ampuja	Yung_Tallent
-33	Pikakivaari-klassikko	Yung_Tallent
-34	Tarkka-ammunta_Cup	Yung_Tallent
-34	Nopean_laukauksen_mestaruus	Yung_Tallent
-34	Moniottelu	Yung_Tallent
-34	Kansallinen_tahtayskilpailu	Yung_Tallent
-34	Kaupunkiammunta-challenge	Yung_Tallent
-34	Laukausmaraton	Yung_Tallent
-34	Vapaa-asekilpailu	Yung_Tallent
-34	Taitoluodikko-turnaus	Yung_Tallent
-34	Precision_Pistol_Cup	Yung_Tallent
-34	Tulevaisuuden_Ampuja	Yung_Tallent
-34	Pikakivaari-klassikko	Yung_Tallent
-35	Tarkka-ammunta_Cup	Aseharrastajien_Yhtenaisyys
-35	Nopean_laukauksen_mestaruus	Aseharrastajien_Yhtenaisyys
-35	Moniottelu	Aseharrastajien_Yhtenaisyys
-35	Kansallinen_tahtayskilpailu	Aseharrastajien_Yhtenaisyys
-35	Kaupunkiammunta-challenge	Aseharrastajien_Yhtenaisyys
-35	Laukausmaraton	Aseharrastajien_Yhtenaisyys
-35	Vapaa-asekilpailu	Aseharrastajien_Yhtenaisyys
-35	Taitoluodikko-turnaus	Aseharrastajien_Yhtenaisyys
-35	Precision_Pistol_Cup	Aseharrastajien_Yhtenaisyys
-35	Tulevaisuuden_Ampuja	Aseharrastajien_Yhtenaisyys
-35	Pikakivaari-klassikko	Aseharrastajien_Yhtenaisyys
-36	Tarkka-ammunta_Cup	Aseharrastajien_Yhtenaisyys
-36	Nopean_laukauksen_mestaruus	Aseharrastajien_Yhtenaisyys
-36	Moniottelu	Aseharrastajien_Yhtenaisyys
-36	Kansallinen_tahtayskilpailu	Aseharrastajien_Yhtenaisyys
-36	Kaupunkiammunta-challenge	Aseharrastajien_Yhtenaisyys
-36	Laukausmaraton	Aseharrastajien_Yhtenaisyys
-36	Vapaa-asekilpailu	Aseharrastajien_Yhtenaisyys
-36	Taitoluodikko-turnaus	Aseharrastajien_Yhtenaisyys
-36	Precision_Pistol_Cup	Aseharrastajien_Yhtenaisyys
-36	Tulevaisuuden_Ampuja	Aseharrastajien_Yhtenaisyys
-36	Pikakivaari-klassikko	Aseharrastajien_Yhtenaisyys
-37	Tarkka-ammunta_Cup	Aseharrastajien_Yhtenaisyys
-37	Nopean_laukauksen_mestaruus	Aseharrastajien_Yhtenaisyys
-37	Moniottelu	Aseharrastajien_Yhtenaisyys
-37	Kansallinen_tahtayskilpailu	Aseharrastajien_Yhtenaisyys
-37	Kaupunkiammunta-challenge	Aseharrastajien_Yhtenaisyys
-37	Laukausmaraton	Aseharrastajien_Yhtenaisyys
-37	Vapaa-asekilpailu	Aseharrastajien_Yhtenaisyys
-37	Taitoluodikko-turnaus	Aseharrastajien_Yhtenaisyys
-37	Precision_Pistol_Cup	Aseharrastajien_Yhtenaisyys
-37	Tulevaisuuden_Ampuja	Aseharrastajien_Yhtenaisyys
-37	Pikakivaari-klassikko	Aseharrastajien_Yhtenaisyys
-38	Tarkka-ammunta_Cup	Aseharrastajien_Yhtenaisyys
-38	Nopean_laukauksen_mestaruus	Aseharrastajien_Yhtenaisyys
-38	Moniottelu	Aseharrastajien_Yhtenaisyys
-38	Kansallinen_tahtayskilpailu	Aseharrastajien_Yhtenaisyys
-38	Kaupunkiammunta-challenge	Aseharrastajien_Yhtenaisyys
-38	Laukausmaraton	Aseharrastajien_Yhtenaisyys
-38	Vapaa-asekilpailu	Aseharrastajien_Yhtenaisyys
-38	Taitoluodikko-turnaus	Aseharrastajien_Yhtenaisyys
-38	Precision_Pistol_Cup	Aseharrastajien_Yhtenaisyys
-38	Tulevaisuuden_Ampuja	Aseharrastajien_Yhtenaisyys
-38	Pikakivaari-klassikko	Aseharrastajien_Yhtenaisyys
-39	Tarkka-ammunta_Cup	Tahtaysmestarit
-39	Nopean_laukauksen_mestaruus	Tahtaysmestarit
-39	Moniottelu	Tahtaysmestarit
-39	Kansallinen_tahtayskilpailu	Tahtaysmestarit
-39	Kaupunkiammunta-challenge	Tahtaysmestarit
-39	Laukausmaraton	Tahtaysmestarit
-39	Vapaa-asekilpailu	Tahtaysmestarit
-39	Taitoluodikko-turnaus	Tahtaysmestarit
-39	Precision_Pistol_Cup	Tahtaysmestarit
-39	Tulevaisuuden_Ampuja	Tahtaysmestarit
-39	Pikakivaari-klassikko	Tahtaysmestarit
-40	Tarkka-ammunta_Cup	Tahtaysmestarit
-40	Nopean_laukauksen_mestaruus	Tahtaysmestarit
-40	Moniottelu	Tahtaysmestarit
-40	Kansallinen_tahtayskilpailu	Tahtaysmestarit
-40	Kaupunkiammunta-challenge	Tahtaysmestarit
-40	Laukausmaraton	Tahtaysmestarit
-40	Vapaa-asekilpailu	Tahtaysmestarit
-40	Taitoluodikko-turnaus	Tahtaysmestarit
-40	Precision_Pistol_Cup	Tahtaysmestarit
-40	Tulevaisuuden_Ampuja	Tahtaysmestarit
-40	Pikakivaari-klassikko	Tahtaysmestarit
-41	Tarkka-ammunta_Cup	Tahtaysmestarit
-41	Nopean_laukauksen_mestaruus	Tahtaysmestarit
-41	Moniottelu	Tahtaysmestarit
-41	Kansallinen_tahtayskilpailu	Tahtaysmestarit
-41	Kaupunkiammunta-challenge	Tahtaysmestarit
-41	Laukausmaraton	Tahtaysmestarit
-41	Vapaa-asekilpailu	Tahtaysmestarit
-41	Taitoluodikko-turnaus	Tahtaysmestarit
-41	Precision_Pistol_Cup	Tahtaysmestarit
-41	Tulevaisuuden_Ampuja	Tahtaysmestarit
-41	Pikakivaari-klassikko	Tahtaysmestarit
-42	Tarkka-ammunta_Cup	Tahtaysmestarit
-42	Nopean_laukauksen_mestaruus	Tahtaysmestarit
-42	Moniottelu	Tahtaysmestarit
-42	Kansallinen_tahtayskilpailu	Tahtaysmestarit
-42	Kaupunkiammunta-challenge	Tahtaysmestarit
-42	Laukausmaraton	Tahtaysmestarit
-42	Vapaa-asekilpailu	Tahtaysmestarit
-42	Taitoluodikko-turnaus	Tahtaysmestarit
-42	Precision_Pistol_Cup	Tahtaysmestarit
-42	Tulevaisuuden_Ampuja	Tahtaysmestarit
-42	Pikakivaari-klassikko	Tahtaysmestarit
-43	Tarkka-ammunta_Cup	Laukausryhma_Aurora
-43	Nopean_laukauksen_mestaruus	Laukausryhma_Aurora
-43	Moniottelu	Laukausryhma_Aurora
-43	Kansallinen_tahtayskilpailu	Laukausryhma_Aurora
-43	Kaupunkiammunta-challenge	Laukausryhma_Aurora
-43	Laukausmaraton	Laukausryhma_Aurora
-43	Vapaa-asekilpailu	Laukausryhma_Aurora
-43	Taitoluodikko-turnaus	Laukausryhma_Aurora
-43	Precision_Pistol_Cup	Laukausryhma_Aurora
-43	Tulevaisuuden_Ampuja	Laukausryhma_Aurora
-43	Pikakivaari-klassikko	Laukausryhma_Aurora
-44	Tarkka-ammunta_Cup	Laukausryhma_Aurora
-44	Nopean_laukauksen_mestaruus	Laukausryhma_Aurora
-44	Moniottelu	Laukausryhma_Aurora
-44	Kansallinen_tahtayskilpailu	Laukausryhma_Aurora
-44	Kaupunkiammunta-challenge	Laukausryhma_Aurora
-44	Laukausmaraton	Laukausryhma_Aurora
-44	Vapaa-asekilpailu	Laukausryhma_Aurora
-44	Taitoluodikko-turnaus	Laukausryhma_Aurora
-44	Precision_Pistol_Cup	Laukausryhma_Aurora
-44	Tulevaisuuden_Ampuja	Laukausryhma_Aurora
-44	Pikakivaari-klassikko	Laukausryhma_Aurora
-45	Tarkka-ammunta_Cup	Laukausryhma_Aurora
-45	Nopean_laukauksen_mestaruus	Laukausryhma_Aurora
-45	Moniottelu	Laukausryhma_Aurora
-45	Kansallinen_tahtayskilpailu	Laukausryhma_Aurora
-45	Kaupunkiammunta-challenge	Laukausryhma_Aurora
-45	Laukausmaraton	Laukausryhma_Aurora
-45	Vapaa-asekilpailu	Laukausryhma_Aurora
-45	Taitoluodikko-turnaus	Laukausryhma_Aurora
-45	Precision_Pistol_Cup	Laukausryhma_Aurora
-45	Tulevaisuuden_Ampuja	Laukausryhma_Aurora
-45	Pikakivaari-klassikko	Laukausryhma_Aurora
-46	Tarkka-ammunta_Cup	Ampumataito
-46	Nopean_laukauksen_mestaruus	Ampumataito
-46	Moniottelu	Ampumataito
-46	Kansallinen_tahtayskilpailu	Ampumataito
-46	Kaupunkiammunta-challenge	Ampumataito
-46	Laukausmaraton	Ampumataito
-46	Vapaa-asekilpailu	Ampumataito
-46	Taitoluodikko-turnaus	Ampumataito
-46	Precision_Pistol_Cup	Ampumataito
-46	Tulevaisuuden_Ampuja	Ampumataito
-46	Pikakivaari-klassikko	Ampumataito
-47	Tarkka-ammunta_Cup	Ampumataito
-47	Nopean_laukauksen_mestaruus	Ampumataito
-47	Moniottelu	Ampumataito
-47	Kansallinen_tahtayskilpailu	Ampumataito
-47	Kaupunkiammunta-challenge	Ampumataito
-47	Laukausmaraton	Ampumataito
-47	Vapaa-asekilpailu	Ampumataito
-47	Taitoluodikko-turnaus	Ampumataito
-47	Precision_Pistol_Cup	Ampumataito
-47	Tulevaisuuden_Ampuja	Ampumataito
-47	Pikakivaari-klassikko	Ampumataito
-48	Tarkka-ammunta_Cup	Ampumataito
-48	Nopean_laukauksen_mestaruus	Ampumataito
-48	Moniottelu	Ampumataito
-48	Kansallinen_tahtayskilpailu	Ampumataito
-48	Kaupunkiammunta-challenge	Ampumataito
-48	Laukausmaraton	Ampumataito
-48	Vapaa-asekilpailu	Ampumataito
-48	Taitoluodikko-turnaus	Ampumataito
-48	Precision_Pistol_Cup	Ampumataito
-48	Tulevaisuuden_Ampuja	Ampumataito
-48	Pikakivaari-klassikko	Ampumataito
-2	Kesan_Ampujaiset	Poliisiseura
-2	Talvi_Pistooli	Poliisiseura
-2	Tarkkuuslaukaus-festivaali	Poliisiseura
-2	Kivaarikilpailujen_huipennus	Poliisiseura
-2	Polaris-ampumaharjoitus	Poliisiseura
-2	Aamunkoiton_tahtays	Poliisiseura
-2	Nordic_Sharpshooters_Cup	Poliisiseura
-2	Taivaanranta-tulitus	Poliisiseura
-2	Lumivyory-ammunta	Poliisiseura
-3	Kesan_Ampujaiset	Poliisiseura
-3	Talvi_Pistooli	Poliisiseura
-3	Tarkkuuslaukaus-festivaali	Poliisiseura
-3	Kivaarikilpailujen_huipennus	Poliisiseura
-3	Polaris-ampumaharjoitus	Poliisiseura
-3	Aamunkoiton_tahtays	Poliisiseura
-3	Nordic_Sharpshooters_Cup	Poliisiseura
-3	Taivaanranta-tulitus	Poliisiseura
-3	Lumivyory-ammunta	Poliisiseura
-4	Kesan_Ampujaiset	Poliisiseura
-4	Talvi_Pistooli	Poliisiseura
-4	Tarkkuuslaukaus-festivaali	Poliisiseura
-4	Kivaarikilpailujen_huipennus	Poliisiseura
-4	Polaris-ampumaharjoitus	Poliisiseura
-4	Aamunkoiton_tahtays	Poliisiseura
-4	Nordic_Sharpshooters_Cup	Poliisiseura
-4	Taivaanranta-tulitus	Poliisiseura
-4	Lumivyory-ammunta	Poliisiseura
-5	Kesan_Ampujaiset	Koiraseura
-5	Talvi_Pistooli	Koiraseura
-5	Tarkkuuslaukaus-festivaali	Koiraseura
-5	Kivaarikilpailujen_huipennus	Koiraseura
-5	Polaris-ampumaharjoitus	Koiraseura
-5	Aamunkoiton_tahtays	Koiraseura
-5	Nordic_Sharpshooters_Cup	Koiraseura
-5	Taivaanranta-tulitus	Koiraseura
-5	Lumivyory-ammunta	Koiraseura
-6	Kesan_Ampujaiset	Koiraseura
-6	Talvi_Pistooli	Koiraseura
-6	Tarkkuuslaukaus-festivaali	Koiraseura
-6	Kivaarikilpailujen_huipennus	Koiraseura
-6	Polaris-ampumaharjoitus	Koiraseura
-6	Aamunkoiton_tahtays	Koiraseura
-6	Nordic_Sharpshooters_Cup	Koiraseura
-6	Taivaanranta-tulitus	Koiraseura
-6	Lumivyory-ammunta	Koiraseura
-7	Kesan_Ampujaiset	Koiraseura
-7	Talvi_Pistooli	Koiraseura
-7	Tarkkuuslaukaus-festivaali	Koiraseura
-7	Kivaarikilpailujen_huipennus	Koiraseura
-7	Polaris-ampumaharjoitus	Koiraseura
-7	Aamunkoiton_tahtays	Koiraseura
-7	Nordic_Sharpshooters_Cup	Koiraseura
-7	Taivaanranta-tulitus	Koiraseura
-7	Lumivyory-ammunta	Koiraseura
-8	Kesan_Ampujaiset	Koiraseura
-8	Talvi_Pistooli	Koiraseura
-8	Tarkkuuslaukaus-festivaali	Koiraseura
-8	Kivaarikilpailujen_huipennus	Koiraseura
-8	Polaris-ampumaharjoitus	Koiraseura
-8	Aamunkoiton_tahtays	Koiraseura
-8	Nordic_Sharpshooters_Cup	Koiraseura
-8	Taivaanranta-tulitus	Koiraseura
-8	Lumivyory-ammunta	Koiraseura
-9	Kesan_Ampujaiset	Koiraseura
-9	Talvi_Pistooli	Koiraseura
-9	Tarkkuuslaukaus-festivaali	Koiraseura
-9	Kivaarikilpailujen_huipennus	Koiraseura
-9	Polaris-ampumaharjoitus	Koiraseura
-9	Aamunkoiton_tahtays	Koiraseura
-9	Nordic_Sharpshooters_Cup	Koiraseura
-9	Taivaanranta-tulitus	Koiraseura
-9	Lumivyory-ammunta	Koiraseura
-10	Kesan_Ampujaiset	Hammaspeikkoseura
-10	Talvi_Pistooli	Hammaspeikkoseura
-10	Tarkkuuslaukaus-festivaali	Hammaspeikkoseura
-10	Kivaarikilpailujen_huipennus	Hammaspeikkoseura
-10	Polaris-ampumaharjoitus	Hammaspeikkoseura
-10	Aamunkoiton_tahtays	Hammaspeikkoseura
-10	Nordic_Sharpshooters_Cup	Hammaspeikkoseura
-10	Taivaanranta-tulitus	Hammaspeikkoseura
-10	Lumivyory-ammunta	Hammaspeikkoseura
-11	Kesan_Ampujaiset	Hammaspeikkoseura
-11	Talvi_Pistooli	Hammaspeikkoseura
-11	Tarkkuuslaukaus-festivaali	Hammaspeikkoseura
-11	Kivaarikilpailujen_huipennus	Hammaspeikkoseura
-11	Polaris-ampumaharjoitus	Hammaspeikkoseura
-11	Aamunkoiton_tahtays	Hammaspeikkoseura
-11	Nordic_Sharpshooters_Cup	Hammaspeikkoseura
-11	Taivaanranta-tulitus	Hammaspeikkoseura
-11	Lumivyory-ammunta	Hammaspeikkoseura
-12	Kesan_Ampujaiset	Hammaspeikkoseura
-12	Talvi_Pistooli	Hammaspeikkoseura
-12	Tarkkuuslaukaus-festivaali	Hammaspeikkoseura
-12	Kivaarikilpailujen_huipennus	Hammaspeikkoseura
-12	Polaris-ampumaharjoitus	Hammaspeikkoseura
-12	Aamunkoiton_tahtays	Hammaspeikkoseura
-12	Nordic_Sharpshooters_Cup	Hammaspeikkoseura
-12	Taivaanranta-tulitus	Hammaspeikkoseura
-12	Lumivyory-ammunta	Hammaspeikkoseura
-13	Kesan_Ampujaiset	Hammaspeikkoseura
-13	Talvi_Pistooli	Hammaspeikkoseura
-13	Tarkkuuslaukaus-festivaali	Hammaspeikkoseura
-13	Kivaarikilpailujen_huipennus	Hammaspeikkoseura
-13	Polaris-ampumaharjoitus	Hammaspeikkoseura
-13	Aamunkoiton_tahtays	Hammaspeikkoseura
-13	Nordic_Sharpshooters_Cup	Hammaspeikkoseura
-13	Taivaanranta-tulitus	Hammaspeikkoseura
-13	Lumivyory-ammunta	Hammaspeikkoseura
-14	Kesan_Ampujaiset	Hammaspeikkoseura
-14	Talvi_Pistooli	Hammaspeikkoseura
-14	Tarkkuuslaukaus-festivaali	Hammaspeikkoseura
-14	Kivaarikilpailujen_huipennus	Hammaspeikkoseura
-14	Polaris-ampumaharjoitus	Hammaspeikkoseura
-14	Aamunkoiton_tahtays	Hammaspeikkoseura
-14	Nordic_Sharpshooters_Cup	Hammaspeikkoseura
-14	Taivaanranta-tulitus	Hammaspeikkoseura
-14	Lumivyory-ammunta	Hammaspeikkoseura
-15	Kesan_Ampujaiset	dog
-15	Talvi_Pistooli	dog
-15	Tarkkuuslaukaus-festivaali	dog
-15	Kivaarikilpailujen_huipennus	dog
-15	Polaris-ampumaharjoitus	dog
-15	Aamunkoiton_tahtays	dog
-15	Nordic_Sharpshooters_Cup	dog
-15	Taivaanranta-tulitus	dog
-15	Lumivyory-ammunta	dog
-16	Kesan_Ampujaiset	dog
-16	Talvi_Pistooli	dog
-16	Tarkkuuslaukaus-festivaali	dog
-16	Kivaarikilpailujen_huipennus	dog
-16	Polaris-ampumaharjoitus	dog
-16	Aamunkoiton_tahtays	dog
-16	Nordic_Sharpshooters_Cup	dog
-16	Taivaanranta-tulitus	dog
-16	Lumivyory-ammunta	dog
-17	Kesan_Ampujaiset	dog
-17	Talvi_Pistooli	dog
-17	Tarkkuuslaukaus-festivaali	dog
-17	Kivaarikilpailujen_huipennus	dog
-17	Polaris-ampumaharjoitus	dog
-17	Aamunkoiton_tahtays	dog
-17	Nordic_Sharpshooters_Cup	dog
-17	Taivaanranta-tulitus	dog
-17	Lumivyory-ammunta	dog
-18	Kesan_Ampujaiset	dog
-18	Talvi_Pistooli	dog
-18	Tarkkuuslaukaus-festivaali	dog
-18	Kivaarikilpailujen_huipennus	dog
-18	Polaris-ampumaharjoitus	dog
-18	Aamunkoiton_tahtays	dog
-18	Nordic_Sharpshooters_Cup	dog
-18	Taivaanranta-tulitus	dog
-18	Lumivyory-ammunta	dog
-19	Kesan_Ampujaiset	Savu_Seura
-19	Talvi_Pistooli	Savu_Seura
-19	Tarkkuuslaukaus-festivaali	Savu_Seura
-19	Kivaarikilpailujen_huipennus	Savu_Seura
-19	Polaris-ampumaharjoitus	Savu_Seura
-19	Aamunkoiton_tahtays	Savu_Seura
-19	Nordic_Sharpshooters_Cup	Savu_Seura
-19	Taivaanranta-tulitus	Savu_Seura
-19	Lumivyory-ammunta	Savu_Seura
-20	Kesan_Ampujaiset	Savu_Seura
-20	Talvi_Pistooli	Savu_Seura
-20	Tarkkuuslaukaus-festivaali	Savu_Seura
-20	Kivaarikilpailujen_huipennus	Savu_Seura
-20	Polaris-ampumaharjoitus	Savu_Seura
-20	Aamunkoiton_tahtays	Savu_Seura
-20	Nordic_Sharpshooters_Cup	Savu_Seura
-20	Taivaanranta-tulitus	Savu_Seura
-20	Lumivyory-ammunta	Savu_Seura
-21	Kesan_Ampujaiset	Savu_Seura
-21	Talvi_Pistooli	Savu_Seura
-21	Tarkkuuslaukaus-festivaali	Savu_Seura
-21	Kivaarikilpailujen_huipennus	Savu_Seura
-21	Polaris-ampumaharjoitus	Savu_Seura
-21	Aamunkoiton_tahtays	Savu_Seura
-21	Nordic_Sharpshooters_Cup	Savu_Seura
-21	Taivaanranta-tulitus	Savu_Seura
-21	Lumivyory-ammunta	Savu_Seura
-22	Kesan_Ampujaiset	Savu_Seura
-22	Talvi_Pistooli	Savu_Seura
-22	Tarkkuuslaukaus-festivaali	Savu_Seura
-22	Kivaarikilpailujen_huipennus	Savu_Seura
-22	Polaris-ampumaharjoitus	Savu_Seura
-22	Aamunkoiton_tahtays	Savu_Seura
-22	Nordic_Sharpshooters_Cup	Savu_Seura
-22	Taivaanranta-tulitus	Savu_Seura
-22	Lumivyory-ammunta	Savu_Seura
-23	Kesan_Ampujaiset	Savu_Seura
-23	Talvi_Pistooli	Savu_Seura
-23	Tarkkuuslaukaus-festivaali	Savu_Seura
-23	Kivaarikilpailujen_huipennus	Savu_Seura
-23	Polaris-ampumaharjoitus	Savu_Seura
-23	Aamunkoiton_tahtays	Savu_Seura
-23	Nordic_Sharpshooters_Cup	Savu_Seura
-23	Taivaanranta-tulitus	Savu_Seura
-23	Lumivyory-ammunta	Savu_Seura
-24	Kesan_Ampujaiset	OMAS
-24	Talvi_Pistooli	OMAS
-24	Tarkkuuslaukaus-festivaali	OMAS
-24	Kivaarikilpailujen_huipennus	OMAS
-24	Polaris-ampumaharjoitus	OMAS
-24	Aamunkoiton_tahtays	OMAS
-24	Nordic_Sharpshooters_Cup	OMAS
-24	Taivaanranta-tulitus	OMAS
-24	Lumivyory-ammunta	OMAS
-25	Kesan_Ampujaiset	OMAS
-25	Talvi_Pistooli	OMAS
-25	Tarkkuuslaukaus-festivaali	OMAS
-25	Kivaarikilpailujen_huipennus	OMAS
-25	Polaris-ampumaharjoitus	OMAS
-25	Aamunkoiton_tahtays	OMAS
-25	Nordic_Sharpshooters_Cup	OMAS
-25	Taivaanranta-tulitus	OMAS
-25	Lumivyory-ammunta	OMAS
-26	Kesan_Ampujaiset	OMAS
-26	Talvi_Pistooli	OMAS
-26	Tarkkuuslaukaus-festivaali	OMAS
-26	Kivaarikilpailujen_huipennus	OMAS
-26	Polaris-ampumaharjoitus	OMAS
-26	Aamunkoiton_tahtays	OMAS
-26	Nordic_Sharpshooters_Cup	OMAS
-26	Taivaanranta-tulitus	OMAS
-26	Lumivyory-ammunta	OMAS
-27	Kesan_Ampujaiset	OMAS
-27	Talvi_Pistooli	OMAS
-27	Tarkkuuslaukaus-festivaali	OMAS
-27	Kivaarikilpailujen_huipennus	OMAS
-27	Polaris-ampumaharjoitus	OMAS
-27	Aamunkoiton_tahtays	OMAS
-27	Nordic_Sharpshooters_Cup	OMAS
-27	Taivaanranta-tulitus	OMAS
-27	Lumivyory-ammunta	OMAS
-28	Kesan_Ampujaiset	Pelleseura
-28	Talvi_Pistooli	Pelleseura
-28	Tarkkuuslaukaus-festivaali	Pelleseura
-28	Kivaarikilpailujen_huipennus	Pelleseura
-28	Polaris-ampumaharjoitus	Pelleseura
-28	Aamunkoiton_tahtays	Pelleseura
-28	Nordic_Sharpshooters_Cup	Pelleseura
-28	Taivaanranta-tulitus	Pelleseura
-28	Lumivyory-ammunta	Pelleseura
-29	Kesan_Ampujaiset	Pelleseura
-29	Talvi_Pistooli	Pelleseura
-29	Tarkkuuslaukaus-festivaali	Pelleseura
-29	Kivaarikilpailujen_huipennus	Pelleseura
-29	Polaris-ampumaharjoitus	Pelleseura
-29	Aamunkoiton_tahtays	Pelleseura
-29	Nordic_Sharpshooters_Cup	Pelleseura
-29	Taivaanranta-tulitus	Pelleseura
-29	Lumivyory-ammunta	Pelleseura
-30	Kesan_Ampujaiset	Pelleseura
-30	Talvi_Pistooli	Pelleseura
-30	Tarkkuuslaukaus-festivaali	Pelleseura
-30	Kivaarikilpailujen_huipennus	Pelleseura
-30	Polaris-ampumaharjoitus	Pelleseura
-30	Aamunkoiton_tahtays	Pelleseura
-30	Nordic_Sharpshooters_Cup	Pelleseura
-30	Taivaanranta-tulitus	Pelleseura
-30	Lumivyory-ammunta	Pelleseura
-31	Kesan_Ampujaiset	Pelleseura
-31	Talvi_Pistooli	Pelleseura
-31	Tarkkuuslaukaus-festivaali	Pelleseura
-31	Kivaarikilpailujen_huipennus	Pelleseura
-31	Polaris-ampumaharjoitus	Pelleseura
-31	Aamunkoiton_tahtays	Pelleseura
-31	Nordic_Sharpshooters_Cup	Pelleseura
-31	Taivaanranta-tulitus	Pelleseura
-31	Lumivyory-ammunta	Pelleseura
-32	Kesan_Ampujaiset	Yung_Tallent
-32	Talvi_Pistooli	Yung_Tallent
-32	Tarkkuuslaukaus-festivaali	Yung_Tallent
-32	Kivaarikilpailujen_huipennus	Yung_Tallent
-32	Polaris-ampumaharjoitus	Yung_Tallent
-32	Aamunkoiton_tahtays	Yung_Tallent
-32	Nordic_Sharpshooters_Cup	Yung_Tallent
-32	Taivaanranta-tulitus	Yung_Tallent
-32	Lumivyory-ammunta	Yung_Tallent
-33	Kesan_Ampujaiset	Yung_Tallent
-33	Talvi_Pistooli	Yung_Tallent
-33	Tarkkuuslaukaus-festivaali	Yung_Tallent
-33	Kivaarikilpailujen_huipennus	Yung_Tallent
-33	Polaris-ampumaharjoitus	Yung_Tallent
-33	Aamunkoiton_tahtays	Yung_Tallent
-33	Nordic_Sharpshooters_Cup	Yung_Tallent
-33	Taivaanranta-tulitus	Yung_Tallent
-33	Lumivyory-ammunta	Yung_Tallent
-34	Kesan_Ampujaiset	Yung_Tallent
-34	Talvi_Pistooli	Yung_Tallent
-34	Tarkkuuslaukaus-festivaali	Yung_Tallent
-34	Kivaarikilpailujen_huipennus	Yung_Tallent
-34	Polaris-ampumaharjoitus	Yung_Tallent
-34	Aamunkoiton_tahtays	Yung_Tallent
-34	Nordic_Sharpshooters_Cup	Yung_Tallent
-34	Taivaanranta-tulitus	Yung_Tallent
-34	Lumivyory-ammunta	Yung_Tallent
-35	Kesan_Ampujaiset	Aseharrastajien_Yhtenaisyys
-35	Talvi_Pistooli	Aseharrastajien_Yhtenaisyys
-35	Tarkkuuslaukaus-festivaali	Aseharrastajien_Yhtenaisyys
-35	Kivaarikilpailujen_huipennus	Aseharrastajien_Yhtenaisyys
-35	Polaris-ampumaharjoitus	Aseharrastajien_Yhtenaisyys
-35	Aamunkoiton_tahtays	Aseharrastajien_Yhtenaisyys
-35	Nordic_Sharpshooters_Cup	Aseharrastajien_Yhtenaisyys
-35	Taivaanranta-tulitus	Aseharrastajien_Yhtenaisyys
-35	Lumivyory-ammunta	Aseharrastajien_Yhtenaisyys
-36	Kesan_Ampujaiset	Aseharrastajien_Yhtenaisyys
-36	Talvi_Pistooli	Aseharrastajien_Yhtenaisyys
-36	Tarkkuuslaukaus-festivaali	Aseharrastajien_Yhtenaisyys
-36	Kivaarikilpailujen_huipennus	Aseharrastajien_Yhtenaisyys
-36	Polaris-ampumaharjoitus	Aseharrastajien_Yhtenaisyys
-36	Aamunkoiton_tahtays	Aseharrastajien_Yhtenaisyys
-36	Nordic_Sharpshooters_Cup	Aseharrastajien_Yhtenaisyys
-36	Taivaanranta-tulitus	Aseharrastajien_Yhtenaisyys
-36	Lumivyory-ammunta	Aseharrastajien_Yhtenaisyys
-37	Kesan_Ampujaiset	Aseharrastajien_Yhtenaisyys
-37	Talvi_Pistooli	Aseharrastajien_Yhtenaisyys
-37	Tarkkuuslaukaus-festivaali	Aseharrastajien_Yhtenaisyys
-37	Kivaarikilpailujen_huipennus	Aseharrastajien_Yhtenaisyys
-37	Polaris-ampumaharjoitus	Aseharrastajien_Yhtenaisyys
-37	Aamunkoiton_tahtays	Aseharrastajien_Yhtenaisyys
-37	Nordic_Sharpshooters_Cup	Aseharrastajien_Yhtenaisyys
-37	Taivaanranta-tulitus	Aseharrastajien_Yhtenaisyys
-37	Lumivyory-ammunta	Aseharrastajien_Yhtenaisyys
-38	Kesan_Ampujaiset	Aseharrastajien_Yhtenaisyys
-38	Talvi_Pistooli	Aseharrastajien_Yhtenaisyys
-38	Tarkkuuslaukaus-festivaali	Aseharrastajien_Yhtenaisyys
-38	Kivaarikilpailujen_huipennus	Aseharrastajien_Yhtenaisyys
-38	Polaris-ampumaharjoitus	Aseharrastajien_Yhtenaisyys
-38	Aamunkoiton_tahtays	Aseharrastajien_Yhtenaisyys
-38	Nordic_Sharpshooters_Cup	Aseharrastajien_Yhtenaisyys
-38	Taivaanranta-tulitus	Aseharrastajien_Yhtenaisyys
-38	Lumivyory-ammunta	Aseharrastajien_Yhtenaisyys
-39	Kesan_Ampujaiset	Tahtaysmestarit
-39	Talvi_Pistooli	Tahtaysmestarit
-39	Tarkkuuslaukaus-festivaali	Tahtaysmestarit
-39	Kivaarikilpailujen_huipennus	Tahtaysmestarit
-39	Polaris-ampumaharjoitus	Tahtaysmestarit
-39	Aamunkoiton_tahtays	Tahtaysmestarit
-39	Nordic_Sharpshooters_Cup	Tahtaysmestarit
-39	Taivaanranta-tulitus	Tahtaysmestarit
-39	Lumivyory-ammunta	Tahtaysmestarit
-40	Kesan_Ampujaiset	Tahtaysmestarit
-40	Talvi_Pistooli	Tahtaysmestarit
-40	Tarkkuuslaukaus-festivaali	Tahtaysmestarit
-40	Kivaarikilpailujen_huipennus	Tahtaysmestarit
-40	Polaris-ampumaharjoitus	Tahtaysmestarit
-40	Aamunkoiton_tahtays	Tahtaysmestarit
-40	Nordic_Sharpshooters_Cup	Tahtaysmestarit
-40	Taivaanranta-tulitus	Tahtaysmestarit
-40	Lumivyory-ammunta	Tahtaysmestarit
-41	Kesan_Ampujaiset	Tahtaysmestarit
-41	Talvi_Pistooli	Tahtaysmestarit
-41	Tarkkuuslaukaus-festivaali	Tahtaysmestarit
-41	Kivaarikilpailujen_huipennus	Tahtaysmestarit
-41	Polaris-ampumaharjoitus	Tahtaysmestarit
-41	Aamunkoiton_tahtays	Tahtaysmestarit
-41	Nordic_Sharpshooters_Cup	Tahtaysmestarit
-41	Taivaanranta-tulitus	Tahtaysmestarit
-41	Lumivyory-ammunta	Tahtaysmestarit
-42	Kesan_Ampujaiset	Tahtaysmestarit
-42	Talvi_Pistooli	Tahtaysmestarit
-42	Tarkkuuslaukaus-festivaali	Tahtaysmestarit
-42	Kivaarikilpailujen_huipennus	Tahtaysmestarit
-42	Polaris-ampumaharjoitus	Tahtaysmestarit
-42	Aamunkoiton_tahtays	Tahtaysmestarit
-42	Nordic_Sharpshooters_Cup	Tahtaysmestarit
-42	Taivaanranta-tulitus	Tahtaysmestarit
-42	Lumivyory-ammunta	Tahtaysmestarit
-43	Kesan_Ampujaiset	Laukausryhma_Aurora
-43	Talvi_Pistooli	Laukausryhma_Aurora
-43	Tarkkuuslaukaus-festivaali	Laukausryhma_Aurora
-43	Kivaarikilpailujen_huipennus	Laukausryhma_Aurora
-43	Polaris-ampumaharjoitus	Laukausryhma_Aurora
-43	Aamunkoiton_tahtays	Laukausryhma_Aurora
-43	Nordic_Sharpshooters_Cup	Laukausryhma_Aurora
-43	Taivaanranta-tulitus	Laukausryhma_Aurora
-43	Lumivyory-ammunta	Laukausryhma_Aurora
-44	Kesan_Ampujaiset	Laukausryhma_Aurora
-44	Talvi_Pistooli	Laukausryhma_Aurora
-44	Tarkkuuslaukaus-festivaali	Laukausryhma_Aurora
-44	Kivaarikilpailujen_huipennus	Laukausryhma_Aurora
-44	Polaris-ampumaharjoitus	Laukausryhma_Aurora
-44	Aamunkoiton_tahtays	Laukausryhma_Aurora
-44	Nordic_Sharpshooters_Cup	Laukausryhma_Aurora
-44	Taivaanranta-tulitus	Laukausryhma_Aurora
-44	Lumivyory-ammunta	Laukausryhma_Aurora
-45	Kesan_Ampujaiset	Laukausryhma_Aurora
-45	Talvi_Pistooli	Laukausryhma_Aurora
-45	Tarkkuuslaukaus-festivaali	Laukausryhma_Aurora
-45	Kivaarikilpailujen_huipennus	Laukausryhma_Aurora
-45	Polaris-ampumaharjoitus	Laukausryhma_Aurora
-45	Aamunkoiton_tahtays	Laukausryhma_Aurora
-45	Nordic_Sharpshooters_Cup	Laukausryhma_Aurora
-45	Taivaanranta-tulitus	Laukausryhma_Aurora
-45	Lumivyory-ammunta	Laukausryhma_Aurora
-46	Kesan_Ampujaiset	Ampumataito
-46	Talvi_Pistooli	Ampumataito
-46	Tarkkuuslaukaus-festivaali	Ampumataito
-46	Kivaarikilpailujen_huipennus	Ampumataito
-46	Polaris-ampumaharjoitus	Ampumataito
-46	Aamunkoiton_tahtays	Ampumataito
-46	Nordic_Sharpshooters_Cup	Ampumataito
-46	Taivaanranta-tulitus	Ampumataito
-46	Lumivyory-ammunta	Ampumataito
-47	Kesan_Ampujaiset	Ampumataito
-47	Talvi_Pistooli	Ampumataito
-47	Tarkkuuslaukaus-festivaali	Ampumataito
-47	Kivaarikilpailujen_huipennus	Ampumataito
-47	Polaris-ampumaharjoitus	Ampumataito
-47	Aamunkoiton_tahtays	Ampumataito
-47	Nordic_Sharpshooters_Cup	Ampumataito
-47	Taivaanranta-tulitus	Ampumataito
-47	Lumivyory-ammunta	Ampumataito
-48	Kesan_Ampujaiset	Ampumataito
-48	Talvi_Pistooli	Ampumataito
-48	Tarkkuuslaukaus-festivaali	Ampumataito
-48	Kivaarikilpailujen_huipennus	Ampumataito
-48	Polaris-ampumaharjoitus	Ampumataito
-48	Aamunkoiton_tahtays	Ampumataito
-48	Nordic_Sharpshooters_Cup	Ampumataito
-48	Taivaanranta-tulitus	Ampumataito
-48	Lumivyory-ammunta	Ampumataito
+1	tarkka-ammunta_cup	poliisiseura
+1	nopean_laukauksen_mestaruus	poliisiseura
+1	moniottelu	poliisiseura
+1	kansallinen_tahtayskilpailu	poliisiseura
+1	kaupunkiammunta-challenge	poliisiseura
+1	laukausmaraton	poliisiseura
+1	vapaa-asekilpailu	poliisiseura
+1	taitoluodikko-turnaus	poliisiseura
+1	precision_pistol_cup	poliisiseura
+1	tulevaisuuden_ampuja	poliisiseura
+1	pikakivaari-klassikko	poliisiseura
+2	tarkka-ammunta_cup	poliisiseura
+2	nopean_laukauksen_mestaruus	poliisiseura
+2	moniottelu	poliisiseura
+2	kansallinen_tahtayskilpailu	poliisiseura
+2	kaupunkiammunta-challenge	poliisiseura
+2	laukausmaraton	poliisiseura
+2	vapaa-asekilpailu	poliisiseura
+2	taitoluodikko-turnaus	poliisiseura
+2	precision_pistol_cup	poliisiseura
+2	tulevaisuuden_ampuja	poliisiseura
+2	pikakivaari-klassikko	poliisiseura
+3	tarkka-ammunta_cup	poliisiseura
+3	nopean_laukauksen_mestaruus	poliisiseura
+3	moniottelu	poliisiseura
+3	kansallinen_tahtayskilpailu	poliisiseura
+3	kaupunkiammunta-challenge	poliisiseura
+3	laukausmaraton	poliisiseura
+3	vapaa-asekilpailu	poliisiseura
+3	taitoluodikko-turnaus	poliisiseura
+3	precision_pistol_cup	poliisiseura
+3	tulevaisuuden_ampuja	poliisiseura
+3	pikakivaari-klassikko	poliisiseura
+4	tarkka-ammunta_cup	poliisiseura
+4	nopean_laukauksen_mestaruus	poliisiseura
+4	moniottelu	poliisiseura
+4	kansallinen_tahtayskilpailu	poliisiseura
+4	kaupunkiammunta-challenge	poliisiseura
+4	laukausmaraton	poliisiseura
+4	vapaa-asekilpailu	poliisiseura
+4	taitoluodikko-turnaus	poliisiseura
+4	precision_pistol_cup	poliisiseura
+4	tulevaisuuden_ampuja	poliisiseura
+4	pikakivaari-klassikko	poliisiseura
+5	tarkka-ammunta_cup	koiraseura
+5	nopean_laukauksen_mestaruus	koiraseura
+5	moniottelu	koiraseura
+5	kansallinen_tahtayskilpailu	koiraseura
+5	kaupunkiammunta-challenge	koiraseura
+5	laukausmaraton	koiraseura
+5	vapaa-asekilpailu	koiraseura
+5	taitoluodikko-turnaus	koiraseura
+5	precision_pistol_cup	koiraseura
+5	tulevaisuuden_ampuja	koiraseura
+5	pikakivaari-klassikko	koiraseura
+6	tarkka-ammunta_cup	koiraseura
+6	nopean_laukauksen_mestaruus	koiraseura
+6	moniottelu	koiraseura
+6	kansallinen_tahtayskilpailu	koiraseura
+6	kaupunkiammunta-challenge	koiraseura
+6	laukausmaraton	koiraseura
+6	vapaa-asekilpailu	koiraseura
+6	taitoluodikko-turnaus	koiraseura
+6	precision_pistol_cup	koiraseura
+6	tulevaisuuden_ampuja	koiraseura
+6	pikakivaari-klassikko	koiraseura
+7	tarkka-ammunta_cup	koiraseura
+7	nopean_laukauksen_mestaruus	koiraseura
+7	moniottelu	koiraseura
+7	kansallinen_tahtayskilpailu	koiraseura
+7	kaupunkiammunta-challenge	koiraseura
+7	laukausmaraton	koiraseura
+7	vapaa-asekilpailu	koiraseura
+7	taitoluodikko-turnaus	koiraseura
+7	precision_pistol_cup	koiraseura
+7	tulevaisuuden_ampuja	koiraseura
+7	pikakivaari-klassikko	koiraseura
+8	tarkka-ammunta_cup	koiraseura
+8	nopean_laukauksen_mestaruus	koiraseura
+8	moniottelu	koiraseura
+8	kansallinen_tahtayskilpailu	koiraseura
+8	kaupunkiammunta-challenge	koiraseura
+8	laukausmaraton	koiraseura
+8	vapaa-asekilpailu	koiraseura
+8	taitoluodikko-turnaus	koiraseura
+8	precision_pistol_cup	koiraseura
+8	tulevaisuuden_ampuja	koiraseura
+8	pikakivaari-klassikko	koiraseura
+9	tarkka-ammunta_cup	hammaspeikkoseura
+9	nopean_laukauksen_mestaruus	hammaspeikkoseura
+9	moniottelu	hammaspeikkoseura
+9	kansallinen_tahtayskilpailu	hammaspeikkoseura
+9	kaupunkiammunta-challenge	hammaspeikkoseura
+9	laukausmaraton	hammaspeikkoseura
+9	vapaa-asekilpailu	hammaspeikkoseura
+9	taitoluodikko-turnaus	hammaspeikkoseura
+9	precision_pistol_cup	hammaspeikkoseura
+9	tulevaisuuden_ampuja	hammaspeikkoseura
+9	pikakivaari-klassikko	hammaspeikkoseura
+10	tarkka-ammunta_cup	hammaspeikkoseura
+10	nopean_laukauksen_mestaruus	hammaspeikkoseura
+10	moniottelu	hammaspeikkoseura
+10	kansallinen_tahtayskilpailu	hammaspeikkoseura
+10	kaupunkiammunta-challenge	hammaspeikkoseura
+10	laukausmaraton	hammaspeikkoseura
+10	vapaa-asekilpailu	hammaspeikkoseura
+10	taitoluodikko-turnaus	hammaspeikkoseura
+10	precision_pistol_cup	hammaspeikkoseura
+10	tulevaisuuden_ampuja	hammaspeikkoseura
+10	pikakivaari-klassikko	hammaspeikkoseura
+11	tarkka-ammunta_cup	hammaspeikkoseura
+11	nopean_laukauksen_mestaruus	hammaspeikkoseura
+11	moniottelu	hammaspeikkoseura
+11	kansallinen_tahtayskilpailu	hammaspeikkoseura
+11	kaupunkiammunta-challenge	hammaspeikkoseura
+11	laukausmaraton	hammaspeikkoseura
+11	vapaa-asekilpailu	hammaspeikkoseura
+11	taitoluodikko-turnaus	hammaspeikkoseura
+11	precision_pistol_cup	hammaspeikkoseura
+11	tulevaisuuden_ampuja	hammaspeikkoseura
+11	pikakivaari-klassikko	hammaspeikkoseura
+12	tarkka-ammunta_cup	hammaspeikkoseura
+12	nopean_laukauksen_mestaruus	hammaspeikkoseura
+12	moniottelu	hammaspeikkoseura
+12	kansallinen_tahtayskilpailu	hammaspeikkoseura
+12	kaupunkiammunta-challenge	hammaspeikkoseura
+12	laukausmaraton	hammaspeikkoseura
+12	vapaa-asekilpailu	hammaspeikkoseura
+12	taitoluodikko-turnaus	hammaspeikkoseura
+12	precision_pistol_cup	hammaspeikkoseura
+12	tulevaisuuden_ampuja	hammaspeikkoseura
+12	pikakivaari-klassikko	hammaspeikkoseura
+13	tarkka-ammunta_cup	dog
+13	nopean_laukauksen_mestaruus	dog
+13	moniottelu	dog
+13	kansallinen_tahtayskilpailu	dog
+13	kaupunkiammunta-challenge	dog
+13	laukausmaraton	dog
+13	vapaa-asekilpailu	dog
+13	taitoluodikko-turnaus	dog
+13	precision_pistol_cup	dog
+13	tulevaisuuden_ampuja	dog
+13	pikakivaari-klassikko	dog
+14	tarkka-ammunta_cup	dog
+14	nopean_laukauksen_mestaruus	dog
+14	moniottelu	dog
+14	kansallinen_tahtayskilpailu	dog
+14	kaupunkiammunta-challenge	dog
+14	laukausmaraton	dog
+14	vapaa-asekilpailu	dog
+14	taitoluodikko-turnaus	dog
+14	precision_pistol_cup	dog
+14	tulevaisuuden_ampuja	dog
+14	pikakivaari-klassikko	dog
+15	tarkka-ammunta_cup	dog
+15	nopean_laukauksen_mestaruus	dog
+15	moniottelu	dog
+15	kansallinen_tahtayskilpailu	dog
+15	kaupunkiammunta-challenge	dog
+15	laukausmaraton	dog
+15	vapaa-asekilpailu	dog
+15	taitoluodikko-turnaus	dog
+15	precision_pistol_cup	dog
+15	tulevaisuuden_ampuja	dog
+15	pikakivaari-klassikko	dog
+16	tarkka-ammunta_cup	dog
+16	nopean_laukauksen_mestaruus	dog
+16	moniottelu	dog
+16	kansallinen_tahtayskilpailu	dog
+16	kaupunkiammunta-challenge	dog
+16	laukausmaraton	dog
+16	vapaa-asekilpailu	dog
+16	taitoluodikko-turnaus	dog
+16	precision_pistol_cup	dog
+16	tulevaisuuden_ampuja	dog
+16	pikakivaari-klassikko	dog
+17	tarkka-ammunta_cup	dog
+17	nopean_laukauksen_mestaruus	dog
+17	moniottelu	dog
+17	kansallinen_tahtayskilpailu	dog
+17	kaupunkiammunta-challenge	dog
+17	laukausmaraton	dog
+17	vapaa-asekilpailu	dog
+17	taitoluodikko-turnaus	dog
+17	precision_pistol_cup	dog
+17	tulevaisuuden_ampuja	dog
+17	pikakivaari-klassikko	dog
+18	tarkka-ammunta_cup	savu_seura
+18	nopean_laukauksen_mestaruus	savu_seura
+18	moniottelu	savu_seura
+18	kansallinen_tahtayskilpailu	savu_seura
+18	kaupunkiammunta-challenge	savu_seura
+18	laukausmaraton	savu_seura
+18	vapaa-asekilpailu	savu_seura
+18	taitoluodikko-turnaus	savu_seura
+18	precision_pistol_cup	savu_seura
+18	tulevaisuuden_ampuja	savu_seura
+18	pikakivaari-klassikko	savu_seura
+19	tarkka-ammunta_cup	savu_seura
+19	nopean_laukauksen_mestaruus	savu_seura
+19	moniottelu	savu_seura
+19	kansallinen_tahtayskilpailu	savu_seura
+19	kaupunkiammunta-challenge	savu_seura
+19	laukausmaraton	savu_seura
+19	vapaa-asekilpailu	savu_seura
+19	taitoluodikko-turnaus	savu_seura
+19	precision_pistol_cup	savu_seura
+19	tulevaisuuden_ampuja	savu_seura
+19	pikakivaari-klassikko	savu_seura
+20	tarkka-ammunta_cup	savu_seura
+20	nopean_laukauksen_mestaruus	savu_seura
+20	moniottelu	savu_seura
+20	kansallinen_tahtayskilpailu	savu_seura
+20	kaupunkiammunta-challenge	savu_seura
+20	laukausmaraton	savu_seura
+20	vapaa-asekilpailu	savu_seura
+20	taitoluodikko-turnaus	savu_seura
+20	precision_pistol_cup	savu_seura
+20	tulevaisuuden_ampuja	savu_seura
+20	pikakivaari-klassikko	savu_seura
+21	tarkka-ammunta_cup	savu_seura
+21	nopean_laukauksen_mestaruus	savu_seura
+21	moniottelu	savu_seura
+21	kansallinen_tahtayskilpailu	savu_seura
+21	kaupunkiammunta-challenge	savu_seura
+21	laukausmaraton	savu_seura
+21	vapaa-asekilpailu	savu_seura
+21	taitoluodikko-turnaus	savu_seura
+21	precision_pistol_cup	savu_seura
+21	tulevaisuuden_ampuja	savu_seura
+21	pikakivaari-klassikko	savu_seura
+22	tarkka-ammunta_cup	omas
+22	nopean_laukauksen_mestaruus	omas
+22	moniottelu	omas
+22	kansallinen_tahtayskilpailu	omas
+22	kaupunkiammunta-challenge	omas
+22	laukausmaraton	omas
+22	vapaa-asekilpailu	omas
+22	taitoluodikko-turnaus	omas
+22	precision_pistol_cup	omas
+22	tulevaisuuden_ampuja	omas
+22	pikakivaari-klassikko	omas
+23	tarkka-ammunta_cup	omas
+23	nopean_laukauksen_mestaruus	omas
+23	moniottelu	omas
+23	kansallinen_tahtayskilpailu	omas
+23	kaupunkiammunta-challenge	omas
+23	laukausmaraton	omas
+23	vapaa-asekilpailu	omas
+23	taitoluodikko-turnaus	omas
+23	precision_pistol_cup	omas
+23	tulevaisuuden_ampuja	omas
+23	pikakivaari-klassikko	omas
+24	tarkka-ammunta_cup	omas
+24	nopean_laukauksen_mestaruus	omas
+24	moniottelu	omas
+24	kansallinen_tahtayskilpailu	omas
+24	kaupunkiammunta-challenge	omas
+24	laukausmaraton	omas
+24	vapaa-asekilpailu	omas
+24	taitoluodikko-turnaus	omas
+24	precision_pistol_cup	omas
+24	tulevaisuuden_ampuja	omas
+24	pikakivaari-klassikko	omas
+25	tarkka-ammunta_cup	omas
+25	nopean_laukauksen_mestaruus	omas
+25	moniottelu	omas
+25	kansallinen_tahtayskilpailu	omas
+25	kaupunkiammunta-challenge	omas
+25	laukausmaraton	omas
+25	vapaa-asekilpailu	omas
+25	taitoluodikko-turnaus	omas
+25	precision_pistol_cup	omas
+25	tulevaisuuden_ampuja	omas
+25	pikakivaari-klassikko	omas
+26	tarkka-ammunta_cup	omas
+26	nopean_laukauksen_mestaruus	omas
+26	moniottelu	omas
+26	kansallinen_tahtayskilpailu	omas
+26	kaupunkiammunta-challenge	omas
+26	laukausmaraton	omas
+26	vapaa-asekilpailu	omas
+26	taitoluodikko-turnaus	omas
+26	precision_pistol_cup	omas
+26	tulevaisuuden_ampuja	omas
+26	pikakivaari-klassikko	omas
+27	tarkka-ammunta_cup	pelleseura
+27	nopean_laukauksen_mestaruus	pelleseura
+27	moniottelu	pelleseura
+27	kansallinen_tahtayskilpailu	pelleseura
+27	kaupunkiammunta-challenge	pelleseura
+27	laukausmaraton	pelleseura
+27	vapaa-asekilpailu	pelleseura
+27	taitoluodikko-turnaus	pelleseura
+27	precision_pistol_cup	pelleseura
+27	tulevaisuuden_ampuja	pelleseura
+27	pikakivaari-klassikko	pelleseura
+28	tarkka-ammunta_cup	pelleseura
+28	nopean_laukauksen_mestaruus	pelleseura
+28	moniottelu	pelleseura
+28	kansallinen_tahtayskilpailu	pelleseura
+28	kaupunkiammunta-challenge	pelleseura
+28	laukausmaraton	pelleseura
+28	vapaa-asekilpailu	pelleseura
+28	taitoluodikko-turnaus	pelleseura
+28	precision_pistol_cup	pelleseura
+28	tulevaisuuden_ampuja	pelleseura
+28	pikakivaari-klassikko	pelleseura
+29	tarkka-ammunta_cup	pelleseura
+29	nopean_laukauksen_mestaruus	pelleseura
+29	moniottelu	pelleseura
+29	kansallinen_tahtayskilpailu	pelleseura
+29	kaupunkiammunta-challenge	pelleseura
+29	laukausmaraton	pelleseura
+29	vapaa-asekilpailu	pelleseura
+29	taitoluodikko-turnaus	pelleseura
+29	precision_pistol_cup	pelleseura
+29	tulevaisuuden_ampuja	pelleseura
+29	pikakivaari-klassikko	pelleseura
+30	tarkka-ammunta_cup	pelleseura
+30	nopean_laukauksen_mestaruus	pelleseura
+30	moniottelu	pelleseura
+30	kansallinen_tahtayskilpailu	pelleseura
+30	kaupunkiammunta-challenge	pelleseura
+30	laukausmaraton	pelleseura
+30	vapaa-asekilpailu	pelleseura
+30	taitoluodikko-turnaus	pelleseura
+30	precision_pistol_cup	pelleseura
+30	tulevaisuuden_ampuja	pelleseura
+30	pikakivaari-klassikko	pelleseura
+31	tarkka-ammunta_cup	pelleseura
+31	nopean_laukauksen_mestaruus	pelleseura
+31	moniottelu	pelleseura
+31	kansallinen_tahtayskilpailu	pelleseura
+31	kaupunkiammunta-challenge	pelleseura
+31	laukausmaraton	pelleseura
+31	vapaa-asekilpailu	pelleseura
+31	taitoluodikko-turnaus	pelleseura
+31	precision_pistol_cup	pelleseura
+31	tulevaisuuden_ampuja	pelleseura
+31	pikakivaari-klassikko	pelleseura
+32	tarkka-ammunta_cup	yung_tallent
+32	nopean_laukauksen_mestaruus	yung_tallent
+32	moniottelu	yung_tallent
+32	kansallinen_tahtayskilpailu	yung_tallent
+32	kaupunkiammunta-challenge	yung_tallent
+32	laukausmaraton	yung_tallent
+32	vapaa-asekilpailu	yung_tallent
+32	taitoluodikko-turnaus	yung_tallent
+32	precision_pistol_cup	yung_tallent
+32	tulevaisuuden_ampuja	yung_tallent
+32	pikakivaari-klassikko	yung_tallent
+33	tarkka-ammunta_cup	yung_tallent
+33	nopean_laukauksen_mestaruus	yung_tallent
+33	moniottelu	yung_tallent
+33	kansallinen_tahtayskilpailu	yung_tallent
+33	kaupunkiammunta-challenge	yung_tallent
+33	laukausmaraton	yung_tallent
+33	vapaa-asekilpailu	yung_tallent
+33	taitoluodikko-turnaus	yung_tallent
+33	precision_pistol_cup	yung_tallent
+33	tulevaisuuden_ampuja	yung_tallent
+33	pikakivaari-klassikko	yung_tallent
+34	tarkka-ammunta_cup	yung_tallent
+34	nopean_laukauksen_mestaruus	yung_tallent
+34	moniottelu	yung_tallent
+34	kansallinen_tahtayskilpailu	yung_tallent
+34	kaupunkiammunta-challenge	yung_tallent
+34	laukausmaraton	yung_tallent
+34	vapaa-asekilpailu	yung_tallent
+34	taitoluodikko-turnaus	yung_tallent
+34	precision_pistol_cup	yung_tallent
+34	tulevaisuuden_ampuja	yung_tallent
+34	pikakivaari-klassikko	yung_tallent
+35	tarkka-ammunta_cup	yung_tallent
+35	nopean_laukauksen_mestaruus	yung_tallent
+35	moniottelu	yung_tallent
+35	kansallinen_tahtayskilpailu	yung_tallent
+35	kaupunkiammunta-challenge	yung_tallent
+35	laukausmaraton	yung_tallent
+35	vapaa-asekilpailu	yung_tallent
+35	taitoluodikko-turnaus	yung_tallent
+35	precision_pistol_cup	yung_tallent
+35	tulevaisuuden_ampuja	yung_tallent
+35	pikakivaari-klassikko	yung_tallent
+36	tarkka-ammunta_cup	aseharrastajien_yhtenaisyys
+36	nopean_laukauksen_mestaruus	aseharrastajien_yhtenaisyys
+36	moniottelu	aseharrastajien_yhtenaisyys
+36	kansallinen_tahtayskilpailu	aseharrastajien_yhtenaisyys
+36	kaupunkiammunta-challenge	aseharrastajien_yhtenaisyys
+36	laukausmaraton	aseharrastajien_yhtenaisyys
+36	vapaa-asekilpailu	aseharrastajien_yhtenaisyys
+36	taitoluodikko-turnaus	aseharrastajien_yhtenaisyys
+36	precision_pistol_cup	aseharrastajien_yhtenaisyys
+36	tulevaisuuden_ampuja	aseharrastajien_yhtenaisyys
+36	pikakivaari-klassikko	aseharrastajien_yhtenaisyys
+37	tarkka-ammunta_cup	aseharrastajien_yhtenaisyys
+37	nopean_laukauksen_mestaruus	aseharrastajien_yhtenaisyys
+37	moniottelu	aseharrastajien_yhtenaisyys
+37	kansallinen_tahtayskilpailu	aseharrastajien_yhtenaisyys
+37	kaupunkiammunta-challenge	aseharrastajien_yhtenaisyys
+37	laukausmaraton	aseharrastajien_yhtenaisyys
+37	vapaa-asekilpailu	aseharrastajien_yhtenaisyys
+37	taitoluodikko-turnaus	aseharrastajien_yhtenaisyys
+37	precision_pistol_cup	aseharrastajien_yhtenaisyys
+37	tulevaisuuden_ampuja	aseharrastajien_yhtenaisyys
+37	pikakivaari-klassikko	aseharrastajien_yhtenaisyys
+38	tarkka-ammunta_cup	aseharrastajien_yhtenaisyys
+38	nopean_laukauksen_mestaruus	aseharrastajien_yhtenaisyys
+38	moniottelu	aseharrastajien_yhtenaisyys
+38	kansallinen_tahtayskilpailu	aseharrastajien_yhtenaisyys
+38	kaupunkiammunta-challenge	aseharrastajien_yhtenaisyys
+38	laukausmaraton	aseharrastajien_yhtenaisyys
+38	vapaa-asekilpailu	aseharrastajien_yhtenaisyys
+38	taitoluodikko-turnaus	aseharrastajien_yhtenaisyys
+38	precision_pistol_cup	aseharrastajien_yhtenaisyys
+38	tulevaisuuden_ampuja	aseharrastajien_yhtenaisyys
+38	pikakivaari-klassikko	aseharrastajien_yhtenaisyys
+39	tarkka-ammunta_cup	aseharrastajien_yhtenaisyys
+39	nopean_laukauksen_mestaruus	aseharrastajien_yhtenaisyys
+39	moniottelu	aseharrastajien_yhtenaisyys
+39	kansallinen_tahtayskilpailu	aseharrastajien_yhtenaisyys
+39	kaupunkiammunta-challenge	aseharrastajien_yhtenaisyys
+39	laukausmaraton	aseharrastajien_yhtenaisyys
+39	vapaa-asekilpailu	aseharrastajien_yhtenaisyys
+39	taitoluodikko-turnaus	aseharrastajien_yhtenaisyys
+39	precision_pistol_cup	aseharrastajien_yhtenaisyys
+39	tulevaisuuden_ampuja	aseharrastajien_yhtenaisyys
+39	pikakivaari-klassikko	aseharrastajien_yhtenaisyys
+40	tarkka-ammunta_cup	aseharrastajien_yhtenaisyys
+40	nopean_laukauksen_mestaruus	aseharrastajien_yhtenaisyys
+40	moniottelu	aseharrastajien_yhtenaisyys
+40	kansallinen_tahtayskilpailu	aseharrastajien_yhtenaisyys
+40	kaupunkiammunta-challenge	aseharrastajien_yhtenaisyys
+40	laukausmaraton	aseharrastajien_yhtenaisyys
+40	vapaa-asekilpailu	aseharrastajien_yhtenaisyys
+40	taitoluodikko-turnaus	aseharrastajien_yhtenaisyys
+40	precision_pistol_cup	aseharrastajien_yhtenaisyys
+40	tulevaisuuden_ampuja	aseharrastajien_yhtenaisyys
+40	pikakivaari-klassikko	aseharrastajien_yhtenaisyys
+41	tarkka-ammunta_cup	tahtaysmestarit
+41	nopean_laukauksen_mestaruus	tahtaysmestarit
+41	moniottelu	tahtaysmestarit
+41	kansallinen_tahtayskilpailu	tahtaysmestarit
+41	kaupunkiammunta-challenge	tahtaysmestarit
+41	laukausmaraton	tahtaysmestarit
+41	vapaa-asekilpailu	tahtaysmestarit
+41	taitoluodikko-turnaus	tahtaysmestarit
+41	precision_pistol_cup	tahtaysmestarit
+41	tulevaisuuden_ampuja	tahtaysmestarit
+41	pikakivaari-klassikko	tahtaysmestarit
+42	tarkka-ammunta_cup	tahtaysmestarit
+42	nopean_laukauksen_mestaruus	tahtaysmestarit
+42	moniottelu	tahtaysmestarit
+42	kansallinen_tahtayskilpailu	tahtaysmestarit
+42	kaupunkiammunta-challenge	tahtaysmestarit
+42	laukausmaraton	tahtaysmestarit
+42	vapaa-asekilpailu	tahtaysmestarit
+42	taitoluodikko-turnaus	tahtaysmestarit
+42	precision_pistol_cup	tahtaysmestarit
+42	tulevaisuuden_ampuja	tahtaysmestarit
+42	pikakivaari-klassikko	tahtaysmestarit
+43	tarkka-ammunta_cup	tahtaysmestarit
+43	nopean_laukauksen_mestaruus	tahtaysmestarit
+43	moniottelu	tahtaysmestarit
+43	kansallinen_tahtayskilpailu	tahtaysmestarit
+43	kaupunkiammunta-challenge	tahtaysmestarit
+43	laukausmaraton	tahtaysmestarit
+43	vapaa-asekilpailu	tahtaysmestarit
+43	taitoluodikko-turnaus	tahtaysmestarit
+43	precision_pistol_cup	tahtaysmestarit
+43	tulevaisuuden_ampuja	tahtaysmestarit
+43	pikakivaari-klassikko	tahtaysmestarit
+44	tarkka-ammunta_cup	laukausryhma_aurora
+44	nopean_laukauksen_mestaruus	laukausryhma_aurora
+44	moniottelu	laukausryhma_aurora
+44	kansallinen_tahtayskilpailu	laukausryhma_aurora
+44	kaupunkiammunta-challenge	laukausryhma_aurora
+44	laukausmaraton	laukausryhma_aurora
+44	vapaa-asekilpailu	laukausryhma_aurora
+44	taitoluodikko-turnaus	laukausryhma_aurora
+44	precision_pistol_cup	laukausryhma_aurora
+44	tulevaisuuden_ampuja	laukausryhma_aurora
+44	pikakivaari-klassikko	laukausryhma_aurora
+45	tarkka-ammunta_cup	laukausryhma_aurora
+45	nopean_laukauksen_mestaruus	laukausryhma_aurora
+45	moniottelu	laukausryhma_aurora
+45	kansallinen_tahtayskilpailu	laukausryhma_aurora
+45	kaupunkiammunta-challenge	laukausryhma_aurora
+45	laukausmaraton	laukausryhma_aurora
+45	vapaa-asekilpailu	laukausryhma_aurora
+45	taitoluodikko-turnaus	laukausryhma_aurora
+45	precision_pistol_cup	laukausryhma_aurora
+45	tulevaisuuden_ampuja	laukausryhma_aurora
+45	pikakivaari-klassikko	laukausryhma_aurora
+46	tarkka-ammunta_cup	laukausryhma_aurora
+46	nopean_laukauksen_mestaruus	laukausryhma_aurora
+46	moniottelu	laukausryhma_aurora
+46	kansallinen_tahtayskilpailu	laukausryhma_aurora
+46	kaupunkiammunta-challenge	laukausryhma_aurora
+46	laukausmaraton	laukausryhma_aurora
+46	vapaa-asekilpailu	laukausryhma_aurora
+46	taitoluodikko-turnaus	laukausryhma_aurora
+46	precision_pistol_cup	laukausryhma_aurora
+46	tulevaisuuden_ampuja	laukausryhma_aurora
+46	pikakivaari-klassikko	laukausryhma_aurora
+47	tarkka-ammunta_cup	laukausryhma_aurora
+47	nopean_laukauksen_mestaruus	laukausryhma_aurora
+47	moniottelu	laukausryhma_aurora
+47	kansallinen_tahtayskilpailu	laukausryhma_aurora
+47	kaupunkiammunta-challenge	laukausryhma_aurora
+47	laukausmaraton	laukausryhma_aurora
+47	vapaa-asekilpailu	laukausryhma_aurora
+47	taitoluodikko-turnaus	laukausryhma_aurora
+47	precision_pistol_cup	laukausryhma_aurora
+47	tulevaisuuden_ampuja	laukausryhma_aurora
+47	pikakivaari-klassikko	laukausryhma_aurora
+48	tarkka-ammunta_cup	laukausryhma_aurora
+48	nopean_laukauksen_mestaruus	laukausryhma_aurora
+48	moniottelu	laukausryhma_aurora
+48	kansallinen_tahtayskilpailu	laukausryhma_aurora
+48	kaupunkiammunta-challenge	laukausryhma_aurora
+48	laukausmaraton	laukausryhma_aurora
+48	vapaa-asekilpailu	laukausryhma_aurora
+48	taitoluodikko-turnaus	laukausryhma_aurora
+48	precision_pistol_cup	laukausryhma_aurora
+48	tulevaisuuden_ampuja	laukausryhma_aurora
+48	pikakivaari-klassikko	laukausryhma_aurora
+49	tarkka-ammunta_cup	ampumataito
+49	nopean_laukauksen_mestaruus	ampumataito
+49	moniottelu	ampumataito
+49	kansallinen_tahtayskilpailu	ampumataito
+49	kaupunkiammunta-challenge	ampumataito
+49	laukausmaraton	ampumataito
+49	vapaa-asekilpailu	ampumataito
+49	taitoluodikko-turnaus	ampumataito
+49	precision_pistol_cup	ampumataito
+49	tulevaisuuden_ampuja	ampumataito
+49	pikakivaari-klassikko	ampumataito
+50	tarkka-ammunta_cup	ampumataito
+50	nopean_laukauksen_mestaruus	ampumataito
+50	moniottelu	ampumataito
+50	kansallinen_tahtayskilpailu	ampumataito
+50	kaupunkiammunta-challenge	ampumataito
+50	laukausmaraton	ampumataito
+50	vapaa-asekilpailu	ampumataito
+50	taitoluodikko-turnaus	ampumataito
+50	precision_pistol_cup	ampumataito
+50	tulevaisuuden_ampuja	ampumataito
+50	pikakivaari-klassikko	ampumataito
+51	tarkka-ammunta_cup	ampumataito
+51	nopean_laukauksen_mestaruus	ampumataito
+51	moniottelu	ampumataito
+51	kansallinen_tahtayskilpailu	ampumataito
+51	kaupunkiammunta-challenge	ampumataito
+51	laukausmaraton	ampumataito
+51	vapaa-asekilpailu	ampumataito
+51	taitoluodikko-turnaus	ampumataito
+51	precision_pistol_cup	ampumataito
+51	tulevaisuuden_ampuja	ampumataito
+51	pikakivaari-klassikko	ampumataito
+52	tarkka-ammunta_cup	ampumataito
+52	nopean_laukauksen_mestaruus	ampumataito
+52	moniottelu	ampumataito
+52	kansallinen_tahtayskilpailu	ampumataito
+52	kaupunkiammunta-challenge	ampumataito
+52	laukausmaraton	ampumataito
+52	vapaa-asekilpailu	ampumataito
+52	taitoluodikko-turnaus	ampumataito
+52	precision_pistol_cup	ampumataito
+52	tulevaisuuden_ampuja	ampumataito
+52	pikakivaari-klassikko	ampumataito
+53	tarkka-ammunta_cup	ampumataito
+53	nopean_laukauksen_mestaruus	ampumataito
+53	moniottelu	ampumataito
+53	kansallinen_tahtayskilpailu	ampumataito
+53	kaupunkiammunta-challenge	ampumataito
+53	laukausmaraton	ampumataito
+53	vapaa-asekilpailu	ampumataito
+53	taitoluodikko-turnaus	ampumataito
+53	precision_pistol_cup	ampumataito
+53	tulevaisuuden_ampuja	ampumataito
+53	pikakivaari-klassikko	ampumataito
+1	kesan_ampujaiset	poliisiseura
+1	talvi_pistooli	poliisiseura
+1	tarkkuuslaukaus-festivaali	poliisiseura
+1	kivaarikilpailujen_huipennus	poliisiseura
+1	polaris-ampumaharjoitus	poliisiseura
+1	aamunkoiton_tahtays	poliisiseura
+1	nordic_sharpshooters_cup	poliisiseura
+1	taivaanranta-tulitus	poliisiseura
+1	lumivyory-ammunta	poliisiseura
+2	kesan_ampujaiset	poliisiseura
+2	talvi_pistooli	poliisiseura
+2	tarkkuuslaukaus-festivaali	poliisiseura
+2	kivaarikilpailujen_huipennus	poliisiseura
+2	polaris-ampumaharjoitus	poliisiseura
+2	aamunkoiton_tahtays	poliisiseura
+2	nordic_sharpshooters_cup	poliisiseura
+2	taivaanranta-tulitus	poliisiseura
+2	lumivyory-ammunta	poliisiseura
+3	kesan_ampujaiset	poliisiseura
+3	talvi_pistooli	poliisiseura
+3	tarkkuuslaukaus-festivaali	poliisiseura
+3	kivaarikilpailujen_huipennus	poliisiseura
+3	polaris-ampumaharjoitus	poliisiseura
+3	aamunkoiton_tahtays	poliisiseura
+3	nordic_sharpshooters_cup	poliisiseura
+3	taivaanranta-tulitus	poliisiseura
+3	lumivyory-ammunta	poliisiseura
+4	kesan_ampujaiset	poliisiseura
+4	talvi_pistooli	poliisiseura
+4	tarkkuuslaukaus-festivaali	poliisiseura
+4	kivaarikilpailujen_huipennus	poliisiseura
+4	polaris-ampumaharjoitus	poliisiseura
+4	aamunkoiton_tahtays	poliisiseura
+4	nordic_sharpshooters_cup	poliisiseura
+4	taivaanranta-tulitus	poliisiseura
+4	lumivyory-ammunta	poliisiseura
+5	kesan_ampujaiset	koiraseura
+5	talvi_pistooli	koiraseura
+5	tarkkuuslaukaus-festivaali	koiraseura
+5	kivaarikilpailujen_huipennus	koiraseura
+5	polaris-ampumaharjoitus	koiraseura
+5	aamunkoiton_tahtays	koiraseura
+5	nordic_sharpshooters_cup	koiraseura
+5	taivaanranta-tulitus	koiraseura
+5	lumivyory-ammunta	koiraseura
+6	kesan_ampujaiset	koiraseura
+6	talvi_pistooli	koiraseura
+6	tarkkuuslaukaus-festivaali	koiraseura
+6	kivaarikilpailujen_huipennus	koiraseura
+6	polaris-ampumaharjoitus	koiraseura
+6	aamunkoiton_tahtays	koiraseura
+6	nordic_sharpshooters_cup	koiraseura
+6	taivaanranta-tulitus	koiraseura
+6	lumivyory-ammunta	koiraseura
+7	kesan_ampujaiset	koiraseura
+7	talvi_pistooli	koiraseura
+7	tarkkuuslaukaus-festivaali	koiraseura
+7	kivaarikilpailujen_huipennus	koiraseura
+7	polaris-ampumaharjoitus	koiraseura
+7	aamunkoiton_tahtays	koiraseura
+7	nordic_sharpshooters_cup	koiraseura
+7	taivaanranta-tulitus	koiraseura
+7	lumivyory-ammunta	koiraseura
+8	kesan_ampujaiset	koiraseura
+8	talvi_pistooli	koiraseura
+8	tarkkuuslaukaus-festivaali	koiraseura
+8	kivaarikilpailujen_huipennus	koiraseura
+8	polaris-ampumaharjoitus	koiraseura
+8	aamunkoiton_tahtays	koiraseura
+8	nordic_sharpshooters_cup	koiraseura
+8	taivaanranta-tulitus	koiraseura
+8	lumivyory-ammunta	koiraseura
+9	kesan_ampujaiset	hammaspeikkoseura
+9	talvi_pistooli	hammaspeikkoseura
+9	tarkkuuslaukaus-festivaali	hammaspeikkoseura
+9	kivaarikilpailujen_huipennus	hammaspeikkoseura
+9	polaris-ampumaharjoitus	hammaspeikkoseura
+9	aamunkoiton_tahtays	hammaspeikkoseura
+9	nordic_sharpshooters_cup	hammaspeikkoseura
+9	taivaanranta-tulitus	hammaspeikkoseura
+9	lumivyory-ammunta	hammaspeikkoseura
+10	kesan_ampujaiset	hammaspeikkoseura
+10	talvi_pistooli	hammaspeikkoseura
+10	tarkkuuslaukaus-festivaali	hammaspeikkoseura
+10	kivaarikilpailujen_huipennus	hammaspeikkoseura
+10	polaris-ampumaharjoitus	hammaspeikkoseura
+10	aamunkoiton_tahtays	hammaspeikkoseura
+10	nordic_sharpshooters_cup	hammaspeikkoseura
+10	taivaanranta-tulitus	hammaspeikkoseura
+10	lumivyory-ammunta	hammaspeikkoseura
+11	kesan_ampujaiset	hammaspeikkoseura
+11	talvi_pistooli	hammaspeikkoseura
+11	tarkkuuslaukaus-festivaali	hammaspeikkoseura
+11	kivaarikilpailujen_huipennus	hammaspeikkoseura
+11	polaris-ampumaharjoitus	hammaspeikkoseura
+11	aamunkoiton_tahtays	hammaspeikkoseura
+11	nordic_sharpshooters_cup	hammaspeikkoseura
+11	taivaanranta-tulitus	hammaspeikkoseura
+11	lumivyory-ammunta	hammaspeikkoseura
+12	kesan_ampujaiset	hammaspeikkoseura
+12	talvi_pistooli	hammaspeikkoseura
+12	tarkkuuslaukaus-festivaali	hammaspeikkoseura
+12	kivaarikilpailujen_huipennus	hammaspeikkoseura
+12	polaris-ampumaharjoitus	hammaspeikkoseura
+12	aamunkoiton_tahtays	hammaspeikkoseura
+12	nordic_sharpshooters_cup	hammaspeikkoseura
+12	taivaanranta-tulitus	hammaspeikkoseura
+12	lumivyory-ammunta	hammaspeikkoseura
+13	kesan_ampujaiset	dog
+13	talvi_pistooli	dog
+13	tarkkuuslaukaus-festivaali	dog
+13	kivaarikilpailujen_huipennus	dog
+13	polaris-ampumaharjoitus	dog
+13	aamunkoiton_tahtays	dog
+13	nordic_sharpshooters_cup	dog
+13	taivaanranta-tulitus	dog
+13	lumivyory-ammunta	dog
+14	kesan_ampujaiset	dog
+14	talvi_pistooli	dog
+14	tarkkuuslaukaus-festivaali	dog
+14	kivaarikilpailujen_huipennus	dog
+14	polaris-ampumaharjoitus	dog
+14	aamunkoiton_tahtays	dog
+14	nordic_sharpshooters_cup	dog
+14	taivaanranta-tulitus	dog
+14	lumivyory-ammunta	dog
+15	kesan_ampujaiset	dog
+15	talvi_pistooli	dog
+15	tarkkuuslaukaus-festivaali	dog
+15	kivaarikilpailujen_huipennus	dog
+15	polaris-ampumaharjoitus	dog
+15	aamunkoiton_tahtays	dog
+15	nordic_sharpshooters_cup	dog
+15	taivaanranta-tulitus	dog
+15	lumivyory-ammunta	dog
+16	kesan_ampujaiset	dog
+16	talvi_pistooli	dog
+16	tarkkuuslaukaus-festivaali	dog
+16	kivaarikilpailujen_huipennus	dog
+16	polaris-ampumaharjoitus	dog
+16	aamunkoiton_tahtays	dog
+16	nordic_sharpshooters_cup	dog
+16	taivaanranta-tulitus	dog
+16	lumivyory-ammunta	dog
+17	kesan_ampujaiset	dog
+17	talvi_pistooli	dog
+17	tarkkuuslaukaus-festivaali	dog
+17	kivaarikilpailujen_huipennus	dog
+17	polaris-ampumaharjoitus	dog
+17	aamunkoiton_tahtays	dog
+17	nordic_sharpshooters_cup	dog
+17	taivaanranta-tulitus	dog
+17	lumivyory-ammunta	dog
+18	kesan_ampujaiset	savu_seura
+18	talvi_pistooli	savu_seura
+18	tarkkuuslaukaus-festivaali	savu_seura
+18	kivaarikilpailujen_huipennus	savu_seura
+18	polaris-ampumaharjoitus	savu_seura
+18	aamunkoiton_tahtays	savu_seura
+18	nordic_sharpshooters_cup	savu_seura
+18	taivaanranta-tulitus	savu_seura
+18	lumivyory-ammunta	savu_seura
+19	kesan_ampujaiset	savu_seura
+19	talvi_pistooli	savu_seura
+19	tarkkuuslaukaus-festivaali	savu_seura
+19	kivaarikilpailujen_huipennus	savu_seura
+19	polaris-ampumaharjoitus	savu_seura
+19	aamunkoiton_tahtays	savu_seura
+19	nordic_sharpshooters_cup	savu_seura
+19	taivaanranta-tulitus	savu_seura
+19	lumivyory-ammunta	savu_seura
+20	kesan_ampujaiset	savu_seura
+20	talvi_pistooli	savu_seura
+20	tarkkuuslaukaus-festivaali	savu_seura
+20	kivaarikilpailujen_huipennus	savu_seura
+20	polaris-ampumaharjoitus	savu_seura
+20	aamunkoiton_tahtays	savu_seura
+20	nordic_sharpshooters_cup	savu_seura
+20	taivaanranta-tulitus	savu_seura
+20	lumivyory-ammunta	savu_seura
+21	kesan_ampujaiset	savu_seura
+21	talvi_pistooli	savu_seura
+21	tarkkuuslaukaus-festivaali	savu_seura
+21	kivaarikilpailujen_huipennus	savu_seura
+21	polaris-ampumaharjoitus	savu_seura
+21	aamunkoiton_tahtays	savu_seura
+21	nordic_sharpshooters_cup	savu_seura
+21	taivaanranta-tulitus	savu_seura
+21	lumivyory-ammunta	savu_seura
+22	kesan_ampujaiset	omas
+22	talvi_pistooli	omas
+22	tarkkuuslaukaus-festivaali	omas
+22	kivaarikilpailujen_huipennus	omas
+22	polaris-ampumaharjoitus	omas
+22	aamunkoiton_tahtays	omas
+22	nordic_sharpshooters_cup	omas
+22	taivaanranta-tulitus	omas
+22	lumivyory-ammunta	omas
+23	kesan_ampujaiset	omas
+23	talvi_pistooli	omas
+23	tarkkuuslaukaus-festivaali	omas
+23	kivaarikilpailujen_huipennus	omas
+23	polaris-ampumaharjoitus	omas
+23	aamunkoiton_tahtays	omas
+23	nordic_sharpshooters_cup	omas
+23	taivaanranta-tulitus	omas
+23	lumivyory-ammunta	omas
+24	kesan_ampujaiset	omas
+24	talvi_pistooli	omas
+24	tarkkuuslaukaus-festivaali	omas
+24	kivaarikilpailujen_huipennus	omas
+24	polaris-ampumaharjoitus	omas
+24	aamunkoiton_tahtays	omas
+24	nordic_sharpshooters_cup	omas
+24	taivaanranta-tulitus	omas
+24	lumivyory-ammunta	omas
+25	kesan_ampujaiset	omas
+25	talvi_pistooli	omas
+25	tarkkuuslaukaus-festivaali	omas
+25	kivaarikilpailujen_huipennus	omas
+25	polaris-ampumaharjoitus	omas
+25	aamunkoiton_tahtays	omas
+25	nordic_sharpshooters_cup	omas
+25	taivaanranta-tulitus	omas
+25	lumivyory-ammunta	omas
+26	kesan_ampujaiset	omas
+26	talvi_pistooli	omas
+26	tarkkuuslaukaus-festivaali	omas
+26	kivaarikilpailujen_huipennus	omas
+26	polaris-ampumaharjoitus	omas
+26	aamunkoiton_tahtays	omas
+26	nordic_sharpshooters_cup	omas
+26	taivaanranta-tulitus	omas
+26	lumivyory-ammunta	omas
+27	kesan_ampujaiset	pelleseura
+27	talvi_pistooli	pelleseura
+27	tarkkuuslaukaus-festivaali	pelleseura
+27	kivaarikilpailujen_huipennus	pelleseura
+27	polaris-ampumaharjoitus	pelleseura
+27	aamunkoiton_tahtays	pelleseura
+27	nordic_sharpshooters_cup	pelleseura
+27	taivaanranta-tulitus	pelleseura
+27	lumivyory-ammunta	pelleseura
+28	kesan_ampujaiset	pelleseura
+28	talvi_pistooli	pelleseura
+28	tarkkuuslaukaus-festivaali	pelleseura
+28	kivaarikilpailujen_huipennus	pelleseura
+28	polaris-ampumaharjoitus	pelleseura
+28	aamunkoiton_tahtays	pelleseura
+28	nordic_sharpshooters_cup	pelleseura
+28	taivaanranta-tulitus	pelleseura
+28	lumivyory-ammunta	pelleseura
+29	kesan_ampujaiset	pelleseura
+29	talvi_pistooli	pelleseura
+29	tarkkuuslaukaus-festivaali	pelleseura
+29	kivaarikilpailujen_huipennus	pelleseura
+29	polaris-ampumaharjoitus	pelleseura
+29	aamunkoiton_tahtays	pelleseura
+29	nordic_sharpshooters_cup	pelleseura
+29	taivaanranta-tulitus	pelleseura
+29	lumivyory-ammunta	pelleseura
+30	kesan_ampujaiset	pelleseura
+30	talvi_pistooli	pelleseura
+30	tarkkuuslaukaus-festivaali	pelleseura
+30	kivaarikilpailujen_huipennus	pelleseura
+30	polaris-ampumaharjoitus	pelleseura
+30	aamunkoiton_tahtays	pelleseura
+30	nordic_sharpshooters_cup	pelleseura
+30	taivaanranta-tulitus	pelleseura
+30	lumivyory-ammunta	pelleseura
+31	kesan_ampujaiset	pelleseura
+31	talvi_pistooli	pelleseura
+31	tarkkuuslaukaus-festivaali	pelleseura
+31	kivaarikilpailujen_huipennus	pelleseura
+31	polaris-ampumaharjoitus	pelleseura
+31	aamunkoiton_tahtays	pelleseura
+31	nordic_sharpshooters_cup	pelleseura
+31	taivaanranta-tulitus	pelleseura
+31	lumivyory-ammunta	pelleseura
+32	kesan_ampujaiset	yung_tallent
+32	talvi_pistooli	yung_tallent
+32	tarkkuuslaukaus-festivaali	yung_tallent
+32	kivaarikilpailujen_huipennus	yung_tallent
+32	polaris-ampumaharjoitus	yung_tallent
+32	aamunkoiton_tahtays	yung_tallent
+32	nordic_sharpshooters_cup	yung_tallent
+32	taivaanranta-tulitus	yung_tallent
+32	lumivyory-ammunta	yung_tallent
+33	kesan_ampujaiset	yung_tallent
+33	talvi_pistooli	yung_tallent
+33	tarkkuuslaukaus-festivaali	yung_tallent
+33	kivaarikilpailujen_huipennus	yung_tallent
+33	polaris-ampumaharjoitus	yung_tallent
+33	aamunkoiton_tahtays	yung_tallent
+33	nordic_sharpshooters_cup	yung_tallent
+33	taivaanranta-tulitus	yung_tallent
+33	lumivyory-ammunta	yung_tallent
+34	kesan_ampujaiset	yung_tallent
+34	talvi_pistooli	yung_tallent
+34	tarkkuuslaukaus-festivaali	yung_tallent
+34	kivaarikilpailujen_huipennus	yung_tallent
+34	polaris-ampumaharjoitus	yung_tallent
+34	aamunkoiton_tahtays	yung_tallent
+34	nordic_sharpshooters_cup	yung_tallent
+34	taivaanranta-tulitus	yung_tallent
+34	lumivyory-ammunta	yung_tallent
+35	kesan_ampujaiset	yung_tallent
+35	talvi_pistooli	yung_tallent
+35	tarkkuuslaukaus-festivaali	yung_tallent
+35	kivaarikilpailujen_huipennus	yung_tallent
+35	polaris-ampumaharjoitus	yung_tallent
+35	aamunkoiton_tahtays	yung_tallent
+35	nordic_sharpshooters_cup	yung_tallent
+35	taivaanranta-tulitus	yung_tallent
+35	lumivyory-ammunta	yung_tallent
+36	kesan_ampujaiset	aseharrastajien_yhtenaisyys
+36	talvi_pistooli	aseharrastajien_yhtenaisyys
+36	tarkkuuslaukaus-festivaali	aseharrastajien_yhtenaisyys
+36	kivaarikilpailujen_huipennus	aseharrastajien_yhtenaisyys
+36	polaris-ampumaharjoitus	aseharrastajien_yhtenaisyys
+36	aamunkoiton_tahtays	aseharrastajien_yhtenaisyys
+36	nordic_sharpshooters_cup	aseharrastajien_yhtenaisyys
+36	taivaanranta-tulitus	aseharrastajien_yhtenaisyys
+36	lumivyory-ammunta	aseharrastajien_yhtenaisyys
+37	kesan_ampujaiset	aseharrastajien_yhtenaisyys
+37	talvi_pistooli	aseharrastajien_yhtenaisyys
+37	tarkkuuslaukaus-festivaali	aseharrastajien_yhtenaisyys
+37	kivaarikilpailujen_huipennus	aseharrastajien_yhtenaisyys
+37	polaris-ampumaharjoitus	aseharrastajien_yhtenaisyys
+37	aamunkoiton_tahtays	aseharrastajien_yhtenaisyys
+37	nordic_sharpshooters_cup	aseharrastajien_yhtenaisyys
+37	taivaanranta-tulitus	aseharrastajien_yhtenaisyys
+37	lumivyory-ammunta	aseharrastajien_yhtenaisyys
+38	kesan_ampujaiset	aseharrastajien_yhtenaisyys
+38	talvi_pistooli	aseharrastajien_yhtenaisyys
+38	tarkkuuslaukaus-festivaali	aseharrastajien_yhtenaisyys
+38	kivaarikilpailujen_huipennus	aseharrastajien_yhtenaisyys
+38	polaris-ampumaharjoitus	aseharrastajien_yhtenaisyys
+38	aamunkoiton_tahtays	aseharrastajien_yhtenaisyys
+38	nordic_sharpshooters_cup	aseharrastajien_yhtenaisyys
+38	taivaanranta-tulitus	aseharrastajien_yhtenaisyys
+38	lumivyory-ammunta	aseharrastajien_yhtenaisyys
+39	kesan_ampujaiset	aseharrastajien_yhtenaisyys
+39	talvi_pistooli	aseharrastajien_yhtenaisyys
+39	tarkkuuslaukaus-festivaali	aseharrastajien_yhtenaisyys
+39	kivaarikilpailujen_huipennus	aseharrastajien_yhtenaisyys
+39	polaris-ampumaharjoitus	aseharrastajien_yhtenaisyys
+39	aamunkoiton_tahtays	aseharrastajien_yhtenaisyys
+39	nordic_sharpshooters_cup	aseharrastajien_yhtenaisyys
+39	taivaanranta-tulitus	aseharrastajien_yhtenaisyys
+39	lumivyory-ammunta	aseharrastajien_yhtenaisyys
+40	kesan_ampujaiset	aseharrastajien_yhtenaisyys
+40	talvi_pistooli	aseharrastajien_yhtenaisyys
+40	tarkkuuslaukaus-festivaali	aseharrastajien_yhtenaisyys
+40	kivaarikilpailujen_huipennus	aseharrastajien_yhtenaisyys
+40	polaris-ampumaharjoitus	aseharrastajien_yhtenaisyys
+40	aamunkoiton_tahtays	aseharrastajien_yhtenaisyys
+40	nordic_sharpshooters_cup	aseharrastajien_yhtenaisyys
+40	taivaanranta-tulitus	aseharrastajien_yhtenaisyys
+40	lumivyory-ammunta	aseharrastajien_yhtenaisyys
+41	kesan_ampujaiset	tahtaysmestarit
+41	talvi_pistooli	tahtaysmestarit
+41	tarkkuuslaukaus-festivaali	tahtaysmestarit
+41	kivaarikilpailujen_huipennus	tahtaysmestarit
+41	polaris-ampumaharjoitus	tahtaysmestarit
+41	aamunkoiton_tahtays	tahtaysmestarit
+41	nordic_sharpshooters_cup	tahtaysmestarit
+41	taivaanranta-tulitus	tahtaysmestarit
+41	lumivyory-ammunta	tahtaysmestarit
+42	kesan_ampujaiset	tahtaysmestarit
+42	talvi_pistooli	tahtaysmestarit
+42	tarkkuuslaukaus-festivaali	tahtaysmestarit
+42	kivaarikilpailujen_huipennus	tahtaysmestarit
+42	polaris-ampumaharjoitus	tahtaysmestarit
+42	aamunkoiton_tahtays	tahtaysmestarit
+42	nordic_sharpshooters_cup	tahtaysmestarit
+42	taivaanranta-tulitus	tahtaysmestarit
+42	lumivyory-ammunta	tahtaysmestarit
+43	kesan_ampujaiset	tahtaysmestarit
+43	talvi_pistooli	tahtaysmestarit
+43	tarkkuuslaukaus-festivaali	tahtaysmestarit
+43	kivaarikilpailujen_huipennus	tahtaysmestarit
+43	polaris-ampumaharjoitus	tahtaysmestarit
+43	aamunkoiton_tahtays	tahtaysmestarit
+43	nordic_sharpshooters_cup	tahtaysmestarit
+43	taivaanranta-tulitus	tahtaysmestarit
+43	lumivyory-ammunta	tahtaysmestarit
+44	kesan_ampujaiset	laukausryhma_aurora
+44	talvi_pistooli	laukausryhma_aurora
+44	tarkkuuslaukaus-festivaali	laukausryhma_aurora
+44	kivaarikilpailujen_huipennus	laukausryhma_aurora
+44	polaris-ampumaharjoitus	laukausryhma_aurora
+44	aamunkoiton_tahtays	laukausryhma_aurora
+44	nordic_sharpshooters_cup	laukausryhma_aurora
+44	taivaanranta-tulitus	laukausryhma_aurora
+44	lumivyory-ammunta	laukausryhma_aurora
+45	kesan_ampujaiset	laukausryhma_aurora
+45	talvi_pistooli	laukausryhma_aurora
+45	tarkkuuslaukaus-festivaali	laukausryhma_aurora
+45	kivaarikilpailujen_huipennus	laukausryhma_aurora
+45	polaris-ampumaharjoitus	laukausryhma_aurora
+45	aamunkoiton_tahtays	laukausryhma_aurora
+45	nordic_sharpshooters_cup	laukausryhma_aurora
+45	taivaanranta-tulitus	laukausryhma_aurora
+45	lumivyory-ammunta	laukausryhma_aurora
+46	kesan_ampujaiset	laukausryhma_aurora
+46	talvi_pistooli	laukausryhma_aurora
+46	tarkkuuslaukaus-festivaali	laukausryhma_aurora
+46	kivaarikilpailujen_huipennus	laukausryhma_aurora
+46	polaris-ampumaharjoitus	laukausryhma_aurora
+46	aamunkoiton_tahtays	laukausryhma_aurora
+46	nordic_sharpshooters_cup	laukausryhma_aurora
+46	taivaanranta-tulitus	laukausryhma_aurora
+46	lumivyory-ammunta	laukausryhma_aurora
+47	kesan_ampujaiset	laukausryhma_aurora
+47	talvi_pistooli	laukausryhma_aurora
+47	tarkkuuslaukaus-festivaali	laukausryhma_aurora
+47	kivaarikilpailujen_huipennus	laukausryhma_aurora
+47	polaris-ampumaharjoitus	laukausryhma_aurora
+47	aamunkoiton_tahtays	laukausryhma_aurora
+47	nordic_sharpshooters_cup	laukausryhma_aurora
+47	taivaanranta-tulitus	laukausryhma_aurora
+47	lumivyory-ammunta	laukausryhma_aurora
+48	kesan_ampujaiset	laukausryhma_aurora
+48	talvi_pistooli	laukausryhma_aurora
+48	tarkkuuslaukaus-festivaali	laukausryhma_aurora
+48	kivaarikilpailujen_huipennus	laukausryhma_aurora
+48	polaris-ampumaharjoitus	laukausryhma_aurora
+48	aamunkoiton_tahtays	laukausryhma_aurora
+48	nordic_sharpshooters_cup	laukausryhma_aurora
+48	taivaanranta-tulitus	laukausryhma_aurora
+48	lumivyory-ammunta	laukausryhma_aurora
+49	kesan_ampujaiset	ampumataito
+49	talvi_pistooli	ampumataito
+49	tarkkuuslaukaus-festivaali	ampumataito
+49	kivaarikilpailujen_huipennus	ampumataito
+49	polaris-ampumaharjoitus	ampumataito
+49	aamunkoiton_tahtays	ampumataito
+49	nordic_sharpshooters_cup	ampumataito
+49	taivaanranta-tulitus	ampumataito
+49	lumivyory-ammunta	ampumataito
+50	kesan_ampujaiset	ampumataito
+50	talvi_pistooli	ampumataito
+50	tarkkuuslaukaus-festivaali	ampumataito
+50	kivaarikilpailujen_huipennus	ampumataito
+50	polaris-ampumaharjoitus	ampumataito
+50	aamunkoiton_tahtays	ampumataito
+50	nordic_sharpshooters_cup	ampumataito
+50	taivaanranta-tulitus	ampumataito
+50	lumivyory-ammunta	ampumataito
+51	kesan_ampujaiset	ampumataito
+51	talvi_pistooli	ampumataito
+51	tarkkuuslaukaus-festivaali	ampumataito
+51	kivaarikilpailujen_huipennus	ampumataito
+51	polaris-ampumaharjoitus	ampumataito
+51	aamunkoiton_tahtays	ampumataito
+51	nordic_sharpshooters_cup	ampumataito
+51	taivaanranta-tulitus	ampumataito
+51	lumivyory-ammunta	ampumataito
+52	kesan_ampujaiset	ampumataito
+52	talvi_pistooli	ampumataito
+52	tarkkuuslaukaus-festivaali	ampumataito
+52	kivaarikilpailujen_huipennus	ampumataito
+52	polaris-ampumaharjoitus	ampumataito
+52	aamunkoiton_tahtays	ampumataito
+52	nordic_sharpshooters_cup	ampumataito
+52	taivaanranta-tulitus	ampumataito
+52	lumivyory-ammunta	ampumataito
+53	kesan_ampujaiset	ampumataito
+53	talvi_pistooli	ampumataito
+53	tarkkuuslaukaus-festivaali	ampumataito
+53	kivaarikilpailujen_huipennus	ampumataito
+53	polaris-ampumaharjoitus	ampumataito
+53	aamunkoiton_tahtays	ampumataito
+53	nordic_sharpshooters_cup	ampumataito
+53	taivaanranta-tulitus	ampumataito
+53	lumivyory-ammunta	ampumataito
 \.
 
 
@@ -1473,946 +1593,1066 @@ COPY public.team_member (user_id, competition_id, team_name) FROM stdin;
 --
 
 COPY public.team_member_score (bulls_eye_count, creation_date, sum, user_id, competition_id, team_name) FROM stdin;
-10	2024-04-17	363.41014236175994	2	Tarkka-ammunta_Cup	Poliisiseura
-10	2024-04-17	321.69792308104286	2	Nopean_laukauksen_mestaruus	Poliisiseura
-10	2024-04-17	351.56479272552684	2	Moniottelu	Poliisiseura
-10	2024-04-17	332.3317075002108	2	Kansallinen_tahtayskilpailu	Poliisiseura
-10	2024-04-17	293.43625440548084	2	Kaupunkiammunta-challenge	Poliisiseura
-10	2024-04-17	362.26173083121273	2	Laukausmaraton	Poliisiseura
-10	2024-04-17	288.44049059400527	2	Vapaa-asekilpailu	Poliisiseura
-10	2024-04-17	337.0693834080598	2	Taitoluodikko-turnaus	Poliisiseura
-10	2024-04-17	315.4134970904193	2	Precision_Pistol_Cup	Poliisiseura
-10	2024-04-17	269.7752453748767	2	Tulevaisuuden_Ampuja	Poliisiseura
-10	2024-04-17	361.6721450650425	2	Pikakivaari-klassikko	Poliisiseura
-10	2024-04-17	276.5847325205541	3	Tarkka-ammunta_Cup	Poliisiseura
-10	2024-04-17	321.64383867559803	3	Nopean_laukauksen_mestaruus	Poliisiseura
-10	2024-04-17	304.1258784742152	3	Moniottelu	Poliisiseura
-10	2024-04-17	319.13201282239254	3	Kansallinen_tahtayskilpailu	Poliisiseura
-10	2024-04-17	313.9871062698231	3	Kaupunkiammunta-challenge	Poliisiseura
-10	2024-04-17	351.4483160754454	3	Laukausmaraton	Poliisiseura
-10	2024-04-17	315.30138711986393	3	Vapaa-asekilpailu	Poliisiseura
-10	2024-04-17	346.1848950232469	3	Taitoluodikko-turnaus	Poliisiseura
-10	2024-04-17	324.2244140133291	3	Precision_Pistol_Cup	Poliisiseura
-10	2024-04-17	345.71418300701026	3	Tulevaisuuden_Ampuja	Poliisiseura
-10	2024-04-17	301.30724032385643	3	Pikakivaari-klassikko	Poliisiseura
-10	2024-04-17	388.7847710026959	4	Tarkka-ammunta_Cup	Poliisiseura
-10	2024-04-17	299.3202221301433	4	Nopean_laukauksen_mestaruus	Poliisiseura
-10	2024-04-17	283.3555810228573	4	Moniottelu	Poliisiseura
-10	2024-04-17	338.0637014520635	4	Kansallinen_tahtayskilpailu	Poliisiseura
-10	2024-04-17	366.1728726001856	4	Kaupunkiammunta-challenge	Poliisiseura
-10	2024-04-17	304.9961537303509	4	Laukausmaraton	Poliisiseura
-10	2024-04-17	327.8000756984385	4	Vapaa-asekilpailu	Poliisiseura
-10	2024-04-17	323.5361356069312	4	Taitoluodikko-turnaus	Poliisiseura
-10	2024-04-17	303.1410421601207	4	Precision_Pistol_Cup	Poliisiseura
-10	2024-04-17	327.59630778014497	4	Tulevaisuuden_Ampuja	Poliisiseura
-10	2024-04-17	343.372100895096	4	Pikakivaari-klassikko	Poliisiseura
-10	2024-04-17	317.28860982133784	5	Tarkka-ammunta_Cup	Koiraseura
-10	2024-04-17	337.46520134428306	5	Nopean_laukauksen_mestaruus	Koiraseura
-10	2024-04-17	335.30310280315996	5	Moniottelu	Koiraseura
-10	2024-04-17	298.78173523675247	5	Kansallinen_tahtayskilpailu	Koiraseura
-10	2024-04-17	342.02846993390875	5	Kaupunkiammunta-challenge	Koiraseura
-10	2024-04-17	300.7917492515107	5	Laukausmaraton	Koiraseura
-10	2024-04-17	329.85526416326377	5	Vapaa-asekilpailu	Koiraseura
-10	2024-04-17	293.1899127622272	5	Taitoluodikko-turnaus	Koiraseura
-10	2024-04-17	343.9189096204457	5	Precision_Pistol_Cup	Koiraseura
-10	2024-04-17	320.5320696318082	5	Tulevaisuuden_Ampuja	Koiraseura
-10	2024-04-17	326.02726243934643	5	Pikakivaari-klassikko	Koiraseura
-10	2024-04-17	323.6014583771661	6	Tarkka-ammunta_Cup	Koiraseura
-10	2024-04-17	343.3191615957152	6	Nopean_laukauksen_mestaruus	Koiraseura
-10	2024-04-17	362.49834521176194	6	Moniottelu	Koiraseura
-10	2024-04-17	329.9145365676819	6	Kansallinen_tahtayskilpailu	Koiraseura
-10	2024-04-17	293.1639257188614	6	Kaupunkiammunta-challenge	Koiraseura
-10	2024-04-17	300.58019290379843	6	Laukausmaraton	Koiraseura
-10	2024-04-17	304.03430922054974	6	Vapaa-asekilpailu	Koiraseura
-10	2024-04-17	260.24122776775647	6	Taitoluodikko-turnaus	Koiraseura
-10	2024-04-17	322.3401799482685	6	Precision_Pistol_Cup	Koiraseura
-10	2024-04-17	309.7580133836471	6	Tulevaisuuden_Ampuja	Koiraseura
-10	2024-04-17	356.3874550570732	6	Pikakivaari-klassikko	Koiraseura
-10	2024-04-17	333.83224008908206	7	Tarkka-ammunta_Cup	Koiraseura
-10	2024-04-17	307.87130204058707	7	Nopean_laukauksen_mestaruus	Koiraseura
-10	2024-04-17	321.9612910706206	7	Moniottelu	Koiraseura
-10	2024-04-17	370.93813992070136	7	Kansallinen_tahtayskilpailu	Koiraseura
-10	2024-04-17	291.35288200516175	7	Kaupunkiammunta-challenge	Koiraseura
-10	2024-04-17	345.7845406574137	7	Laukausmaraton	Koiraseura
-10	2024-04-17	337.78035208890753	7	Vapaa-asekilpailu	Koiraseura
-10	2024-04-17	340.18293209442817	7	Taitoluodikko-turnaus	Koiraseura
-10	2024-04-17	369.3016390606673	7	Precision_Pistol_Cup	Koiraseura
-10	2024-04-17	324.03109667005384	7	Tulevaisuuden_Ampuja	Koiraseura
-10	2024-04-17	317.89050739253065	7	Pikakivaari-klassikko	Koiraseura
-10	2024-04-17	321.7218248662985	8	Tarkka-ammunta_Cup	Koiraseura
-10	2024-04-17	333.3743604844556	8	Nopean_laukauksen_mestaruus	Koiraseura
-10	2024-04-17	311.8414775430718	8	Moniottelu	Koiraseura
-10	2024-04-17	337.29687344210436	8	Kansallinen_tahtayskilpailu	Koiraseura
-10	2024-04-17	337.9588727128265	8	Kaupunkiammunta-challenge	Koiraseura
-10	2024-04-17	339.05695358799295	8	Laukausmaraton	Koiraseura
-10	2024-04-17	277.81466565454883	8	Vapaa-asekilpailu	Koiraseura
-10	2024-04-17	349.5949653448016	8	Taitoluodikko-turnaus	Koiraseura
-10	2024-04-17	326.8395618975207	8	Precision_Pistol_Cup	Koiraseura
-10	2024-04-17	367.7772316434848	8	Tulevaisuuden_Ampuja	Koiraseura
-10	2024-04-17	318.48393898409506	8	Pikakivaari-klassikko	Koiraseura
-10	2024-04-17	308.28198800426765	9	Tarkka-ammunta_Cup	Koiraseura
-10	2024-04-17	327.31028919424995	9	Nopean_laukauksen_mestaruus	Koiraseura
-10	2024-04-17	307.5915317275629	9	Moniottelu	Koiraseura
-10	2024-04-17	336.2529757709198	9	Kansallinen_tahtayskilpailu	Koiraseura
-10	2024-04-17	340.91775357716557	9	Kaupunkiammunta-challenge	Koiraseura
-10	2024-04-17	369.6577121882074	9	Laukausmaraton	Koiraseura
-10	2024-04-17	314.556157791757	9	Vapaa-asekilpailu	Koiraseura
-10	2024-04-17	345.6504307279337	9	Taitoluodikko-turnaus	Koiraseura
-10	2024-04-17	295.3730650422106	9	Precision_Pistol_Cup	Koiraseura
-10	2024-04-17	332.2599930262883	9	Tulevaisuuden_Ampuja	Koiraseura
-10	2024-04-17	322.7339682102719	9	Pikakivaari-klassikko	Koiraseura
-10	2024-04-17	313.92334802829356	10	Tarkka-ammunta_Cup	Hammaspeikkoseura
-10	2024-04-17	314.25113811724566	10	Nopean_laukauksen_mestaruus	Hammaspeikkoseura
-10	2024-04-17	320.1804502324923	10	Moniottelu	Hammaspeikkoseura
-10	2024-04-17	319.84572077737124	10	Kansallinen_tahtayskilpailu	Hammaspeikkoseura
-10	2024-04-17	365.1531589766012	10	Kaupunkiammunta-challenge	Hammaspeikkoseura
-10	2024-04-17	264.05160416858234	10	Laukausmaraton	Hammaspeikkoseura
-10	2024-04-17	325.1095952871726	10	Vapaa-asekilpailu	Hammaspeikkoseura
-10	2024-04-17	342.3743673921464	10	Taitoluodikko-turnaus	Hammaspeikkoseura
-10	2024-04-17	312.9582923714789	10	Precision_Pistol_Cup	Hammaspeikkoseura
-10	2024-04-17	331.02375832848156	10	Tulevaisuuden_Ampuja	Hammaspeikkoseura
-10	2024-04-17	338.4265326877292	10	Pikakivaari-klassikko	Hammaspeikkoseura
-10	2024-04-17	357.1760936610209	11	Tarkka-ammunta_Cup	Hammaspeikkoseura
-10	2024-04-17	285.39175774223827	11	Nopean_laukauksen_mestaruus	Hammaspeikkoseura
-10	2024-04-17	307.8092194622255	11	Moniottelu	Hammaspeikkoseura
-10	2024-04-17	358.93290755168175	11	Kansallinen_tahtayskilpailu	Hammaspeikkoseura
-10	2024-04-17	309.4790178584068	11	Kaupunkiammunta-challenge	Hammaspeikkoseura
-10	2024-04-17	316.7001297844039	11	Laukausmaraton	Hammaspeikkoseura
-10	2024-04-17	347.6133145465406	11	Vapaa-asekilpailu	Hammaspeikkoseura
-10	2024-04-17	319.4877263043283	11	Taitoluodikko-turnaus	Hammaspeikkoseura
-10	2024-04-17	296.00680229625254	11	Precision_Pistol_Cup	Hammaspeikkoseura
-10	2024-04-17	296.12393857610516	11	Tulevaisuuden_Ampuja	Hammaspeikkoseura
-10	2024-04-17	306.2857551197267	11	Pikakivaari-klassikko	Hammaspeikkoseura
-10	2024-04-17	327.7619818546748	12	Tarkka-ammunta_Cup	Hammaspeikkoseura
-10	2024-04-17	306.4546990282173	12	Nopean_laukauksen_mestaruus	Hammaspeikkoseura
-10	2024-04-17	297.9726598822134	12	Moniottelu	Hammaspeikkoseura
-10	2024-04-17	367.330487780863	12	Kansallinen_tahtayskilpailu	Hammaspeikkoseura
-10	2024-04-17	363.4616341570999	12	Kaupunkiammunta-challenge	Hammaspeikkoseura
-10	2024-04-17	320.7190426513173	12	Laukausmaraton	Hammaspeikkoseura
-10	2024-04-17	317.9798376001622	12	Vapaa-asekilpailu	Hammaspeikkoseura
-10	2024-04-17	307.5922997389656	12	Taitoluodikko-turnaus	Hammaspeikkoseura
-10	2024-04-17	330.28781366108507	12	Precision_Pistol_Cup	Hammaspeikkoseura
-10	2024-04-17	325.5489214912161	12	Tulevaisuuden_Ampuja	Hammaspeikkoseura
-10	2024-04-17	336.04328110755824	12	Pikakivaari-klassikko	Hammaspeikkoseura
-10	2024-04-17	356.583043328966	13	Tarkka-ammunta_Cup	Hammaspeikkoseura
-10	2024-04-17	366.49722994857956	13	Nopean_laukauksen_mestaruus	Hammaspeikkoseura
-10	2024-04-17	363.70238089432934	13	Moniottelu	Hammaspeikkoseura
-10	2024-04-17	339.9294317965279	13	Kansallinen_tahtayskilpailu	Hammaspeikkoseura
-10	2024-04-17	297.85014120240135	13	Kaupunkiammunta-challenge	Hammaspeikkoseura
-10	2024-04-17	334.8590617820913	13	Laukausmaraton	Hammaspeikkoseura
-10	2024-04-17	309.5656338776729	13	Vapaa-asekilpailu	Hammaspeikkoseura
-10	2024-04-17	299.81944221870526	13	Taitoluodikko-turnaus	Hammaspeikkoseura
-10	2024-04-17	347.79955543038824	13	Precision_Pistol_Cup	Hammaspeikkoseura
-10	2024-04-17	341.12671030650034	13	Tulevaisuuden_Ampuja	Hammaspeikkoseura
-10	2024-04-17	324.1319500765102	13	Pikakivaari-klassikko	Hammaspeikkoseura
-10	2024-04-17	335.9231525632662	14	Tarkka-ammunta_Cup	Hammaspeikkoseura
-10	2024-04-17	299.165359257124	14	Nopean_laukauksen_mestaruus	Hammaspeikkoseura
-10	2024-04-17	335.46395011706426	14	Moniottelu	Hammaspeikkoseura
-10	2024-04-17	344.1686768100197	14	Kansallinen_tahtayskilpailu	Hammaspeikkoseura
-10	2024-04-17	294.2783231570573	14	Kaupunkiammunta-challenge	Hammaspeikkoseura
-10	2024-04-17	371.2424889134418	14	Laukausmaraton	Hammaspeikkoseura
-10	2024-04-17	409.0452915094738	14	Vapaa-asekilpailu	Hammaspeikkoseura
-10	2024-04-17	316.49538792482053	14	Taitoluodikko-turnaus	Hammaspeikkoseura
-10	2024-04-17	337.5326181458418	14	Precision_Pistol_Cup	Hammaspeikkoseura
-10	2024-04-17	365.72605065512386	14	Tulevaisuuden_Ampuja	Hammaspeikkoseura
-10	2024-04-17	350.25322248572235	14	Pikakivaari-klassikko	Hammaspeikkoseura
-10	2024-04-17	392.6905532233648	15	Tarkka-ammunta_Cup	dog
-10	2024-04-17	330.8464411782549	15	Nopean_laukauksen_mestaruus	dog
-10	2024-04-17	333.4135005228962	15	Moniottelu	dog
-10	2024-04-17	326.0588342982079	15	Kansallinen_tahtayskilpailu	dog
-10	2024-04-17	320.3911865881305	15	Kaupunkiammunta-challenge	dog
-10	2024-04-17	303.16886227033103	15	Laukausmaraton	dog
-10	2024-04-17	330.47398570655156	15	Vapaa-asekilpailu	dog
-10	2024-04-17	393.66188531338673	15	Taitoluodikko-turnaus	dog
-10	2024-04-17	316.0352378641719	15	Precision_Pistol_Cup	dog
-10	2024-04-17	296.4438469477914	15	Tulevaisuuden_Ampuja	dog
-10	2024-04-17	371.4084213715414	15	Pikakivaari-klassikko	dog
-10	2024-04-17	291.98952853165974	16	Tarkka-ammunta_Cup	dog
-10	2024-04-17	333.3964842916553	16	Nopean_laukauksen_mestaruus	dog
-10	2024-04-17	336.56431013476873	16	Moniottelu	dog
-10	2024-04-17	351.2519471894711	16	Kansallinen_tahtayskilpailu	dog
-10	2024-04-17	333.8692066789486	16	Kaupunkiammunta-challenge	dog
-10	2024-04-17	366.72958487054524	16	Laukausmaraton	dog
-10	2024-04-17	345.37336905336787	16	Vapaa-asekilpailu	dog
-10	2024-04-17	340.3378843874163	16	Taitoluodikko-turnaus	dog
-10	2024-04-17	311.12069393540037	16	Precision_Pistol_Cup	dog
-10	2024-04-17	352.01065676858514	16	Tulevaisuuden_Ampuja	dog
-10	2024-04-17	344.91424417375003	16	Pikakivaari-klassikko	dog
-10	2024-04-17	333.7788968085131	17	Tarkka-ammunta_Cup	dog
-10	2024-04-17	299.44321961712757	17	Nopean_laukauksen_mestaruus	dog
-10	2024-04-17	313.37081897338845	17	Moniottelu	dog
-10	2024-04-17	366.73967285271925	17	Kansallinen_tahtayskilpailu	dog
-10	2024-04-17	340.760386771699	17	Kaupunkiammunta-challenge	dog
-10	2024-04-17	318.8435841856961	17	Laukausmaraton	dog
-10	2024-04-17	312.5716439849019	17	Vapaa-asekilpailu	dog
-10	2024-04-17	299.9869907664926	17	Taitoluodikko-turnaus	dog
-10	2024-04-17	336.9530710772219	17	Precision_Pistol_Cup	dog
-10	2024-04-17	286.61915423689135	17	Tulevaisuuden_Ampuja	dog
-10	2024-04-17	329.6736723411452	17	Pikakivaari-klassikko	dog
-10	2024-04-17	306.8864992975051	18	Tarkka-ammunta_Cup	dog
-10	2024-04-17	349.4696153685212	18	Nopean_laukauksen_mestaruus	dog
-10	2024-04-17	309.1535832158106	18	Moniottelu	dog
-10	2024-04-17	304.2480966167165	18	Kansallinen_tahtayskilpailu	dog
-10	2024-04-17	322.4387500239618	18	Kaupunkiammunta-challenge	dog
-10	2024-04-17	298.42879626626365	18	Laukausmaraton	dog
-10	2024-04-17	310.7012615718887	18	Vapaa-asekilpailu	dog
-10	2024-04-17	345.71629224704577	18	Taitoluodikko-turnaus	dog
-10	2024-04-17	316.3392194285615	18	Precision_Pistol_Cup	dog
-10	2024-04-17	309.0784846058156	18	Tulevaisuuden_Ampuja	dog
-10	2024-04-17	359.63515861743974	18	Pikakivaari-klassikko	dog
-10	2024-04-17	297.8140454499151	19	Tarkka-ammunta_Cup	Savu_Seura
-10	2024-04-17	303.49295508275145	19	Nopean_laukauksen_mestaruus	Savu_Seura
-10	2024-04-17	325.7963591165167	19	Moniottelu	Savu_Seura
-10	2024-04-17	337.0911997524053	19	Kansallinen_tahtayskilpailu	Savu_Seura
-10	2024-04-17	312.74057891546187	19	Kaupunkiammunta-challenge	Savu_Seura
-10	2024-04-17	269.8275098567018	19	Laukausmaraton	Savu_Seura
-10	2024-04-17	358.4008302838614	19	Vapaa-asekilpailu	Savu_Seura
-10	2024-04-17	332.46636884558063	19	Taitoluodikko-turnaus	Savu_Seura
-10	2024-04-17	345.2047694771194	19	Precision_Pistol_Cup	Savu_Seura
-10	2024-04-17	320.01371384059104	19	Tulevaisuuden_Ampuja	Savu_Seura
-10	2024-04-17	312.00562328484915	19	Pikakivaari-klassikko	Savu_Seura
-10	2024-04-17	377.96297060136845	20	Tarkka-ammunta_Cup	Savu_Seura
-10	2024-04-17	348.9728904333953	20	Nopean_laukauksen_mestaruus	Savu_Seura
-10	2024-04-17	355.2435017328602	20	Moniottelu	Savu_Seura
-10	2024-04-17	351.24542578167984	20	Kansallinen_tahtayskilpailu	Savu_Seura
-10	2024-04-17	334.9062365532793	20	Kaupunkiammunta-challenge	Savu_Seura
-10	2024-04-17	356.41232875718373	20	Laukausmaraton	Savu_Seura
-10	2024-04-17	348.5849081357374	20	Vapaa-asekilpailu	Savu_Seura
-10	2024-04-17	324.58083476911884	20	Taitoluodikko-turnaus	Savu_Seura
-10	2024-04-17	332.4811707591585	20	Precision_Pistol_Cup	Savu_Seura
-10	2024-04-17	305.8128657628695	20	Tulevaisuuden_Ampuja	Savu_Seura
-10	2024-04-17	298.5155094572758	20	Pikakivaari-klassikko	Savu_Seura
-10	2024-04-17	332.6230715089814	21	Tarkka-ammunta_Cup	Savu_Seura
-10	2024-04-17	331.00466622465706	21	Nopean_laukauksen_mestaruus	Savu_Seura
-10	2024-04-17	334.2254161826112	21	Moniottelu	Savu_Seura
-10	2024-04-17	345.47050889703974	21	Kansallinen_tahtayskilpailu	Savu_Seura
-10	2024-04-17	343.2768231495596	21	Kaupunkiammunta-challenge	Savu_Seura
-10	2024-04-17	335.127686921272	21	Laukausmaraton	Savu_Seura
-10	2024-04-17	369.56082344263825	21	Vapaa-asekilpailu	Savu_Seura
-10	2024-04-17	367.70058717550535	21	Taitoluodikko-turnaus	Savu_Seura
-10	2024-04-17	310.6093365127272	21	Precision_Pistol_Cup	Savu_Seura
-10	2024-04-17	340.12338869609454	21	Tulevaisuuden_Ampuja	Savu_Seura
-10	2024-04-17	359.1582779176514	21	Pikakivaari-klassikko	Savu_Seura
-10	2024-04-17	371.7228820430563	22	Tarkka-ammunta_Cup	Savu_Seura
-10	2024-04-17	323.53118276651054	22	Nopean_laukauksen_mestaruus	Savu_Seura
-10	2024-04-17	349.9099427157366	22	Moniottelu	Savu_Seura
-10	2024-04-17	328.9020694734823	22	Kansallinen_tahtayskilpailu	Savu_Seura
-10	2024-04-17	284.98169216616293	22	Kaupunkiammunta-challenge	Savu_Seura
-10	2024-04-17	305.2319917115182	22	Laukausmaraton	Savu_Seura
-10	2024-04-17	330.6011235760175	22	Vapaa-asekilpailu	Savu_Seura
-10	2024-04-17	316.6576722035828	22	Taitoluodikko-turnaus	Savu_Seura
-10	2024-04-17	361.99452534496265	22	Precision_Pistol_Cup	Savu_Seura
-10	2024-04-17	285.98137945118253	22	Tulevaisuuden_Ampuja	Savu_Seura
-10	2024-04-17	342.98549638193606	22	Pikakivaari-klassikko	Savu_Seura
-10	2024-04-17	331.74956647979434	23	Tarkka-ammunta_Cup	Savu_Seura
-10	2024-04-17	342.85278186726805	23	Nopean_laukauksen_mestaruus	Savu_Seura
-10	2024-04-17	329.1079757579976	23	Moniottelu	Savu_Seura
-10	2024-04-17	310.76143643368636	23	Kansallinen_tahtayskilpailu	Savu_Seura
-10	2024-04-17	337.16872111723575	23	Kaupunkiammunta-challenge	Savu_Seura
-10	2024-04-17	348.40030146266895	23	Laukausmaraton	Savu_Seura
-10	2024-04-17	308.6983226481257	23	Vapaa-asekilpailu	Savu_Seura
-10	2024-04-17	318.94476136423714	23	Taitoluodikko-turnaus	Savu_Seura
-10	2024-04-17	306.86624369599883	23	Precision_Pistol_Cup	Savu_Seura
-10	2024-04-17	380.3711800054749	23	Tulevaisuuden_Ampuja	Savu_Seura
-10	2024-04-17	329.26778479001456	23	Pikakivaari-klassikko	Savu_Seura
-10	2024-04-17	339.3702663291668	24	Tarkka-ammunta_Cup	OMAS
-10	2024-04-17	346.3995898446871	24	Nopean_laukauksen_mestaruus	OMAS
-10	2024-04-17	316.4840777408003	24	Moniottelu	OMAS
-10	2024-04-17	298.3824342701552	24	Kansallinen_tahtayskilpailu	OMAS
-10	2024-04-17	363.15063956103046	24	Kaupunkiammunta-challenge	OMAS
-10	2024-04-17	382.7906687068924	24	Laukausmaraton	OMAS
-10	2024-04-17	303.7041432126286	24	Vapaa-asekilpailu	OMAS
-10	2024-04-17	376.77579623577606	24	Taitoluodikko-turnaus	OMAS
-10	2024-04-17	342.6820436520986	24	Precision_Pistol_Cup	OMAS
-10	2024-04-17	290.07037848169466	24	Tulevaisuuden_Ampuja	OMAS
-10	2024-04-17	336.1648548623262	24	Pikakivaari-klassikko	OMAS
-10	2024-04-17	322.29054534456344	25	Tarkka-ammunta_Cup	OMAS
-10	2024-04-17	381.8939963131057	25	Nopean_laukauksen_mestaruus	OMAS
-10	2024-04-17	292.73326217028034	25	Moniottelu	OMAS
-10	2024-04-17	353.5889854710115	25	Kansallinen_tahtayskilpailu	OMAS
-10	2024-04-17	319.6808576673673	25	Kaupunkiammunta-challenge	OMAS
-10	2024-04-17	358.7889327424389	25	Laukausmaraton	OMAS
-10	2024-04-17	369.19988105866815	25	Vapaa-asekilpailu	OMAS
-10	2024-04-17	316.87392139712165	25	Taitoluodikko-turnaus	OMAS
-10	2024-04-17	323.5183752792121	25	Precision_Pistol_Cup	OMAS
-10	2024-04-17	333.5731995859644	25	Tulevaisuuden_Ampuja	OMAS
-10	2024-04-17	379.1154836640125	25	Pikakivaari-klassikko	OMAS
-10	2024-04-17	325.0521415561171	26	Tarkka-ammunta_Cup	OMAS
-10	2024-04-17	316.63860270026834	26	Nopean_laukauksen_mestaruus	OMAS
-10	2024-04-17	337.54374662771914	26	Moniottelu	OMAS
-10	2024-04-17	356.1905559516224	26	Kansallinen_tahtayskilpailu	OMAS
-10	2024-04-17	299.7406216417492	26	Kaupunkiammunta-challenge	OMAS
-10	2024-04-17	301.31920502193225	26	Laukausmaraton	OMAS
-10	2024-04-17	319.25922050214706	26	Vapaa-asekilpailu	OMAS
-10	2024-04-17	291.9694165851349	26	Taitoluodikko-turnaus	OMAS
-10	2024-04-17	355.6553652442696	26	Precision_Pistol_Cup	OMAS
-10	2024-04-17	345.02892365204116	26	Tulevaisuuden_Ampuja	OMAS
-10	2024-04-17	295.56433237730465	26	Pikakivaari-klassikko	OMAS
-10	2024-04-17	334.14474257800003	27	Tarkka-ammunta_Cup	OMAS
-10	2024-04-17	333.09767149184034	27	Nopean_laukauksen_mestaruus	OMAS
-10	2024-04-17	303.3678948353449	27	Moniottelu	OMAS
-10	2024-04-17	375.82574319863676	27	Kansallinen_tahtayskilpailu	OMAS
-10	2024-04-17	307.50951758120533	27	Kaupunkiammunta-challenge	OMAS
-10	2024-04-17	315.9040044869916	27	Laukausmaraton	OMAS
-10	2024-04-17	266.77289076224196	27	Vapaa-asekilpailu	OMAS
-10	2024-04-17	317.0211169408056	27	Taitoluodikko-turnaus	OMAS
-10	2024-04-17	355.75988827987453	27	Precision_Pistol_Cup	OMAS
-10	2024-04-17	318.3449519420841	27	Tulevaisuuden_Ampuja	OMAS
-10	2024-04-17	355.4663168877421	27	Pikakivaari-klassikko	OMAS
-10	2024-04-17	297.05902438549623	28	Tarkka-ammunta_Cup	Pelleseura
-10	2024-04-17	327.54293272583345	28	Nopean_laukauksen_mestaruus	Pelleseura
-10	2024-04-17	343.33440843939917	28	Moniottelu	Pelleseura
-10	2024-04-17	295.88391022687074	28	Kansallinen_tahtayskilpailu	Pelleseura
-10	2024-04-17	330.7818114768453	28	Kaupunkiammunta-challenge	Pelleseura
-10	2024-04-17	341.1134714398022	28	Laukausmaraton	Pelleseura
-10	2024-04-17	331.51989366392235	28	Vapaa-asekilpailu	Pelleseura
-10	2024-04-17	267.2681243983813	28	Taitoluodikko-turnaus	Pelleseura
-10	2024-04-17	331.9966540312851	28	Precision_Pistol_Cup	Pelleseura
-10	2024-04-17	329.22372428340105	28	Tulevaisuuden_Ampuja	Pelleseura
-10	2024-04-17	358.86747379202797	28	Pikakivaari-klassikko	Pelleseura
-10	2024-04-17	284.4293175904788	29	Tarkka-ammunta_Cup	Pelleseura
-10	2024-04-17	306.87486363276116	29	Nopean_laukauksen_mestaruus	Pelleseura
-10	2024-04-17	334.2841304116305	29	Moniottelu	Pelleseura
-10	2024-04-17	345.86804436299064	29	Kansallinen_tahtayskilpailu	Pelleseura
-10	2024-04-17	352.0472502907645	29	Kaupunkiammunta-challenge	Pelleseura
-10	2024-04-17	333.65497363960134	29	Laukausmaraton	Pelleseura
-10	2024-04-17	346.78692340733596	29	Vapaa-asekilpailu	Pelleseura
-10	2024-04-17	324.6589068105389	29	Taitoluodikko-turnaus	Pelleseura
-10	2024-04-17	289.0599016776135	29	Precision_Pistol_Cup	Pelleseura
-10	2024-04-17	307.4945395742859	29	Tulevaisuuden_Ampuja	Pelleseura
-10	2024-04-17	298.7790175952097	29	Pikakivaari-klassikko	Pelleseura
-10	2024-04-17	312.8355801942421	30	Tarkka-ammunta_Cup	Pelleseura
-10	2024-04-17	345.8337679335199	30	Nopean_laukauksen_mestaruus	Pelleseura
-10	2024-04-17	300.87661619743153	30	Moniottelu	Pelleseura
-10	2024-04-17	299.9790908008222	30	Kansallinen_tahtayskilpailu	Pelleseura
-10	2024-04-17	339.56473734570545	30	Kaupunkiammunta-challenge	Pelleseura
-10	2024-04-17	334.9470740168819	30	Laukausmaraton	Pelleseura
-10	2024-04-17	335.15700508555375	30	Vapaa-asekilpailu	Pelleseura
-10	2024-04-17	305.1780523189507	30	Taitoluodikko-turnaus	Pelleseura
-10	2024-04-17	340.7990270859869	30	Precision_Pistol_Cup	Pelleseura
-10	2024-04-17	346.7402948404337	30	Tulevaisuuden_Ampuja	Pelleseura
-10	2024-04-17	345.33886121109384	30	Pikakivaari-klassikko	Pelleseura
-10	2024-04-17	338.6118258325587	31	Tarkka-ammunta_Cup	Pelleseura
-10	2024-04-17	350.92631402788135	31	Nopean_laukauksen_mestaruus	Pelleseura
-10	2024-04-17	328.12339682959384	31	Moniottelu	Pelleseura
-10	2024-04-17	286.08614911712516	31	Kansallinen_tahtayskilpailu	Pelleseura
-10	2024-04-17	312.45826231577826	31	Kaupunkiammunta-challenge	Pelleseura
-10	2024-04-17	291.44767321697987	31	Laukausmaraton	Pelleseura
-10	2024-04-17	322.46111534278674	31	Vapaa-asekilpailu	Pelleseura
-10	2024-04-17	334.18715834859256	31	Taitoluodikko-turnaus	Pelleseura
-10	2024-04-17	267.98881460142144	31	Precision_Pistol_Cup	Pelleseura
-10	2024-04-17	338.7520626839666	31	Tulevaisuuden_Ampuja	Pelleseura
-10	2024-04-17	291.3665288491905	31	Pikakivaari-klassikko	Pelleseura
-10	2024-04-17	311.88338888730146	32	Tarkka-ammunta_Cup	Yung_Tallent
-10	2024-04-17	300.54678864607934	32	Nopean_laukauksen_mestaruus	Yung_Tallent
-10	2024-04-17	285.6355451819561	32	Moniottelu	Yung_Tallent
-10	2024-04-17	311.8180354551242	32	Kansallinen_tahtayskilpailu	Yung_Tallent
-10	2024-04-17	330.10256317580115	32	Kaupunkiammunta-challenge	Yung_Tallent
-10	2024-04-17	353.17340557494043	32	Laukausmaraton	Yung_Tallent
-10	2024-04-17	367.8640623631853	32	Vapaa-asekilpailu	Yung_Tallent
-10	2024-04-17	354.7954063779625	32	Taitoluodikko-turnaus	Yung_Tallent
-10	2024-04-17	365.93490727672406	32	Precision_Pistol_Cup	Yung_Tallent
-10	2024-04-17	312.6029719001642	32	Tulevaisuuden_Ampuja	Yung_Tallent
-10	2024-04-17	301.650684859805	32	Pikakivaari-klassikko	Yung_Tallent
-10	2024-04-17	354.47642194628673	33	Tarkka-ammunta_Cup	Yung_Tallent
-10	2024-04-17	313.21432609589414	33	Nopean_laukauksen_mestaruus	Yung_Tallent
-10	2024-04-17	329.8324387322617	33	Moniottelu	Yung_Tallent
-10	2024-04-17	318.5948183677568	33	Kansallinen_tahtayskilpailu	Yung_Tallent
-10	2024-04-17	360.7842121248878	33	Kaupunkiammunta-challenge	Yung_Tallent
-10	2024-04-17	301.1874313747633	33	Laukausmaraton	Yung_Tallent
-10	2024-04-17	307.7835215398133	33	Vapaa-asekilpailu	Yung_Tallent
-10	2024-04-17	328.0624757104564	33	Taitoluodikko-turnaus	Yung_Tallent
-10	2024-04-17	347.24831920376477	33	Precision_Pistol_Cup	Yung_Tallent
-10	2024-04-17	337.7334236583843	33	Tulevaisuuden_Ampuja	Yung_Tallent
-10	2024-04-17	305.0300225388174	33	Pikakivaari-klassikko	Yung_Tallent
-10	2024-04-17	311.14383272588105	34	Tarkka-ammunta_Cup	Yung_Tallent
-10	2024-04-17	306.5611611757173	34	Nopean_laukauksen_mestaruus	Yung_Tallent
-10	2024-04-17	337.06476231262207	34	Moniottelu	Yung_Tallent
-10	2024-04-17	312.9926426894559	34	Kansallinen_tahtayskilpailu	Yung_Tallent
-10	2024-04-17	331.8807644671139	34	Kaupunkiammunta-challenge	Yung_Tallent
-10	2024-04-17	302.15509121876175	34	Laukausmaraton	Yung_Tallent
-10	2024-04-17	352.9799793384601	34	Vapaa-asekilpailu	Yung_Tallent
-10	2024-04-17	304.3827578085878	34	Taitoluodikko-turnaus	Yung_Tallent
-10	2024-04-17	353.38528520500694	34	Precision_Pistol_Cup	Yung_Tallent
-10	2024-04-17	310.56797555123245	34	Tulevaisuuden_Ampuja	Yung_Tallent
-10	2024-04-17	348.1520996610557	34	Pikakivaari-klassikko	Yung_Tallent
-10	2024-04-17	297.1627785626971	35	Tarkka-ammunta_Cup	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	303.2747956796912	35	Nopean_laukauksen_mestaruus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	312.9325508442822	35	Moniottelu	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	370.1845376951317	35	Kansallinen_tahtayskilpailu	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	304.257368198878	35	Kaupunkiammunta-challenge	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	341.8676964906167	35	Laukausmaraton	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	292.80493627401165	35	Vapaa-asekilpailu	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	319.02722004243714	35	Taitoluodikko-turnaus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	318.38171873602545	35	Precision_Pistol_Cup	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	325.6748047419383	35	Tulevaisuuden_Ampuja	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	352.2606036493502	35	Pikakivaari-klassikko	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	315.5305113677222	36	Tarkka-ammunta_Cup	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	321.6619902463556	36	Nopean_laukauksen_mestaruus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	354.24133577423623	36	Moniottelu	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	297.70962562096867	36	Kansallinen_tahtayskilpailu	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	324.7754160491461	36	Kaupunkiammunta-challenge	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	297.81908250786597	36	Laukausmaraton	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	286.43630950334455	36	Vapaa-asekilpailu	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	347.73378863990104	36	Taitoluodikko-turnaus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	322.4643810569604	36	Precision_Pistol_Cup	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	380.29794830891234	36	Tulevaisuuden_Ampuja	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	371.1043110338401	36	Pikakivaari-klassikko	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	376.56358981618115	37	Tarkka-ammunta_Cup	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	295.69486738330073	37	Nopean_laukauksen_mestaruus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	319.5892874971393	37	Moniottelu	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	349.2482761267571	37	Kansallinen_tahtayskilpailu	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	322.61514046844326	37	Kaupunkiammunta-challenge	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	348.722664802329	37	Laukausmaraton	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	358.583854148153	37	Vapaa-asekilpailu	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	344.199537842302	37	Taitoluodikko-turnaus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	290.16305207058036	37	Precision_Pistol_Cup	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	323.8042048099304	37	Tulevaisuuden_Ampuja	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	342.277314559846	37	Pikakivaari-klassikko	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	342.6861069836928	38	Tarkka-ammunta_Cup	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	315.31307209101914	38	Nopean_laukauksen_mestaruus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	305.68033835092746	38	Moniottelu	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	314.24814866145107	38	Kansallinen_tahtayskilpailu	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	273.7398044496034	38	Kaupunkiammunta-challenge	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	331.33455525386097	38	Laukausmaraton	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	296.1849106757256	38	Vapaa-asekilpailu	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	347.6591092940707	38	Taitoluodikko-turnaus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	315.3489588310775	38	Precision_Pistol_Cup	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	354.53190088418734	38	Tulevaisuuden_Ampuja	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	340.5605056842248	38	Pikakivaari-klassikko	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	329.2714009837343	39	Tarkka-ammunta_Cup	Tahtaysmestarit
-10	2024-04-17	335.75118591683776	39	Nopean_laukauksen_mestaruus	Tahtaysmestarit
-10	2024-04-17	307.9173222945532	39	Moniottelu	Tahtaysmestarit
-10	2024-04-17	297.80424615749223	39	Kansallinen_tahtayskilpailu	Tahtaysmestarit
-10	2024-04-17	318.2304037376407	39	Kaupunkiammunta-challenge	Tahtaysmestarit
-10	2024-04-17	343.6036580996403	39	Laukausmaraton	Tahtaysmestarit
-10	2024-04-17	333.9053378875132	39	Vapaa-asekilpailu	Tahtaysmestarit
-10	2024-04-17	332.2932821655495	39	Taitoluodikko-turnaus	Tahtaysmestarit
-10	2024-04-17	346.27677709021464	39	Precision_Pistol_Cup	Tahtaysmestarit
-10	2024-04-17	329.6519970310157	39	Tulevaisuuden_Ampuja	Tahtaysmestarit
-10	2024-04-17	345.71872017397214	39	Pikakivaari-klassikko	Tahtaysmestarit
-10	2024-04-17	298.80581802362263	40	Tarkka-ammunta_Cup	Tahtaysmestarit
-10	2024-04-17	307.43890894439846	40	Nopean_laukauksen_mestaruus	Tahtaysmestarit
-10	2024-04-17	282.26042457459414	40	Moniottelu	Tahtaysmestarit
-10	2024-04-17	369.64516920051625	40	Kansallinen_tahtayskilpailu	Tahtaysmestarit
-10	2024-04-17	368.8892981868391	40	Kaupunkiammunta-challenge	Tahtaysmestarit
-10	2024-04-17	353.68526668744425	40	Laukausmaraton	Tahtaysmestarit
-10	2024-04-17	329.0662843929348	40	Vapaa-asekilpailu	Tahtaysmestarit
-10	2024-04-17	323.48497235808645	40	Taitoluodikko-turnaus	Tahtaysmestarit
-10	2024-04-17	341.57869703101073	40	Precision_Pistol_Cup	Tahtaysmestarit
-10	2024-04-17	382.0488973746249	40	Tulevaisuuden_Ampuja	Tahtaysmestarit
-10	2024-04-17	311.28993539441484	40	Pikakivaari-klassikko	Tahtaysmestarit
-10	2024-04-17	331.49649573841805	41	Tarkka-ammunta_Cup	Tahtaysmestarit
-10	2024-04-17	313.3420715733887	41	Nopean_laukauksen_mestaruus	Tahtaysmestarit
-10	2024-04-17	341.23658185896755	41	Moniottelu	Tahtaysmestarit
-10	2024-04-17	326.6651464619692	41	Kansallinen_tahtayskilpailu	Tahtaysmestarit
-10	2024-04-17	328.1711755271905	41	Kaupunkiammunta-challenge	Tahtaysmestarit
-10	2024-04-17	304.5200160578674	41	Laukausmaraton	Tahtaysmestarit
-10	2024-04-17	343.03740880633785	41	Vapaa-asekilpailu	Tahtaysmestarit
-10	2024-04-17	279.0700661657193	41	Taitoluodikko-turnaus	Tahtaysmestarit
-10	2024-04-17	313.90065951095613	41	Precision_Pistol_Cup	Tahtaysmestarit
-10	2024-04-17	340.545235901107	41	Tulevaisuuden_Ampuja	Tahtaysmestarit
-10	2024-04-17	283.989197970626	41	Pikakivaari-klassikko	Tahtaysmestarit
-10	2024-04-17	322.97733790788425	42	Tarkka-ammunta_Cup	Tahtaysmestarit
-10	2024-04-17	308.4031932130868	42	Nopean_laukauksen_mestaruus	Tahtaysmestarit
-10	2024-04-17	337.59228449020515	42	Moniottelu	Tahtaysmestarit
-10	2024-04-17	330.7493270550224	42	Kansallinen_tahtayskilpailu	Tahtaysmestarit
-10	2024-04-17	293.4813977218267	42	Kaupunkiammunta-challenge	Tahtaysmestarit
-10	2024-04-17	314.7739701847257	42	Laukausmaraton	Tahtaysmestarit
-10	2024-04-17	315.6302682585321	42	Vapaa-asekilpailu	Tahtaysmestarit
-10	2024-04-17	312.233582227657	42	Taitoluodikko-turnaus	Tahtaysmestarit
-10	2024-04-17	325.86563494447773	42	Precision_Pistol_Cup	Tahtaysmestarit
-10	2024-04-17	326.882217817936	42	Tulevaisuuden_Ampuja	Tahtaysmestarit
-10	2024-04-17	331.81770999958394	42	Pikakivaari-klassikko	Tahtaysmestarit
-10	2024-04-17	304.8982471889354	43	Tarkka-ammunta_Cup	Laukausryhma_Aurora
-10	2024-04-17	313.5496042253207	43	Nopean_laukauksen_mestaruus	Laukausryhma_Aurora
-10	2024-04-17	345.0528016360655	43	Moniottelu	Laukausryhma_Aurora
-10	2024-04-17	308.91637815352743	43	Kansallinen_tahtayskilpailu	Laukausryhma_Aurora
-10	2024-04-17	324.9448972742234	43	Kaupunkiammunta-challenge	Laukausryhma_Aurora
-10	2024-04-17	316.92615394883677	43	Laukausmaraton	Laukausryhma_Aurora
-10	2024-04-17	337.4440947200092	43	Vapaa-asekilpailu	Laukausryhma_Aurora
-10	2024-04-17	358.6872631296438	43	Taitoluodikko-turnaus	Laukausryhma_Aurora
-10	2024-04-17	308.8511419870748	43	Precision_Pistol_Cup	Laukausryhma_Aurora
-10	2024-04-17	335.7245261365474	43	Tulevaisuuden_Ampuja	Laukausryhma_Aurora
-10	2024-04-17	322.1888460157997	43	Pikakivaari-klassikko	Laukausryhma_Aurora
-10	2024-04-17	326.21565537275114	44	Tarkka-ammunta_Cup	Laukausryhma_Aurora
-10	2024-04-17	338.0373587692301	44	Nopean_laukauksen_mestaruus	Laukausryhma_Aurora
-10	2024-04-17	288.04982915539847	44	Moniottelu	Laukausryhma_Aurora
-10	2024-04-17	317.3790417900404	44	Kansallinen_tahtayskilpailu	Laukausryhma_Aurora
-10	2024-04-17	343.8456742939307	44	Kaupunkiammunta-challenge	Laukausryhma_Aurora
-10	2024-04-17	351.79100372757784	44	Laukausmaraton	Laukausryhma_Aurora
-10	2024-04-17	298.7434108802746	44	Vapaa-asekilpailu	Laukausryhma_Aurora
-10	2024-04-17	326.8265477069967	44	Taitoluodikko-turnaus	Laukausryhma_Aurora
-10	2024-04-17	302.4265617594889	44	Precision_Pistol_Cup	Laukausryhma_Aurora
-10	2024-04-17	369.3914577292111	44	Tulevaisuuden_Ampuja	Laukausryhma_Aurora
-10	2024-04-17	312.13635138980305	44	Pikakivaari-klassikko	Laukausryhma_Aurora
-10	2024-04-17	359.60892935000254	45	Tarkka-ammunta_Cup	Laukausryhma_Aurora
-10	2024-04-17	384.7695318432116	45	Nopean_laukauksen_mestaruus	Laukausryhma_Aurora
-10	2024-04-17	286.13732925194734	45	Moniottelu	Laukausryhma_Aurora
-10	2024-04-17	351.7985061817401	45	Kansallinen_tahtayskilpailu	Laukausryhma_Aurora
-10	2024-04-17	319.6527394954428	45	Kaupunkiammunta-challenge	Laukausryhma_Aurora
-10	2024-04-17	296.7929678165682	45	Laukausmaraton	Laukausryhma_Aurora
-10	2024-04-17	318.70091403856276	45	Vapaa-asekilpailu	Laukausryhma_Aurora
-10	2024-04-17	330.4131989683933	45	Taitoluodikko-turnaus	Laukausryhma_Aurora
-10	2024-04-17	339.288895536326	45	Precision_Pistol_Cup	Laukausryhma_Aurora
-10	2024-04-17	308.75603808997596	45	Tulevaisuuden_Ampuja	Laukausryhma_Aurora
-10	2024-04-17	393.02668484509206	45	Pikakivaari-klassikko	Laukausryhma_Aurora
-10	2024-04-17	306.92059655333964	46	Tarkka-ammunta_Cup	Ampumataito
-10	2024-04-17	304.44554014470447	46	Nopean_laukauksen_mestaruus	Ampumataito
-10	2024-04-17	299.06699359177907	46	Moniottelu	Ampumataito
-10	2024-04-17	391.6094963274065	46	Kansallinen_tahtayskilpailu	Ampumataito
-10	2024-04-17	305.08817980970093	46	Kaupunkiammunta-challenge	Ampumataito
-10	2024-04-17	312.77362943247823	46	Laukausmaraton	Ampumataito
-10	2024-04-17	346.725030344958	46	Vapaa-asekilpailu	Ampumataito
-10	2024-04-17	293.61451676096027	46	Taitoluodikko-turnaus	Ampumataito
-10	2024-04-17	352.7595033030211	46	Precision_Pistol_Cup	Ampumataito
-10	2024-04-17	299.62841447848393	46	Tulevaisuuden_Ampuja	Ampumataito
-10	2024-04-17	303.5145582684148	46	Pikakivaari-klassikko	Ampumataito
-10	2024-04-17	301.82641042772826	47	Tarkka-ammunta_Cup	Ampumataito
-10	2024-04-17	331.514796767139	47	Nopean_laukauksen_mestaruus	Ampumataito
-10	2024-04-17	314.3398305436129	47	Moniottelu	Ampumataito
-10	2024-04-17	313.14987692329106	47	Kansallinen_tahtayskilpailu	Ampumataito
-10	2024-04-17	374.65135371630817	47	Kaupunkiammunta-challenge	Ampumataito
-10	2024-04-17	323.43640831836797	47	Laukausmaraton	Ampumataito
-10	2024-04-17	304.855083989483	47	Vapaa-asekilpailu	Ampumataito
-10	2024-04-17	345.8393464506915	47	Taitoluodikko-turnaus	Ampumataito
-10	2024-04-17	312.5961639476364	47	Precision_Pistol_Cup	Ampumataito
-10	2024-04-17	316.08689480460475	47	Tulevaisuuden_Ampuja	Ampumataito
-10	2024-04-17	343.5597039819518	47	Pikakivaari-klassikko	Ampumataito
-10	2024-04-17	357.75412179102926	48	Tarkka-ammunta_Cup	Ampumataito
-10	2024-04-17	333.093426032145	48	Nopean_laukauksen_mestaruus	Ampumataito
-10	2024-04-17	331.03651194185954	48	Moniottelu	Ampumataito
-10	2024-04-17	308.97194032762667	48	Kansallinen_tahtayskilpailu	Ampumataito
-10	2024-04-17	328.25933207542414	48	Kaupunkiammunta-challenge	Ampumataito
-10	2024-04-17	354.96171709459975	48	Laukausmaraton	Ampumataito
-10	2024-04-17	299.5851908894807	48	Vapaa-asekilpailu	Ampumataito
-10	2024-04-17	315.12144255872295	48	Taitoluodikko-turnaus	Ampumataito
-10	2024-04-17	303.92154994888267	48	Precision_Pistol_Cup	Ampumataito
-10	2024-04-17	377.0313572510263	48	Tulevaisuuden_Ampuja	Ampumataito
-10	2024-04-17	311.7893939216002	48	Pikakivaari-klassikko	Ampumataito
-10	2024-04-17	338.34503108673465	2	Kesan_Ampujaiset	Poliisiseura
-10	2024-04-17	399.10085886029555	2	Talvi_Pistooli	Poliisiseura
-10	2024-04-17	359.96513881452717	2	Tarkkuuslaukaus-festivaali	Poliisiseura
-10	2024-04-17	318.69014845372925	2	Kivaarikilpailujen_huipennus	Poliisiseura
-10	2024-04-17	344.8758009793513	2	Polaris-ampumaharjoitus	Poliisiseura
-10	2024-04-17	307.502928871854	2	Aamunkoiton_tahtays	Poliisiseura
-10	2024-04-17	313.99219402134025	2	Nordic_Sharpshooters_Cup	Poliisiseura
-10	2024-04-17	337.33330027023106	2	Taivaanranta-tulitus	Poliisiseura
-10	2024-04-17	338.40923124049664	2	Lumivyory-ammunta	Poliisiseura
-10	2024-04-17	338.7488985202711	3	Kesan_Ampujaiset	Poliisiseura
-10	2024-04-17	312.5851680543348	3	Talvi_Pistooli	Poliisiseura
-10	2024-04-17	363.53867705990405	3	Tarkkuuslaukaus-festivaali	Poliisiseura
-10	2024-04-17	322.7407930752628	3	Kivaarikilpailujen_huipennus	Poliisiseura
-10	2024-04-17	322.3197837367341	3	Polaris-ampumaharjoitus	Poliisiseura
-10	2024-04-17	306.7117536527624	3	Aamunkoiton_tahtays	Poliisiseura
-10	2024-04-17	347.0684484556185	3	Nordic_Sharpshooters_Cup	Poliisiseura
-10	2024-04-17	310.19187673055836	3	Taivaanranta-tulitus	Poliisiseura
-10	2024-04-17	316.71010298385863	3	Lumivyory-ammunta	Poliisiseura
-10	2024-04-17	257.51687420485604	4	Kesan_Ampujaiset	Poliisiseura
-10	2024-04-17	327.91115325671024	4	Talvi_Pistooli	Poliisiseura
-10	2024-04-17	335.11217080129217	4	Tarkkuuslaukaus-festivaali	Poliisiseura
-10	2024-04-17	304.61980907837784	4	Kivaarikilpailujen_huipennus	Poliisiseura
-10	2024-04-17	313.5834404023133	4	Polaris-ampumaharjoitus	Poliisiseura
-10	2024-04-17	358.83425188593725	4	Aamunkoiton_tahtays	Poliisiseura
-10	2024-04-17	342.33901915443175	4	Nordic_Sharpshooters_Cup	Poliisiseura
-10	2024-04-17	307.7618477759508	4	Taivaanranta-tulitus	Poliisiseura
-10	2024-04-17	405.320312616646	4	Lumivyory-ammunta	Poliisiseura
-10	2024-04-17	327.91808366677816	5	Kesan_Ampujaiset	Koiraseura
-10	2024-04-17	337.83923406108426	5	Talvi_Pistooli	Koiraseura
-10	2024-04-17	321.94227983559404	5	Tarkkuuslaukaus-festivaali	Koiraseura
-10	2024-04-17	343.59106659580846	5	Kivaarikilpailujen_huipennus	Koiraseura
-10	2024-04-17	336.7374434955192	5	Polaris-ampumaharjoitus	Koiraseura
-10	2024-04-17	310.45485596022553	5	Aamunkoiton_tahtays	Koiraseura
-10	2024-04-17	326.83976577438074	5	Nordic_Sharpshooters_Cup	Koiraseura
-10	2024-04-17	337.54488080586	5	Taivaanranta-tulitus	Koiraseura
-10	2024-04-17	314.7060810435216	5	Lumivyory-ammunta	Koiraseura
-10	2024-04-17	341.6938579594974	6	Kesan_Ampujaiset	Koiraseura
-10	2024-04-17	298.2460392885066	6	Talvi_Pistooli	Koiraseura
-10	2024-04-17	359.8908593814436	6	Tarkkuuslaukaus-festivaali	Koiraseura
-10	2024-04-17	328.0152600061455	6	Kivaarikilpailujen_huipennus	Koiraseura
-10	2024-04-17	360.56481130531364	6	Polaris-ampumaharjoitus	Koiraseura
-10	2024-04-17	334.11257396069374	6	Aamunkoiton_tahtays	Koiraseura
-10	2024-04-17	320.49918407186516	6	Nordic_Sharpshooters_Cup	Koiraseura
-10	2024-04-17	342.1982389709516	6	Taivaanranta-tulitus	Koiraseura
-10	2024-04-17	316.2549703586386	6	Lumivyory-ammunta	Koiraseura
-10	2024-04-17	333.6263416785648	7	Kesan_Ampujaiset	Koiraseura
-10	2024-04-17	297.20896288789294	7	Talvi_Pistooli	Koiraseura
-10	2024-04-17	319.40418049601055	7	Tarkkuuslaukaus-festivaali	Koiraseura
-10	2024-04-17	312.63205614953836	7	Kivaarikilpailujen_huipennus	Koiraseura
-10	2024-04-17	301.1692524206582	7	Polaris-ampumaharjoitus	Koiraseura
-10	2024-04-17	289.41163747431824	7	Aamunkoiton_tahtays	Koiraseura
-10	2024-04-17	322.1654350060992	7	Nordic_Sharpshooters_Cup	Koiraseura
-10	2024-04-17	345.9997693733697	7	Taivaanranta-tulitus	Koiraseura
-10	2024-04-17	314.71618283457747	7	Lumivyory-ammunta	Koiraseura
-10	2024-04-17	353.70731656116857	8	Kesan_Ampujaiset	Koiraseura
-10	2024-04-17	320.6179882627225	8	Talvi_Pistooli	Koiraseura
-10	2024-04-17	360.21516621997347	8	Tarkkuuslaukaus-festivaali	Koiraseura
-10	2024-04-17	266.83009800875783	8	Kivaarikilpailujen_huipennus	Koiraseura
-10	2024-04-17	327.6451248915985	8	Polaris-ampumaharjoitus	Koiraseura
-10	2024-04-17	329.26347191409207	8	Aamunkoiton_tahtays	Koiraseura
-10	2024-04-17	319.1676798266909	8	Nordic_Sharpshooters_Cup	Koiraseura
-10	2024-04-17	270.780526373786	8	Taivaanranta-tulitus	Koiraseura
-10	2024-04-17	320.1386387000997	8	Lumivyory-ammunta	Koiraseura
-10	2024-04-17	320.3882272947279	9	Kesan_Ampujaiset	Koiraseura
-10	2024-04-17	345.5426265796255	9	Talvi_Pistooli	Koiraseura
-10	2024-04-17	326.7910050497865	9	Tarkkuuslaukaus-festivaali	Koiraseura
-10	2024-04-17	283.11274392155195	9	Kivaarikilpailujen_huipennus	Koiraseura
-10	2024-04-17	310.44911805071905	9	Polaris-ampumaharjoitus	Koiraseura
-10	2024-04-17	318.84586314714767	9	Aamunkoiton_tahtays	Koiraseura
-10	2024-04-17	325.37739191800597	9	Nordic_Sharpshooters_Cup	Koiraseura
-10	2024-04-17	315.12724329554965	9	Taivaanranta-tulitus	Koiraseura
-10	2024-04-17	316.55653895701664	9	Lumivyory-ammunta	Koiraseura
-10	2024-04-17	319.24352605232116	10	Kesan_Ampujaiset	Hammaspeikkoseura
-10	2024-04-17	301.6064623170605	10	Talvi_Pistooli	Hammaspeikkoseura
-10	2024-04-17	296.7920751157441	10	Tarkkuuslaukaus-festivaali	Hammaspeikkoseura
-10	2024-04-17	324.4270033164639	10	Kivaarikilpailujen_huipennus	Hammaspeikkoseura
-10	2024-04-17	318.7305144875262	10	Polaris-ampumaharjoitus	Hammaspeikkoseura
-10	2024-04-17	328.8761727380563	10	Aamunkoiton_tahtays	Hammaspeikkoseura
-10	2024-04-17	312.58468324655416	10	Nordic_Sharpshooters_Cup	Hammaspeikkoseura
-10	2024-04-17	361.19697305262565	10	Taivaanranta-tulitus	Hammaspeikkoseura
-10	2024-04-17	343.82001028926516	10	Lumivyory-ammunta	Hammaspeikkoseura
-10	2024-04-17	308.5119245027126	11	Kesan_Ampujaiset	Hammaspeikkoseura
-10	2024-04-17	378.2443625452262	11	Talvi_Pistooli	Hammaspeikkoseura
-10	2024-04-17	329.13030839488346	11	Tarkkuuslaukaus-festivaali	Hammaspeikkoseura
-10	2024-04-17	312.6241340495411	11	Kivaarikilpailujen_huipennus	Hammaspeikkoseura
-10	2024-04-17	294.96074123571964	11	Polaris-ampumaharjoitus	Hammaspeikkoseura
-10	2024-04-17	361.8593463068933	11	Aamunkoiton_tahtays	Hammaspeikkoseura
-10	2024-04-17	338.80344220562034	11	Nordic_Sharpshooters_Cup	Hammaspeikkoseura
-10	2024-04-17	345.7452225685711	11	Taivaanranta-tulitus	Hammaspeikkoseura
-10	2024-04-17	325.6141800524255	11	Lumivyory-ammunta	Hammaspeikkoseura
-10	2024-04-17	288.54834599068863	12	Kesan_Ampujaiset	Hammaspeikkoseura
-10	2024-04-17	355.39612471346373	12	Talvi_Pistooli	Hammaspeikkoseura
-10	2024-04-17	317.4235536295613	12	Tarkkuuslaukaus-festivaali	Hammaspeikkoseura
-10	2024-04-17	337.00400281236597	12	Kivaarikilpailujen_huipennus	Hammaspeikkoseura
-10	2024-04-17	317.3862940766818	12	Polaris-ampumaharjoitus	Hammaspeikkoseura
-10	2024-04-17	325.0627225131233	12	Aamunkoiton_tahtays	Hammaspeikkoseura
-10	2024-04-17	342.6128048010496	12	Nordic_Sharpshooters_Cup	Hammaspeikkoseura
-10	2024-04-17	345.5602768866606	12	Taivaanranta-tulitus	Hammaspeikkoseura
-10	2024-04-17	307.9662825524356	12	Lumivyory-ammunta	Hammaspeikkoseura
-10	2024-04-17	319.94651361298196	13	Kesan_Ampujaiset	Hammaspeikkoseura
-10	2024-04-17	330.4870983161466	13	Talvi_Pistooli	Hammaspeikkoseura
-10	2024-04-17	318.31389736875735	13	Tarkkuuslaukaus-festivaali	Hammaspeikkoseura
-10	2024-04-17	335.4478648995377	13	Kivaarikilpailujen_huipennus	Hammaspeikkoseura
-10	2024-04-17	336.5988056283053	13	Polaris-ampumaharjoitus	Hammaspeikkoseura
-10	2024-04-17	306.06552301497436	13	Aamunkoiton_tahtays	Hammaspeikkoseura
-10	2024-04-17	365.2271173021851	13	Nordic_Sharpshooters_Cup	Hammaspeikkoseura
-10	2024-04-17	326.67975147041597	13	Taivaanranta-tulitus	Hammaspeikkoseura
-10	2024-04-17	341.1534503966137	13	Lumivyory-ammunta	Hammaspeikkoseura
-10	2024-04-17	344.83396863908723	14	Kesan_Ampujaiset	Hammaspeikkoseura
-10	2024-04-17	335.15455670551205	14	Talvi_Pistooli	Hammaspeikkoseura
-10	2024-04-17	343.7944037253564	14	Tarkkuuslaukaus-festivaali	Hammaspeikkoseura
-10	2024-04-17	373.15821922419013	14	Kivaarikilpailujen_huipennus	Hammaspeikkoseura
-10	2024-04-17	304.776793858451	14	Polaris-ampumaharjoitus	Hammaspeikkoseura
-10	2024-04-17	304.91621962409243	14	Aamunkoiton_tahtays	Hammaspeikkoseura
-10	2024-04-17	306.6010050450641	14	Nordic_Sharpshooters_Cup	Hammaspeikkoseura
-10	2024-04-17	302.4501773539459	14	Taivaanranta-tulitus	Hammaspeikkoseura
-10	2024-04-17	300.893401650181	14	Lumivyory-ammunta	Hammaspeikkoseura
-10	2024-04-17	327.11658999243434	15	Kesan_Ampujaiset	dog
-10	2024-04-17	334.52427170898903	15	Talvi_Pistooli	dog
-10	2024-04-17	317.02510879563386	15	Tarkkuuslaukaus-festivaali	dog
-10	2024-04-17	272.51079355561933	15	Kivaarikilpailujen_huipennus	dog
-10	2024-04-17	348.36687472051216	15	Polaris-ampumaharjoitus	dog
-10	2024-04-17	355.6001586032525	15	Aamunkoiton_tahtays	dog
-10	2024-04-17	289.8504018967315	15	Nordic_Sharpshooters_Cup	dog
-10	2024-04-17	323.3299821089846	15	Taivaanranta-tulitus	dog
-10	2024-04-17	290.2973279712248	15	Lumivyory-ammunta	dog
-10	2024-04-17	371.63482726033084	16	Kesan_Ampujaiset	dog
-10	2024-04-17	315.85659328490834	16	Talvi_Pistooli	dog
-10	2024-04-17	309.74300107473846	16	Tarkkuuslaukaus-festivaali	dog
-10	2024-04-17	334.2282807326043	16	Kivaarikilpailujen_huipennus	dog
-10	2024-04-17	362.34139996946675	16	Polaris-ampumaharjoitus	dog
-10	2024-04-17	305.4324532558037	16	Aamunkoiton_tahtays	dog
-10	2024-04-17	320.76494897949686	16	Nordic_Sharpshooters_Cup	dog
-10	2024-04-17	357.8101126688881	16	Taivaanranta-tulitus	dog
-10	2024-04-17	308.70654745519056	16	Lumivyory-ammunta	dog
-10	2024-04-17	304.6869443085493	17	Kesan_Ampujaiset	dog
-10	2024-04-17	288.96629726087406	17	Talvi_Pistooli	dog
-10	2024-04-17	339.7058422716767	17	Tarkkuuslaukaus-festivaali	dog
-10	2024-04-17	306.4948091021676	17	Kivaarikilpailujen_huipennus	dog
-10	2024-04-17	335.86044114451397	17	Polaris-ampumaharjoitus	dog
-10	2024-04-17	339.4474495124469	17	Aamunkoiton_tahtays	dog
-10	2024-04-17	363.3929490713429	17	Nordic_Sharpshooters_Cup	dog
-10	2024-04-17	310.4383336042967	17	Taivaanranta-tulitus	dog
-10	2024-04-17	349.2649240068513	17	Lumivyory-ammunta	dog
-10	2024-04-17	339.72842502787825	18	Kesan_Ampujaiset	dog
-10	2024-04-17	323.3461309350558	18	Talvi_Pistooli	dog
-10	2024-04-17	381.5685688778634	18	Tarkkuuslaukaus-festivaali	dog
-10	2024-04-17	341.71471978139175	18	Kivaarikilpailujen_huipennus	dog
-10	2024-04-17	326.4185242750633	18	Polaris-ampumaharjoitus	dog
-10	2024-04-17	335.2761536461448	18	Aamunkoiton_tahtays	dog
-10	2024-04-17	337.9367341713544	18	Nordic_Sharpshooters_Cup	dog
-10	2024-04-17	330.4532087537328	18	Taivaanranta-tulitus	dog
-10	2024-04-17	318.7844696207016	18	Lumivyory-ammunta	dog
-10	2024-04-17	298.83246075019576	19	Kesan_Ampujaiset	Savu_Seura
-10	2024-04-17	301.2299071349094	19	Talvi_Pistooli	Savu_Seura
-10	2024-04-17	303.44382686327	19	Tarkkuuslaukaus-festivaali	Savu_Seura
-10	2024-04-17	307.83604252281214	19	Kivaarikilpailujen_huipennus	Savu_Seura
-10	2024-04-17	314.7546518232591	19	Polaris-ampumaharjoitus	Savu_Seura
-10	2024-04-17	345.7272645134708	19	Aamunkoiton_tahtays	Savu_Seura
-10	2024-04-17	398.54732159202024	19	Nordic_Sharpshooters_Cup	Savu_Seura
-10	2024-04-17	346.30185948395024	19	Taivaanranta-tulitus	Savu_Seura
-10	2024-04-17	315.78712534974113	19	Lumivyory-ammunta	Savu_Seura
-10	2024-04-17	336.85554602403545	20	Kesan_Ampujaiset	Savu_Seura
-10	2024-04-17	309.9342961238908	20	Talvi_Pistooli	Savu_Seura
-10	2024-04-17	288.80319767433383	20	Tarkkuuslaukaus-festivaali	Savu_Seura
-10	2024-04-17	320.1245045994209	20	Kivaarikilpailujen_huipennus	Savu_Seura
-10	2024-04-17	296.49887518531256	20	Polaris-ampumaharjoitus	Savu_Seura
-10	2024-04-17	360.8454994752681	20	Aamunkoiton_tahtays	Savu_Seura
-10	2024-04-17	318.13643958228954	20	Nordic_Sharpshooters_Cup	Savu_Seura
-10	2024-04-17	329.5871672557075	20	Taivaanranta-tulitus	Savu_Seura
-10	2024-04-17	289.3882369764455	20	Lumivyory-ammunta	Savu_Seura
-10	2024-04-17	289.90134233189195	21	Kesan_Ampujaiset	Savu_Seura
-10	2024-04-17	277.3730131952957	21	Talvi_Pistooli	Savu_Seura
-10	2024-04-17	333.54177588545815	21	Tarkkuuslaukaus-festivaali	Savu_Seura
-10	2024-04-17	327.35382883654495	21	Kivaarikilpailujen_huipennus	Savu_Seura
-10	2024-04-17	295.4758829472863	21	Polaris-ampumaharjoitus	Savu_Seura
-10	2024-04-17	304.75187780635395	21	Aamunkoiton_tahtays	Savu_Seura
-10	2024-04-17	263.0918499598748	21	Nordic_Sharpshooters_Cup	Savu_Seura
-10	2024-04-17	357.68407858383245	21	Taivaanranta-tulitus	Savu_Seura
-10	2024-04-17	342.1665318337829	21	Lumivyory-ammunta	Savu_Seura
-10	2024-04-17	285.742939218397	22	Kesan_Ampujaiset	Savu_Seura
-10	2024-04-17	334.2692658568988	22	Talvi_Pistooli	Savu_Seura
-10	2024-04-17	323.2599257554676	22	Tarkkuuslaukaus-festivaali	Savu_Seura
-10	2024-04-17	341.88937003455953	22	Kivaarikilpailujen_huipennus	Savu_Seura
-10	2024-04-17	365.0387891622491	22	Polaris-ampumaharjoitus	Savu_Seura
-10	2024-04-17	328.07801983748953	22	Aamunkoiton_tahtays	Savu_Seura
-10	2024-04-17	325.48280235452427	22	Nordic_Sharpshooters_Cup	Savu_Seura
-10	2024-04-17	346.8869834737444	22	Taivaanranta-tulitus	Savu_Seura
-10	2024-04-17	358.26264230992905	22	Lumivyory-ammunta	Savu_Seura
-10	2024-04-17	335.3409219457816	23	Kesan_Ampujaiset	Savu_Seura
-10	2024-04-17	350.84154818673824	23	Talvi_Pistooli	Savu_Seura
-10	2024-04-17	308.2925995930317	23	Tarkkuuslaukaus-festivaali	Savu_Seura
-10	2024-04-17	301.92417428055705	23	Kivaarikilpailujen_huipennus	Savu_Seura
-10	2024-04-17	332.0516107455071	23	Polaris-ampumaharjoitus	Savu_Seura
-10	2024-04-17	325.74604608475744	23	Aamunkoiton_tahtays	Savu_Seura
-10	2024-04-17	307.3728895797822	23	Nordic_Sharpshooters_Cup	Savu_Seura
-10	2024-04-17	336.5646880566116	23	Taivaanranta-tulitus	Savu_Seura
-10	2024-04-17	295.3868033736087	23	Lumivyory-ammunta	Savu_Seura
-10	2024-04-17	288.47650858874135	24	Kesan_Ampujaiset	OMAS
-10	2024-04-17	297.29891530039106	24	Talvi_Pistooli	OMAS
-10	2024-04-17	287.3104070481814	24	Tarkkuuslaukaus-festivaali	OMAS
-10	2024-04-17	344.01343796805736	24	Kivaarikilpailujen_huipennus	OMAS
-10	2024-04-17	344.9187887887894	24	Polaris-ampumaharjoitus	OMAS
-10	2024-04-17	306.80279447890047	24	Aamunkoiton_tahtays	OMAS
-10	2024-04-17	306.80282028072196	24	Nordic_Sharpshooters_Cup	OMAS
-10	2024-04-17	317.289327006545	24	Taivaanranta-tulitus	OMAS
-10	2024-04-17	292.63594630414497	24	Lumivyory-ammunta	OMAS
-10	2024-04-17	352.1669048489599	25	Kesan_Ampujaiset	OMAS
-10	2024-04-17	291.85843073726835	25	Talvi_Pistooli	OMAS
-10	2024-04-17	336.93002270019343	25	Tarkkuuslaukaus-festivaali	OMAS
-10	2024-04-17	323.74747445271925	25	Kivaarikilpailujen_huipennus	OMAS
-10	2024-04-17	337.2253542777264	25	Polaris-ampumaharjoitus	OMAS
-10	2024-04-17	328.16797272340045	25	Aamunkoiton_tahtays	OMAS
-10	2024-04-17	331.4620623506829	25	Nordic_Sharpshooters_Cup	OMAS
-10	2024-04-17	284.52013394203425	25	Taivaanranta-tulitus	OMAS
-10	2024-04-17	327.6219805284735	25	Lumivyory-ammunta	OMAS
-10	2024-04-17	311.281837329469	26	Kesan_Ampujaiset	OMAS
-10	2024-04-17	325.98593087513166	26	Talvi_Pistooli	OMAS
-10	2024-04-17	332.9434456499061	26	Tarkkuuslaukaus-festivaali	OMAS
-10	2024-04-17	300.54048963966517	26	Kivaarikilpailujen_huipennus	OMAS
-10	2024-04-17	332.3219421326061	26	Polaris-ampumaharjoitus	OMAS
-10	2024-04-17	311.19224563168103	26	Aamunkoiton_tahtays	OMAS
-10	2024-04-17	256.20831550959076	26	Nordic_Sharpshooters_Cup	OMAS
-10	2024-04-17	353.6120401446934	26	Taivaanranta-tulitus	OMAS
-10	2024-04-17	312.44409734392053	26	Lumivyory-ammunta	OMAS
-10	2024-04-17	328.04405217259074	27	Kesan_Ampujaiset	OMAS
-10	2024-04-17	318.5396863143071	27	Talvi_Pistooli	OMAS
-10	2024-04-17	353.84210963497657	27	Tarkkuuslaukaus-festivaali	OMAS
-10	2024-04-17	345.65490537389707	27	Kivaarikilpailujen_huipennus	OMAS
-10	2024-04-17	322.25350429683255	27	Polaris-ampumaharjoitus	OMAS
-10	2024-04-17	311.8572292230332	27	Aamunkoiton_tahtays	OMAS
-10	2024-04-17	329.0722220154888	27	Nordic_Sharpshooters_Cup	OMAS
-10	2024-04-17	375.3783161293148	27	Taivaanranta-tulitus	OMAS
-10	2024-04-17	335.8008786638202	27	Lumivyory-ammunta	OMAS
-10	2024-04-17	322.49652524184756	28	Kesan_Ampujaiset	Pelleseura
-10	2024-04-17	318.2255536281312	28	Talvi_Pistooli	Pelleseura
-10	2024-04-17	341.0056357886814	28	Tarkkuuslaukaus-festivaali	Pelleseura
-10	2024-04-17	283.279907553355	28	Kivaarikilpailujen_huipennus	Pelleseura
-10	2024-04-17	332.4034588694634	28	Polaris-ampumaharjoitus	Pelleseura
-10	2024-04-17	356.8067268561409	28	Aamunkoiton_tahtays	Pelleseura
-10	2024-04-17	342.15533401516973	28	Nordic_Sharpshooters_Cup	Pelleseura
-10	2024-04-17	312.93924229726076	28	Taivaanranta-tulitus	Pelleseura
-10	2024-04-17	316.85623608159426	28	Lumivyory-ammunta	Pelleseura
-10	2024-04-17	316.81561547829824	29	Kesan_Ampujaiset	Pelleseura
-10	2024-04-17	309.8143133197787	29	Talvi_Pistooli	Pelleseura
-10	2024-04-17	299.5994112620207	29	Tarkkuuslaukaus-festivaali	Pelleseura
-10	2024-04-17	341.6167308407522	29	Kivaarikilpailujen_huipennus	Pelleseura
-10	2024-04-17	324.13956105464604	29	Polaris-ampumaharjoitus	Pelleseura
-10	2024-04-17	334.30679101955917	29	Aamunkoiton_tahtays	Pelleseura
-10	2024-04-17	342.21006641159437	29	Nordic_Sharpshooters_Cup	Pelleseura
-10	2024-04-17	336.97698129591294	29	Taivaanranta-tulitus	Pelleseura
-10	2024-04-17	354.8160798302676	29	Lumivyory-ammunta	Pelleseura
-10	2024-04-17	368.18931865678985	30	Kesan_Ampujaiset	Pelleseura
-10	2024-04-17	334.06792677756596	30	Talvi_Pistooli	Pelleseura
-10	2024-04-17	335.16598447484216	30	Tarkkuuslaukaus-festivaali	Pelleseura
-10	2024-04-17	335.0964713360144	30	Kivaarikilpailujen_huipennus	Pelleseura
-10	2024-04-17	288.9980448730872	30	Polaris-ampumaharjoitus	Pelleseura
-10	2024-04-17	324.5785383263826	30	Aamunkoiton_tahtays	Pelleseura
-10	2024-04-17	334.4843037875653	30	Nordic_Sharpshooters_Cup	Pelleseura
-10	2024-04-17	317.7666149413173	30	Taivaanranta-tulitus	Pelleseura
-10	2024-04-17	287.47944195686875	30	Lumivyory-ammunta	Pelleseura
-10	2024-04-17	291.15679514987687	31	Kesan_Ampujaiset	Pelleseura
-10	2024-04-17	283.3721138449615	31	Talvi_Pistooli	Pelleseura
-10	2024-04-17	330.94989288108775	31	Tarkkuuslaukaus-festivaali	Pelleseura
-10	2024-04-17	342.458825885691	31	Kivaarikilpailujen_huipennus	Pelleseura
-10	2024-04-17	282.98490921176517	31	Polaris-ampumaharjoitus	Pelleseura
-10	2024-04-17	348.6040175522305	31	Aamunkoiton_tahtays	Pelleseura
-10	2024-04-17	294.3656855464487	31	Nordic_Sharpshooters_Cup	Pelleseura
-10	2024-04-17	323.0112230713718	31	Taivaanranta-tulitus	Pelleseura
-10	2024-04-17	312.55487692082517	31	Lumivyory-ammunta	Pelleseura
-10	2024-04-17	334.552971725433	32	Kesan_Ampujaiset	Yung_Tallent
-10	2024-04-17	359.11628720128107	32	Talvi_Pistooli	Yung_Tallent
-10	2024-04-17	353.21604985889695	32	Tarkkuuslaukaus-festivaali	Yung_Tallent
-10	2024-04-17	335.58966877985375	32	Kivaarikilpailujen_huipennus	Yung_Tallent
-10	2024-04-17	334.7048794494384	32	Polaris-ampumaharjoitus	Yung_Tallent
-10	2024-04-17	358.39504775747696	32	Aamunkoiton_tahtays	Yung_Tallent
-10	2024-04-17	283.7857167350086	32	Nordic_Sharpshooters_Cup	Yung_Tallent
-10	2024-04-17	331.3832229624755	32	Taivaanranta-tulitus	Yung_Tallent
-10	2024-04-17	335.1942652558945	32	Lumivyory-ammunta	Yung_Tallent
-10	2024-04-17	322.6299524924359	33	Kesan_Ampujaiset	Yung_Tallent
-10	2024-04-17	373.2338050861884	33	Talvi_Pistooli	Yung_Tallent
-10	2024-04-17	340.5115899962548	33	Tarkkuuslaukaus-festivaali	Yung_Tallent
-10	2024-04-17	352.29322904647296	33	Kivaarikilpailujen_huipennus	Yung_Tallent
-10	2024-04-17	295.41155928184395	33	Polaris-ampumaharjoitus	Yung_Tallent
-10	2024-04-17	311.91213434005005	33	Aamunkoiton_tahtays	Yung_Tallent
-10	2024-04-17	297.0307320759604	33	Nordic_Sharpshooters_Cup	Yung_Tallent
-10	2024-04-17	355.7482948345826	33	Taivaanranta-tulitus	Yung_Tallent
-10	2024-04-17	365.14357230543027	33	Lumivyory-ammunta	Yung_Tallent
-10	2024-04-17	342.23580902866104	34	Kesan_Ampujaiset	Yung_Tallent
-10	2024-04-17	358.67159687648484	34	Talvi_Pistooli	Yung_Tallent
-10	2024-04-17	307.26239032909615	34	Tarkkuuslaukaus-festivaali	Yung_Tallent
-10	2024-04-17	324.50771714261606	34	Kivaarikilpailujen_huipennus	Yung_Tallent
-10	2024-04-17	285.55342923320234	34	Polaris-ampumaharjoitus	Yung_Tallent
-10	2024-04-17	340.2186131039254	34	Aamunkoiton_tahtays	Yung_Tallent
-10	2024-04-17	312.05954901252795	34	Nordic_Sharpshooters_Cup	Yung_Tallent
-10	2024-04-17	279.9195180085483	34	Taivaanranta-tulitus	Yung_Tallent
-10	2024-04-17	331.85029334513285	34	Lumivyory-ammunta	Yung_Tallent
-10	2024-04-17	339.37063491575645	35	Kesan_Ampujaiset	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	349.6895873919562	35	Talvi_Pistooli	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	347.19015165494085	35	Tarkkuuslaukaus-festivaali	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	347.40206820652077	35	Kivaarikilpailujen_huipennus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	321.7565991532797	35	Polaris-ampumaharjoitus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	284.0327609797016	35	Aamunkoiton_tahtays	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	325.49031160227963	35	Nordic_Sharpshooters_Cup	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	323.01880500715316	35	Taivaanranta-tulitus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	304.7978980832839	35	Lumivyory-ammunta	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	305.95179802847247	36	Kesan_Ampujaiset	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	288.3833932146156	36	Talvi_Pistooli	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	352.4989909019311	36	Tarkkuuslaukaus-festivaali	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	349.69232559281016	36	Kivaarikilpailujen_huipennus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	338.9075469396206	36	Polaris-ampumaharjoitus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	342.24585261203094	36	Aamunkoiton_tahtays	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	335.16800962481636	36	Nordic_Sharpshooters_Cup	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	331.38003645012304	36	Taivaanranta-tulitus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	301.85545454528267	36	Lumivyory-ammunta	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	331.41944705137917	37	Kesan_Ampujaiset	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	296.30757499238894	37	Talvi_Pistooli	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	322.0492433017013	37	Tarkkuuslaukaus-festivaali	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	336.02478207193053	37	Kivaarikilpailujen_huipennus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	355.1246274465679	37	Polaris-ampumaharjoitus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	341.2601680860488	37	Aamunkoiton_tahtays	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	361.3312270727989	37	Nordic_Sharpshooters_Cup	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	300.905312333733	37	Taivaanranta-tulitus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	311.5478810136252	37	Lumivyory-ammunta	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	306.32588863853783	38	Kesan_Ampujaiset	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	281.2146769861045	38	Talvi_Pistooli	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	351.79035867042154	38	Tarkkuuslaukaus-festivaali	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	298.87645085028146	38	Kivaarikilpailujen_huipennus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	337.45239981296487	38	Polaris-ampumaharjoitus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	329.79703618531255	38	Aamunkoiton_tahtays	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	317.88000664797767	38	Nordic_Sharpshooters_Cup	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	313.8777814921631	38	Taivaanranta-tulitus	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	318.80001005741644	38	Lumivyory-ammunta	Aseharrastajien_Yhtenaisyys
-10	2024-04-17	345.5245693238083	39	Kesan_Ampujaiset	Tahtaysmestarit
-10	2024-04-17	340.6754778240399	39	Talvi_Pistooli	Tahtaysmestarit
-10	2024-04-17	306.91342223116453	39	Tarkkuuslaukaus-festivaali	Tahtaysmestarit
-10	2024-04-17	327.29710926471233	39	Kivaarikilpailujen_huipennus	Tahtaysmestarit
-10	2024-04-17	353.30678586535566	39	Polaris-ampumaharjoitus	Tahtaysmestarit
-10	2024-04-17	328.51813587715986	39	Aamunkoiton_tahtays	Tahtaysmestarit
-10	2024-04-17	322.57587304672813	39	Nordic_Sharpshooters_Cup	Tahtaysmestarit
-10	2024-04-17	359.3196235664269	39	Taivaanranta-tulitus	Tahtaysmestarit
-10	2024-04-17	309.6445203891318	39	Lumivyory-ammunta	Tahtaysmestarit
-10	2024-04-17	366.2011425763995	40	Kesan_Ampujaiset	Tahtaysmestarit
-10	2024-04-17	386.96617676041063	40	Talvi_Pistooli	Tahtaysmestarit
-10	2024-04-17	330.46320366628805	40	Tarkkuuslaukaus-festivaali	Tahtaysmestarit
-10	2024-04-17	323.86642626114906	40	Kivaarikilpailujen_huipennus	Tahtaysmestarit
-10	2024-04-17	266.0606175073136	40	Polaris-ampumaharjoitus	Tahtaysmestarit
-10	2024-04-17	341.35620610203574	40	Aamunkoiton_tahtays	Tahtaysmestarit
-10	2024-04-17	310.0881473527445	40	Nordic_Sharpshooters_Cup	Tahtaysmestarit
-10	2024-04-17	313.26782598198974	40	Taivaanranta-tulitus	Tahtaysmestarit
-10	2024-04-17	352.0187451416986	40	Lumivyory-ammunta	Tahtaysmestarit
-10	2024-04-17	353.7120478596295	41	Kesan_Ampujaiset	Tahtaysmestarit
-10	2024-04-17	321.1140758765681	41	Talvi_Pistooli	Tahtaysmestarit
-10	2024-04-17	314.43611915984224	41	Tarkkuuslaukaus-festivaali	Tahtaysmestarit
-10	2024-04-17	316.46537508071475	41	Kivaarikilpailujen_huipennus	Tahtaysmestarit
-10	2024-04-17	304.3900240071608	41	Polaris-ampumaharjoitus	Tahtaysmestarit
-10	2024-04-17	351.75491194887115	41	Aamunkoiton_tahtays	Tahtaysmestarit
-10	2024-04-17	293.5806754759265	41	Nordic_Sharpshooters_Cup	Tahtaysmestarit
-10	2024-04-17	333.65709879677405	41	Taivaanranta-tulitus	Tahtaysmestarit
-10	2024-04-17	349.26417487040277	41	Lumivyory-ammunta	Tahtaysmestarit
-10	2024-04-17	371.41103133730064	42	Kesan_Ampujaiset	Tahtaysmestarit
-10	2024-04-17	356.77391976926003	42	Talvi_Pistooli	Tahtaysmestarit
-10	2024-04-17	297.9515096110358	42	Tarkkuuslaukaus-festivaali	Tahtaysmestarit
-10	2024-04-17	312.1058755705157	42	Kivaarikilpailujen_huipennus	Tahtaysmestarit
-10	2024-04-17	335.00795964513003	42	Polaris-ampumaharjoitus	Tahtaysmestarit
-10	2024-04-17	332.73131759781865	42	Aamunkoiton_tahtays	Tahtaysmestarit
-10	2024-04-17	285.9855788790454	42	Nordic_Sharpshooters_Cup	Tahtaysmestarit
-10	2024-04-17	345.0483969597163	42	Taivaanranta-tulitus	Tahtaysmestarit
-10	2024-04-17	351.5304839710229	42	Lumivyory-ammunta	Tahtaysmestarit
-10	2024-04-17	325.6088542890495	43	Kesan_Ampujaiset	Laukausryhma_Aurora
-10	2024-04-17	301.1422468785277	43	Talvi_Pistooli	Laukausryhma_Aurora
-10	2024-04-17	336.42693331067	43	Tarkkuuslaukaus-festivaali	Laukausryhma_Aurora
-10	2024-04-17	333.51507762656973	43	Kivaarikilpailujen_huipennus	Laukausryhma_Aurora
-10	2024-04-17	348.1249187212211	43	Polaris-ampumaharjoitus	Laukausryhma_Aurora
-10	2024-04-17	361.84009900346547	43	Aamunkoiton_tahtays	Laukausryhma_Aurora
-10	2024-04-17	313.9180326553294	43	Nordic_Sharpshooters_Cup	Laukausryhma_Aurora
-10	2024-04-17	313.7952424663913	43	Taivaanranta-tulitus	Laukausryhma_Aurora
-10	2024-04-17	363.0322342910642	43	Lumivyory-ammunta	Laukausryhma_Aurora
-10	2024-04-17	334.1926247688266	44	Kesan_Ampujaiset	Laukausryhma_Aurora
-10	2024-04-17	349.7499572738373	44	Talvi_Pistooli	Laukausryhma_Aurora
-10	2024-04-17	328.2139969351892	44	Tarkkuuslaukaus-festivaali	Laukausryhma_Aurora
-10	2024-04-17	316.0603980922042	44	Kivaarikilpailujen_huipennus	Laukausryhma_Aurora
-10	2024-04-17	316.1511372068708	44	Polaris-ampumaharjoitus	Laukausryhma_Aurora
-10	2024-04-17	270.5752643761162	44	Aamunkoiton_tahtays	Laukausryhma_Aurora
-10	2024-04-17	324.34527677744535	44	Nordic_Sharpshooters_Cup	Laukausryhma_Aurora
-10	2024-04-17	289.6156362933285	44	Taivaanranta-tulitus	Laukausryhma_Aurora
-10	2024-04-17	382.9179416863557	44	Lumivyory-ammunta	Laukausryhma_Aurora
-10	2024-04-17	354.05133941647875	45	Kesan_Ampujaiset	Laukausryhma_Aurora
-10	2024-04-17	333.80967083344177	45	Talvi_Pistooli	Laukausryhma_Aurora
-10	2024-04-17	280.3075093788192	45	Tarkkuuslaukaus-festivaali	Laukausryhma_Aurora
-10	2024-04-17	334.03397266535063	45	Kivaarikilpailujen_huipennus	Laukausryhma_Aurora
-10	2024-04-17	331.59224882487746	45	Polaris-ampumaharjoitus	Laukausryhma_Aurora
-10	2024-04-17	308.4796553961465	45	Aamunkoiton_tahtays	Laukausryhma_Aurora
-10	2024-04-17	311.4592121729367	45	Nordic_Sharpshooters_Cup	Laukausryhma_Aurora
-10	2024-04-17	280.76610915029266	45	Taivaanranta-tulitus	Laukausryhma_Aurora
-10	2024-04-17	322.12393504048526	45	Lumivyory-ammunta	Laukausryhma_Aurora
-10	2024-04-17	320.14347683877736	46	Kesan_Ampujaiset	Ampumataito
-10	2024-04-17	358.6545835395633	46	Talvi_Pistooli	Ampumataito
-10	2024-04-17	348.77062402754535	46	Tarkkuuslaukaus-festivaali	Ampumataito
-10	2024-04-17	300.8954651458632	46	Kivaarikilpailujen_huipennus	Ampumataito
-10	2024-04-17	345.1702315896559	46	Polaris-ampumaharjoitus	Ampumataito
-10	2024-04-17	346.261497525317	46	Aamunkoiton_tahtays	Ampumataito
-10	2024-04-17	333.31713465271326	46	Nordic_Sharpshooters_Cup	Ampumataito
-10	2024-04-17	345.7812902405958	46	Taivaanranta-tulitus	Ampumataito
-10	2024-04-17	311.88257244034577	46	Lumivyory-ammunta	Ampumataito
-10	2024-04-17	335.46397175478177	47	Kesan_Ampujaiset	Ampumataito
-10	2024-04-17	348.11428960079627	47	Talvi_Pistooli	Ampumataito
-10	2024-04-17	340.9665391377438	47	Tarkkuuslaukaus-festivaali	Ampumataito
-10	2024-04-17	310.82481651844813	47	Kivaarikilpailujen_huipennus	Ampumataito
-10	2024-04-17	339.14818166564663	47	Polaris-ampumaharjoitus	Ampumataito
-10	2024-04-17	330.71128797610294	47	Aamunkoiton_tahtays	Ampumataito
-10	2024-04-17	327.8794437950076	47	Nordic_Sharpshooters_Cup	Ampumataito
-10	2024-04-17	319.57819025041925	47	Taivaanranta-tulitus	Ampumataito
-10	2024-04-17	311.50272471025477	47	Lumivyory-ammunta	Ampumataito
-10	2024-04-17	326.655513339101	48	Kesan_Ampujaiset	Ampumataito
-10	2024-04-17	298.45488476531557	48	Talvi_Pistooli	Ampumataito
-10	2024-04-17	344.1711756810937	48	Tarkkuuslaukaus-festivaali	Ampumataito
-10	2024-04-17	310.7264293335216	48	Kivaarikilpailujen_huipennus	Ampumataito
-10	2024-04-17	321.62511993498697	48	Polaris-ampumaharjoitus	Ampumataito
-10	2024-04-17	321.17103414578264	48	Aamunkoiton_tahtays	Ampumataito
-10	2024-04-17	320.97683446477714	48	Nordic_Sharpshooters_Cup	Ampumataito
-10	2024-04-17	295.3218395280308	48	Taivaanranta-tulitus	Ampumataito
-10	2024-04-17	342.8067717557058	48	Lumivyory-ammunta	Ampumataito
+10	2024-04-18	318.1124343264495	1	tarkka-ammunta_cup	poliisiseura
+10	2024-04-18	312.38453285297976	1	nopean_laukauksen_mestaruus	poliisiseura
+10	2024-04-18	339.43203192009395	1	moniottelu	poliisiseura
+10	2024-04-18	318.1702633835078	1	kansallinen_tahtayskilpailu	poliisiseura
+10	2024-04-18	285.7144259695028	1	kaupunkiammunta-challenge	poliisiseura
+10	2024-04-18	343.6021345276503	1	laukausmaraton	poliisiseura
+10	2024-04-18	385.1142340897386	1	vapaa-asekilpailu	poliisiseura
+10	2024-04-18	344.8985723392819	1	taitoluodikko-turnaus	poliisiseura
+10	2024-04-18	341.8026044769152	1	precision_pistol_cup	poliisiseura
+10	2024-04-18	331.57675927261624	1	tulevaisuuden_ampuja	poliisiseura
+10	2024-04-18	342.3321307074183	1	pikakivaari-klassikko	poliisiseura
+10	2024-04-18	357.14980744546966	2	tarkka-ammunta_cup	poliisiseura
+10	2024-04-18	340.71049001393106	2	nopean_laukauksen_mestaruus	poliisiseura
+10	2024-04-18	346.91142250028145	2	moniottelu	poliisiseura
+10	2024-04-18	243.77561239839304	2	kansallinen_tahtayskilpailu	poliisiseura
+10	2024-04-18	357.1148868814402	2	kaupunkiammunta-challenge	poliisiseura
+10	2024-04-18	340.451322237918	2	laukausmaraton	poliisiseura
+10	2024-04-18	326.60661516912216	2	vapaa-asekilpailu	poliisiseura
+10	2024-04-18	357.11325858323	2	taitoluodikko-turnaus	poliisiseura
+10	2024-04-18	357.00361511658167	2	precision_pistol_cup	poliisiseura
+10	2024-04-18	274.0263076330695	2	tulevaisuuden_ampuja	poliisiseura
+10	2024-04-18	353.2004255363694	2	pikakivaari-klassikko	poliisiseura
+10	2024-04-18	378.7307968655954	3	tarkka-ammunta_cup	poliisiseura
+10	2024-04-18	282.97713130416395	3	nopean_laukauksen_mestaruus	poliisiseura
+10	2024-04-18	328.5124323129334	3	moniottelu	poliisiseura
+10	2024-04-18	290.69552974578215	3	kansallinen_tahtayskilpailu	poliisiseura
+10	2024-04-18	327.86834486331526	3	kaupunkiammunta-challenge	poliisiseura
+10	2024-04-18	304.8725127589751	3	laukausmaraton	poliisiseura
+10	2024-04-18	357.09455101895134	3	vapaa-asekilpailu	poliisiseura
+10	2024-04-18	297.0036373370178	3	taitoluodikko-turnaus	poliisiseura
+10	2024-04-18	339.4557873657607	3	precision_pistol_cup	poliisiseura
+10	2024-04-18	279.6813237688256	3	tulevaisuuden_ampuja	poliisiseura
+10	2024-04-18	305.65100456288684	3	pikakivaari-klassikko	poliisiseura
+10	2024-04-18	305.97061471152625	4	tarkka-ammunta_cup	poliisiseura
+10	2024-04-18	277.2819064533737	4	nopean_laukauksen_mestaruus	poliisiseura
+10	2024-04-18	334.1147906422769	4	moniottelu	poliisiseura
+10	2024-04-18	333.54158068984805	4	kansallinen_tahtayskilpailu	poliisiseura
+10	2024-04-18	335.7785027896503	4	kaupunkiammunta-challenge	poliisiseura
+10	2024-04-18	335.63259357783136	4	laukausmaraton	poliisiseura
+10	2024-04-18	333.483189335613	4	vapaa-asekilpailu	poliisiseura
+10	2024-04-18	301.71158035399503	4	taitoluodikko-turnaus	poliisiseura
+10	2024-04-18	311.10072603100633	4	precision_pistol_cup	poliisiseura
+10	2024-04-18	352.985905933777	4	tulevaisuuden_ampuja	poliisiseura
+10	2024-04-18	306.18881869255	4	pikakivaari-klassikko	poliisiseura
+10	2024-04-18	318.28933626817536	5	tarkka-ammunta_cup	koiraseura
+10	2024-04-18	347.9600380490043	5	nopean_laukauksen_mestaruus	koiraseura
+10	2024-04-18	307.04962133922237	5	moniottelu	koiraseura
+10	2024-04-18	356.18487815037474	5	kansallinen_tahtayskilpailu	koiraseura
+10	2024-04-18	294.52823090175673	5	kaupunkiammunta-challenge	koiraseura
+10	2024-04-18	332.7050305454848	5	laukausmaraton	koiraseura
+10	2024-04-18	322.19169270947646	5	vapaa-asekilpailu	koiraseura
+10	2024-04-18	341.3379760634625	5	taitoluodikko-turnaus	koiraseura
+10	2024-04-18	293.6176774567798	5	precision_pistol_cup	koiraseura
+10	2024-04-18	344.1368713505295	5	tulevaisuuden_ampuja	koiraseura
+10	2024-04-18	319.09252980367575	5	pikakivaari-klassikko	koiraseura
+10	2024-04-18	353.55898527609844	6	tarkka-ammunta_cup	koiraseura
+10	2024-04-18	342.871325030912	6	nopean_laukauksen_mestaruus	koiraseura
+10	2024-04-18	347.10557061433417	6	moniottelu	koiraseura
+10	2024-04-18	345.0488584214399	6	kansallinen_tahtayskilpailu	koiraseura
+10	2024-04-18	309.47055462468154	6	kaupunkiammunta-challenge	koiraseura
+10	2024-04-18	325.5553697632613	6	laukausmaraton	koiraseura
+10	2024-04-18	293.9519437845464	6	vapaa-asekilpailu	koiraseura
+10	2024-04-18	347.41000129636865	6	taitoluodikko-turnaus	koiraseura
+10	2024-04-18	299.5872437074633	6	precision_pistol_cup	koiraseura
+10	2024-04-18	326.80582559667147	6	tulevaisuuden_ampuja	koiraseura
+10	2024-04-18	290.59254737307816	6	pikakivaari-klassikko	koiraseura
+10	2024-04-18	309.6357233006032	7	tarkka-ammunta_cup	koiraseura
+10	2024-04-18	312.02167397842777	7	nopean_laukauksen_mestaruus	koiraseura
+10	2024-04-18	305.9158482400131	7	moniottelu	koiraseura
+10	2024-04-18	326.5818094442283	7	kansallinen_tahtayskilpailu	koiraseura
+10	2024-04-18	284.00706727304424	7	kaupunkiammunta-challenge	koiraseura
+10	2024-04-18	322.8777968441317	7	laukausmaraton	koiraseura
+10	2024-04-18	318.0325996413421	7	vapaa-asekilpailu	koiraseura
+10	2024-04-18	345.57693312157437	7	taitoluodikko-turnaus	koiraseura
+10	2024-04-18	344.1067914458278	7	precision_pistol_cup	koiraseura
+10	2024-04-18	293.2646508274115	7	tulevaisuuden_ampuja	koiraseura
+10	2024-04-18	325.57846822888985	7	pikakivaari-klassikko	koiraseura
+10	2024-04-18	292.7380877974648	8	tarkka-ammunta_cup	koiraseura
+10	2024-04-18	331.29763321838874	8	nopean_laukauksen_mestaruus	koiraseura
+10	2024-04-18	376.1293599561456	8	moniottelu	koiraseura
+10	2024-04-18	345.25331371699406	8	kansallinen_tahtayskilpailu	koiraseura
+10	2024-04-18	375.90011121407946	8	kaupunkiammunta-challenge	koiraseura
+10	2024-04-18	368.16423782924284	8	laukausmaraton	koiraseura
+10	2024-04-18	346.303769648501	8	vapaa-asekilpailu	koiraseura
+10	2024-04-18	320.7969953052614	8	taitoluodikko-turnaus	koiraseura
+10	2024-04-18	345.57726183973176	8	precision_pistol_cup	koiraseura
+10	2024-04-18	347.8913317198439	8	tulevaisuuden_ampuja	koiraseura
+10	2024-04-18	372.05949304282615	8	pikakivaari-klassikko	koiraseura
+10	2024-04-18	314.8295516023372	9	tarkka-ammunta_cup	hammaspeikkoseura
+10	2024-04-18	326.6855042426319	9	nopean_laukauksen_mestaruus	hammaspeikkoseura
+10	2024-04-18	346.80663166789725	9	moniottelu	hammaspeikkoseura
+10	2024-04-18	329.67278580131654	9	kansallinen_tahtayskilpailu	hammaspeikkoseura
+10	2024-04-18	331.59151264571466	9	kaupunkiammunta-challenge	hammaspeikkoseura
+10	2024-04-18	321.2161867000196	9	laukausmaraton	hammaspeikkoseura
+10	2024-04-18	318.12006452902267	9	vapaa-asekilpailu	hammaspeikkoseura
+10	2024-04-18	305.7990019822921	9	taitoluodikko-turnaus	hammaspeikkoseura
+10	2024-04-18	304.05761514407016	9	precision_pistol_cup	hammaspeikkoseura
+10	2024-04-18	304.79249496734053	9	tulevaisuuden_ampuja	hammaspeikkoseura
+10	2024-04-18	334.9514152723787	9	pikakivaari-klassikko	hammaspeikkoseura
+10	2024-04-18	309.23066011537856	10	tarkka-ammunta_cup	hammaspeikkoseura
+10	2024-04-18	333.49747524055755	10	nopean_laukauksen_mestaruus	hammaspeikkoseura
+10	2024-04-18	316.7496810514992	10	moniottelu	hammaspeikkoseura
+10	2024-04-18	311.88827965158004	10	kansallinen_tahtayskilpailu	hammaspeikkoseura
+10	2024-04-18	363.64534060687663	10	kaupunkiammunta-challenge	hammaspeikkoseura
+10	2024-04-18	327.2789840144448	10	laukausmaraton	hammaspeikkoseura
+10	2024-04-18	318.4092492423311	10	vapaa-asekilpailu	hammaspeikkoseura
+10	2024-04-18	339.9472742888642	10	taitoluodikko-turnaus	hammaspeikkoseura
+10	2024-04-18	270.1346143555209	10	precision_pistol_cup	hammaspeikkoseura
+10	2024-04-18	342.47344514511127	10	tulevaisuuden_ampuja	hammaspeikkoseura
+10	2024-04-18	323.4932131828384	10	pikakivaari-klassikko	hammaspeikkoseura
+10	2024-04-18	348.76313757650723	11	tarkka-ammunta_cup	hammaspeikkoseura
+10	2024-04-18	317.75175799934686	11	nopean_laukauksen_mestaruus	hammaspeikkoseura
+10	2024-04-18	318.02639742289466	11	moniottelu	hammaspeikkoseura
+10	2024-04-18	325.51378073827664	11	kansallinen_tahtayskilpailu	hammaspeikkoseura
+10	2024-04-18	335.31966439904016	11	kaupunkiammunta-challenge	hammaspeikkoseura
+10	2024-04-18	328.33863705255374	11	laukausmaraton	hammaspeikkoseura
+10	2024-04-18	323.07788624385455	11	vapaa-asekilpailu	hammaspeikkoseura
+10	2024-04-18	282.6327968088348	11	taitoluodikko-turnaus	hammaspeikkoseura
+10	2024-04-18	345.40598166702284	11	precision_pistol_cup	hammaspeikkoseura
+10	2024-04-18	359.82425393908505	11	tulevaisuuden_ampuja	hammaspeikkoseura
+10	2024-04-18	311.0239163844211	11	pikakivaari-klassikko	hammaspeikkoseura
+10	2024-04-18	359.21156886410387	12	tarkka-ammunta_cup	hammaspeikkoseura
+10	2024-04-18	328.9218080496732	12	nopean_laukauksen_mestaruus	hammaspeikkoseura
+10	2024-04-18	308.99577908066294	12	moniottelu	hammaspeikkoseura
+10	2024-04-18	304.54040418813844	12	kansallinen_tahtayskilpailu	hammaspeikkoseura
+10	2024-04-18	358.3835968771475	12	kaupunkiammunta-challenge	hammaspeikkoseura
+10	2024-04-18	320.3369467800736	12	laukausmaraton	hammaspeikkoseura
+10	2024-04-18	305.84780539471404	12	vapaa-asekilpailu	hammaspeikkoseura
+10	2024-04-18	303.8075945507501	12	taitoluodikko-turnaus	hammaspeikkoseura
+10	2024-04-18	306.94690563121827	12	precision_pistol_cup	hammaspeikkoseura
+10	2024-04-18	352.6096940642042	12	tulevaisuuden_ampuja	hammaspeikkoseura
+10	2024-04-18	303.62120593694647	12	pikakivaari-klassikko	hammaspeikkoseura
+10	2024-04-18	263.84412273545814	13	tarkka-ammunta_cup	dog
+10	2024-04-18	318.86849081760295	13	nopean_laukauksen_mestaruus	dog
+10	2024-04-18	254.52364538254952	13	moniottelu	dog
+10	2024-04-18	380.19001606114034	13	kansallinen_tahtayskilpailu	dog
+10	2024-04-18	279.36109186576016	13	kaupunkiammunta-challenge	dog
+10	2024-04-18	326.7938632075419	13	laukausmaraton	dog
+10	2024-04-18	318.7950754944407	13	vapaa-asekilpailu	dog
+10	2024-04-18	317.97354735693784	13	taitoluodikko-turnaus	dog
+10	2024-04-18	312.70329451356895	13	precision_pistol_cup	dog
+10	2024-04-18	301.7841960607069	13	tulevaisuuden_ampuja	dog
+10	2024-04-18	326.1339142210797	13	pikakivaari-klassikko	dog
+10	2024-04-18	314.30566118929505	14	tarkka-ammunta_cup	dog
+10	2024-04-18	312.3314780365041	14	nopean_laukauksen_mestaruus	dog
+10	2024-04-18	308.1030429439829	14	moniottelu	dog
+10	2024-04-18	348.4869530561322	14	kansallinen_tahtayskilpailu	dog
+10	2024-04-18	339.24174496805165	14	kaupunkiammunta-challenge	dog
+10	2024-04-18	300.8406196016196	14	laukausmaraton	dog
+10	2024-04-18	316.07768809012487	14	vapaa-asekilpailu	dog
+10	2024-04-18	325.05743177934335	14	taitoluodikko-turnaus	dog
+10	2024-04-18	292.5388055431615	14	precision_pistol_cup	dog
+10	2024-04-18	323.4507546737532	14	tulevaisuuden_ampuja	dog
+10	2024-04-18	344.30350374226686	14	pikakivaari-klassikko	dog
+10	2024-04-18	341.8009444040856	15	tarkka-ammunta_cup	dog
+10	2024-04-18	378.8164832217628	15	nopean_laukauksen_mestaruus	dog
+10	2024-04-18	311.1581494236106	15	moniottelu	dog
+10	2024-04-18	307.8819290586109	15	kansallinen_tahtayskilpailu	dog
+10	2024-04-18	343.1252731068876	15	kaupunkiammunta-challenge	dog
+10	2024-04-18	321.30122378626646	15	laukausmaraton	dog
+10	2024-04-18	335.75788997902725	15	vapaa-asekilpailu	dog
+10	2024-04-18	325.1590028333634	15	taitoluodikko-turnaus	dog
+10	2024-04-18	290.85278407782	15	precision_pistol_cup	dog
+10	2024-04-18	346.1311082137	15	tulevaisuuden_ampuja	dog
+10	2024-04-18	279.1561140313009	15	pikakivaari-klassikko	dog
+10	2024-04-18	297.1948387362642	16	tarkka-ammunta_cup	dog
+10	2024-04-18	308.0897860672031	16	nopean_laukauksen_mestaruus	dog
+10	2024-04-18	322.5410384663758	16	moniottelu	dog
+10	2024-04-18	388.3835773679231	16	kansallinen_tahtayskilpailu	dog
+10	2024-04-18	293.5072980589105	16	kaupunkiammunta-challenge	dog
+10	2024-04-18	348.2223920015625	16	laukausmaraton	dog
+10	2024-04-18	348.9435368937752	16	vapaa-asekilpailu	dog
+10	2024-04-18	336.53084137379693	16	taitoluodikko-turnaus	dog
+10	2024-04-18	303.335615675631	16	precision_pistol_cup	dog
+10	2024-04-18	322.45072376511575	16	tulevaisuuden_ampuja	dog
+10	2024-04-18	319.84472045374656	16	pikakivaari-klassikko	dog
+10	2024-04-18	330.8969960964486	17	tarkka-ammunta_cup	dog
+10	2024-04-18	303.24619867716416	17	nopean_laukauksen_mestaruus	dog
+10	2024-04-18	303.40130080717057	17	moniottelu	dog
+10	2024-04-18	306.6292424330158	17	kansallinen_tahtayskilpailu	dog
+10	2024-04-18	347.7260312925966	17	kaupunkiammunta-challenge	dog
+10	2024-04-18	328.70366458502593	17	laukausmaraton	dog
+10	2024-04-18	332.0045847203284	17	vapaa-asekilpailu	dog
+10	2024-04-18	315.0289021128068	17	taitoluodikko-turnaus	dog
+10	2024-04-18	330.47296222470015	17	precision_pistol_cup	dog
+10	2024-04-18	317.1547527048627	17	tulevaisuuden_ampuja	dog
+10	2024-04-18	319.6677050236834	17	pikakivaari-klassikko	dog
+10	2024-04-18	356.0755130753119	18	tarkka-ammunta_cup	savu_seura
+10	2024-04-18	330.90625483393893	18	nopean_laukauksen_mestaruus	savu_seura
+10	2024-04-18	313.5036434787486	18	moniottelu	savu_seura
+10	2024-04-18	317.2325715843738	18	kansallinen_tahtayskilpailu	savu_seura
+10	2024-04-18	314.6749408633669	18	kaupunkiammunta-challenge	savu_seura
+10	2024-04-18	324.79333121155844	18	laukausmaraton	savu_seura
+10	2024-04-18	349.00207495704484	18	vapaa-asekilpailu	savu_seura
+10	2024-04-18	315.3539044440648	18	taitoluodikko-turnaus	savu_seura
+10	2024-04-18	319.212405748214	18	precision_pistol_cup	savu_seura
+10	2024-04-18	369.8177248513465	18	tulevaisuuden_ampuja	savu_seura
+10	2024-04-18	318.00525030493816	18	pikakivaari-klassikko	savu_seura
+10	2024-04-18	353.4256646974881	19	tarkka-ammunta_cup	savu_seura
+10	2024-04-18	350.73264440869633	19	nopean_laukauksen_mestaruus	savu_seura
+10	2024-04-18	302.7920979535063	19	moniottelu	savu_seura
+10	2024-04-18	340.7126290904441	19	kansallinen_tahtayskilpailu	savu_seura
+10	2024-04-18	335.3944271074598	19	kaupunkiammunta-challenge	savu_seura
+10	2024-04-18	296.66483910316646	19	laukausmaraton	savu_seura
+10	2024-04-18	357.79716063317915	19	vapaa-asekilpailu	savu_seura
+10	2024-04-18	336.8999686053981	19	taitoluodikko-turnaus	savu_seura
+10	2024-04-18	334.7407738481664	19	precision_pistol_cup	savu_seura
+10	2024-04-18	318.139477035085	19	tulevaisuuden_ampuja	savu_seura
+10	2024-04-18	323.6283839387288	19	pikakivaari-klassikko	savu_seura
+10	2024-04-18	338.3362784007965	20	tarkka-ammunta_cup	savu_seura
+10	2024-04-18	314.88681223338574	20	nopean_laukauksen_mestaruus	savu_seura
+10	2024-04-18	331.9298935983173	20	moniottelu	savu_seura
+10	2024-04-18	316.5866938195598	20	kansallinen_tahtayskilpailu	savu_seura
+10	2024-04-18	369.25650329719855	20	kaupunkiammunta-challenge	savu_seura
+10	2024-04-18	339.74941426907606	20	laukausmaraton	savu_seura
+10	2024-04-18	335.2224812299506	20	vapaa-asekilpailu	savu_seura
+10	2024-04-18	319.29531484913605	20	taitoluodikko-turnaus	savu_seura
+10	2024-04-18	366.8596156625696	20	precision_pistol_cup	savu_seura
+10	2024-04-18	344.11937068297607	20	tulevaisuuden_ampuja	savu_seura
+10	2024-04-18	343.87486050532686	20	pikakivaari-klassikko	savu_seura
+10	2024-04-18	278.7436417444522	21	tarkka-ammunta_cup	savu_seura
+10	2024-04-18	334.55474599583425	21	nopean_laukauksen_mestaruus	savu_seura
+10	2024-04-18	319.2077401784991	21	moniottelu	savu_seura
+10	2024-04-18	341.92861248629976	21	kansallinen_tahtayskilpailu	savu_seura
+10	2024-04-18	326.7136287854871	21	kaupunkiammunta-challenge	savu_seura
+10	2024-04-18	359.31289209479235	21	laukausmaraton	savu_seura
+10	2024-04-18	358.8650535372879	21	vapaa-asekilpailu	savu_seura
+10	2024-04-18	349.75428955721793	21	taitoluodikko-turnaus	savu_seura
+10	2024-04-18	347.9115097400335	21	precision_pistol_cup	savu_seura
+10	2024-04-18	326.67926126727303	21	tulevaisuuden_ampuja	savu_seura
+10	2024-04-18	361.554932046637	21	pikakivaari-klassikko	savu_seura
+10	2024-04-18	383.29652270157874	22	tarkka-ammunta_cup	omas
+10	2024-04-18	297.55877600386765	22	nopean_laukauksen_mestaruus	omas
+10	2024-04-18	299.6772973266503	22	moniottelu	omas
+10	2024-04-18	326.201524827742	22	kansallinen_tahtayskilpailu	omas
+10	2024-04-18	325.83968780843026	22	kaupunkiammunta-challenge	omas
+10	2024-04-18	330.87544710178804	22	laukausmaraton	omas
+10	2024-04-18	316.47791623322195	22	vapaa-asekilpailu	omas
+10	2024-04-18	339.99408210304597	22	taitoluodikko-turnaus	omas
+10	2024-04-18	358.3261853668935	22	precision_pistol_cup	omas
+10	2024-04-18	340.12044592621265	22	tulevaisuuden_ampuja	omas
+10	2024-04-18	357.48575120606125	22	pikakivaari-klassikko	omas
+10	2024-04-18	291.99231921810883	23	tarkka-ammunta_cup	omas
+10	2024-04-18	284.22612003935757	23	nopean_laukauksen_mestaruus	omas
+10	2024-04-18	342.7428284814245	23	moniottelu	omas
+10	2024-04-18	308.6726643910317	23	kansallinen_tahtayskilpailu	omas
+10	2024-04-18	339.0152711758178	23	kaupunkiammunta-challenge	omas
+10	2024-04-18	317.72813339761393	23	laukausmaraton	omas
+10	2024-04-18	305.120027325405	23	vapaa-asekilpailu	omas
+10	2024-04-18	345.82557040010676	23	taitoluodikko-turnaus	omas
+10	2024-04-18	298.084914986633	23	precision_pistol_cup	omas
+10	2024-04-18	275.15231024892915	23	tulevaisuuden_ampuja	omas
+10	2024-04-18	312.8893172292467	23	pikakivaari-klassikko	omas
+10	2024-04-18	297.9757281896113	24	tarkka-ammunta_cup	omas
+10	2024-04-18	272.71156472232616	24	nopean_laukauksen_mestaruus	omas
+10	2024-04-18	297.4792822591069	24	moniottelu	omas
+10	2024-04-18	300.8798115075707	24	kansallinen_tahtayskilpailu	omas
+10	2024-04-18	314.60782131596517	24	kaupunkiammunta-challenge	omas
+10	2024-04-18	353.0843852137363	24	laukausmaraton	omas
+10	2024-04-18	290.3720349150323	24	vapaa-asekilpailu	omas
+10	2024-04-18	347.1355903271441	24	taitoluodikko-turnaus	omas
+10	2024-04-18	332.69677704743924	24	precision_pistol_cup	omas
+10	2024-04-18	323.17395231056594	24	tulevaisuuden_ampuja	omas
+10	2024-04-18	300.74276507270525	24	pikakivaari-klassikko	omas
+10	2024-04-18	295.22663687556746	25	tarkka-ammunta_cup	omas
+10	2024-04-18	287.5072325573534	25	nopean_laukauksen_mestaruus	omas
+10	2024-04-18	303.908470892167	25	moniottelu	omas
+10	2024-04-18	312.47113203095773	25	kansallinen_tahtayskilpailu	omas
+10	2024-04-18	320.008606460481	25	kaupunkiammunta-challenge	omas
+10	2024-04-18	302.0416007573923	25	laukausmaraton	omas
+10	2024-04-18	332.8156729037891	25	vapaa-asekilpailu	omas
+10	2024-04-18	341.13663364322656	25	taitoluodikko-turnaus	omas
+10	2024-04-18	339.08421708010496	25	precision_pistol_cup	omas
+10	2024-04-18	338.26837545096936	25	tulevaisuuden_ampuja	omas
+10	2024-04-18	316.29484684624555	25	pikakivaari-klassikko	omas
+10	2024-04-18	322.1418896743027	26	tarkka-ammunta_cup	omas
+10	2024-04-18	315.3649501153655	26	nopean_laukauksen_mestaruus	omas
+10	2024-04-18	358.80189857984	26	moniottelu	omas
+10	2024-04-18	304.8528734238908	26	kansallinen_tahtayskilpailu	omas
+10	2024-04-18	339.49109502440325	26	kaupunkiammunta-challenge	omas
+10	2024-04-18	360.3662967346578	26	laukausmaraton	omas
+10	2024-04-18	312.94329959482394	26	vapaa-asekilpailu	omas
+10	2024-04-18	316.1142430295574	26	taitoluodikko-turnaus	omas
+10	2024-04-18	326.58194767574963	26	precision_pistol_cup	omas
+10	2024-04-18	338.1545673071072	26	tulevaisuuden_ampuja	omas
+10	2024-04-18	290.1138019519212	26	pikakivaari-klassikko	omas
+10	2024-04-18	359.0375526008234	27	tarkka-ammunta_cup	pelleseura
+10	2024-04-18	362.25979562391075	27	nopean_laukauksen_mestaruus	pelleseura
+10	2024-04-18	358.6866153191909	27	moniottelu	pelleseura
+10	2024-04-18	374.21000605553155	27	kansallinen_tahtayskilpailu	pelleseura
+10	2024-04-18	296.2083871788591	27	kaupunkiammunta-challenge	pelleseura
+10	2024-04-18	336.66055992451123	27	laukausmaraton	pelleseura
+10	2024-04-18	323.00963752238897	27	vapaa-asekilpailu	pelleseura
+10	2024-04-18	316.01847154446443	27	taitoluodikko-turnaus	pelleseura
+10	2024-04-18	317.6981286860731	27	precision_pistol_cup	pelleseura
+10	2024-04-18	337.4787892144234	27	tulevaisuuden_ampuja	pelleseura
+10	2024-04-18	325.1222898519005	27	pikakivaari-klassikko	pelleseura
+10	2024-04-18	317.57387084009474	28	tarkka-ammunta_cup	pelleseura
+10	2024-04-18	329.6843843106059	28	nopean_laukauksen_mestaruus	pelleseura
+10	2024-04-18	314.46126096807853	28	moniottelu	pelleseura
+10	2024-04-18	304.83784872990947	28	kansallinen_tahtayskilpailu	pelleseura
+10	2024-04-18	339.90775461154874	28	kaupunkiammunta-challenge	pelleseura
+10	2024-04-18	355.73155157723977	28	laukausmaraton	pelleseura
+10	2024-04-18	341.00499000472684	28	vapaa-asekilpailu	pelleseura
+10	2024-04-18	358.84529138883136	28	taitoluodikko-turnaus	pelleseura
+10	2024-04-18	308.3773271366766	28	precision_pistol_cup	pelleseura
+10	2024-04-18	345.9014379664608	28	tulevaisuuden_ampuja	pelleseura
+10	2024-04-18	336.1743321382744	28	pikakivaari-klassikko	pelleseura
+10	2024-04-18	334.6513966098311	29	tarkka-ammunta_cup	pelleseura
+10	2024-04-18	361.6177825165724	29	nopean_laukauksen_mestaruus	pelleseura
+10	2024-04-18	318.19447101643794	29	moniottelu	pelleseura
+10	2024-04-18	319.6177716271109	29	kansallinen_tahtayskilpailu	pelleseura
+10	2024-04-18	340.17454658327836	29	kaupunkiammunta-challenge	pelleseura
+10	2024-04-18	322.4722563510094	29	laukausmaraton	pelleseura
+10	2024-04-18	345.8016951632518	29	vapaa-asekilpailu	pelleseura
+10	2024-04-18	370.4880393880543	29	taitoluodikko-turnaus	pelleseura
+10	2024-04-18	330.72226846835616	29	precision_pistol_cup	pelleseura
+10	2024-04-18	331.75151546166387	29	tulevaisuuden_ampuja	pelleseura
+10	2024-04-18	333.9445692531638	29	pikakivaari-klassikko	pelleseura
+10	2024-04-18	277.6025007248259	30	tarkka-ammunta_cup	pelleseura
+10	2024-04-18	328.17931167348524	30	nopean_laukauksen_mestaruus	pelleseura
+10	2024-04-18	326.49867525985513	30	moniottelu	pelleseura
+10	2024-04-18	339.2425385428414	30	kansallinen_tahtayskilpailu	pelleseura
+10	2024-04-18	372.3292331556348	30	kaupunkiammunta-challenge	pelleseura
+10	2024-04-18	272.1404531911269	30	laukausmaraton	pelleseura
+10	2024-04-18	327.8818843591427	30	vapaa-asekilpailu	pelleseura
+10	2024-04-18	328.16799220806257	30	taitoluodikko-turnaus	pelleseura
+10	2024-04-18	296.20000037513256	30	precision_pistol_cup	pelleseura
+10	2024-04-18	317.00490533290355	30	tulevaisuuden_ampuja	pelleseura
+10	2024-04-18	360.7095131272314	30	pikakivaari-klassikko	pelleseura
+10	2024-04-18	311.1052819291744	31	tarkka-ammunta_cup	pelleseura
+10	2024-04-18	316.10662000411827	31	nopean_laukauksen_mestaruus	pelleseura
+10	2024-04-18	365.25950972644785	31	moniottelu	pelleseura
+10	2024-04-18	293.7492456989576	31	kansallinen_tahtayskilpailu	pelleseura
+10	2024-04-18	341.54524521261027	31	kaupunkiammunta-challenge	pelleseura
+10	2024-04-18	337.74326507695133	31	laukausmaraton	pelleseura
+10	2024-04-18	303.1912641514881	31	vapaa-asekilpailu	pelleseura
+10	2024-04-18	318.6548262268065	31	taitoluodikko-turnaus	pelleseura
+10	2024-04-18	335.1645206794173	31	precision_pistol_cup	pelleseura
+10	2024-04-18	338.30807652330327	31	tulevaisuuden_ampuja	pelleseura
+10	2024-04-18	291.8738514789612	31	pikakivaari-klassikko	pelleseura
+10	2024-04-18	363.0941397332666	32	tarkka-ammunta_cup	yung_tallent
+10	2024-04-18	354.4844470447293	32	nopean_laukauksen_mestaruus	yung_tallent
+10	2024-04-18	338.93721263241093	32	moniottelu	yung_tallent
+10	2024-04-18	347.2791802833539	32	kansallinen_tahtayskilpailu	yung_tallent
+10	2024-04-18	354.032306634568	32	kaupunkiammunta-challenge	yung_tallent
+10	2024-04-18	317.24365860943885	32	laukausmaraton	yung_tallent
+10	2024-04-18	279.68066003087665	32	vapaa-asekilpailu	yung_tallent
+10	2024-04-18	346.1342983652968	32	taitoluodikko-turnaus	yung_tallent
+10	2024-04-18	335.33133412253505	32	precision_pistol_cup	yung_tallent
+10	2024-04-18	302.2147717319179	32	tulevaisuuden_ampuja	yung_tallent
+10	2024-04-18	339.49885217188205	32	pikakivaari-klassikko	yung_tallent
+10	2024-04-18	335.7099956603932	33	tarkka-ammunta_cup	yung_tallent
+10	2024-04-18	350.7962352198829	33	nopean_laukauksen_mestaruus	yung_tallent
+10	2024-04-18	296.16607939295653	33	moniottelu	yung_tallent
+10	2024-04-18	306.6254805349389	33	kansallinen_tahtayskilpailu	yung_tallent
+10	2024-04-18	321.45873469953983	33	kaupunkiammunta-challenge	yung_tallent
+10	2024-04-18	306.8277252632749	33	laukausmaraton	yung_tallent
+10	2024-04-18	368.5668475376711	33	vapaa-asekilpailu	yung_tallent
+10	2024-04-18	310.4422276747374	33	taitoluodikko-turnaus	yung_tallent
+10	2024-04-18	339.0079965415838	33	precision_pistol_cup	yung_tallent
+10	2024-04-18	319.5830307388551	33	tulevaisuuden_ampuja	yung_tallent
+10	2024-04-18	304.28302239782704	33	pikakivaari-klassikko	yung_tallent
+10	2024-04-18	333.17244346447626	34	tarkka-ammunta_cup	yung_tallent
+10	2024-04-18	335.9904983966416	34	nopean_laukauksen_mestaruus	yung_tallent
+10	2024-04-18	356.7788062608952	34	moniottelu	yung_tallent
+10	2024-04-18	297.4965858022692	34	kansallinen_tahtayskilpailu	yung_tallent
+10	2024-04-18	303.947474944607	34	kaupunkiammunta-challenge	yung_tallent
+10	2024-04-18	332.25420960740524	34	laukausmaraton	yung_tallent
+10	2024-04-18	348.5616371537121	34	vapaa-asekilpailu	yung_tallent
+10	2024-04-18	322.36345321144074	34	taitoluodikko-turnaus	yung_tallent
+10	2024-04-18	326.4752830299494	34	precision_pistol_cup	yung_tallent
+10	2024-04-18	312.73826199734486	34	tulevaisuuden_ampuja	yung_tallent
+10	2024-04-18	324.24482107606497	34	pikakivaari-klassikko	yung_tallent
+10	2024-04-18	325.8457772405003	35	tarkka-ammunta_cup	yung_tallent
+10	2024-04-18	277.0343444706397	35	nopean_laukauksen_mestaruus	yung_tallent
+10	2024-04-18	307.53276757648433	35	moniottelu	yung_tallent
+10	2024-04-18	307.81392565822176	35	kansallinen_tahtayskilpailu	yung_tallent
+10	2024-04-18	319.8381837945506	35	kaupunkiammunta-challenge	yung_tallent
+10	2024-04-18	349.55764289976895	35	laukausmaraton	yung_tallent
+10	2024-04-18	272.87559094534	35	vapaa-asekilpailu	yung_tallent
+10	2024-04-18	307.08620417010883	35	taitoluodikko-turnaus	yung_tallent
+10	2024-04-18	324.4817654054099	35	precision_pistol_cup	yung_tallent
+10	2024-04-18	341.6044461023373	35	tulevaisuuden_ampuja	yung_tallent
+10	2024-04-18	346.28860336941324	35	pikakivaari-klassikko	yung_tallent
+10	2024-04-18	383.84223718008155	36	tarkka-ammunta_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	328.45952490827756	36	nopean_laukauksen_mestaruus	aseharrastajien_yhtenaisyys
+10	2024-04-18	316.52527032566695	36	moniottelu	aseharrastajien_yhtenaisyys
+10	2024-04-18	323.81919204131844	36	kansallinen_tahtayskilpailu	aseharrastajien_yhtenaisyys
+10	2024-04-18	360.3119584703363	36	kaupunkiammunta-challenge	aseharrastajien_yhtenaisyys
+10	2024-04-18	309.1346317329455	36	laukausmaraton	aseharrastajien_yhtenaisyys
+10	2024-04-18	345.38220617520835	36	vapaa-asekilpailu	aseharrastajien_yhtenaisyys
+10	2024-04-18	284.6740845664574	36	taitoluodikko-turnaus	aseharrastajien_yhtenaisyys
+10	2024-04-18	336.0644003873601	36	precision_pistol_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	366.2472838665648	36	tulevaisuuden_ampuja	aseharrastajien_yhtenaisyys
+10	2024-04-18	278.30668453733864	36	pikakivaari-klassikko	aseharrastajien_yhtenaisyys
+10	2024-04-18	304.16919400813117	37	tarkka-ammunta_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	342.39287014577104	37	nopean_laukauksen_mestaruus	aseharrastajien_yhtenaisyys
+10	2024-04-18	318.5887447391096	37	moniottelu	aseharrastajien_yhtenaisyys
+10	2024-04-18	303.29830450344303	37	kansallinen_tahtayskilpailu	aseharrastajien_yhtenaisyys
+10	2024-04-18	327.0350472069928	37	kaupunkiammunta-challenge	aseharrastajien_yhtenaisyys
+10	2024-04-18	317.7744229819711	37	laukausmaraton	aseharrastajien_yhtenaisyys
+10	2024-04-18	315.2111223638597	37	vapaa-asekilpailu	aseharrastajien_yhtenaisyys
+10	2024-04-18	305.42795633110404	37	taitoluodikko-turnaus	aseharrastajien_yhtenaisyys
+10	2024-04-18	335.3448762136901	37	precision_pistol_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	341.17885147378877	37	tulevaisuuden_ampuja	aseharrastajien_yhtenaisyys
+10	2024-04-18	335.5468248997782	37	pikakivaari-klassikko	aseharrastajien_yhtenaisyys
+10	2024-04-18	328.93319657020965	38	tarkka-ammunta_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	341.37242496652533	38	nopean_laukauksen_mestaruus	aseharrastajien_yhtenaisyys
+10	2024-04-18	292.69209784892007	38	moniottelu	aseharrastajien_yhtenaisyys
+10	2024-04-18	314.7442465450874	38	kansallinen_tahtayskilpailu	aseharrastajien_yhtenaisyys
+10	2024-04-18	336.6943934871896	38	kaupunkiammunta-challenge	aseharrastajien_yhtenaisyys
+10	2024-04-18	326.1833027612233	38	laukausmaraton	aseharrastajien_yhtenaisyys
+10	2024-04-18	294.1201127623261	38	vapaa-asekilpailu	aseharrastajien_yhtenaisyys
+10	2024-04-18	309.6541392080916	38	taitoluodikko-turnaus	aseharrastajien_yhtenaisyys
+10	2024-04-18	316.5750887725373	38	precision_pistol_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	387.0326494328242	38	tulevaisuuden_ampuja	aseharrastajien_yhtenaisyys
+10	2024-04-18	325.4092966309546	38	pikakivaari-klassikko	aseharrastajien_yhtenaisyys
+10	2024-04-18	332.25235399436355	39	tarkka-ammunta_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	322.92963498592593	39	nopean_laukauksen_mestaruus	aseharrastajien_yhtenaisyys
+10	2024-04-18	278.66143218365573	39	moniottelu	aseharrastajien_yhtenaisyys
+10	2024-04-18	320.2675353879	39	kansallinen_tahtayskilpailu	aseharrastajien_yhtenaisyys
+10	2024-04-18	329.46636075199905	39	kaupunkiammunta-challenge	aseharrastajien_yhtenaisyys
+10	2024-04-18	300.421948643468	39	laukausmaraton	aseharrastajien_yhtenaisyys
+10	2024-04-18	288.9694602601053	39	vapaa-asekilpailu	aseharrastajien_yhtenaisyys
+10	2024-04-18	342.71874551170356	39	taitoluodikko-turnaus	aseharrastajien_yhtenaisyys
+10	2024-04-18	356.97769532225425	39	precision_pistol_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	297.6135917506972	39	tulevaisuuden_ampuja	aseharrastajien_yhtenaisyys
+10	2024-04-18	317.10051018005413	39	pikakivaari-klassikko	aseharrastajien_yhtenaisyys
+10	2024-04-18	315.3841323046379	40	tarkka-ammunta_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	320.50766416732523	40	nopean_laukauksen_mestaruus	aseharrastajien_yhtenaisyys
+10	2024-04-18	338.56740438911	40	moniottelu	aseharrastajien_yhtenaisyys
+10	2024-04-18	316.3467282340384	40	kansallinen_tahtayskilpailu	aseharrastajien_yhtenaisyys
+10	2024-04-18	342.77288823451727	40	kaupunkiammunta-challenge	aseharrastajien_yhtenaisyys
+10	2024-04-18	329.48191616203417	40	laukausmaraton	aseharrastajien_yhtenaisyys
+10	2024-04-18	345.9326918465212	40	vapaa-asekilpailu	aseharrastajien_yhtenaisyys
+10	2024-04-18	319.88869664702577	40	taitoluodikko-turnaus	aseharrastajien_yhtenaisyys
+10	2024-04-18	289.6695062946215	40	precision_pistol_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	376.169940505303	40	tulevaisuuden_ampuja	aseharrastajien_yhtenaisyys
+10	2024-04-18	334.53321228196154	40	pikakivaari-klassikko	aseharrastajien_yhtenaisyys
+10	2024-04-18	305.0256422674162	41	tarkka-ammunta_cup	tahtaysmestarit
+10	2024-04-18	309.06277733636944	41	nopean_laukauksen_mestaruus	tahtaysmestarit
+10	2024-04-18	324.2350952804787	41	moniottelu	tahtaysmestarit
+10	2024-04-18	340.8287030793748	41	kansallinen_tahtayskilpailu	tahtaysmestarit
+10	2024-04-18	283.2505712363891	41	kaupunkiammunta-challenge	tahtaysmestarit
+10	2024-04-18	332.1788549224631	41	laukausmaraton	tahtaysmestarit
+10	2024-04-18	328.427470686371	41	vapaa-asekilpailu	tahtaysmestarit
+10	2024-04-18	362.4844556558888	41	taitoluodikko-turnaus	tahtaysmestarit
+10	2024-04-18	321.15287144802545	41	precision_pistol_cup	tahtaysmestarit
+10	2024-04-18	333.81218697652713	41	tulevaisuuden_ampuja	tahtaysmestarit
+10	2024-04-18	313.92264884564537	41	pikakivaari-klassikko	tahtaysmestarit
+10	2024-04-18	345.7821243185575	42	tarkka-ammunta_cup	tahtaysmestarit
+10	2024-04-18	310.8681625999857	42	nopean_laukauksen_mestaruus	tahtaysmestarit
+10	2024-04-18	302.36123073339934	42	moniottelu	tahtaysmestarit
+10	2024-04-18	295.0996848456885	42	kansallinen_tahtayskilpailu	tahtaysmestarit
+10	2024-04-18	331.1252273468421	42	kaupunkiammunta-challenge	tahtaysmestarit
+10	2024-04-18	371.1491474610798	42	laukausmaraton	tahtaysmestarit
+10	2024-04-18	336.9259622455216	42	vapaa-asekilpailu	tahtaysmestarit
+10	2024-04-18	342.68332944291205	42	taitoluodikko-turnaus	tahtaysmestarit
+10	2024-04-18	292.020130819257	42	precision_pistol_cup	tahtaysmestarit
+10	2024-04-18	341.2801165320637	42	tulevaisuuden_ampuja	tahtaysmestarit
+10	2024-04-18	297.39799913692497	42	pikakivaari-klassikko	tahtaysmestarit
+10	2024-04-18	373.22983559806215	43	tarkka-ammunta_cup	tahtaysmestarit
+10	2024-04-18	305.53651181095086	43	nopean_laukauksen_mestaruus	tahtaysmestarit
+10	2024-04-18	330.3179689159646	43	moniottelu	tahtaysmestarit
+10	2024-04-18	309.17728665175207	43	kansallinen_tahtayskilpailu	tahtaysmestarit
+10	2024-04-18	325.0877546359223	43	kaupunkiammunta-challenge	tahtaysmestarit
+10	2024-04-18	348.54108308446155	43	laukausmaraton	tahtaysmestarit
+10	2024-04-18	325.90286582862717	43	vapaa-asekilpailu	tahtaysmestarit
+10	2024-04-18	341.63566395256873	43	taitoluodikko-turnaus	tahtaysmestarit
+10	2024-04-18	306.8456154890471	43	precision_pistol_cup	tahtaysmestarit
+10	2024-04-18	340.7362503071588	43	tulevaisuuden_ampuja	tahtaysmestarit
+10	2024-04-18	345.690300408339	43	pikakivaari-klassikko	tahtaysmestarit
+10	2024-04-18	308.389527923622	44	tarkka-ammunta_cup	laukausryhma_aurora
+10	2024-04-18	369.7159820563546	44	nopean_laukauksen_mestaruus	laukausryhma_aurora
+10	2024-04-18	320.191787845396	44	moniottelu	laukausryhma_aurora
+10	2024-04-18	347.69808076878377	44	kansallinen_tahtayskilpailu	laukausryhma_aurora
+10	2024-04-18	358.62206665627014	44	kaupunkiammunta-challenge	laukausryhma_aurora
+10	2024-04-18	341.88477184436204	44	laukausmaraton	laukausryhma_aurora
+10	2024-04-18	318.70144702145956	44	vapaa-asekilpailu	laukausryhma_aurora
+10	2024-04-18	309.98875026733646	44	taitoluodikko-turnaus	laukausryhma_aurora
+10	2024-04-18	317.81943574820673	44	precision_pistol_cup	laukausryhma_aurora
+10	2024-04-18	297.22112748187465	44	tulevaisuuden_ampuja	laukausryhma_aurora
+10	2024-04-18	334.42510330860887	44	pikakivaari-klassikko	laukausryhma_aurora
+10	2024-04-18	334.7618363832763	45	tarkka-ammunta_cup	laukausryhma_aurora
+10	2024-04-18	330.70169474375604	45	nopean_laukauksen_mestaruus	laukausryhma_aurora
+10	2024-04-18	323.3133396844601	45	moniottelu	laukausryhma_aurora
+10	2024-04-18	340.1850934772266	45	kansallinen_tahtayskilpailu	laukausryhma_aurora
+10	2024-04-18	372.62190760558934	45	kaupunkiammunta-challenge	laukausryhma_aurora
+10	2024-04-18	337.1986353254211	45	laukausmaraton	laukausryhma_aurora
+10	2024-04-18	315.75130791925915	45	vapaa-asekilpailu	laukausryhma_aurora
+10	2024-04-18	346.4912444423433	45	taitoluodikko-turnaus	laukausryhma_aurora
+10	2024-04-18	376.26854166194363	45	precision_pistol_cup	laukausryhma_aurora
+10	2024-04-18	391.8039146515153	45	tulevaisuuden_ampuja	laukausryhma_aurora
+10	2024-04-18	337.3384815220164	45	pikakivaari-klassikko	laukausryhma_aurora
+10	2024-04-18	309.60777012534163	46	tarkka-ammunta_cup	laukausryhma_aurora
+10	2024-04-18	352.1427801243778	46	nopean_laukauksen_mestaruus	laukausryhma_aurora
+10	2024-04-18	255.51838722711224	46	moniottelu	laukausryhma_aurora
+10	2024-04-18	326.82654489630306	46	kansallinen_tahtayskilpailu	laukausryhma_aurora
+10	2024-04-18	342.6492946589538	46	kaupunkiammunta-challenge	laukausryhma_aurora
+10	2024-04-18	330.35586173909417	46	laukausmaraton	laukausryhma_aurora
+10	2024-04-18	290.0417643987704	46	vapaa-asekilpailu	laukausryhma_aurora
+10	2024-04-18	342.55507536893083	46	taitoluodikko-turnaus	laukausryhma_aurora
+10	2024-04-18	322.0656079679119	46	precision_pistol_cup	laukausryhma_aurora
+10	2024-04-18	335.6636237136577	46	tulevaisuuden_ampuja	laukausryhma_aurora
+10	2024-04-18	326.2343816702751	46	pikakivaari-klassikko	laukausryhma_aurora
+10	2024-04-18	310.206070035202	47	tarkka-ammunta_cup	laukausryhma_aurora
+10	2024-04-18	325.99209535113397	47	nopean_laukauksen_mestaruus	laukausryhma_aurora
+10	2024-04-18	314.87291504892323	47	moniottelu	laukausryhma_aurora
+10	2024-04-18	321.8198079126461	47	kansallinen_tahtayskilpailu	laukausryhma_aurora
+10	2024-04-18	316.3368083063388	47	kaupunkiammunta-challenge	laukausryhma_aurora
+10	2024-04-18	331.97772429755815	47	laukausmaraton	laukausryhma_aurora
+10	2024-04-18	358.83669334030884	47	vapaa-asekilpailu	laukausryhma_aurora
+10	2024-04-18	310.35615070887565	47	taitoluodikko-turnaus	laukausryhma_aurora
+10	2024-04-18	337.0273877701931	47	precision_pistol_cup	laukausryhma_aurora
+10	2024-04-18	307.30102944019177	47	tulevaisuuden_ampuja	laukausryhma_aurora
+10	2024-04-18	321.8492094818013	47	pikakivaari-klassikko	laukausryhma_aurora
+10	2024-04-18	367.0133439393476	48	tarkka-ammunta_cup	laukausryhma_aurora
+10	2024-04-18	302.9968817865512	48	nopean_laukauksen_mestaruus	laukausryhma_aurora
+10	2024-04-18	322.08377861742196	48	moniottelu	laukausryhma_aurora
+10	2024-04-18	349.67654428950266	48	kansallinen_tahtayskilpailu	laukausryhma_aurora
+10	2024-04-18	318.94849866159393	48	kaupunkiammunta-challenge	laukausryhma_aurora
+10	2024-04-18	312.3567650308151	48	laukausmaraton	laukausryhma_aurora
+10	2024-04-18	363.40174639200416	48	vapaa-asekilpailu	laukausryhma_aurora
+10	2024-04-18	338.69646971924897	48	taitoluodikko-turnaus	laukausryhma_aurora
+10	2024-04-18	303.2477096291442	48	precision_pistol_cup	laukausryhma_aurora
+10	2024-04-18	337.8681233191739	48	tulevaisuuden_ampuja	laukausryhma_aurora
+10	2024-04-18	332.5395035158742	48	pikakivaari-klassikko	laukausryhma_aurora
+10	2024-04-18	308.90163102864597	49	tarkka-ammunta_cup	ampumataito
+10	2024-04-18	337.07768507232004	49	nopean_laukauksen_mestaruus	ampumataito
+10	2024-04-18	372.4397078245586	49	moniottelu	ampumataito
+10	2024-04-18	353.76531509181405	49	kansallinen_tahtayskilpailu	ampumataito
+10	2024-04-18	312.94541130059827	49	kaupunkiammunta-challenge	ampumataito
+10	2024-04-18	299.3986443406931	49	laukausmaraton	ampumataito
+10	2024-04-18	292.4498666438154	49	vapaa-asekilpailu	ampumataito
+10	2024-04-18	341.7218733659606	49	taitoluodikko-turnaus	ampumataito
+10	2024-04-18	289.8399134074015	49	precision_pistol_cup	ampumataito
+10	2024-04-18	346.8717185849539	49	tulevaisuuden_ampuja	ampumataito
+10	2024-04-18	351.4421737950161	49	pikakivaari-klassikko	ampumataito
+10	2024-04-18	360.7497415064387	50	tarkka-ammunta_cup	ampumataito
+10	2024-04-18	351.651935282613	50	nopean_laukauksen_mestaruus	ampumataito
+10	2024-04-18	311.3978581754201	50	moniottelu	ampumataito
+10	2024-04-18	340.4707717887013	50	kansallinen_tahtayskilpailu	ampumataito
+10	2024-04-18	355.8755449165576	50	kaupunkiammunta-challenge	ampumataito
+10	2024-04-18	356.6487425445116	50	laukausmaraton	ampumataito
+10	2024-04-18	350.8331075668448	50	vapaa-asekilpailu	ampumataito
+10	2024-04-18	331.7486008809356	50	taitoluodikko-turnaus	ampumataito
+10	2024-04-18	303.9162401210384	50	precision_pistol_cup	ampumataito
+10	2024-04-18	323.1328183992044	50	tulevaisuuden_ampuja	ampumataito
+10	2024-04-18	300.48300624429254	50	pikakivaari-klassikko	ampumataito
+10	2024-04-18	342.7432887078597	51	tarkka-ammunta_cup	ampumataito
+10	2024-04-18	318.9213651123898	51	nopean_laukauksen_mestaruus	ampumataito
+10	2024-04-18	381.96685758374866	51	moniottelu	ampumataito
+10	2024-04-18	343.89939683020225	51	kansallinen_tahtayskilpailu	ampumataito
+10	2024-04-18	345.82957804584686	51	kaupunkiammunta-challenge	ampumataito
+10	2024-04-18	317.80195786125756	51	laukausmaraton	ampumataito
+10	2024-04-18	314.8780763196001	51	vapaa-asekilpailu	ampumataito
+10	2024-04-18	295.7159488445589	51	taitoluodikko-turnaus	ampumataito
+10	2024-04-18	349.53312585659063	51	precision_pistol_cup	ampumataito
+10	2024-04-18	279.397051569204	51	tulevaisuuden_ampuja	ampumataito
+10	2024-04-18	312.3091374050496	51	pikakivaari-klassikko	ampumataito
+10	2024-04-18	353.0827369543076	52	tarkka-ammunta_cup	ampumataito
+10	2024-04-18	347.1783664546927	52	nopean_laukauksen_mestaruus	ampumataito
+10	2024-04-18	347.3039442720983	52	moniottelu	ampumataito
+10	2024-04-18	285.27195056295665	52	kansallinen_tahtayskilpailu	ampumataito
+10	2024-04-18	306.87083398197194	52	kaupunkiammunta-challenge	ampumataito
+10	2024-04-18	340.1610619279626	52	laukausmaraton	ampumataito
+10	2024-04-18	320.77049830910823	52	vapaa-asekilpailu	ampumataito
+10	2024-04-18	335.8160127890848	52	taitoluodikko-turnaus	ampumataito
+10	2024-04-18	348.7167421491587	52	precision_pistol_cup	ampumataito
+10	2024-04-18	298.1375540393996	52	tulevaisuuden_ampuja	ampumataito
+10	2024-04-18	328.73705781082134	52	pikakivaari-klassikko	ampumataito
+10	2024-04-18	331.8142390181686	53	tarkka-ammunta_cup	ampumataito
+10	2024-04-18	337.78280961633226	53	nopean_laukauksen_mestaruus	ampumataito
+10	2024-04-18	349.6586543665383	53	moniottelu	ampumataito
+10	2024-04-18	325.2606272564407	53	kansallinen_tahtayskilpailu	ampumataito
+10	2024-04-18	331.5861830925566	53	kaupunkiammunta-challenge	ampumataito
+10	2024-04-18	312.5885932912855	53	laukausmaraton	ampumataito
+10	2024-04-18	326.87163459933555	53	vapaa-asekilpailu	ampumataito
+10	2024-04-18	325.3153601494629	53	taitoluodikko-turnaus	ampumataito
+10	2024-04-18	343.51274021188857	53	precision_pistol_cup	ampumataito
+10	2024-04-18	324.8003951862315	53	tulevaisuuden_ampuja	ampumataito
+10	2024-04-18	321.045922542201	53	pikakivaari-klassikko	ampumataito
+10	2024-04-18	330.7800420362629	1	kesan_ampujaiset	poliisiseura
+10	2024-04-18	356.131495959556	1	talvi_pistooli	poliisiseura
+10	2024-04-18	338.894133545959	1	tarkkuuslaukaus-festivaali	poliisiseura
+10	2024-04-18	348.9265524910181	1	kivaarikilpailujen_huipennus	poliisiseura
+10	2024-04-18	348.52468094811474	1	polaris-ampumaharjoitus	poliisiseura
+10	2024-04-18	343.5773221371344	1	aamunkoiton_tahtays	poliisiseura
+10	2024-04-18	360.8572515280426	1	nordic_sharpshooters_cup	poliisiseura
+10	2024-04-18	297.84004607042954	1	taivaanranta-tulitus	poliisiseura
+10	2024-04-18	332.24346739843816	1	lumivyory-ammunta	poliisiseura
+10	2024-04-18	317.2899813147512	2	kesan_ampujaiset	poliisiseura
+10	2024-04-18	321.0617012040026	2	talvi_pistooli	poliisiseura
+10	2024-04-18	324.70744756547634	2	tarkkuuslaukaus-festivaali	poliisiseura
+10	2024-04-18	324.4971522876403	2	kivaarikilpailujen_huipennus	poliisiseura
+10	2024-04-18	340.6342997671091	2	polaris-ampumaharjoitus	poliisiseura
+10	2024-04-18	344.4554468058748	2	aamunkoiton_tahtays	poliisiseura
+10	2024-04-18	341.5753597835377	2	nordic_sharpshooters_cup	poliisiseura
+10	2024-04-18	338.2963892771394	2	taivaanranta-tulitus	poliisiseura
+10	2024-04-18	346.15177914445394	2	lumivyory-ammunta	poliisiseura
+10	2024-04-18	292.78834132005545	3	kesan_ampujaiset	poliisiseura
+10	2024-04-18	361.2031700248423	3	talvi_pistooli	poliisiseura
+10	2024-04-18	323.68267280398805	3	tarkkuuslaukaus-festivaali	poliisiseura
+10	2024-04-18	329.6613031845489	3	kivaarikilpailujen_huipennus	poliisiseura
+10	2024-04-18	355.8335826344663	3	polaris-ampumaharjoitus	poliisiseura
+10	2024-04-18	352.6250961502126	3	aamunkoiton_tahtays	poliisiseura
+10	2024-04-18	342.6216864183013	3	nordic_sharpshooters_cup	poliisiseura
+10	2024-04-18	321.66297280400613	3	taivaanranta-tulitus	poliisiseura
+10	2024-04-18	342.58899526354793	3	lumivyory-ammunta	poliisiseura
+10	2024-04-18	323.6328017934769	4	kesan_ampujaiset	poliisiseura
+10	2024-04-18	333.0435245506162	4	talvi_pistooli	poliisiseura
+10	2024-04-18	321.34127814972805	4	tarkkuuslaukaus-festivaali	poliisiseura
+10	2024-04-18	307.3368774513918	4	kivaarikilpailujen_huipennus	poliisiseura
+10	2024-04-18	295.70638464317983	4	polaris-ampumaharjoitus	poliisiseura
+10	2024-04-18	352.96417256387184	4	aamunkoiton_tahtays	poliisiseura
+10	2024-04-18	337.2706472194832	4	nordic_sharpshooters_cup	poliisiseura
+10	2024-04-18	310.80194104931445	4	taivaanranta-tulitus	poliisiseura
+10	2024-04-18	330.0105198329372	4	lumivyory-ammunta	poliisiseura
+10	2024-04-18	312.8409377046837	5	kesan_ampujaiset	koiraseura
+10	2024-04-18	311.6671681585522	5	talvi_pistooli	koiraseura
+10	2024-04-18	339.4009844238755	5	tarkkuuslaukaus-festivaali	koiraseura
+10	2024-04-18	299.37608435856737	5	kivaarikilpailujen_huipennus	koiraseura
+10	2024-04-18	355.8552774899499	5	polaris-ampumaharjoitus	koiraseura
+10	2024-04-18	348.17892829111105	5	aamunkoiton_tahtays	koiraseura
+10	2024-04-18	325.0944022520556	5	nordic_sharpshooters_cup	koiraseura
+10	2024-04-18	304.8678913084754	5	taivaanranta-tulitus	koiraseura
+10	2024-04-18	328.71307288839176	5	lumivyory-ammunta	koiraseura
+10	2024-04-18	328.1927507753312	6	kesan_ampujaiset	koiraseura
+10	2024-04-18	300.69376449287955	6	talvi_pistooli	koiraseura
+10	2024-04-18	319.5571859478812	6	tarkkuuslaukaus-festivaali	koiraseura
+10	2024-04-18	329.78623361642303	6	kivaarikilpailujen_huipennus	koiraseura
+10	2024-04-18	325.527061364573	6	polaris-ampumaharjoitus	koiraseura
+10	2024-04-18	322.69637918652495	6	aamunkoiton_tahtays	koiraseura
+10	2024-04-18	331.0595777755461	6	nordic_sharpshooters_cup	koiraseura
+10	2024-04-18	352.9376250896207	6	taivaanranta-tulitus	koiraseura
+10	2024-04-18	371.6637407777462	6	lumivyory-ammunta	koiraseura
+10	2024-04-18	316.61259602880017	7	kesan_ampujaiset	koiraseura
+10	2024-04-18	345.0723302975713	7	talvi_pistooli	koiraseura
+10	2024-04-18	275.91594404218546	7	tarkkuuslaukaus-festivaali	koiraseura
+10	2024-04-18	364.7241979119447	7	kivaarikilpailujen_huipennus	koiraseura
+10	2024-04-18	336.03300322276795	7	polaris-ampumaharjoitus	koiraseura
+10	2024-04-18	315.91018572286634	7	aamunkoiton_tahtays	koiraseura
+10	2024-04-18	318.6675588638083	7	nordic_sharpshooters_cup	koiraseura
+10	2024-04-18	388.8467948944962	7	taivaanranta-tulitus	koiraseura
+10	2024-04-18	330.34691086155624	7	lumivyory-ammunta	koiraseura
+10	2024-04-18	359.38288017238324	8	kesan_ampujaiset	koiraseura
+10	2024-04-18	311.72627008774197	8	talvi_pistooli	koiraseura
+10	2024-04-18	322.99259723809087	8	tarkkuuslaukaus-festivaali	koiraseura
+10	2024-04-18	332.69607330556653	8	kivaarikilpailujen_huipennus	koiraseura
+10	2024-04-18	344.9612838528597	8	polaris-ampumaharjoitus	koiraseura
+10	2024-04-18	336.9170959357534	8	aamunkoiton_tahtays	koiraseura
+10	2024-04-18	325.2927699501766	8	nordic_sharpshooters_cup	koiraseura
+10	2024-04-18	302.82730868232414	8	taivaanranta-tulitus	koiraseura
+10	2024-04-18	298.40699360258475	8	lumivyory-ammunta	koiraseura
+10	2024-04-18	297.35681575690154	9	kesan_ampujaiset	hammaspeikkoseura
+10	2024-04-18	318.8713817644582	9	talvi_pistooli	hammaspeikkoseura
+10	2024-04-18	295.7913964516822	9	tarkkuuslaukaus-festivaali	hammaspeikkoseura
+10	2024-04-18	312.70159946440424	9	kivaarikilpailujen_huipennus	hammaspeikkoseura
+10	2024-04-18	342.7191011995697	9	polaris-ampumaharjoitus	hammaspeikkoseura
+10	2024-04-18	345.34595576510947	9	aamunkoiton_tahtays	hammaspeikkoseura
+10	2024-04-18	302.89579022304326	9	nordic_sharpshooters_cup	hammaspeikkoseura
+10	2024-04-18	294.8932992387678	9	taivaanranta-tulitus	hammaspeikkoseura
+10	2024-04-18	333.85204704474285	9	lumivyory-ammunta	hammaspeikkoseura
+10	2024-04-18	365.81600728685873	10	kesan_ampujaiset	hammaspeikkoseura
+10	2024-04-18	300.23091054736517	10	talvi_pistooli	hammaspeikkoseura
+10	2024-04-18	355.1629505960259	10	tarkkuuslaukaus-festivaali	hammaspeikkoseura
+10	2024-04-18	334.166299034753	10	kivaarikilpailujen_huipennus	hammaspeikkoseura
+10	2024-04-18	311.69085836581206	10	polaris-ampumaharjoitus	hammaspeikkoseura
+10	2024-04-18	285.3363249463929	10	aamunkoiton_tahtays	hammaspeikkoseura
+10	2024-04-18	322.97999342047905	10	nordic_sharpshooters_cup	hammaspeikkoseura
+10	2024-04-18	336.4626386660529	10	taivaanranta-tulitus	hammaspeikkoseura
+10	2024-04-18	355.97918087689203	10	lumivyory-ammunta	hammaspeikkoseura
+10	2024-04-18	336.9042946073487	11	kesan_ampujaiset	hammaspeikkoseura
+10	2024-04-18	330.83174461997044	11	talvi_pistooli	hammaspeikkoseura
+10	2024-04-18	304.0368629141241	11	tarkkuuslaukaus-festivaali	hammaspeikkoseura
+10	2024-04-18	292.8570993381602	11	kivaarikilpailujen_huipennus	hammaspeikkoseura
+10	2024-04-18	341.9164332467983	11	polaris-ampumaharjoitus	hammaspeikkoseura
+10	2024-04-18	360.53170735517307	11	aamunkoiton_tahtays	hammaspeikkoseura
+10	2024-04-18	371.5898646497142	11	nordic_sharpshooters_cup	hammaspeikkoseura
+10	2024-04-18	316.2270156647153	11	taivaanranta-tulitus	hammaspeikkoseura
+10	2024-04-18	267.6382205875648	11	lumivyory-ammunta	hammaspeikkoseura
+10	2024-04-18	315.8496174837011	12	kesan_ampujaiset	hammaspeikkoseura
+10	2024-04-18	301.11962528442433	12	talvi_pistooli	hammaspeikkoseura
+10	2024-04-18	301.6421715146291	12	tarkkuuslaukaus-festivaali	hammaspeikkoseura
+10	2024-04-18	331.33289613320346	12	kivaarikilpailujen_huipennus	hammaspeikkoseura
+10	2024-04-18	353.28715362559865	12	polaris-ampumaharjoitus	hammaspeikkoseura
+10	2024-04-18	324.17092161675424	12	aamunkoiton_tahtays	hammaspeikkoseura
+10	2024-04-18	298.72455461933004	12	nordic_sharpshooters_cup	hammaspeikkoseura
+10	2024-04-18	331.3326835384792	12	taivaanranta-tulitus	hammaspeikkoseura
+10	2024-04-18	335.3697003178109	12	lumivyory-ammunta	hammaspeikkoseura
+10	2024-04-18	320.3189639262547	13	kesan_ampujaiset	dog
+10	2024-04-18	331.5472715722803	13	talvi_pistooli	dog
+10	2024-04-18	316.7615845215625	13	tarkkuuslaukaus-festivaali	dog
+10	2024-04-18	345.67462851169415	13	kivaarikilpailujen_huipennus	dog
+10	2024-04-18	324.6590703276254	13	polaris-ampumaharjoitus	dog
+10	2024-04-18	368.5972878831045	13	aamunkoiton_tahtays	dog
+10	2024-04-18	298.1456250342691	13	nordic_sharpshooters_cup	dog
+10	2024-04-18	343.02929263515085	13	taivaanranta-tulitus	dog
+10	2024-04-18	321.61409765044533	13	lumivyory-ammunta	dog
+10	2024-04-18	306.9498699425091	14	kesan_ampujaiset	dog
+10	2024-04-18	308.20439622743754	14	talvi_pistooli	dog
+10	2024-04-18	323.51060076337734	14	tarkkuuslaukaus-festivaali	dog
+10	2024-04-18	315.85372067805764	14	kivaarikilpailujen_huipennus	dog
+10	2024-04-18	335.6074047232431	14	polaris-ampumaharjoitus	dog
+10	2024-04-18	273.5054149430055	14	aamunkoiton_tahtays	dog
+10	2024-04-18	317.916463262787	14	nordic_sharpshooters_cup	dog
+10	2024-04-18	289.215662456572	14	taivaanranta-tulitus	dog
+10	2024-04-18	333.46985676233027	14	lumivyory-ammunta	dog
+10	2024-04-18	338.8143684046971	15	kesan_ampujaiset	dog
+10	2024-04-18	328.07086578564446	15	talvi_pistooli	dog
+10	2024-04-18	323.53195917112674	15	tarkkuuslaukaus-festivaali	dog
+10	2024-04-18	329.1525497679597	15	kivaarikilpailujen_huipennus	dog
+10	2024-04-18	346.28019075188587	15	polaris-ampumaharjoitus	dog
+10	2024-04-18	317.82627120343653	15	aamunkoiton_tahtays	dog
+10	2024-04-18	305.0299413099035	15	nordic_sharpshooters_cup	dog
+10	2024-04-18	319.836473612231	15	taivaanranta-tulitus	dog
+10	2024-04-18	336.72987209272117	15	lumivyory-ammunta	dog
+10	2024-04-18	284.6267960453784	16	kesan_ampujaiset	dog
+10	2024-04-18	329.0549374485895	16	talvi_pistooli	dog
+10	2024-04-18	345.04595746605554	16	tarkkuuslaukaus-festivaali	dog
+10	2024-04-18	344.21075954671795	16	kivaarikilpailujen_huipennus	dog
+10	2024-04-18	324.78277218851423	16	polaris-ampumaharjoitus	dog
+10	2024-04-18	296.3093345940386	16	aamunkoiton_tahtays	dog
+10	2024-04-18	363.6611453503762	16	nordic_sharpshooters_cup	dog
+10	2024-04-18	312.01624743308616	16	taivaanranta-tulitus	dog
+10	2024-04-18	303.07679609889453	16	lumivyory-ammunta	dog
+10	2024-04-18	280.95723440252516	17	kesan_ampujaiset	dog
+10	2024-04-18	312.11768348861773	17	talvi_pistooli	dog
+10	2024-04-18	303.7236733566067	17	tarkkuuslaukaus-festivaali	dog
+10	2024-04-18	358.0700047948154	17	kivaarikilpailujen_huipennus	dog
+10	2024-04-18	328.1060483294608	17	polaris-ampumaharjoitus	dog
+10	2024-04-18	360.1450284031164	17	aamunkoiton_tahtays	dog
+10	2024-04-18	332.07911228309797	17	nordic_sharpshooters_cup	dog
+10	2024-04-18	257.2080005066478	17	taivaanranta-tulitus	dog
+10	2024-04-18	344.7615694927076	17	lumivyory-ammunta	dog
+10	2024-04-18	339.47829266474366	18	kesan_ampujaiset	savu_seura
+10	2024-04-18	338.36999907367016	18	talvi_pistooli	savu_seura
+10	2024-04-18	379.869918904209	18	tarkkuuslaukaus-festivaali	savu_seura
+10	2024-04-18	332.83966554930237	18	kivaarikilpailujen_huipennus	savu_seura
+10	2024-04-18	334.72632424098043	18	polaris-ampumaharjoitus	savu_seura
+10	2024-04-18	313.14548721372	18	aamunkoiton_tahtays	savu_seura
+10	2024-04-18	294.93034933242285	18	nordic_sharpshooters_cup	savu_seura
+10	2024-04-18	342.85912326078034	18	taivaanranta-tulitus	savu_seura
+10	2024-04-18	292.6244508490376	18	lumivyory-ammunta	savu_seura
+10	2024-04-18	317.38095214287233	19	kesan_ampujaiset	savu_seura
+10	2024-04-18	346.3861882428417	19	talvi_pistooli	savu_seura
+10	2024-04-18	295.3230025469913	19	tarkkuuslaukaus-festivaali	savu_seura
+10	2024-04-18	330.731550949343	19	kivaarikilpailujen_huipennus	savu_seura
+10	2024-04-18	361.11199500463835	19	polaris-ampumaharjoitus	savu_seura
+10	2024-04-18	343.78079626371937	19	aamunkoiton_tahtays	savu_seura
+10	2024-04-18	285.50927337459615	19	nordic_sharpshooters_cup	savu_seura
+10	2024-04-18	299.19824416940503	19	taivaanranta-tulitus	savu_seura
+10	2024-04-18	363.2547078112648	19	lumivyory-ammunta	savu_seura
+10	2024-04-18	356.76286593420616	20	kesan_ampujaiset	savu_seura
+10	2024-04-18	388.53966982383423	20	talvi_pistooli	savu_seura
+10	2024-04-18	310.6402042103334	20	tarkkuuslaukaus-festivaali	savu_seura
+10	2024-04-18	332.5714273722957	20	kivaarikilpailujen_huipennus	savu_seura
+10	2024-04-18	316.18646607112237	20	polaris-ampumaharjoitus	savu_seura
+10	2024-04-18	335.806350272774	20	aamunkoiton_tahtays	savu_seura
+10	2024-04-18	322.61102809464614	20	nordic_sharpshooters_cup	savu_seura
+10	2024-04-18	329.67843726236896	20	taivaanranta-tulitus	savu_seura
+10	2024-04-18	305.0605876821861	20	lumivyory-ammunta	savu_seura
+10	2024-04-18	322.74054975352306	21	kesan_ampujaiset	savu_seura
+10	2024-04-18	318.6574952163895	21	talvi_pistooli	savu_seura
+10	2024-04-18	342.83992906058256	21	tarkkuuslaukaus-festivaali	savu_seura
+10	2024-04-18	329.85261639487453	21	kivaarikilpailujen_huipennus	savu_seura
+10	2024-04-18	316.58066922177204	21	polaris-ampumaharjoitus	savu_seura
+10	2024-04-18	304.32034011912833	21	aamunkoiton_tahtays	savu_seura
+10	2024-04-18	346.8712651650071	21	nordic_sharpshooters_cup	savu_seura
+10	2024-04-18	316.4820510256241	21	taivaanranta-tulitus	savu_seura
+10	2024-04-18	330.3099685892564	21	lumivyory-ammunta	savu_seura
+10	2024-04-18	381.91526750374175	22	kesan_ampujaiset	omas
+10	2024-04-18	308.1738334172082	22	talvi_pistooli	omas
+10	2024-04-18	263.48223012107206	22	tarkkuuslaukaus-festivaali	omas
+10	2024-04-18	321.7884401014364	22	kivaarikilpailujen_huipennus	omas
+10	2024-04-18	342.65234088968054	22	polaris-ampumaharjoitus	omas
+10	2024-04-18	261.6154442138746	22	aamunkoiton_tahtays	omas
+10	2024-04-18	302.35453982518874	22	nordic_sharpshooters_cup	omas
+10	2024-04-18	312.5843617174378	22	taivaanranta-tulitus	omas
+10	2024-04-18	321.833975361434	22	lumivyory-ammunta	omas
+10	2024-04-18	283.6038444545268	23	kesan_ampujaiset	omas
+10	2024-04-18	312.71003322595027	23	talvi_pistooli	omas
+10	2024-04-18	345.11061841059797	23	tarkkuuslaukaus-festivaali	omas
+10	2024-04-18	286.9916915618371	23	kivaarikilpailujen_huipennus	omas
+10	2024-04-18	338.4513005495775	23	polaris-ampumaharjoitus	omas
+10	2024-04-18	308.32745986036326	23	aamunkoiton_tahtays	omas
+10	2024-04-18	295.53284093159647	23	nordic_sharpshooters_cup	omas
+10	2024-04-18	323.0786419744801	23	taivaanranta-tulitus	omas
+10	2024-04-18	350.7264050405643	23	lumivyory-ammunta	omas
+10	2024-04-18	292.68505564818537	24	kesan_ampujaiset	omas
+10	2024-04-18	316.17977518688866	24	talvi_pistooli	omas
+10	2024-04-18	307.2485575115133	24	tarkkuuslaukaus-festivaali	omas
+10	2024-04-18	339.5493936185789	24	kivaarikilpailujen_huipennus	omas
+10	2024-04-18	354.05410939187175	24	polaris-ampumaharjoitus	omas
+10	2024-04-18	349.8612788502343	24	aamunkoiton_tahtays	omas
+10	2024-04-18	334.9819244490169	24	nordic_sharpshooters_cup	omas
+10	2024-04-18	295.40972163745687	24	taivaanranta-tulitus	omas
+10	2024-04-18	338.5493085751231	24	lumivyory-ammunta	omas
+10	2024-04-18	309.35233313298926	25	kesan_ampujaiset	omas
+10	2024-04-18	340.183059052197	25	talvi_pistooli	omas
+10	2024-04-18	333.7047520808151	25	tarkkuuslaukaus-festivaali	omas
+10	2024-04-18	343.875083348764	25	kivaarikilpailujen_huipennus	omas
+10	2024-04-18	341.1987817489606	25	polaris-ampumaharjoitus	omas
+10	2024-04-18	324.54239721652385	25	aamunkoiton_tahtays	omas
+10	2024-04-18	341.2315280051763	25	nordic_sharpshooters_cup	omas
+10	2024-04-18	307.7357983400002	25	taivaanranta-tulitus	omas
+10	2024-04-18	334.2640809227897	25	lumivyory-ammunta	omas
+10	2024-04-18	294.3632610037098	26	kesan_ampujaiset	omas
+10	2024-04-18	301.0425757859083	26	talvi_pistooli	omas
+10	2024-04-18	300.4361531747164	26	tarkkuuslaukaus-festivaali	omas
+10	2024-04-18	318.51051016712796	26	kivaarikilpailujen_huipennus	omas
+10	2024-04-18	404.9194541195713	26	polaris-ampumaharjoitus	omas
+10	2024-04-18	305.507728403037	26	aamunkoiton_tahtays	omas
+10	2024-04-18	353.49413707674677	26	nordic_sharpshooters_cup	omas
+10	2024-04-18	325.8813543438005	26	taivaanranta-tulitus	omas
+10	2024-04-18	321.06121467453033	26	lumivyory-ammunta	omas
+10	2024-04-18	298.37213806646224	27	kesan_ampujaiset	pelleseura
+10	2024-04-18	327.23985039318273	27	talvi_pistooli	pelleseura
+10	2024-04-18	317.58007117473346	27	tarkkuuslaukaus-festivaali	pelleseura
+10	2024-04-18	340.2020824833035	27	kivaarikilpailujen_huipennus	pelleseura
+10	2024-04-18	373.6081062178368	27	polaris-ampumaharjoitus	pelleseura
+10	2024-04-18	339.7161529823522	27	aamunkoiton_tahtays	pelleseura
+10	2024-04-18	336.2598629675477	27	nordic_sharpshooters_cup	pelleseura
+10	2024-04-18	361.4965698009104	27	taivaanranta-tulitus	pelleseura
+10	2024-04-18	370.73198213497415	27	lumivyory-ammunta	pelleseura
+10	2024-04-18	311.2285438506591	28	kesan_ampujaiset	pelleseura
+10	2024-04-18	367.06989239111834	28	talvi_pistooli	pelleseura
+10	2024-04-18	310.6797155024939	28	tarkkuuslaukaus-festivaali	pelleseura
+10	2024-04-18	344.568006497582	28	kivaarikilpailujen_huipennus	pelleseura
+10	2024-04-18	319.37065364628353	28	polaris-ampumaharjoitus	pelleseura
+10	2024-04-18	326.5458247365254	28	aamunkoiton_tahtays	pelleseura
+10	2024-04-18	327.7903198495257	28	nordic_sharpshooters_cup	pelleseura
+10	2024-04-18	358.6759394589443	28	taivaanranta-tulitus	pelleseura
+10	2024-04-18	339.198534594367	28	lumivyory-ammunta	pelleseura
+10	2024-04-18	333.51920710437923	29	kesan_ampujaiset	pelleseura
+10	2024-04-18	299.91686962562227	29	talvi_pistooli	pelleseura
+10	2024-04-18	279.3870903253238	29	tarkkuuslaukaus-festivaali	pelleseura
+10	2024-04-18	331.1552157629951	29	kivaarikilpailujen_huipennus	pelleseura
+10	2024-04-18	293.97318702334906	29	polaris-ampumaharjoitus	pelleseura
+10	2024-04-18	321.45999022853016	29	aamunkoiton_tahtays	pelleseura
+10	2024-04-18	282.1102542427509	29	nordic_sharpshooters_cup	pelleseura
+10	2024-04-18	326.973752545454	29	taivaanranta-tulitus	pelleseura
+10	2024-04-18	347.3804599895278	29	lumivyory-ammunta	pelleseura
+10	2024-04-18	346.977963367853	30	kesan_ampujaiset	pelleseura
+10	2024-04-18	324.7472988816446	30	talvi_pistooli	pelleseura
+10	2024-04-18	338.96890310801314	30	tarkkuuslaukaus-festivaali	pelleseura
+10	2024-04-18	292.63247994289077	30	kivaarikilpailujen_huipennus	pelleseura
+10	2024-04-18	319.5347096220951	30	polaris-ampumaharjoitus	pelleseura
+10	2024-04-18	294.2287371702841	30	aamunkoiton_tahtays	pelleseura
+10	2024-04-18	331.4327752568754	30	nordic_sharpshooters_cup	pelleseura
+10	2024-04-18	312.18738027093065	30	taivaanranta-tulitus	pelleseura
+10	2024-04-18	307.0962060754416	30	lumivyory-ammunta	pelleseura
+10	2024-04-18	370.7867159393624	31	kesan_ampujaiset	pelleseura
+10	2024-04-18	314.43894466430106	31	talvi_pistooli	pelleseura
+10	2024-04-18	329.7070463993672	31	tarkkuuslaukaus-festivaali	pelleseura
+10	2024-04-18	338.9632410636325	31	kivaarikilpailujen_huipennus	pelleseura
+10	2024-04-18	337.6365206262317	31	polaris-ampumaharjoitus	pelleseura
+10	2024-04-18	345.3951869441175	31	aamunkoiton_tahtays	pelleseura
+10	2024-04-18	347.0756026103174	31	nordic_sharpshooters_cup	pelleseura
+10	2024-04-18	306.11593605375003	31	taivaanranta-tulitus	pelleseura
+10	2024-04-18	306.26647629031487	31	lumivyory-ammunta	pelleseura
+10	2024-04-18	355.5464638793469	32	kesan_ampujaiset	yung_tallent
+10	2024-04-18	367.16312670577395	32	talvi_pistooli	yung_tallent
+10	2024-04-18	294.0456210870965	32	tarkkuuslaukaus-festivaali	yung_tallent
+10	2024-04-18	303.8410909503804	32	kivaarikilpailujen_huipennus	yung_tallent
+10	2024-04-18	333.3439378288583	32	polaris-ampumaharjoitus	yung_tallent
+10	2024-04-18	330.227829717751	32	aamunkoiton_tahtays	yung_tallent
+10	2024-04-18	372.9694535062705	32	nordic_sharpshooters_cup	yung_tallent
+10	2024-04-18	338.4008906243608	32	taivaanranta-tulitus	yung_tallent
+10	2024-04-18	352.86163701034803	32	lumivyory-ammunta	yung_tallent
+10	2024-04-18	366.00175410075525	33	kesan_ampujaiset	yung_tallent
+10	2024-04-18	359.29234406264163	33	talvi_pistooli	yung_tallent
+10	2024-04-18	321.63516560175725	33	tarkkuuslaukaus-festivaali	yung_tallent
+10	2024-04-18	330.7794001913789	33	kivaarikilpailujen_huipennus	yung_tallent
+10	2024-04-18	278.5812784014412	33	polaris-ampumaharjoitus	yung_tallent
+10	2024-04-18	341.8020356330877	33	aamunkoiton_tahtays	yung_tallent
+10	2024-04-18	310.0522045759946	33	nordic_sharpshooters_cup	yung_tallent
+10	2024-04-18	320.03913513700485	33	taivaanranta-tulitus	yung_tallent
+10	2024-04-18	357.5960050233404	33	lumivyory-ammunta	yung_tallent
+10	2024-04-18	306.37527879823114	34	kesan_ampujaiset	yung_tallent
+10	2024-04-18	300.9673927640252	34	talvi_pistooli	yung_tallent
+10	2024-04-18	319.85467676218826	34	tarkkuuslaukaus-festivaali	yung_tallent
+10	2024-04-18	313.0930633751889	34	kivaarikilpailujen_huipennus	yung_tallent
+10	2024-04-18	343.119888603173	34	polaris-ampumaharjoitus	yung_tallent
+10	2024-04-18	324.36344626926996	34	aamunkoiton_tahtays	yung_tallent
+10	2024-04-18	319.94592030540974	34	nordic_sharpshooters_cup	yung_tallent
+10	2024-04-18	346.59524106887176	34	taivaanranta-tulitus	yung_tallent
+10	2024-04-18	288.13254864032723	34	lumivyory-ammunta	yung_tallent
+10	2024-04-18	299.4089343158896	35	kesan_ampujaiset	yung_tallent
+10	2024-04-18	363.9433991523501	35	talvi_pistooli	yung_tallent
+10	2024-04-18	355.14328405230634	35	tarkkuuslaukaus-festivaali	yung_tallent
+10	2024-04-18	310.30742590334023	35	kivaarikilpailujen_huipennus	yung_tallent
+10	2024-04-18	337.4077060035736	35	polaris-ampumaharjoitus	yung_tallent
+10	2024-04-18	335.9872380125134	35	aamunkoiton_tahtays	yung_tallent
+10	2024-04-18	342.20476395716844	35	nordic_sharpshooters_cup	yung_tallent
+10	2024-04-18	319.2669143349731	35	taivaanranta-tulitus	yung_tallent
+10	2024-04-18	319.5985608190523	35	lumivyory-ammunta	yung_tallent
+10	2024-04-18	333.2281563139964	36	kesan_ampujaiset	aseharrastajien_yhtenaisyys
+10	2024-04-18	338.0411199306557	36	talvi_pistooli	aseharrastajien_yhtenaisyys
+10	2024-04-18	364.76090645162486	36	tarkkuuslaukaus-festivaali	aseharrastajien_yhtenaisyys
+10	2024-04-18	324.58422340241907	36	kivaarikilpailujen_huipennus	aseharrastajien_yhtenaisyys
+10	2024-04-18	327.31735041796645	36	polaris-ampumaharjoitus	aseharrastajien_yhtenaisyys
+10	2024-04-18	341.36169363990416	36	aamunkoiton_tahtays	aseharrastajien_yhtenaisyys
+10	2024-04-18	289.2344139907632	36	nordic_sharpshooters_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	348.32093148816466	36	taivaanranta-tulitus	aseharrastajien_yhtenaisyys
+10	2024-04-18	327.5660372970477	36	lumivyory-ammunta	aseharrastajien_yhtenaisyys
+10	2024-04-18	367.4274390045582	37	kesan_ampujaiset	aseharrastajien_yhtenaisyys
+10	2024-04-18	346.5764865268934	37	talvi_pistooli	aseharrastajien_yhtenaisyys
+10	2024-04-18	330.27163415720634	37	tarkkuuslaukaus-festivaali	aseharrastajien_yhtenaisyys
+10	2024-04-18	324.42663911863855	37	kivaarikilpailujen_huipennus	aseharrastajien_yhtenaisyys
+10	2024-04-18	344.8603842556872	37	polaris-ampumaharjoitus	aseharrastajien_yhtenaisyys
+10	2024-04-18	347.2386197565089	37	aamunkoiton_tahtays	aseharrastajien_yhtenaisyys
+10	2024-04-18	353.06017154554127	37	nordic_sharpshooters_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	313.99516140627554	37	taivaanranta-tulitus	aseharrastajien_yhtenaisyys
+10	2024-04-18	292.1998865952649	37	lumivyory-ammunta	aseharrastajien_yhtenaisyys
+10	2024-04-18	296.3574936391575	38	kesan_ampujaiset	aseharrastajien_yhtenaisyys
+10	2024-04-18	347.70865938020717	38	talvi_pistooli	aseharrastajien_yhtenaisyys
+10	2024-04-18	286.3842256035451	38	tarkkuuslaukaus-festivaali	aseharrastajien_yhtenaisyys
+10	2024-04-18	331.9939861629092	38	kivaarikilpailujen_huipennus	aseharrastajien_yhtenaisyys
+10	2024-04-18	295.17412605979354	38	polaris-ampumaharjoitus	aseharrastajien_yhtenaisyys
+10	2024-04-18	329.1268416598079	38	aamunkoiton_tahtays	aseharrastajien_yhtenaisyys
+10	2024-04-18	348.23938947716067	38	nordic_sharpshooters_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	330.28948766884895	38	taivaanranta-tulitus	aseharrastajien_yhtenaisyys
+10	2024-04-18	336.7705577094099	38	lumivyory-ammunta	aseharrastajien_yhtenaisyys
+10	2024-04-18	326.31301086452817	39	kesan_ampujaiset	aseharrastajien_yhtenaisyys
+10	2024-04-18	316.85410696320247	39	talvi_pistooli	aseharrastajien_yhtenaisyys
+10	2024-04-18	350.89907135246506	39	tarkkuuslaukaus-festivaali	aseharrastajien_yhtenaisyys
+10	2024-04-18	325.90345669817447	39	kivaarikilpailujen_huipennus	aseharrastajien_yhtenaisyys
+10	2024-04-18	377.8612883985268	39	polaris-ampumaharjoitus	aseharrastajien_yhtenaisyys
+10	2024-04-18	383.85074019562626	39	aamunkoiton_tahtays	aseharrastajien_yhtenaisyys
+10	2024-04-18	338.8679161073647	39	nordic_sharpshooters_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	327.36456332028484	39	taivaanranta-tulitus	aseharrastajien_yhtenaisyys
+10	2024-04-18	344.0129919795426	39	lumivyory-ammunta	aseharrastajien_yhtenaisyys
+10	2024-04-18	318.72570010189736	40	kesan_ampujaiset	aseharrastajien_yhtenaisyys
+10	2024-04-18	326.80434818690594	40	talvi_pistooli	aseharrastajien_yhtenaisyys
+10	2024-04-18	331.12695223856076	40	tarkkuuslaukaus-festivaali	aseharrastajien_yhtenaisyys
+10	2024-04-18	312.221657045959	40	kivaarikilpailujen_huipennus	aseharrastajien_yhtenaisyys
+10	2024-04-18	342.35258767725526	40	polaris-ampumaharjoitus	aseharrastajien_yhtenaisyys
+10	2024-04-18	327.2957667801873	40	aamunkoiton_tahtays	aseharrastajien_yhtenaisyys
+10	2024-04-18	312.2182088816874	40	nordic_sharpshooters_cup	aseharrastajien_yhtenaisyys
+10	2024-04-18	342.76592370817843	40	taivaanranta-tulitus	aseharrastajien_yhtenaisyys
+10	2024-04-18	351.4999441580702	40	lumivyory-ammunta	aseharrastajien_yhtenaisyys
+10	2024-04-18	350.3831835141327	41	kesan_ampujaiset	tahtaysmestarit
+10	2024-04-18	336.2074483766998	41	talvi_pistooli	tahtaysmestarit
+10	2024-04-18	353.61152328932474	41	tarkkuuslaukaus-festivaali	tahtaysmestarit
+10	2024-04-18	320.1906600285888	41	kivaarikilpailujen_huipennus	tahtaysmestarit
+10	2024-04-18	337.42443612245614	41	polaris-ampumaharjoitus	tahtaysmestarit
+10	2024-04-18	295.1127484360337	41	aamunkoiton_tahtays	tahtaysmestarit
+10	2024-04-18	359.30129589783496	41	nordic_sharpshooters_cup	tahtaysmestarit
+10	2024-04-18	324.871537173589	41	taivaanranta-tulitus	tahtaysmestarit
+10	2024-04-18	301.04388936332305	41	lumivyory-ammunta	tahtaysmestarit
+10	2024-04-18	279.2487619047095	42	kesan_ampujaiset	tahtaysmestarit
+10	2024-04-18	321.90625865103965	42	talvi_pistooli	tahtaysmestarit
+10	2024-04-18	307.2779475259328	42	tarkkuuslaukaus-festivaali	tahtaysmestarit
+10	2024-04-18	377.38601422218136	42	kivaarikilpailujen_huipennus	tahtaysmestarit
+10	2024-04-18	279.4938014091805	42	polaris-ampumaharjoitus	tahtaysmestarit
+10	2024-04-18	333.41417548078493	42	aamunkoiton_tahtays	tahtaysmestarit
+10	2024-04-18	362.7049233279548	42	nordic_sharpshooters_cup	tahtaysmestarit
+10	2024-04-18	273.75297868683884	42	taivaanranta-tulitus	tahtaysmestarit
+10	2024-04-18	357.7205877303412	42	lumivyory-ammunta	tahtaysmestarit
+10	2024-04-18	356.12155859659447	43	kesan_ampujaiset	tahtaysmestarit
+10	2024-04-18	284.04001017971217	43	talvi_pistooli	tahtaysmestarit
+10	2024-04-18	301.1783442847389	43	tarkkuuslaukaus-festivaali	tahtaysmestarit
+10	2024-04-18	310.7994873298569	43	kivaarikilpailujen_huipennus	tahtaysmestarit
+10	2024-04-18	323.05747656886757	43	polaris-ampumaharjoitus	tahtaysmestarit
+10	2024-04-18	353.8495972748545	43	aamunkoiton_tahtays	tahtaysmestarit
+10	2024-04-18	294.0266758378232	43	nordic_sharpshooters_cup	tahtaysmestarit
+10	2024-04-18	366.6525407856632	43	taivaanranta-tulitus	tahtaysmestarit
+10	2024-04-18	300.18628580775464	43	lumivyory-ammunta	tahtaysmestarit
+10	2024-04-18	328.03994354775006	44	kesan_ampujaiset	laukausryhma_aurora
+10	2024-04-18	300.52184282535563	44	talvi_pistooli	laukausryhma_aurora
+10	2024-04-18	323.8462617550712	44	tarkkuuslaukaus-festivaali	laukausryhma_aurora
+10	2024-04-18	345.1131982071324	44	kivaarikilpailujen_huipennus	laukausryhma_aurora
+10	2024-04-18	321.551322130746	44	polaris-ampumaharjoitus	laukausryhma_aurora
+10	2024-04-18	329.18997687517776	44	aamunkoiton_tahtays	laukausryhma_aurora
+10	2024-04-18	332.62910935478124	44	nordic_sharpshooters_cup	laukausryhma_aurora
+10	2024-04-18	295.7827617577595	44	taivaanranta-tulitus	laukausryhma_aurora
+10	2024-04-18	369.91261293900493	44	lumivyory-ammunta	laukausryhma_aurora
+10	2024-04-18	345.9204112970337	45	kesan_ampujaiset	laukausryhma_aurora
+10	2024-04-18	304.8491792897302	45	talvi_pistooli	laukausryhma_aurora
+10	2024-04-18	304.4902766962173	45	tarkkuuslaukaus-festivaali	laukausryhma_aurora
+10	2024-04-18	301.5131715298177	45	kivaarikilpailujen_huipennus	laukausryhma_aurora
+10	2024-04-18	290.53421112706394	45	polaris-ampumaharjoitus	laukausryhma_aurora
+10	2024-04-18	322.4013748660297	45	aamunkoiton_tahtays	laukausryhma_aurora
+10	2024-04-18	334.0027325680173	45	nordic_sharpshooters_cup	laukausryhma_aurora
+10	2024-04-18	302.1202267306041	45	taivaanranta-tulitus	laukausryhma_aurora
+10	2024-04-18	281.4558652312502	45	lumivyory-ammunta	laukausryhma_aurora
+10	2024-04-18	351.52183191655683	46	kesan_ampujaiset	laukausryhma_aurora
+10	2024-04-18	375.56691386025335	46	talvi_pistooli	laukausryhma_aurora
+10	2024-04-18	334.33085409290356	46	tarkkuuslaukaus-festivaali	laukausryhma_aurora
+10	2024-04-18	347.14474991941	46	kivaarikilpailujen_huipennus	laukausryhma_aurora
+10	2024-04-18	288.8181402819204	46	polaris-ampumaharjoitus	laukausryhma_aurora
+10	2024-04-18	332.575430742163	46	aamunkoiton_tahtays	laukausryhma_aurora
+10	2024-04-18	309.81547524372166	46	nordic_sharpshooters_cup	laukausryhma_aurora
+10	2024-04-18	331.0531711095786	46	taivaanranta-tulitus	laukausryhma_aurora
+10	2024-04-18	293.4210586729314	46	lumivyory-ammunta	laukausryhma_aurora
+10	2024-04-18	313.6046400485534	47	kesan_ampujaiset	laukausryhma_aurora
+10	2024-04-18	337.74975070888223	47	talvi_pistooli	laukausryhma_aurora
+10	2024-04-18	312.1999962149573	47	tarkkuuslaukaus-festivaali	laukausryhma_aurora
+10	2024-04-18	368.07245978561804	47	kivaarikilpailujen_huipennus	laukausryhma_aurora
+10	2024-04-18	365.50946488724884	47	polaris-ampumaharjoitus	laukausryhma_aurora
+10	2024-04-18	318.0189477203188	47	aamunkoiton_tahtays	laukausryhma_aurora
+10	2024-04-18	325.60499955108094	47	nordic_sharpshooters_cup	laukausryhma_aurora
+10	2024-04-18	339.6841535130693	47	taivaanranta-tulitus	laukausryhma_aurora
+10	2024-04-18	361.0802554765697	47	lumivyory-ammunta	laukausryhma_aurora
+10	2024-04-18	349.2610931814139	48	kesan_ampujaiset	laukausryhma_aurora
+10	2024-04-18	336.88416153472394	48	talvi_pistooli	laukausryhma_aurora
+10	2024-04-18	305.0346190489689	48	tarkkuuslaukaus-festivaali	laukausryhma_aurora
+10	2024-04-18	331.7739186112768	48	kivaarikilpailujen_huipennus	laukausryhma_aurora
+10	2024-04-18	298.2739836619417	48	polaris-ampumaharjoitus	laukausryhma_aurora
+10	2024-04-18	331.8846200866048	48	aamunkoiton_tahtays	laukausryhma_aurora
+10	2024-04-18	300.49558258887566	48	nordic_sharpshooters_cup	laukausryhma_aurora
+10	2024-04-18	366.4650919297365	48	taivaanranta-tulitus	laukausryhma_aurora
+10	2024-04-18	307.0432427594755	48	lumivyory-ammunta	laukausryhma_aurora
+10	2024-04-18	306.67331146125343	49	kesan_ampujaiset	ampumataito
+10	2024-04-18	314.1511072632387	49	talvi_pistooli	ampumataito
+10	2024-04-18	336.13890267394464	49	tarkkuuslaukaus-festivaali	ampumataito
+10	2024-04-18	335.34775958168774	49	kivaarikilpailujen_huipennus	ampumataito
+10	2024-04-18	334.526724723208	49	polaris-ampumaharjoitus	ampumataito
+10	2024-04-18	339.1753666993203	49	aamunkoiton_tahtays	ampumataito
+10	2024-04-18	368.46627393833217	49	nordic_sharpshooters_cup	ampumataito
+10	2024-04-18	336.6841787497408	49	taivaanranta-tulitus	ampumataito
+10	2024-04-18	333.5582697096925	49	lumivyory-ammunta	ampumataito
+10	2024-04-18	355.99899300560884	50	kesan_ampujaiset	ampumataito
+10	2024-04-18	306.5175347898856	50	talvi_pistooli	ampumataito
+10	2024-04-18	344.3711964661057	50	tarkkuuslaukaus-festivaali	ampumataito
+10	2024-04-18	335.6032201672096	50	kivaarikilpailujen_huipennus	ampumataito
+10	2024-04-18	324.3276128318471	50	polaris-ampumaharjoitus	ampumataito
+10	2024-04-18	323.37565901896386	50	aamunkoiton_tahtays	ampumataito
+10	2024-04-18	354.0623998915159	50	nordic_sharpshooters_cup	ampumataito
+10	2024-04-18	322.2657179806114	50	taivaanranta-tulitus	ampumataito
+10	2024-04-18	340.6006021691947	50	lumivyory-ammunta	ampumataito
+10	2024-04-18	323.5732861495169	51	kesan_ampujaiset	ampumataito
+10	2024-04-18	358.3494856991682	51	talvi_pistooli	ampumataito
+10	2024-04-18	345.1590089661159	51	tarkkuuslaukaus-festivaali	ampumataito
+10	2024-04-18	316.48104684083785	51	kivaarikilpailujen_huipennus	ampumataito
+10	2024-04-18	327.44202944733917	51	polaris-ampumaharjoitus	ampumataito
+10	2024-04-18	329.769652702398	51	aamunkoiton_tahtays	ampumataito
+10	2024-04-18	368.43384338508656	51	nordic_sharpshooters_cup	ampumataito
+10	2024-04-18	355.1575934503937	51	taivaanranta-tulitus	ampumataito
+10	2024-04-18	349.96905315192765	51	lumivyory-ammunta	ampumataito
+10	2024-04-18	277.7019326133766	52	kesan_ampujaiset	ampumataito
+10	2024-04-18	346.0094809925728	52	talvi_pistooli	ampumataito
+10	2024-04-18	337.55738519677266	52	tarkkuuslaukaus-festivaali	ampumataito
+10	2024-04-18	341.80565372455635	52	kivaarikilpailujen_huipennus	ampumataito
+10	2024-04-18	290.656770629848	52	polaris-ampumaharjoitus	ampumataito
+10	2024-04-18	310.15814213686633	52	aamunkoiton_tahtays	ampumataito
+10	2024-04-18	328.61105777870847	52	nordic_sharpshooters_cup	ampumataito
+10	2024-04-18	335.01728346405633	52	taivaanranta-tulitus	ampumataito
+10	2024-04-18	349.5127511995553	52	lumivyory-ammunta	ampumataito
+10	2024-04-18	300.83005058669625	53	kesan_ampujaiset	ampumataito
+10	2024-04-18	288.063240087149	53	talvi_pistooli	ampumataito
+10	2024-04-18	357.25305318171945	53	tarkkuuslaukaus-festivaali	ampumataito
+10	2024-04-18	299.77901815209447	53	kivaarikilpailujen_huipennus	ampumataito
+10	2024-04-18	303.8690280527188	53	polaris-ampumaharjoitus	ampumataito
+10	2024-04-18	359.1412379637511	53	aamunkoiton_tahtays	ampumataito
+10	2024-04-18	331.55285005607925	53	nordic_sharpshooters_cup	ampumataito
+10	2024-04-18	324.30869917858786	53	taivaanranta-tulitus	ampumataito
+10	2024-04-18	341.0660594978294	53	lumivyory-ammunta	ampumataito
 \.
 
 
@@ -2421,54 +2661,60 @@ COPY public.team_member_score (bulls_eye_count, creation_date, sum, user_id, com
 --
 
 COPY public.user_ (creation_date, last_login, id, email, legal_name, part_of_club, password, username) FROM stdin;
-2024-04-17	\N	1	admin	admin	\N	$2a$10$FYZhjMFSckELXDf.n1ErZedqm8NVPVbyTS7iaLfzLj03CW6ejbW6y	admin
-\N	\N	2	\N	Kaarina J├ñrvinen	Poliisiseura	\N	VTolT43RNt
-\N	\N	3	\N	Matti J├ñrvinen	Poliisiseura	\N	scgO3brHEG
-\N	\N	4	\N	Kaarina Virtanen	Poliisiseura	\N	3QS19YURUb
-\N	\N	5	\N	Mikael H├ñm├ñl├ñinen	Koiraseura	\N	tShd6o3K44
-\N	\N	6	\N	Antero Lehtinen	Koiraseura	\N	eAJqf67jkV
-\N	\N	7	\N	Mikael Heikkinen	Koiraseura	\N	YI6vXEpjLJ
-\N	\N	8	\N	Maria Ollakka	Koiraseura	\N	paDWRug7S3
-\N	\N	9	\N	Juhani Kelanti	Koiraseura	\N	KoTqtDNWZI
-\N	\N	10	\N	Marjatta Kelanti	Hammaspeikkoseura	\N	CgYv3vCbRS
-\N	\N	11	\N	Tapani M├ñkel├ñ	Hammaspeikkoseura	\N	uFXl7WHD9U
-\N	\N	12	\N	Anneli Heikkinen	Hammaspeikkoseura	\N	HqXJLsQIrA
-\N	\N	13	\N	Maria Heikkinen	Hammaspeikkoseura	\N	Qdc7tILWvi
-\N	\N	14	\N	Ilmari Koskinen	Hammaspeikkoseura	\N	pJYAkxgfYE
-\N	\N	15	\N	Antero Heikkinen	dog	\N	ArGyACWHgV
-\N	\N	16	\N	Anna Kelanti	dog	\N	H8R3OHavsA
-\N	\N	17	\N	Tapani Koskinen	dog	\N	phV4JQTUzE
-\N	\N	18	\N	Marjatta Juustila	dog	\N	mI8Oz3DQE7
-\N	\N	19	\N	Anneli H├ñm├ñl├ñinen	Savu_Seura	\N	mtjPwSccSk
-\N	\N	20	\N	Juhani Koskinen	Savu_Seura	\N	fltpQNbCKV
-\N	\N	21	\N	Tapani Kelanti	Savu_Seura	\N	zuszKEfA4h
-\N	\N	22	\N	Mikael Laine	Savu_Seura	\N	IAJNjaPnM2
-\N	\N	23	\N	Johannes Holappa	Savu_Seura	\N	Cqk0ZHPrGC
-\N	\N	24	\N	Juhani Laine	OMAS	\N	d7ANhVUzKX
-\N	\N	25	\N	Matti M├ñkel├ñ	OMAS	\N	W1BP47bDk9
-\N	\N	26	\N	Anneli Lehtinen	OMAS	\N	2fbp33VVNS
-\N	\N	27	\N	Mikael Lehtinen	OMAS	\N	uFHcwyYDkE
-\N	\N	28	\N	Anna Ollakka	Pelleseura	\N	aED5PApGSs
-\N	\N	29	\N	Tapani Virtanen	Pelleseura	\N	2vnQibnXnU
-\N	\N	30	\N	Juhani Heikkinen	Pelleseura	\N	f7DYcnDAhU
-\N	\N	31	\N	Marjatta Virtanen	Pelleseura	\N	QoBUAKMdor
-\N	\N	32	\N	Kaarina J├ñrvinen	Yung_Tallent	\N	3YuPLzYcJx
-\N	\N	33	\N	Johannes Heikkinen	Yung_Tallent	\N	2CweGNxrFl
-\N	\N	34	\N	Marjatta M├ñkinen	Yung_Tallent	\N	X750H6UYll
-\N	\N	35	\N	Johannes Heikkinen	Aseharrastajien_Yhtenaisyys	\N	tiE2Rdnjw7
-\N	\N	36	\N	Kaarina Kumpulainen	Aseharrastajien_Yhtenaisyys	\N	kjXkbSe0hi
-\N	\N	37	\N	Tapani M├ñkinen	Aseharrastajien_Yhtenaisyys	\N	8Zhb1iRWHM
-\N	\N	38	\N	Johanna Komulainen	Aseharrastajien_Yhtenaisyys	\N	aLfIupXYVb
-\N	\N	39	\N	Matti Virtanen	Tahtaysmestarit	\N	cXV07gh4nr
-\N	\N	40	\N	Tapio Laine	Tahtaysmestarit	\N	raFzQrHNxX
-\N	\N	41	\N	Matti M├ñ├ñtt├ñ	Tahtaysmestarit	\N	JYm4uxHgl7
-\N	\N	42	\N	Matti Kumpulainen	Tahtaysmestarit	\N	s5n4P4H9pQ
-\N	\N	43	\N	Matti Kumpulainen	Laukausryhma_Aurora	\N	oCjITrZEt1
-\N	\N	44	\N	Antero Nieminen	Laukausryhma_Aurora	\N	kPpqmBuCBy
-\N	\N	45	\N	Anna H├ñm├ñl├ñinen	Laukausryhma_Aurora	\N	sOqSn3E1Ay
-\N	\N	46	\N	Johannes Kumpulainen	Ampumataito	\N	x29TJR3TUL
-\N	\N	47	\N	Tapani Kelanti	Ampumataito	\N	RjA9168YM6
-\N	\N	48	\N	Kalevi Virtanen	Ampumataito	\N	DDUI3GCzHW
+\N	\N	1	\N	Helena Lehtinen	poliisiseura	\N	gONVRFDkIK
+\N	\N	2	\N	Liisa Laine	poliisiseura	\N	H4Ec1ugOjn
+\N	\N	3	\N	Maria Kumpulainen	poliisiseura	\N	vK5DREvyff
+\N	\N	4	\N	Kaarina Mäkinen	poliisiseura	\N	eAdvBlFl0C
+\N	\N	5	\N	Matti Korhonen	koiraseura	\N	kc6HsQwoa2
+\N	\N	6	\N	Ilmari Nieminen	koiraseura	\N	GG7tau1eQy
+\N	\N	7	\N	Kalevi Heikkinen	koiraseura	\N	CLRRcxk4j8
+\N	\N	8	\N	Tapani Heikkinen	koiraseura	\N	g7ot23Af5g
+\N	\N	9	\N	Maria Laine	hammaspeikkoseura	\N	Q3ypX6ofXo
+\N	\N	10	\N	Mikael Mäkelä	hammaspeikkoseura	\N	xcWVrXvJLa
+\N	\N	11	\N	Johannes Juustila	hammaspeikkoseura	\N	Bd8sg3tMnQ
+\N	\N	12	\N	Kaarina Juustila	hammaspeikkoseura	\N	FWRX5Uq0aD
+\N	\N	13	\N	Helena Kelanti	dog	\N	94YruEQ6NT
+\N	\N	14	\N	Marjatta Mäkinen	dog	\N	eGtDpt0bjh
+\N	\N	15	\N	Olavi Korhonen	dog	\N	10AG1UJcDe
+\N	\N	16	\N	Kaarina Heikkinen	dog	\N	7xM5loIcub
+\N	\N	17	\N	Matti Laine	dog	\N	eQQX6BBx9w
+\N	\N	18	\N	Kalevi Nieminen	savu_seura	\N	VdIQOD3f1W
+\N	\N	19	\N	Helena Juustila	savu_seura	\N	GjBsgRlXNv
+\N	\N	20	\N	Olavi Korhonen	savu_seura	\N	jWJNPNvHh6
+\N	\N	21	\N	Antero Holappa	savu_seura	\N	jDgj5oWbDR
+\N	\N	22	\N	Anneli Juustila	omas	\N	sobvArfL9g
+\N	\N	23	\N	Marjatta Komulainen	omas	\N	3nNL1Y04uJ
+\N	\N	24	\N	Maria Korhonen	omas	\N	0V7uvQGrcu
+\N	\N	25	\N	Anneli Lehtinen	omas	\N	ydluXV9mf1
+\N	\N	26	\N	Kalevi Virtanen	omas	\N	lELHlg8KrI
+\N	\N	27	\N	Anna Hämäläinen	pelleseura	\N	k4In2x501R
+\N	\N	28	\N	Johannes Holappa	pelleseura	\N	pnjp3V5b7h
+\N	\N	29	\N	Mikael Mäkelä	pelleseura	\N	WVmcbjQ47n
+\N	\N	30	\N	Maria Mäkinen	pelleseura	\N	kdilVNc4wK
+\N	\N	31	\N	Olavi Komulainen	pelleseura	\N	fm0dnJCcFI
+\N	\N	32	\N	Mikael Laine	yung_tallent	\N	yrKnkxAcw1
+\N	\N	33	\N	Helena Holappa	yung_tallent	\N	5cKi29IV8D
+\N	\N	34	\N	Helena Ollakka	yung_tallent	\N	kahrYd5ZjP
+\N	\N	35	\N	Helena Mäkelä	yung_tallent	\N	XeZHVoZwZU
+\N	\N	36	\N	Liisa Juustila	aseharrastajien_yhtenaisyys	\N	KtQSKwOafN
+\N	\N	37	\N	Liisa Juustila	aseharrastajien_yhtenaisyys	\N	oppksNcKeI
+\N	\N	38	\N	Anna Juustila	aseharrastajien_yhtenaisyys	\N	C2iSo1dClM
+\N	\N	39	\N	Liisa Komulainen	aseharrastajien_yhtenaisyys	\N	pRyaHgZOog
+\N	\N	40	\N	Tapio Juustila	aseharrastajien_yhtenaisyys	\N	khLvDEw2cR
+\N	\N	41	\N	Marjatta Komulainen	tahtaysmestarit	\N	lDea3iY3Ti
+\N	\N	42	\N	Helena Hämäläinen	tahtaysmestarit	\N	r2zPl0e8Xp
+\N	\N	43	\N	Tapani Ollakka	tahtaysmestarit	\N	D0mSIyT79f
+\N	\N	44	\N	Tapio Koskinen	laukausryhma_aurora	\N	acOb2Gli8y
+\N	\N	45	\N	Johannes Mäkinen	laukausryhma_aurora	\N	0c8pSiiOGk
+\N	\N	46	\N	Matti Hämäläinen	laukausryhma_aurora	\N	fPCO7sjrH4
+\N	\N	47	\N	Marjatta Mäkelä	laukausryhma_aurora	\N	GP8RfZ9V3O
+\N	\N	48	\N	Kaarina Holappa	laukausryhma_aurora	\N	7BTL5lCBG2
+\N	\N	49	\N	Matti Hämäläinen	ampumataito	\N	kdrE4g4YX6
+\N	\N	50	\N	Ilmari Korhonen	ampumataito	\N	DFUj9baigI
+\N	\N	51	\N	Kaarina Koskinen	ampumataito	\N	NJpmiAwk3Q
+\N	\N	52	\N	Juhani Laine	ampumataito	\N	xh0BcpN8xR
+\N	\N	53	\N	Johanna Nieminen	ampumataito	\N	03Yj6vE7Ic
+2024-04-18	\N	54	admin	admin	\N	$2a$10$AW0Nuh116JUJlJ/1VGenjubOsOJFH8rW27B0FSXds5j5brY3HkY9a	admin
 \.
 
 
@@ -2476,7 +2722,7 @@ COPY public.user_ (creation_date, last_login, id, email, legal_name, part_of_clu
 -- Name: user__id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.user__id_seq', 48, true);
+SELECT pg_catalog.setval('public.user__id_seq', 54, true);
 
 
 --
