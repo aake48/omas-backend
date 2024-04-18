@@ -121,7 +121,7 @@ public class UserController {
     public ResponseEntity<?> authenticateAndGetToken(@Valid @RequestBody AuthRequest authRequest) {
 
         if (loginAttemptService.isBlocked()) {
-            return new ResponseEntity<>("Too many failed login attempts", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(Map.of("message", "Too many login attempts"), HttpStatus.FORBIDDEN);
         }
 
         try {
