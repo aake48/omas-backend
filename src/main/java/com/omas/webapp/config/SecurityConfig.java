@@ -2,7 +2,7 @@ package com.omas.webapp.config;
 
 import com.omas.webapp.filter.JwtAuthFilter;
 import com.omas.webapp.service.UserService;
-
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,6 +61,12 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider())
             .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling(exceptionHandling -> exceptionHandling
+            .authenticationEntryPoint((request, response, authException) -> {
+                response.setContentType("application/json");
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.getWriter().write("{\"error\":\"Invalid auth\"}");
+            }))
             .build();
     }
 
