@@ -107,7 +107,7 @@ public class UserService implements UserDetailsService {
 
         // checks whether a user with this username already exists in the db
         if (repository.findByUsername(user.getUsername()).isPresent()) {
-            throw new Exception("The username '" + user.getUsername() + "' is already taken.");
+            throw new Exception("The provided username is already in use.");
         }
 
         // hash and salt password before saving it to db
@@ -116,8 +116,8 @@ public class UserService implements UserDetailsService {
             User createdUser = repository.save(user);
             roleService.addUserRole(createdUser.getId());
         } catch (DataIntegrityViolationException e) {
-            throw new Exception("The email '" + user.getEmail() + "' is already in use.");
-        }
+            throw new Exception("The provided email is already in use.");
+                }
 
     }
 

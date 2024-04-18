@@ -69,7 +69,7 @@ public class UserController {
             return new ResponseEntity<>(Map.of("message","User added"), HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(Map.of("message",e.getMessage()), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(Map.of("illegalAction",e.getMessage()), HttpStatus.FORBIDDEN);
         }
     }
 
