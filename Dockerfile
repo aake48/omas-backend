@@ -20,6 +20,19 @@ RUN echo "CREATE DATABASE omas;" > /create_db.sql && \
 # Set working directory
 WORKDIR /app
 
+ENV OMAS_DATABASE_URL=jdbc:postgresql://localhost:5432/omas
+ENV OMAS_DATABASE_USERNAME=postgres
+ENV OMAS_DATABASE_PASSWORD=password
+ENV OMAS_SECRET_KEY=48794134879942idontlikedogs1323572342328789
+ENV OMAS_SMTP_HOST=smtp.gmail.com
+ENV OMAS_SMTP_USERNAME=example@gmail.com
+ENV OMAS_SMTP_PASSWORD=password
+ENV OMAS_SMTP_PORT=587 
+ENV OMAS_RECOVERY_PAGE_URL=https://localhost:3000/recovery
+ENV OMAS_TOKEN_VALIDITY_DURATION=28800000
+ENV OMAS_MAX_LOGIN_ATTEMPTS=500
+ENV OMAS_BAN_DURATION=86400000
+
 # Copy application files
 COPY /build/libs/webapp-0.0.1-SNAPSHOT.jar webapp-0.0.1-SNAPSHOT.jar
 COPY env.properties .
