@@ -55,14 +55,20 @@ public class TeamController {
         String teamName = Constants.createIdString(teamDisplayName);
 
         if (teamName == null) {
-            return new ResponseEntity<>(Map.of("message","Team name contains illegal characters. It must match ^[a-zA-Z0-9-_]+$"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Team name contains illegal characters. It must match ^[a-z0-9-_]+$"), HttpStatus.BAD_REQUEST);
         }
 
-        if (teamService.teamExists(request.getCompetitionName(), teamName)) {
+        String competitionId = Constants.createIdString(request.getCompetitionName());
+
+        if (competitionId == null) {
+            return new ResponseEntity<>(Map.of("message", "Competition name contains illegal characters. It must match ^[a-z0-9-_]+$"), HttpStatus.BAD_REQUEST);
+        }
+
+        if (teamService.teamExists(competitionId, teamName)) {
             return new ResponseEntity<>(Map.of("message","A team with that name already exists."), HttpStatus.BAD_REQUEST);
         }
 
-        Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
+        Optional<Competition> competitionOptional = competitionService.getCompetition(competitionId);
 
         // Handles prior thisCompetitionExists check
         if (competitionOptional.isEmpty()) {
@@ -77,7 +83,7 @@ public class TeamController {
         
         try {
 
-            Team addedTeam = teamService.addTeam(request.getCompetitionName(), teamName, teamDisplayName, club);
+            Team addedTeam = teamService.addTeam(competitionId, teamName, teamDisplayName, club);
             return new ResponseEntity<>(addedTeam, HttpStatus.OK);
 
         } catch (Exception e) {

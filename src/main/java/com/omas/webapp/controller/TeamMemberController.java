@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import com.omas.webapp.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -120,6 +121,12 @@ public class TeamMemberController {
 
         try {
 
+            String clubId = Constants.createIdString(request.getClubName());
+
+            if (clubId == null) {
+                return new ResponseEntity<>(Map.of("message", "The club name contains illegal characters"), HttpStatus.BAD_REQUEST);
+            }
+
             Optional<Team> optionalTeam = teamsService
                     .getTeam(new TeamId(request.getCompetitionName(), request.getTeamName()));
             String club = null;
@@ -128,7 +135,7 @@ public class TeamMemberController {
                 club = team.getClubName();
             }
 
-            if (club == null || !club.equals(request.getClubName())) {
+            if (club == null || !club.equals(clubId)) {
                 return new ResponseEntity<>(Map.of("message", "this team belongs to another team"), HttpStatus.BAD_REQUEST);
             }
 

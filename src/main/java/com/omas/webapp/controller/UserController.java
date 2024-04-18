@@ -148,6 +148,9 @@ public class UserController {
             root.put("token", token);
             String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);
 
+            // Reset login attempts on successful login
+            loginAttemptService.clearCache();
+
             return new ResponseEntity<>(jsonString, HttpStatus.OK);
 
         } catch (AuthenticationException e) {
@@ -206,21 +209,6 @@ public class UserController {
         }
 
         return new ResponseEntity<>(teamOptional.get(), HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    @GetMapping("/user/teams")
-    public ResponseEntity<?> getUserTeams() {
-
-        Long userId = UserInfoDetails.getDetails().getId();
-
-        List<Team> teams = teamService.getUserTeams(userId);
-
-        if (teams.isEmpty()) {
-            return new ResponseEntity<>(Map.of("message","That user is not in a team in that competition"), HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(teams, HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

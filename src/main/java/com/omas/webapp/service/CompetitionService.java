@@ -53,13 +53,11 @@ public class CompetitionService {
     }
 
     public Optional<Competition> getCompetition(String name) {
-
-        return competitionRepository.findById(name);
-
+        return competitionRepository.findById(name.toLowerCase());
     }
 
     public Page<Competition> findWithPaginatedSearch(int page, int size, String search) {
-        return competitionRepository.findByCompetitionIdContaining(search, PageRequest.of(page, size));
+        return competitionRepository.findByCompetitionIdContainingIgnoreCase(search, PageRequest.of(page, size));
     }
 
     public Page<Competition> firstPaginated(int page, int size) {

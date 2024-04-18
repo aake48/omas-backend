@@ -20,14 +20,14 @@ public final class Constants {
     public static final double MAX_SCORE = 654;
     public static final int MAX_BULLS_EYES = 60;
 
-    public static final Pattern VALID_NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9-_]+$");
+    public static final Pattern VALID_NAME_PATTERN = Pattern.compile("^[a-z0-9-_]+$");
 
     public static String createIdString(String name) {
 
-        String idString = name
-        .replace('ä', 'a').replace('Ä', 'A')
-        .replace('ö', 'o').replace('Ö', 'O')
-        .replace('å', 'a').replace('Å', 'A')
+        String idString = name.toLowerCase()
+        .replace('ä', 'a')
+        .replace('ö', 'o')
+        .replace('å', 'a')
         .replace(' ', '_');
 
         if (!VALID_NAME_PATTERN.matcher(idString).matches()) {
