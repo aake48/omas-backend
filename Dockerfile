@@ -31,13 +31,13 @@ WORKDIR /app
 
 # Copy the built JAR file from the first stage
 COPY --from=build /app/build/libs/*.jar webapp.jar
-COPY src/main/resources/keystore/omas.p12 omas.p12
+# COPY src/main/resources/keystore/omas.p12 omas.p12
 
 # Copy the env.properties file
-COPY env.properties env.properties
+# COPY env.properties env.properties
 
 # Expose port 8080
 EXPOSE 8080
 
 # Command to run the application
-CMD ["java", "-jar", "webapp.jar"]
+CMD ["java", "-jar", "webapp.jar", "--spring.profiles.active=prod"]
