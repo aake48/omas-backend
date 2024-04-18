@@ -1,4 +1,4 @@
-# docker-compose -f docker-compose.dev.yml
+# docker-compose -f docker-compose.prod.yml up
 version: '3.8'
 services:
   postgres_database:
@@ -23,7 +23,7 @@ services:
     image: omas/webapp
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      OMAS_DATABASE_URL: jdbc:postgresql://localhost:5432/omas
+      OMAS_DATABASE_URL: jdbc:postgresql://postgres_database:5432/omas
       OMAS_DATABASE_USERNAME: postgres
       OMAS_DATABASE_PASSWORD: password
       OMAS_SECRET_KEY: 48794134879942idontlikedogs1323572342328789
