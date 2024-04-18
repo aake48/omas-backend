@@ -69,7 +69,7 @@ public class UserController {
             return new ResponseEntity<>(Map.of("message","User added"), HttpStatus.OK);
 
         } catch (Exception e) {
-            return new ResponseEntity<>(Map.of("message",e.getMessage()), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(Map.of("illegalAction",e.getMessage()), HttpStatus.FORBIDDEN);
         }
     }
 
@@ -121,7 +121,7 @@ public class UserController {
     public ResponseEntity<?> authenticateAndGetToken(@Valid @RequestBody AuthRequest authRequest) {
 
         if (loginAttemptService.isBlocked()) {
-            return new ResponseEntity<>("Too many failed login attempts", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(Map.of("message", "Too many login attempts"), HttpStatus.FORBIDDEN);
         }
 
         try {
