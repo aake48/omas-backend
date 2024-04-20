@@ -24,33 +24,31 @@ public class UserTests {
 
     private static final String baseUrl = "/api/user/";
 
-    private static String adminToken;
+    private static String token;
 
-    private static final String competitionId = "kuvanlatauskilpailu";
+    private static final String compeitionName = "kuvanlatauskilpailu";
+    private static final String competitionId = Constants.createIdString(compeitionName);
     private static final String teamName = "kuvajoukkue";
     private static final String clubName = "kuvaseura";
 
     @BeforeEach
     private void registerUser() throws Exception {
 
-        JSONObject loginResponse = new JSONObject(TestUtils.loginUser(mockMvc, Constants.ADMIN_USERNAME, Constants.ADMIN_PASSWORD));
+        token = TestUtils.getToken(mockMvc, "user123");
 
-        loginResponse.getJSONObject("user");
-        adminToken = loginResponse.getString("token");
-
-        TestUtils.addRifleCompetition(mockMvc, competitionId, adminToken);
-        TestUtils.addClub(mockMvc, clubName, adminToken);
-        TestUtils.joinClub(mockMvc, clubName, adminToken);
-        TestUtils.addTeam(mockMvc, competitionId, teamName, adminToken);
-        TestUtils.joinTeam(mockMvc, competitionId, teamName, adminToken);
-        TestUtils.addScores(mockMvc, competitionId, teamName, adminToken);
+        TestUtils.addRifleCompetition(mockMvc, competitionId, token);
+        TestUtils.addClub(mockMvc, clubName, token);
+        TestUtils.joinClub(mockMvc, clubName, token);
+        TestUtils.addTeam(mockMvc, competitionId, teamName, token);
+        TestUtils.joinTeam(mockMvc, competitionId, teamName, token);
+        TestUtils.addScores(mockMvc, competitionId, teamName, token);
     }
 
     @Test
     public void getUserTeam() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.get(baseUrl + "team?competitionId=" + competitionId)
-                .header("Authorization", "Bearer " + adminToken))
+                .header("Authorization", "Bearer " + token))
             .andExpect(status().isOk())
             .andReturn()
             .getResponse()
