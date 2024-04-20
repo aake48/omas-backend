@@ -1,6 +1,6 @@
 package com.omas.webapp.table;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,7 +23,7 @@ public class Club {
 	private String name; 
 	
 	private String nameNonId;
-	private Date creationDate;
+	private Timestamp creationDate;
 	private long idCreator;
 
 	@JsonIgnore
@@ -33,7 +33,7 @@ public class Club {
 		this.name = clubId.toLowerCase();
 		this.nameNonId = clubName;
 		this.idCreator = creatorId;
-		this.creationDate = new Date(Instant.now().toEpochMilli());
+		this.creationDate = new Timestamp(Instant.now().toEpochMilli());
 		this.passkey=null;
 	}
 } 
