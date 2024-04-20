@@ -25,7 +25,7 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.club (
-    creation_date date,
+    creation_date timestamp(6) without time zone,
     id_creator bigint NOT NULL,
     name character varying(255) NOT NULL,
     name_non_id character varying(255),
@@ -40,9 +40,9 @@ ALTER TABLE public.club OWNER TO postgres;
 --
 
 CREATE TABLE public.competition (
-    creation_date date NOT NULL,
-    end_date date,
-    start_date date,
+    creation_date timestamp(6) without time zone NOT NULL,
+    end_date timestamp(6) without time zone,
+    start_date timestamp(6) without time zone,
     competition_id character varying(255) NOT NULL,
     display_name character varying(255),
     type character varying(255)
@@ -56,7 +56,7 @@ ALTER TABLE public.competition OWNER TO postgres;
 --
 
 CREATE TABLE public.image_proof (
-    time_stamp date,
+    time_stamp timestamp(6) without time zone,
     user_id bigint NOT NULL,
     competition_id character varying(255) NOT NULL,
     file_name character varying(255) NOT NULL,
@@ -126,8 +126,8 @@ ALTER TABLE public.team_member OWNER TO postgres;
 
 CREATE TABLE public.team_member_score (
     bulls_eye_count integer NOT NULL,
-    creation_date date,
     sum double precision NOT NULL,
+    creation_date timestamp(6) without time zone,
     user_id bigint NOT NULL,
     competition_id character varying(255) NOT NULL,
     team_name character varying(255) NOT NULL
@@ -141,9 +141,9 @@ ALTER TABLE public.team_member_score OWNER TO postgres;
 --
 
 CREATE TABLE public.user_ (
-    creation_date date,
-    last_login date,
+    creation_date timestamp(6) without time zone,
     id bigint NOT NULL,
+    last_login timestamp(6) without time zone,
     email character varying(255),
     legal_name character varying(255),
     part_of_club character varying(255),
