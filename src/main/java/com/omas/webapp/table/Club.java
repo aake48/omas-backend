@@ -2,9 +2,8 @@ package com.omas.webapp.table;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity; 
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -23,6 +22,7 @@ public class Club {
 	private String name; 
 	
 	private String nameNonId;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Timestamp creationDate;
 	private long idCreator;
 

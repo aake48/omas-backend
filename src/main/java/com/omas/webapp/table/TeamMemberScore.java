@@ -1,5 +1,6 @@
 package com.omas.webapp.table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -40,6 +41,7 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
     private int bullsEyeCount;
 
     @Getter
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp creationDate;
 
     public TeamMemberScore(TeamMemberId teamMemberId, double score, int bullsEyeCount) {
