@@ -36,6 +36,9 @@
 
 # ### VS Code ###
 # **\.vscode
-# # **\env.properties
-# **\*.rest
 # fly.toml
+
+**/.env
+**/env.properties
+**/.rest
+**/application.properties
