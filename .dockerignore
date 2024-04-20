@@ -42,3 +42,4 @@
 **/env.properties
 **/.rest
 **/application.properties
+**/TestDataForFrontend.java

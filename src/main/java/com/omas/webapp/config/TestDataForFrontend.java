@@ -2,6 +2,7 @@ package com.omas.webapp.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.omas.webapp.Constants;
+import com.omas.webapp.entity.requests.RegistrationRequest;
 import com.omas.webapp.repository.*;
 import com.omas.webapp.service.*;
 import com.omas.webapp.table.*;
@@ -79,8 +80,29 @@ public class TestDataForFrontend implements CommandLineRunner {
         "Kumpulainen", "Kelanti", "Määttä"
     );
 
+    private void addAdminUser() throws Exception {
+
+        RegistrationRequest registrationRequest = new RegistrationRequest();
+        registrationRequest.setEmail("adminin sähköposti");
+        registrationRequest.setName("adminin nimi");
+        registrationRequest.setUsername("admin");
+        registrationRequest.setPassword("adminPassword");
+
+        userService.registerUser(registrationRequest);
+
+        try {
+            User createdUser = userService.getUserByUsername("admin").get();
+            roleService.addAdminRole(createdUser.getId());
+        } catch (Exception e) {
+            System.out.println("ex : " + e);
+        }
+
+    }
+
     @Override
     public void run(String... args) throws Exception {
+
+        addAdminUser();
 
         final String pistolCompetitionTypeName = Constants.PISTOL_TYPE;
         final String rifleCompetitionTypeName = Constants.RIFLE_TYPE;
