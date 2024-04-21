@@ -215,10 +215,9 @@ public class TeamService {
     }
 
     public boolean isThisTeamFull(String competitionName, String teamName) {
-        Optional<List<TeamMember>> optional = teamMemberRepository.findByTeamId(new TeamId(competitionName, teamName));
-        if(optional.isPresent()){
-            return optional.get().size()>=5;
-        }
-        return false;
+
+        List<TeamMember> team = teamMemberRepository.findByTeamId(new TeamId(competitionName, teamName));
+
+        return team.size() >= 5;
     }
 }
