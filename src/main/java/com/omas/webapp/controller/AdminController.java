@@ -120,11 +120,18 @@ public class AdminController {
 
         TeamMemberId teamMemberId = new TeamMemberId(request.getUserId(), request.getCompetitionName(), request.getTeamName());
 
-        TeamMemberScore score = teamMemberScoreService.modifyScoreSum(
-            teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType()
-        );
+        try {
 
-        return new ResponseEntity<>(score, HttpStatus.OK);
+            TeamMemberScore score = teamMemberScoreService.modifyScoreSum(
+                teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType()
+            );
+
+            return new ResponseEntity<>(score, HttpStatus.OK);
+
+        } catch (Exception ex) {
+            return new ResponseEntity<>(Map.of("message", ex.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
