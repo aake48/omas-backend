@@ -126,6 +126,7 @@ ALTER TABLE public.team_member OWNER TO postgres;
 
 CREATE TABLE public.team_member_score (
     bulls_eye_count integer NOT NULL,
+    round integer NOT NULL,
     sum double precision NOT NULL,
     creation_date timestamp(6) without time zone,
     user_id bigint NOT NULL,

@@ -58,7 +58,7 @@ public class TeamMemberScoreService {
             throw new IllegalArgumentException("Bulls eye count exceeds maximum bulls eye count");
         }
 
-        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, score, bullsEyeCount));
+        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, score, bullsEyeCount, Constants.MAX_ROUND));
     }
 
     /**
@@ -78,6 +78,11 @@ public class TeamMemberScoreService {
 
         int newBullsEyeCount = teamMemberScore.getBullsEyeCount() + bullsEyeCount;
         double newScore = teamMemberScore.getSum() + score;
+        int newRound = teamMemberScore.getRound() + 1;
+
+        if (newRound > Constants.MAX_ROUND) {
+            throw new IllegalArgumentException("Maximum rounds reached");
+        }
 
         if (newScore > Constants.MAX_SCORE) {
             throw new IllegalArgumentException("New score exceeds maximum score");
@@ -87,7 +92,7 @@ public class TeamMemberScoreService {
             throw new IllegalArgumentException("New bulls eye count exceeds maximum bulls eye count");
         }
 
-        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, newScore, newBullsEyeCount));
+        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, newScore, newBullsEyeCount, newRound));
     }
 
     /**

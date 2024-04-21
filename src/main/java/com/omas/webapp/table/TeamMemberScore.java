@@ -41,11 +41,15 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
     private int bullsEyeCount;
 
     @Getter
+    private int round;
+
+    @Getter
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Timestamp creationDate;
 
-    public TeamMemberScore(TeamMemberId teamMemberId, double score, int bullsEyeCount) {
+    public TeamMemberScore(TeamMemberId teamMemberId, double score, int bullsEyeCount, int round) {
         this.bullsEyeCount = bullsEyeCount;
+        this.round = round;
         this.sum = score;
         this.userId = teamMemberId.getUserId();
         this.competitionId = teamMemberId.getCompetitionId();

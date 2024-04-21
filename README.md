@@ -757,6 +757,7 @@ Note: used to be called competitionResults.team.scores
   "teamName": string,
   "sum": number,
   "bullsEyeCount": number,
+  "round": number,
   "scorePerShot": string,
   "creationDate": string
 }
