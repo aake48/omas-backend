@@ -50,7 +50,7 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
     public TeamMemberScore(TeamMemberId teamMemberId, double score, int bullsEyeCount, int round) {
         this.bullsEyeCount = bullsEyeCount;
         this.round = round;
-        this.sum = score;
+        this.sum = Math.floor(score * 10.0) / 10.0;
         this.userId = teamMemberId.getUserId();
         this.competitionId = teamMemberId.getCompetitionId();
         this.teamName = teamMemberId.getTeamName();
