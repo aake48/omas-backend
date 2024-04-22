@@ -38,8 +38,10 @@
 # **\.vscode
 # fly.toml
 
+# do not include dev stuff in the build
 **/.env
 **/env.properties
 **/.rest
 **/application.properties
+**/application-dev.properties 
 **/TestDataForFrontend.java
