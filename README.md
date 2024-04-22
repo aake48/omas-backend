@@ -118,6 +118,9 @@ OMAS_RECOVERY_PAGE_URL=https://localhost:3000/recovery
 OMAS_TOKEN_VALIDITY_DURATION=28800000
 OMAS_MAX_LOGIN_ATTEMPTS=10
 OMAS_BAN_DURATION=86400000
+
+#either prod, dev or 'dev,TestDataForFrontend' //if TestDataForFrontend is present, TestDataForFrontend.java will be run. This should be removed when running backend's tests.
+OMAS_PROFILES=dev,TestDataForFrontend
 ```
 ## 3rd run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>

@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Log4j2
-@Profile("dev")
+@Profile("TestDataForFrontend")
 @Component
 public class TestDataForFrontend implements CommandLineRunner {
 
