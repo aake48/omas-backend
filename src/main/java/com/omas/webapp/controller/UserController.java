@@ -55,9 +55,6 @@ public class UserController {
     @Autowired
     private LoginAttemptService loginAttemptService;
 
-    @Autowired
-    private HttpServletRequest request;
-
     @Value("${frontend.RecoveryPage}")
     private String recoveryPage;
 

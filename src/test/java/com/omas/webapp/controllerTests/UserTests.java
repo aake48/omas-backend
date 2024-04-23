@@ -2,7 +2,6 @@ package com.omas.webapp.controllerTests;
 
 import com.omas.webapp.Constants;
 import com.omas.webapp.TestUtils;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
