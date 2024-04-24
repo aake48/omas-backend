@@ -19,6 +19,7 @@ public final class Constants {
 
     public static final double MAX_SCORE = 654;
     public static final int MAX_BULLS_EYES = 60;
+    public static final int MAX_ROUND = 10;
 
     public static final Pattern VALID_NAME_PATTERN = Pattern.compile("^[a-z0-9-_]+$");
 

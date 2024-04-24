@@ -85,11 +85,11 @@
 
   
 
-# How to run this project
+# How to start with dev
 ## 1st Setup PostgreSQL database
 
 ### 1st method: postgres docker container (recommended method)
-With docker installed, use ```docker-compose up```
+With docker installed, use ```docker-compose -f docker-compose.dev.yml up```
 ### 2nd method: local install
 Install  and setup the lastest version of [PostgreSQL](https://www.postgresql.org/download/).  
 Go with the defaults when installing postgres. No additional dependencies or software are needed. 
@@ -118,6 +118,9 @@ OMAS_RECOVERY_PAGE_URL=https://localhost:3000/recovery
 OMAS_TOKEN_VALIDITY_DURATION=28800000
 OMAS_MAX_LOGIN_ATTEMPTS=10
 OMAS_BAN_DURATION=86400000
+
+#either prod, dev or 'dev,TestDataForFrontend' //if TestDataForFrontend is present, TestDataForFrontend.java will be run. This should be removed when running backend's tests.
+OMAS_PROFILES=dev,TestDataForFrontend
 ```
 ## 3rd run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>
@@ -757,6 +760,7 @@ Note: used to be called competitionResults.team.scores
   "teamName": string,
   "sum": number,
   "bullsEyeCount": number,
+  "round": number,
   "scorePerShot": string,
   "creationDate": string
 }

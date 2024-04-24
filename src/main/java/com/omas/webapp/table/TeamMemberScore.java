@@ -1,10 +1,11 @@
 package com.omas.webapp.table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.Instant;
 
 /**
@@ -40,15 +41,20 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
     private int bullsEyeCount;
 
     @Getter
-    private Date creationDate;
+    private int round;
 
-    public TeamMemberScore(TeamMemberId teamMemberId, double score, int bullsEyeCount) {
+    @Getter
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Timestamp creationDate;
+
+    public TeamMemberScore(TeamMemberId teamMemberId, double score, int bullsEyeCount, int round) {
         this.bullsEyeCount = bullsEyeCount;
-        this.sum = score;
+        this.round = round;
+        this.sum = Math.floor(score * 10.0) / 10.0;
         this.userId = teamMemberId.getUserId();
         this.competitionId = teamMemberId.getCompetitionId();
         this.teamName = teamMemberId.getTeamName();
-        this.creationDate = new Date(Instant.now().toEpochMilli());
+        this.creationDate = new Timestamp(Instant.now().toEpochMilli());
     }
 
     @JsonIgnore

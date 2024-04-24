@@ -1,0 +1,45 @@
+# docker-compose -f docker-compose.prod.yml up
+version: '3.8'
+services:
+  postgres_database:
+    container_name: database
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: omas
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+  spring-server:
+    container_name: server
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres_database
+    image: omas/webapp
+    env_file:
+      - env.properties
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      OMAS_DATABASE_URL: jdbc:postgresql://postgres_database:5432/omas
+      OMAS_DATABASE_USERNAME: postgres
+      OMAS_DATABASE_PASSWORD: password
+
+  nextjs_frontend:
+    container_name: omas_frontend
+    build:
+      context: ../omas-frontend
+      args:
+        - NEXT_PUBLIC_API_URL
+        - NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+        - RECAPTCHA_SECRET_KEY
+    ports:
+      - "3000:3000"
+    depends_on:
+      - spring-server
+    env_file:
+      - .env

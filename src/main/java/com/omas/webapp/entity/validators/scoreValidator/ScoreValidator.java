@@ -1,5 +1,6 @@
 package com.omas.webapp.entity.validators.scoreValidator;
 
+import com.omas.webapp.Constants;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -10,7 +11,7 @@ public class ScoreValidator implements ConstraintValidator<ValidScore, Double> {
         if (value == null) {
             return true;
         }
-        return value >= 0 && value <= 654;
+        return value >= 0 && value <= Constants.MAX_SCORE;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.omas.webapp.config;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.omas.webapp.Constants;
+import com.omas.webapp.entity.requests.RegistrationRequest;
 import com.omas.webapp.repository.*;
 import com.omas.webapp.service.*;
 import com.omas.webapp.table.*;
@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Log4j2
-@Profile("dev")
+@Profile("TestDataForFrontend")
 @Component
 public class TestDataForFrontend implements CommandLineRunner {
 
@@ -79,8 +79,29 @@ public class TestDataForFrontend implements CommandLineRunner {
         "Kumpulainen", "Kelanti", "Määttä"
     );
 
+    private void addAdminUser() throws Exception {
+
+        RegistrationRequest registrationRequest = new RegistrationRequest();
+        registrationRequest.setEmail("adminin sähköposti");
+        registrationRequest.setName("adminin nimi");
+        registrationRequest.setUsername("admin");
+        registrationRequest.setPassword("adminPassword");
+
+        userService.registerUser(registrationRequest);
+
+        try {
+            User createdUser = userService.getUserByUsername("admin").get();
+            roleService.addAdminRole(createdUser.getId());
+        } catch (Exception e) {
+            System.out.println("ex : " + e);
+        }
+
+    }
+
     @Override
     public void run(String... args) throws Exception {
+
+        addAdminUser();
 
         final String pistolCompetitionTypeName = Constants.PISTOL_TYPE;
         final String rifleCompetitionTypeName = Constants.RIFLE_TYPE;
@@ -122,12 +143,7 @@ public class TestDataForFrontend implements CommandLineRunner {
                 "Laukausryhmä Aurora",
                 "Ampumataito");
 
-        List<User> users = new ArrayList<>();
-        List<String> clubIds = new ArrayList<>();
-
         for (String clubName : clubList) {
-
-            int memberCount = ThreadLocalRandom.current().nextInt(3, 6);
 
             String clubId = Constants.createIdString(clubName);
 
@@ -135,15 +151,12 @@ public class TestDataForFrontend implements CommandLineRunner {
                 throw new Exception("Bad input in club name");
             }
 
-            clubIds.add(clubId);
-
             Club club = new Club(clubName, clubId, 0);
-            clubRepository.save(club);
 
-            users.addAll(generateUsersForClub(memberCount, clubId));
+            System.out.printf("creating club: %s (%s)\n", club.getNameNonId(), club.getName());
+
+            clubRepository.save(new Club(clubName, clubId, 0));
         }
-
-        userRepository.saveAll(users);
 
         List<Competition> rifleComps = saveCompetitions(rifleCompetitionList, rifleCompetitionTypeName);
         List<Competition> pistolComps = saveCompetitions(pistolCompetitionList, pistolCompetitionTypeName);
@@ -151,27 +164,7 @@ public class TestDataForFrontend implements CommandLineRunner {
         saveTeamsToComps(rifleComps);
         saveTeamsToComps(pistolComps);
 
-        addMemberWithScores(users, pistolComps, pistolCompetitionTypeName);
-        addMemberWithScores(users, rifleComps, rifleCompetitionTypeName);
-
-    }
-
-    private List<User> generateUsersForClub(int x, String clubName) {
-
-        List<User> users = new ArrayList<>(x);
-
-        for (int i = 0; i < x; i++) {
-
-            User user = new User();
-
-            user.setUsername(generateRandomString(10));
-            user.setLegalName(generateRandomName());
-            user.setPartOfClub(clubName);
-
-            users.add(user);
-        }
-
-        return users;
+        populateTeamsAndScores();
     }
 
     private String generateRandomName() {
@@ -182,15 +175,6 @@ public class TestDataForFrontend implements CommandLineRunner {
         String lastName = FINNISH_LAST_NAMES.get(random.nextInt(FINNISH_LAST_NAMES.size()));
 
         return firstName + " " + lastName;
-    }
-
-    private List<String> getXStrings(int x) {
-        List<String> strings = new ArrayList<>();
-
-        for (int i = 0; i < x; i++) {
-            strings.add(generateRandomString(10));
-        }
-        return strings;
     }
 
     public String generateRandomString(int length) {
@@ -217,34 +201,7 @@ public class TestDataForFrontend implements CommandLineRunner {
         return sum;
     }
 
-    /**
-     * creates a club and saves list of users to db with the being part of the
-     * just
-     * created club.
-     * Returns list of Users.
-     */
-    private List<User> saveUserToDB(List<String> usernames, String ClubName) {
-        log.info("adding users to DB");
-
-        Club club = new Club(ClubName, ClubName, 0);
-        clubRepository.save(club);
-
-        List<User> users = new ArrayList<>();
-
-        for (String name : usernames) {
-
-            User user = new User();
-            user.setUsername(name);
-            user.setLegalName(generateRandomName());
-            user.setPartOfClub(ClubName);
-            users.add(user);
-        }
-
-        return userRepository.saveAll(users);
-    }
-
-    private List<Competition> saveCompetitions(List<String> competitionNames,
-            String type) {
+    private List<Competition> saveCompetitions(List<String> competitionNames, String type) {
         log.info("adding competitions to DB");
 
         List<Competition> competitions = new ArrayList<>();
@@ -289,13 +246,15 @@ public class TestDataForFrontend implements CommandLineRunner {
 
             Competition competition = new Competition(competitionId, competitionName, type, startDate, endDate);
 
+            System.out.printf("creating competition: %s (%s)\n", competition.getDisplayName(), competition.getCompetitionId());
+
             competitions.add(competition);
         }
+
         return competitionRepository.saveAll(competitions);
     }
 
-    private List<Team> saveTeamsToComps(List<Competition> competitions) {
-        log.info("adding teams");
+    private List<Team> saveTeamsToComps(List<Competition> competitions) throws Exception {
 
         List<Team> teams = new ArrayList<>();
 
@@ -304,35 +263,61 @@ public class TestDataForFrontend implements CommandLineRunner {
             // Add a team for each club in each competition
             for (Club club : clubRepository.findAll()) {
 
-                TeamId teamId = new TeamId(comp.getCompetitionId(), club.getName());
+                // Generate 1-3 teams for each club
+                int teamCount = ThreadLocalRandom.current().nextInt(1, 4);
 
-                Team team = new Team(teamId, club.getNameNonId(), club.getName());
+                for (int i = 1; i <= teamCount; i++) {
 
-                teams.add(team);
+                    String teamDisplayName = club.getNameNonId() + " " + i;
+                    String teamName = Constants.createIdString(teamDisplayName);
+
+                    if (teamName == null) {
+                        throw new Exception("Failed to generate a valid team name in TestDataForFrontend");
+                    }
+
+                    TeamId teamId = new TeamId(comp.getCompetitionId(), teamName);
+
+                    Team team = new Team(teamId, teamDisplayName, club.getName());
+
+                    System.out.printf("creating team: %s (%s) for competition %s (%s)\n", team.getTeamDisplayName(), team.getTeamName(), comp.getDisplayName(), comp.getCompetitionId());
+
+                    teams.add(team);
+                }
+
             }
         }
+
         return teamRepository.saveAll(teams);
     }
 
-    private void addMemberWithScores(List<User> users, List<Competition> competitions, String compType) throws JsonProcessingException {
-        log.info("adding member and scores");
+    private void populateTeamsAndScores() {
 
-        for (User user : users) {
-            for (Competition comp : competitions) {
+        for (Team team : teamRepository.findAll()) {
 
-                TeamMember teamMember = new TeamMember(comp.getCompetitionId(), user.getId(), user.getPartOfClub());
+            int memberCount = ThreadLocalRandom.current().nextInt(3, 6);
 
-                teamMemberRepository.save(teamMember);
-                log.info(" club: " + user.getPartOfClub());
+            for (int i = 0; i < memberCount; i++) {
 
-                TeamMemberId teamMemberId = new TeamMemberId(user.getId(), comp.getCompetitionId(), user.getPartOfClub());
-                TeamMemberScore teamMemberScore = new TeamMemberScore(teamMemberId, give60shots(), 10);
+                User user = new User();
 
-                TeamMemberScore score = teamMemberScoreRepository.save(teamMemberScore);
-                log.info(" userId: " + score.getUserId());
+                user.setUsername(generateRandomString(10));
+                user.setLegalName(generateRandomName());
+                user.setPartOfClub(team.getClubName());
 
+                user = userRepository.save(user);
+
+                System.out.printf("userId: %d, creating %s and their scores for team %s (%s)\n", user.getId(), user.getLegalName(), team.getTeamDisplayName(), team.getTeamName());
+
+                TeamMember member = new TeamMember(team.getCompetitionId(), user.getId(), team.getTeamName());
+
+                teamMemberRepository.save(member);
+
+                TeamMemberScore score = new TeamMemberScore(member.getId(), give60shots(), 10, 10);
+
+                teamMemberScoreRepository.save(score);
             }
         }
+
     }
 
 }

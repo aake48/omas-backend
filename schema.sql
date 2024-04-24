@@ -25,10 +25,11 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.club (
-    creation_date date,
+    creation_date timestamp(6) without time zone,
     id_creator bigint NOT NULL,
     name character varying(255) NOT NULL,
-    name_non_id character varying(255)
+    name_non_id character varying(255),
+    passkey character varying(255)
 );
 
 
@@ -39,9 +40,9 @@ ALTER TABLE public.club OWNER TO postgres;
 --
 
 CREATE TABLE public.competition (
-    creation_date date NOT NULL,
-    end_date date,
-    start_date date,
+    creation_date timestamp(6) without time zone NOT NULL,
+    end_date timestamp(6) without time zone,
+    start_date timestamp(6) without time zone,
     competition_id character varying(255) NOT NULL,
     display_name character varying(255),
     type character varying(255)
@@ -49,6 +50,22 @@ CREATE TABLE public.competition (
 
 
 ALTER TABLE public.competition OWNER TO postgres;
+
+--
+-- Name: image_proof; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.image_proof (
+    time_stamp timestamp(6) without time zone,
+    user_id bigint NOT NULL,
+    competition_id character varying(255) NOT NULL,
+    file_name character varying(255) NOT NULL,
+    team_name character varying(255) NOT NULL,
+    image oid
+);
+
+
+ALTER TABLE public.image_proof OWNER TO postgres;
 
 --
 -- Name: password_reset_token; Type: TABLE; Schema: public; Owner: postgres
@@ -64,24 +81,11 @@ CREATE TABLE public.password_reset_token (
 ALTER TABLE public.password_reset_token OWNER TO postgres;
 
 --
--- Name: password_reset_token_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.password_reset_token_seq
-    START WITH 1
-    INCREMENT BY 50
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public.password_reset_token_seq OWNER TO postgres;
-
---
 -- Name: role; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.role (
+    id bigint,
     user_id bigint NOT NULL,
     role character varying(255) NOT NULL
 );
@@ -94,6 +98,7 @@ ALTER TABLE public.role OWNER TO postgres;
 --
 
 CREATE TABLE public.team (
+    club_name character varying(255) NOT NULL,
     competition_id character varying(255) NOT NULL,
     team_display_name character varying(255) NOT NULL,
     team_name character varying(255) NOT NULL
@@ -121,11 +126,10 @@ ALTER TABLE public.team_member OWNER TO postgres;
 
 CREATE TABLE public.team_member_score (
     bulls_eye_count integer NOT NULL,
-    creation_date date,
+    round integer NOT NULL,
     sum double precision NOT NULL,
+    creation_date timestamp(6) without time zone,
     user_id bigint NOT NULL,
-    uuid uuid,
-    score_per_shot character varying(1200),
     competition_id character varying(255) NOT NULL,
     team_name character varying(255) NOT NULL
 );
@@ -138,10 +142,11 @@ ALTER TABLE public.team_member_score OWNER TO postgres;
 --
 
 CREATE TABLE public.user_ (
-    creation_date date,
+    creation_date timestamp(6) without time zone,
     id bigint NOT NULL,
+    last_login timestamp(6) without time zone,
     email character varying(255),
-    legalname character varying(255),
+    legal_name character varying(255),
     part_of_club character varying(255),
     password character varying(255),
     username character varying(255)
@@ -192,6 +197,14 @@ ALTER TABLE ONLY public.club
 
 ALTER TABLE ONLY public.competition
     ADD CONSTRAINT competition_pkey PRIMARY KEY (competition_id);
+
+
+--
+-- Name: image_proof image_proof_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.image_proof
+    ADD CONSTRAINT image_proof_pkey PRIMARY KEY (user_id, competition_id, file_name, team_name);
 
 
 --
@@ -291,6 +304,30 @@ ALTER TABLE ONLY public.team_member
 
 
 --
+-- Name: team fkhcjvfp3ccepk78v7la3m3ycuy; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.team
+    ADD CONSTRAINT fkhcjvfp3ccepk78v7la3m3ycuy FOREIGN KEY (club_name) REFERENCES public.club(name);
+
+
+--
+-- Name: role fkjs8yncb18jawa23is8eejdjfm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.role
+    ADD CONSTRAINT fkjs8yncb18jawa23is8eejdjfm FOREIGN KEY (id) REFERENCES public.user_(id);
+
+
+--
+-- Name: image_proof fknlenavcfp7tawq2c2fwr56f1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.image_proof
+    ADD CONSTRAINT fknlenavcfp7tawq2c2fwr56f1 FOREIGN KEY (user_id, competition_id, team_name) REFERENCES public.team_member_score(user_id, competition_id, team_name);
+
+
+--
 -- Name: team fkqhhapgh63c9yjo4tc0uf6ynt1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -299,13 +336,6 @@ ALTER TABLE ONLY public.team
 
 
 --
--- Name: role fkrpeayxgcckrtucx5g5gxs7ydg; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.role
-    ADD CONSTRAINT fkrpeayxgcckrtucx5g5gxs7ydg FOREIGN KEY (user_id) REFERENCES public.user_(id);
-
-
---
 -- PostgreSQL database dump complete
 --
+

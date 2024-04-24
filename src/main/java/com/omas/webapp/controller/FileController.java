@@ -19,7 +19,6 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.FileAlreadyExistsException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
@@ -83,6 +82,7 @@ public class FileController {
         // headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
+        // Old code commented out just in case it's still needed
         // Return all files associated with the TeamMemberId if no file name is provided
         if (fileName == null) {
 
@@ -93,14 +93,7 @@ public class FileController {
             // }
 
             // return new ResponseEntity<>(form, headers, HttpStatus.OK);
-
-            ArrayList<ImageProof> al = new ArrayList<>();
-
-            for (ImageProof proof : this.fileService.getFiles(id)) {
-                al.add(proof);
-            }
-
-            return new ResponseEntity<>(al, headers, HttpStatus.OK);
+            return new ResponseEntity<>(this.fileService.getFiles(id), headers, HttpStatus.OK);
 
             // else statement for clarity
         } else {

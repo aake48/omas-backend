@@ -25,6 +25,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RestController
@@ -196,6 +197,9 @@ public class CompetitionController {
     @GetMapping(value = "/competition/result/{name}", produces = "application/json")
     public ResponseEntity<?> getResultsForCompetition(@PathVariable String name) {
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+
         try {
 
             String competitionId = Constants.createIdString(name);
@@ -248,9 +252,9 @@ public class CompetitionController {
                     .put("type", competition.getType())
                     .put("displayName", competition.getDisplayName())
                     .put("competitionType", competition.getType())
-                    .put("creationDate", competition.getCreationDate().toString())
-                    .put("startDate", competition.getStartDate().toString())
-                    .put("endDate", competition.getEndDate().toString())
+                    .put("creationDate", competition.getCreationDate().toLocalDateTime().format(formatter))
+                    .put("startDate", competition.getStartDate().toLocalDateTime().format(formatter))
+                    .put("endDate", competition.getEndDate().toLocalDateTime().format(formatter))
                     .set("teams", teamNodes);
             String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(competitionNode);
             return new ResponseEntity<>(json, HttpStatus.OK);

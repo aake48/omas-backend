@@ -10,7 +10,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.omas.webapp.Constants;
 import com.omas.webapp.TestUtils;
-
+import com.omas.webapp.entity.requests.RegistrationRequest;
+import com.omas.webapp.service.RoleService;
+import com.omas.webapp.service.UserService;
+import com.omas.webapp.table.User;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.json.JSONArray;
@@ -42,10 +45,40 @@ public class AdminControllerTests {
     private final String competitionId = "testikilpailu";
     private final String teamName = "testitiimi";
 
+    @Autowired
+    RoleService roleService;
 
+    @Autowired
+    UserService userService;
+
+    private final String adminPassword = "adminPassword";
+    private final String admin = "admin";
+
+
+
+    private void addAdminUser() throws Exception {
+
+        RegistrationRequest registrationRequest = new RegistrationRequest();
+        registrationRequest.setEmail(admin);
+        registrationRequest.setName(admin);
+        registrationRequest.setUsername(admin);
+        registrationRequest.setPassword(adminPassword);
+
+        userService.registerUser(registrationRequest);
+
+        try {
+            User createdUser = userService.getUserByUsername("admin").get();
+            roleService.addAdminRole(createdUser.getId());
+        } catch (Exception e) {
+            System.out.println("ex : " + e);
+        }
+
+    }
 
     @BeforeEach
     private void registerUser() throws Exception {
+
+        addAdminUser();
 
         // login admin
         JSONObject response = new JSONObject(TestUtils.loginUser(mockMvc, Constants.ADMIN_USERNAME, Constants.ADMIN_PASSWORD));

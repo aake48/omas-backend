@@ -1,5 +1,6 @@
 package com.omas.webapp.table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table
@@ -22,7 +23,8 @@ public class ImageProof {
     private @Id String teamName;
     private @Id String fileName;
 
-    private Date timeStamp;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Timestamp timeStamp;
 
     @Lob
     private byte[] image;
@@ -33,7 +35,7 @@ public class ImageProof {
         this.teamName = teamMemberId.getTeamName();
         this.fileName = fileName;
         this.image = image;
-        this.timeStamp = new Date(System.currentTimeMillis());
+        this.timeStamp = new Timestamp(System.currentTimeMillis());
     }
 
     @ManyToOne

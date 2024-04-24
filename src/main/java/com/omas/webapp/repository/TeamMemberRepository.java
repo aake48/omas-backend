@@ -4,7 +4,6 @@ import com.omas.webapp.table.TeamId;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,11 +13,11 @@ import com.omas.webapp.table.TeamMemberId;
 
 public interface TeamMemberRepository extends JpaRepository<TeamMember, TeamMemberId> { 
 
-    default Optional<List<TeamMember>> findByTeamId(TeamId teamId) {
+    default List<TeamMember> findByTeamId(TeamId teamId) {
         return findByteamNameIgnoreCaseAndCompetitionIdIgnoreCase(teamId.getTeamName(), teamId.getCompetitionId());
     }
 
-    Optional<List<TeamMember>> findByteamNameIgnoreCaseAndCompetitionIdIgnoreCase(String teamName, String competitionId);
+    List<TeamMember> findByteamNameIgnoreCaseAndCompetitionIdIgnoreCase(String teamName, String competitionId);
 
     List<TeamMember> findByUserId(Long userId);
 

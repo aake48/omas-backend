@@ -9,7 +9,7 @@ import com.omas.webapp.table.User;
 
 import lombok.Getter;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +25,7 @@ public class UserInfoDetails implements UserDetails {
 	private String password;
 	private @Getter String email;
 	private @Getter Long id;
-	private @Getter Date creationDate;
+	private @Getter Timestamp creationDate;
 	private @Getter String partOfClub;
 	private List<GrantedAuthority> authorities;
 

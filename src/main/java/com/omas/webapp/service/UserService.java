@@ -5,7 +5,6 @@ import com.omas.webapp.repository.PasswordResetTokenRepository;
 import com.omas.webapp.repository.UserRepository;
 import com.omas.webapp.table.PasswordResetToken;
 import com.omas.webapp.table.User;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -14,8 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.sql.Date;
-import java.time.Instant;
 import java.util.Optional;
 import java.util.List;
 
@@ -103,7 +100,6 @@ public class UserService implements UserDetailsService {
         user.setLegalName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
-        user.setCreationDate(new Date(Instant.now().toEpochMilli()));
 
         // checks whether a user with this username already exists in the db
         if (repository.findByUsername(user.getUsername()).isPresent()) {

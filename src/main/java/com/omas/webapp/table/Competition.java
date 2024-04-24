@@ -1,8 +1,8 @@
 package com.omas.webapp.table;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.Instant;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,10 +19,10 @@ public class Competition {
 	public Competition(String competitionId, String displayName, String competitionType, Long startDate, Long endDate) {
 		this.competitionId = competitionId.toLowerCase();
 		this.displayName = displayName;
-		this.creationDate = new Date(Instant.now().toEpochMilli());
+		this.creationDate = new Timestamp(Instant.now().toEpochMilli());
 		this.type = competitionType;
-		this.startDate = new Date(startDate);
-		this.endDate = new Date(endDate);
+		this.startDate = new Timestamp(startDate);
+		this.endDate = new Timestamp(endDate);
 	}
 
 	@Id
@@ -32,12 +32,15 @@ public class Competition {
 
 	private String type;
 
-	private Date startDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private Timestamp startDate;
 
-	private Date endDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private Timestamp endDate;
 
 	@Column(nullable = false)
-	private Date creationDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private Timestamp creationDate;
 
 	public boolean hasEnded() {
 		return Instant.ofEpochMilli(endDate.getTime()).isBefore(Instant.now());

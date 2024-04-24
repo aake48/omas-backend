@@ -57,5 +57,5 @@ RUN echo "#!/bin/sh" > /start.sh && \
 # Expose port
 EXPOSE 8080
 
-# Run command
-CMD ["/bin/sh", "/start.sh"]
+# Command to run the application
+CMD ["java", "-jar", "webapp.jar", "--spring.profiles.active=prod"]
