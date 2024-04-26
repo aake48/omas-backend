@@ -216,10 +216,6 @@ public class UserController {
 
         List<Team> teams = teamService.getUserTeams(userId);
 
-        if (teams.isEmpty()) {
-            return new ResponseEntity<>(Map.of("message","That user is not in a team in that competition"), HttpStatus.BAD_REQUEST);
-        }
-
         return new ResponseEntity<>(teams, HttpStatus.OK);
     }
 
