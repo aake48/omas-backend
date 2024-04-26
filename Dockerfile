@@ -32,7 +32,7 @@ ENV OMAS_RECOVERY_PAGE_URL=https://localhost:3000/recovery
 ENV OMAS_TOKEN_VALIDITY_DURATION=28800000
 ENV OMAS_MAX_LOGIN_ATTEMPTS=500
 ENV OMAS_BAN_DURATION=86400000
-ENV OMAS_PROFILES=dev,TestDataForFrontend
+# ENV OMAS_PROFILES=dev,TestDataForFrontend
 
 # Copy application files
 COPY build/libs/webapp-0.0.1-SNAPSHOT.jar webapp-0.0.1-SNAPSHOT.jar
@@ -59,4 +59,4 @@ RUN echo "#!/bin/sh" > /start.sh && \
 EXPOSE 8080
 
 # Command to run the application
-CMD ["java", "-jar", "webapp.jar", "--spring.profiles.active=prod"]
+CMD ["/bin/sh", "/start.sh"]
