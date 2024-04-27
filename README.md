@@ -6,7 +6,7 @@
   - [2nd create env.properties](#2nd-create-envproperties)
   - [3rd run](#3rd-run)
 
-- [<ins>__API endpoints__</ins>](#api-endpoints)
+- [<ins>__API endpoints__</ins> (this list might not totally be up to date)](#api-endpoints)
 
   - [User related](#user-related)
     - [Users](#user-related)
@@ -66,7 +66,7 @@
       - [download image](#download-image)
 
 
-- [<ins>__Types__</ins>](#Types)
+- [<ins>__Types__</ins> (this list might not totally be up to date)](#Types)
   - [CompetitionResponse](#competitionresponse)
   - [CompetitionTeamResponse](#competitionteamresponse)
   - [TeamMemberScoreResponse](#teammemberscoreresponse)
@@ -78,9 +78,13 @@
   - [TeamMember](#teammember)
   - [Team](#team)
   - [...](#)
+- [How to copy database schema - Docker](#docker)
+- [Database structure](#database-structure)
+- [How to deploy and run compose.prod](#how-to-deploy)
 
 
-                 
+
+
 
 
   
@@ -853,7 +857,7 @@ src\main\java\com\omas\webapp\controller
 
 ```
 
-## Docker
+# Docker
 
 ### Copying the schema for the docker container
 
@@ -886,4 +890,8 @@ src\main\java\com\omas\webapp\controller
   \dt
 
 
-
+# Database structure
+*Database diagram showing the relationship between tables - [docs/chen_er.drawio.png](docs/chen_er.drawio.png)*
+![Database diagram](docs/chen_er.drawio.png)
+# How to deploy
+[How to deploy - DEPLOYMENT.md](docs/DEPLOYMENT.md)
