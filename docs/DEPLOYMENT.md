@@ -76,6 +76,11 @@ Push the code based on the Dockerfiles to the cloud provider's repository. This 
 ## 4. Update the env.properties file
 Update the `env.properties` file with the database URL, username, and password for the database you created in step 2.
 
-## 5. Update the .env file
+## 5. Update Allowed Origins
+Update the allowed origins in the [WepappApplication.java](..\src\main\java\com\omas\webapp\WebappApplication.java)  file to allow requests from the cloud provider's domain or any domains that you wish to allow communication with.
+
+Redeploy the application to the cloud provider's services to apply the changes. Or if you know the Next.js frontend url beforehand, you can add it before deploying the application.
+
+## 6. Update the .env file
 Update the `.env` file with the API URL for the cloud provider's services.
 
