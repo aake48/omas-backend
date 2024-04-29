@@ -59,4 +59,23 @@ The projects should be structured like this:
 `docker-compose -f docker-compose.prod.yml up`
 
 # how to deploy to cloud
-?
+
+Deployment to cloud depends on the cloud provider you are using. Here is a general guide on how to deploy to a cloud provider, but you should consult the documentation of the cloud provider you are using for more information.
+
+## 1. Create a new project on the cloud provider's dashboard
+Create a new project on the cloud provider's dashboard. This will give you access to the cloud provider's services.
+
+## 2. Create a new Postgres database
+Create a new Postgres database on the cloud provider's dashboard. This will be used to store the data for the application.
+
+It is recommended to use the cloud provider's database services instead of the Docker image used in local development.
+
+## 3. Push the code to the cloud provider's repository
+Push the code based on the Dockerfiles to the cloud provider's repository. This will allow you to deploy the code to the cloud provider's services.
+
+## 4. Update the env.properties file
+Update the `env.properties` file with the database URL, username, and password for the database you created in step 2.
+
+## 5. Update the .env file
+Update the `.env` file with the API URL for the cloud provider's services.
+
