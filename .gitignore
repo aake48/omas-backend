@@ -38,3 +38,8 @@ out/
 env.properties
 *.rest
 **/.env
+
+### Keystore ###
+*.keystore
+*.jks
+*.p12
