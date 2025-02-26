@@ -240,22 +240,27 @@ public class TestDataForFrontend implements CommandLineRunner {
 
             String competitionId = Constants.createIdString(competitionName);
             String competitionSeries;
-
-            switch (random.nextInt(1, 4)) {
+            int i=random.nextInt(1, 4);
+            switch (i) {
                 case 1: {
                     competitionSeries = Constants.COMPETITION_SERIES;
+                    break;
                 }
                 case 2: {
                     competitionSeries = Constants.COMPETITION_SERIES2;
+                    break;
                 }
                 case 3: {
                     competitionSeries = Constants.COMPETITION_SERIES3;
+                    break;
                 }
                 case 4: {
                     competitionSeries = Constants.COMPETITION_SERIES4;
+                    break;
                 }
                 default: {
                     competitionSeries = Constants.COMPETITION_SERIES;
+                    break;
                 }
             }
             
