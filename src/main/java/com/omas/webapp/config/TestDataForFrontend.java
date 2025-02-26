@@ -240,11 +240,13 @@ public class TestDataForFrontend implements CommandLineRunner {
 
             String competitionId = Constants.createIdString(competitionName);
 
+            String competitionSeries = Constants.COMPETITION_SERIES;
+
             if (competitionId == null) {
                 throw new IllegalStateException("Competition id is null while creating test data");
             }
 
-            Competition competition = new Competition(competitionId, competitionName, type, startDate, endDate);
+            Competition competition = new Competition(competitionId, competitionName, type, competitionSeries, startDate, endDate);
 
             System.out.printf("creating competition: %s (%s)\n", competition.getDisplayName(), competition.getCompetitionId());
 

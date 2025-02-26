@@ -57,7 +57,7 @@ public class CompetitionController {
         }
 
         Competition comp = competitionService.addCompetition(
-                new Competition(competitionId, competitionName, request.getCompetitionType(), request.getStartDate(), request.getEndDate())
+                new Competition(competitionId, competitionName, request.getCompetitionType(), request.getCompetitionSeries(), request.getStartDate(), request.getEndDate())
         );
 
         if (comp != null) {

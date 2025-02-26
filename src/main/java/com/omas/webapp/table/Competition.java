@@ -16,11 +16,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Competition {
 
-	public Competition(String competitionId, String displayName, String competitionType, Long startDate, Long endDate) {
+	public Competition(String competitionId, String displayName, String competitionType, String competitionSeries, Long startDate, Long endDate) {
 		this.competitionId = competitionId.toLowerCase();
 		this.displayName = displayName;
 		this.creationDate = new Timestamp(Instant.now().toEpochMilli());
 		this.type = competitionType;
+		this.competitionSeries = competitionSeries;
 		this.startDate = new Timestamp(startDate);
 		this.endDate = new Timestamp(endDate);
 	}
@@ -31,6 +32,8 @@ public class Competition {
 	private String displayName;
 
 	private String type;
+
+	private String competitionSeries;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Timestamp startDate;
