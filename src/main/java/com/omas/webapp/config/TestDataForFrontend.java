@@ -239,8 +239,26 @@ public class TestDataForFrontend implements CommandLineRunner {
             long endDate = startDate + (day * competitionLength);
 
             String competitionId = Constants.createIdString(competitionName);
+            String competitionSeries;
 
-            String competitionSeries = Constants.COMPETITION_SERIES;
+            switch (random.nextInt(1, 4)) {
+                case 1: {
+                    competitionSeries = Constants.COMPETITION_SERIES;
+                }
+                case 2: {
+                    competitionSeries = Constants.COMPETITION_SERIES2;
+                }
+                case 3: {
+                    competitionSeries = Constants.COMPETITION_SERIES3;
+                }
+                case 4: {
+                    competitionSeries = Constants.COMPETITION_SERIES4;
+                }
+                default: {
+                    competitionSeries = Constants.COMPETITION_SERIES;
+                }
+            }
+            
 
             if (competitionId == null) {
                 throw new IllegalStateException("Competition id is null while creating test data");
