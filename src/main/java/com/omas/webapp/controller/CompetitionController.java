@@ -252,6 +252,7 @@ public class CompetitionController {
                     .put("type", competition.getType())
                     .put("displayName", competition.getDisplayName())
                     .put("competitionType", competition.getType())
+                    .put("competitionSeries", competition.getCompetitionSeries())
                     .put("creationDate", competition.getCreationDate().toLocalDateTime().format(formatter))
                     .put("startDate", competition.getStartDate().toLocalDateTime().format(formatter))
                     .put("endDate", competition.getEndDate().toLocalDateTime().format(formatter))
