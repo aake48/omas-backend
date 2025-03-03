@@ -87,6 +87,15 @@ public class TeamService {
         throw new Exception("this team does not exist");
     }
 
+    public TeamMember removeTeamMember(TeamMemberId teamMemberId) throws Exception{
+        if(thisUserIsTeamMember(teamMemberId)){
+            TeamMember member = teamMemberRepository.getReferenceById(teamMemberId);
+            teamMemberRepository.deleteById(teamMemberId);
+            return member;
+        }
+        throw new Exception("this team does not exist");
+    }
+
     /** @return TeamMemberId if this user has permissions to submit scores to given competition
      * checks that user is member of the team
      * @throws Exception throws an exception if validation fails
