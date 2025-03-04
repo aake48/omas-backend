@@ -163,12 +163,22 @@ public class UserService implements UserDetailsService {
         }
 
         User user = userToJoin.get();
-        user.setPartOfClub(club);
 
-        repository.save(user);
+        // Allow joining only if the user is NOT in a club
+        if (user.getPartOfClub() == null || user.getPartOfClub().trim().isEmpty()) {
+            user.setPartOfClub(club);
+            repository.save(user);
+            return true;
+        }
 
-        return true;
+        return false;
     }
+
+    public boolean isUserInAnyClub(Long userId) {
+        Optional<User> user = repository.findById(userId);
+        return user.isPresent() && user.get().getPartOfClub() != null && !user.get().getPartOfClub().trim().isEmpty();
+    }
+
 
 
     public Optional<User> getUserByUsername(String username) {

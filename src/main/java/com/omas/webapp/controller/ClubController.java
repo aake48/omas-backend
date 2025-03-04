@@ -65,23 +65,24 @@ public class ClubController {
     public ResponseEntity<?> joinClub(@Valid @RequestBody ClubRequest club) {
 
         UserInfoDetails userDetails = UserInfoDetails.getDetails();
-
         String clubId = Constants.createIdString(club.getClubName());
 
         if (clubId == null) {
-            return new ResponseEntity<>(Map.of("message","Club name contains characters which are forbidden."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message", "Club name contains characters which are forbidden."), HttpStatus.BAD_REQUEST);
         }
 
-        try {
-
-            clubService.checkPasskeyMatch(clubId, club.getPasskey());
-            userService.joinClub(userDetails.getId(), clubId);
-
-            return new ResponseEntity<>(Map.of("message","Club joined successfully."), HttpStatus.OK);
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(Map.of("message",e.getMessage()), HttpStatus.BAD_REQUEST);
+        // Check if the user is already a member of any club
+        if (userService.isUserInAnyClub(userDetails.getId())) {
+            return new ResponseEntity<>(Map.of("message", "You are already a member of a club. You cannot join multiple clubs."), HttpStatus.BAD_REQUEST);
         }
+
+        // Attempt to join the club
+        boolean joined = userService.joinClub(userDetails.getId(), clubId);
+        if (!joined) {
+            return new ResponseEntity<>(Map.of("message", "You are already in a club. Leave it before joining another."), HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(Map.of("message", "Club joined successfully."), HttpStatus.OK);
     }
 
     @GetMapping("club/{name}")
