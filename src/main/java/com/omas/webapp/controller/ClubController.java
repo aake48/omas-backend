@@ -73,7 +73,7 @@ public class ClubController {
 
         // Check if the user is already a member of any club
         if (userService.isUserInAnyClub(userDetails.getId())) {
-            return new ResponseEntity<>(Map.of("message", "You are already a member of a club. You cannot join multiple clubs."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message", "User is already a member of a club."), HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -82,7 +82,7 @@ public class ClubController {
             // Attempt to join the club
             boolean joined = userService.joinClub(userDetails.getId(), clubId);
             if (!joined) {
-                return new ResponseEntity<>(Map.of("message", "You are already in a club. Leave it before joining another."), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(Map.of("message", "User is already a member of a club."), HttpStatus.BAD_REQUEST);
             }
 
         } catch (Exception e) {
