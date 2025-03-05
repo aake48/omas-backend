@@ -14,7 +14,7 @@ public final class Constants {
     public static final String COMPETITION_SERIES = "Y-mestaruussarja";
     public static final String COMPETITION_SERIES2 = "Y-suomisarja";
     public static final String COMPETITION_SERIES3 = "Y50-mestaruussarja";
-    public static final String COMPETITION_SERIES4 = "Y-suomisarja";
+    public static final String COMPETITION_SERIES4 = "Y50-suomisarja";
 
 
 
