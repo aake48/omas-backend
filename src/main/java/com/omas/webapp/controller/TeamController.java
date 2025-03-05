@@ -92,6 +92,7 @@ public class TeamController {
         }
 
     }
+    
 
     @GetMapping(params = { "page", "size", "search" }, value = "/query")
     public ResponseEntity<?> queryTeamsByClub(@RequestParam(value = "page", defaultValue = "0") int page,
