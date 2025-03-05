@@ -235,6 +235,7 @@ public class CompetitionController {
                         .put("totalScore", Math.floor(teamTotal * 10.0) / 10.0)
                         .put("teamName", team.getTeamName())
                         .put("teamDisplayName", team.getTeamDisplayName())
+                        .put("teamDisplayShort", team.getTeamDisplayShort())
                         .set("scores", teamScores);
                 teamNodesList.add(teamNode);
             }

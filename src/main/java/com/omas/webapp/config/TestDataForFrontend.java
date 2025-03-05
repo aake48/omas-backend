@@ -295,6 +295,7 @@ public class TestDataForFrontend implements CommandLineRunner {
 
                     String teamDisplayName = club.getNameNonId() + " " + i;
                     String teamName = Constants.createIdString(teamDisplayName);
+                    String teamDisplayShort = "testi";
 
                     if (teamName == null) {
                         throw new Exception("Failed to generate a valid team name in TestDataForFrontend");
@@ -302,7 +303,7 @@ public class TestDataForFrontend implements CommandLineRunner {
 
                     TeamId teamId = new TeamId(comp.getCompetitionId(), teamName);
 
-                    Team team = new Team(teamId, teamDisplayName, club.getName());
+                    Team team = new Team(teamId, teamDisplayName, club.getName(), teamDisplayShort);
 
                     System.out.printf("creating team: %s (%s) for competition %s (%s)\n", team.getTeamDisplayName(), team.getTeamName(), comp.getDisplayName(), comp.getCompetitionId());
 

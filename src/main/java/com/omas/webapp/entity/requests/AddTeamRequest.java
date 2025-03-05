@@ -16,4 +16,7 @@ public class AddTeamRequest {
 	@NotEmpty(message = "teamName cannot be empty")
 	private String teamName;
 
+	@NotEmpty(message = "teamDisplayShort cannot be empty")
+	private String teamDisplayShort;
+
 }

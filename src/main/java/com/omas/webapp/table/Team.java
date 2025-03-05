@@ -31,18 +31,24 @@ public class Team {
     @Column(nullable = false)
     private String teamDisplayName;
 
-    public Team(String competitionId, String teamName, String teamDisplayName, String clubName) {
+    @Getter
+    @Column(nullable = false)
+    private String teamDisplayShort;
+
+    public Team(String competitionId, String teamName, String teamDisplayName, String clubName, String teamDisplayShort) {
         this.competitionId = competitionId.toLowerCase();
         this.teamName = teamName.toLowerCase();
         this.teamDisplayName = teamDisplayName;
         this.clubName = clubName.toLowerCase();
+        this.teamDisplayShort = teamDisplayShort;
     }
 
-    public Team(TeamId teamId, String teamDisplayName, String club) {
+    public Team(TeamId teamId, String teamDisplayName, String club, String teamDisplayShort) {
         this.competitionId = teamId.getCompetitionId();
         this.teamName = teamId.getTeamName();
         this.teamDisplayName = teamDisplayName;
         this.clubName = club;
+        this.teamDisplayShort = teamDisplayShort;
     }
 
     @JsonIgnore
