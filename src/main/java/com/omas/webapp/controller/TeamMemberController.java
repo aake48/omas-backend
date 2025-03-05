@@ -86,6 +86,34 @@ public class TeamMemberController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PostMapping("/remove")
+    public ResponseEntity<?> removeUserFromTeam(@Valid @RequestBody TeamMemberJoinRequest request) {
+
+        Long userId = UserInfoDetails.getDetails().getId();
+
+        Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
+
+        if (competitionOptional.isEmpty()) {
+            return new ResponseEntity<>(Map.of("message","The requested competition does not exist."), HttpStatus.BAD_REQUEST);
+        }
+
+        Competition competition = competitionOptional.get();
+
+        if (competition.hasEnded()) {
+            return new ResponseEntity<>(Map.of("message", "The requested competition has ended."), HttpStatus.BAD_REQUEST);
+        }
+
+        try {
+            TeamMember savedTeamMember = teamsService.removeTeamMember(new TeamMemberId(userId, request.getCompetitionName(), request.getTeamName()));
+            return new ResponseEntity<>(savedTeamMember, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(Map.of("message",e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/isMember")
     public ResponseEntity<?> isMember(@Valid @RequestBody TeamIdRequest request) {
 
