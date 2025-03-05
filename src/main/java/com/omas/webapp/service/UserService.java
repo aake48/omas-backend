@@ -174,12 +174,37 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public boolean isUserInAnyClub(Long userId) {
-        Optional<User> user = repository.findById(userId);
-        return user.isPresent() && user.get().getPartOfClub() != null && !user.get().getPartOfClub().trim().isEmpty();
+    public boolean leaveClub(Long userId) {
+        Optional<User> userToLeave = repository.findById(userId);
+
+        if (userToLeave.isEmpty()) {
+            return false;
+        }
+
+        User user = userToLeave.get();
+
+        // Check if the user is actually in a club before leaving
+        if (user.getPartOfClub() == null || user.getPartOfClub().trim().isEmpty()) {
+            return false; // User is not in a club
+        }
+
+        // Remove the user from the club
+        user.setPartOfClub(null);
+        repository.save(user);
+        return true;
     }
 
+    public boolean isUserInAnyClub(Long userId) {
+        return repository.findById(userId)
+                .map(user -> user.getPartOfClub() != null && !user.getPartOfClub().trim().isEmpty())
+                .orElse(false);
+    }
 
+    public String getUserClub(Long userId) {
+        return repository.findById(userId)
+                .map(User::getPartOfClub)
+                .orElse(null);
+    }
 
     public Optional<User> getUserByUsername(String username) {
         return repository.findByUsername(username);

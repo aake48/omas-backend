@@ -92,6 +92,30 @@ public class ClubController {
         return new ResponseEntity<>(Map.of("message", "Club joined successfully."), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PostMapping("/auth/club/leave")
+    public ResponseEntity<?> leaveClub() {
+        UserInfoDetails userDetails = UserInfoDetails.getDetails();
+
+        try {
+            // Check if the user is in a club
+            String currentClub = userService.getUserClub(userDetails.getId());
+            if (currentClub == null) {
+                return new ResponseEntity<>(Map.of("message", "User is not in any club."), HttpStatus.BAD_REQUEST);
+            }
+
+            // Remove user from the club
+            boolean leftClub = userService.leaveClub(userDetails.getId());
+            if (!leftClub) {
+                return new ResponseEntity<>(Map.of("message", "Failed to leave the club."), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            return new ResponseEntity<>(Map.of("message", "Successfully left the club."), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("club/{name}")
     public ResponseEntity<?> getClub(@PathVariable String name) {
         try {
