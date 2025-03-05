@@ -52,6 +52,7 @@ public class TeamController {
         }
 
         String teamDisplayName = request.getTeamName();
+        String teamDisplayShort = request.getTeamDisplayShort();
         String teamName = Constants.createIdString(teamDisplayName);
 
         if (teamName == null) {
@@ -83,7 +84,7 @@ public class TeamController {
         
         try {
 
-            Team addedTeam = teamService.addTeam(competitionId, teamName, teamDisplayName, club);
+            Team addedTeam = teamService.addTeam(competitionId, teamName, teamDisplayName, club, teamDisplayShort);
             return new ResponseEntity<>(addedTeam, HttpStatus.OK);
 
         } catch (Exception e) {

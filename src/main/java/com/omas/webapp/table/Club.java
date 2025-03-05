@@ -20,7 +20,6 @@ public class Club {
 
 	@Id
 	private String name; 
-	
 	private String nameNonId;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Timestamp creationDate;

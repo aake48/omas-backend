@@ -32,9 +32,9 @@ public class TeamService {
      * @param teamName
      * @return savedTeam
      */
-    public Team addTeam(String competitionId, String teamName, String teamDisplayName, String club) {
+    public Team addTeam(String competitionId, String teamName, String teamDisplayName, String club, String teamDisplayShort) {
 
-        Team team = new Team(new TeamId(competitionId, teamName), teamDisplayName, club);
+        Team team = new Team(new TeamId(competitionId, teamName), teamDisplayName, club, teamDisplayShort);
 
         return teamRepository.save(team);
     }
