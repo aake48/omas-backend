@@ -28,6 +28,7 @@ public class User {
 
 	public User() {
 		this.creationDate=new Timestamp(Instant.now().toEpochMilli());
+		this.partOfClub = null;
 	}
 
 	@Id
@@ -48,5 +49,4 @@ public class User {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     @Getter
     private List<Role> roles = new ArrayList<>();
-
 } 

@@ -18,7 +18,7 @@ public class WebappApplication {
 		try {
 			SpringApplication.run(WebappApplication.class, args);
 		} catch (Exception ex) {
-			
+
 			ex.printStackTrace();
 		}
 	}
@@ -27,7 +27,8 @@ public class WebappApplication {
 	public CorsFilter corsFilter() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000/","https://localhost:3000/", "https://omas-frontend.vercel.app/", "https://omas-frontend-git-live-omas-front.vercel.app"));
+		corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000/", "https://localhost:3000/",
+				"https://omas-frontend.vercel.app/", "https://omas-frontend-git-live-omas-front.vercel.app"));
 		corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
 				"Accept", "Authorization", "Origin, Accept", "X-Requested-With",
 				"Access-Control-Request-Method", "Access-Control-Request-Headers"));
