@@ -33,19 +33,20 @@ public class SecurityConfig {
         return new UserService();
     }
 
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/api/reg",
-                    "/api/login", "/api/forgot_password","/api/reset_password",
-                    "/api/club/**",
-                    "/api/competition/**", "/api/competition/active/query/**",
-                    "/api/score/**",
-                    "api/competition/team/**", "api/competition/team/active/query/**","api/competition/team/query/**"
-                ).permitAll())
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/api/reg",
+                                "/api/login", "/api/forgot_password", "/api/reset_password",
+                                "/api/club/**",
+                                "/api/competition/**", "/api/competition/active/query/**",
+                                "/api/score/**",
+                                "api/competition/team/**", "api/competition/team/active/query/**",
+                                "api/competition/team/query/**")
+                        .permitAll())
                 .authorizeHttpRequests(requests -> requests.requestMatchers(
-                    "/api/updateEmail/**", "/api/updatePassword/**", "/api/auth/club/**",
+                        "/api/updateEmail/**", "/api/updatePassword/**", "/api/auth/club/**",
                         "/api/auth/competition/new", "api/competition/team/new/**",
                         "/api/auth/club/join**",
                         "/api/competition/team/member/add/**", "/api/competition/team/member/add/sum/**",
@@ -55,19 +56,18 @@ public class SecurityConfig {
                         "/api/user/**",
                         "/api/admin/delete/**", "/api/admin/delete/**", "/api/admin/promote/**",
                         "/api/admin/demote/**", "/api/admin/**",
-                        "api/competition/team/member/isMember**"
-                ).authenticated())
+                        "api/competition/team/member/isMember**").authenticated())
                 .sessionManagement(management -> management
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authenticationProvider(authenticationProvider())
-            .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-            .exceptionHandling(exceptionHandling -> exceptionHandling
-            .authenticationEntryPoint((request, response, authException) -> {
-                response.setContentType("application/json");
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.getWriter().write("{\"error\":\"Invalid auth\"}");
-            }))
-            .build();
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setContentType("application/json");
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            response.getWriter().write("{\"error\":\"Invalid auth\"}");
+                        }))
+                .build();
     }
 
     @Bean
