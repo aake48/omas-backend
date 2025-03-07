@@ -64,6 +64,14 @@ public class CompetitionService {
         return competitionRepository.findAll(PageRequest.of(page, size));
     }
 
+    public Page<Competition> findBySeries(int page, int size, String series){
+        return competitionRepository.findBySeries(series, PageRequest.of(page, size));
+    }
+
+    public Page<Competition> findBySeriesWithPaginatedSearch(int page, int size, String series, String search){
+        return competitionRepository.findBySeriesContaining(series, search, PageRequest.of(page, size));
+    }
+
     public Page<Competition> findByYear(int page, int size, int year) {
         return competitionRepository.findByYear(year, PageRequest.of(page, size));
     }
