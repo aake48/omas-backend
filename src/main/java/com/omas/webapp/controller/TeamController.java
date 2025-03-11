@@ -54,6 +54,7 @@ public class TeamController {
         String teamDisplayName = request.getTeamName();
         String teamDisplayShort = request.getTeamDisplayShort();
         String teamName = Constants.createIdString(teamDisplayName);
+        String teamSeries = request.getTeamSeries();
 
         if (teamName == null) {
             return new ResponseEntity<>(Map.of("message","Team name contains illegal characters. It must match ^[a-z0-9-_]+$"), HttpStatus.BAD_REQUEST);
@@ -84,7 +85,7 @@ public class TeamController {
         
         try {
 
-            Team addedTeam = teamService.addTeam(competitionId, teamName, teamDisplayName, club, teamDisplayShort);
+            Team addedTeam = teamService.addTeam(competitionId, teamName, teamDisplayName, club, teamDisplayShort, teamSeries);
             return new ResponseEntity<>(addedTeam, HttpStatus.OK);
 
         } catch (Exception e) {

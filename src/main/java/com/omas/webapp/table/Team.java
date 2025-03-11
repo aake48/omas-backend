@@ -35,20 +35,26 @@ public class Team {
     @Column(nullable = false)
     private String teamDisplayShort;
 
-    public Team(String competitionId, String teamName, String teamDisplayName, String clubName, String teamDisplayShort) {
+    @Getter
+    @Column(nullable = false)
+    private String teamSeries;
+
+    public Team(String competitionId, String teamName, String teamDisplayName, String clubName, String teamDisplayShort, String teamSeries) {
         this.competitionId = competitionId.toLowerCase();
         this.teamName = teamName.toLowerCase();
         this.teamDisplayName = teamDisplayName;
         this.clubName = clubName.toLowerCase();
         this.teamDisplayShort = teamDisplayShort;
+        this.teamSeries = teamSeries;
     }
 
-    public Team(TeamId teamId, String teamDisplayName, String club, String teamDisplayShort) {
+    public Team(TeamId teamId, String teamDisplayName, String club, String teamDisplayShort, String teamSeries) {
         this.competitionId = teamId.getCompetitionId();
         this.teamName = teamId.getTeamName();
         this.teamDisplayName = teamDisplayName;
         this.clubName = club;
         this.teamDisplayShort = teamDisplayShort;
+        this.teamSeries = teamSeries;
     }
 
     @JsonIgnore

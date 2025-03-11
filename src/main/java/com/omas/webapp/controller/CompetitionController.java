@@ -18,8 +18,6 @@ import com.omas.webapp.table.TeamMemberScore;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -266,7 +263,7 @@ public class CompetitionController {
                     .put("type", competition.getType())
                     .put("displayName", competition.getDisplayName())
                     .put("competitionType", competition.getType())
-                    .put("competitionSeries", competition.getCompetitionSeries())
+                    .put("competitionSeries", competition.getCompetitionSeries().toString())
                     .put("creationDate", competition.getCreationDate().toLocalDateTime().format(formatter))
                     .put("startDate", competition.getStartDate().toLocalDateTime().format(formatter))
                     .put("endDate", competition.getEndDate().toLocalDateTime().format(formatter))

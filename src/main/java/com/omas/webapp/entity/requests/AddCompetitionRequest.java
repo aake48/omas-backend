@@ -29,7 +29,7 @@ public class AddCompetitionRequest {
                     + Constants.COMPETITION_SERIES2
                     + ", " + Constants.COMPETITION_SERIES3 + " or " + Constants.COMPETITION_SERIES4)
     @NotEmpty(message = "Competition series cannot be empty.")
-    private String competitionSeries;
+    private String[] competitionSeries;
 
     @ValidEpochMilli(daysBehind = 1, daysAhead = 365, message = "invalid start")
     private Long startDate = System.currentTimeMillis() - 5L * 60 * 1000; // first digit is minutes == 5m
