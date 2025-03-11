@@ -4,6 +4,7 @@ import com.omas.webapp.entity.requests.RegistrationRequest;
 import com.omas.webapp.repository.PasswordResetTokenRepository;
 import com.omas.webapp.repository.UserRepository;
 import com.omas.webapp.table.PasswordResetToken;
+import com.omas.webapp.table.Role;
 import com.omas.webapp.table.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -190,6 +191,10 @@ public class UserService implements UserDetailsService {
 
     public Optional<User> getUserByUserId(Long userId) {
         return repository.findById(userId);
+    }
+
+    public List<Role> getUserRoles(Long role) {
+        return repository.getRoles(role);
     }
 
 }
