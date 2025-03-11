@@ -18,6 +18,8 @@ import com.omas.webapp.table.TeamMemberScore;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -129,7 +132,8 @@ public class CompetitionController {
         @RequestParam(value = "page", defaultValue = "0", required = false) int page,
         @RequestParam(value = "size", defaultValue = "10", required = false) int size,
         @RequestParam(value = "year", required = false) Integer year,
-        @RequestParam(value = "search", required = false, defaultValue = "") String search
+        @RequestParam(value = "search", required = false, defaultValue = "") String search,
+        @RequestParam(value = "series", required = false, defaultValue = "") String series
     ) {
 
         if (page < 0) {
@@ -139,11 +143,20 @@ public class CompetitionController {
         Page<Competition> resultPage;
 
         if (year == null) {
-            resultPage = competitionService.findWithPaginatedSearch(page, size, search);
+            if(series.isEmpty()){
+                resultPage = competitionService.findWithPaginatedSearch(page, size, search);
+            }
+            else{
+                if(search.isEmpty()){
+                    resultPage = competitionService.findBySeries(page, size, series);
+                }
+                else{
+                    resultPage = competitionService.findBySeriesWithPaginatedSearch(page, size, series, search);
+                }
+            }
         } else {
             resultPage = competitionService.findByYearContaining(page, size, year, search);
         }
-
         if (page > resultPage.getTotalPages()) {
             return new ResponseEntity<>(Map.of("message","Requested page does not exist."), HttpStatus.BAD_REQUEST);
         }
