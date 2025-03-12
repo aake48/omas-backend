@@ -60,6 +60,10 @@ public class TeamController {
             return new ResponseEntity<>(Map.of("message","Team name contains illegal characters. It must match ^[a-z0-9-_]+$"), HttpStatus.BAD_REQUEST);
         }
 
+        if (teamSeries == null || teamSeries.isEmpty()) {
+            return new ResponseEntity<>(Map.of("message","Valitse ensin sarja."), HttpStatus.BAD_REQUEST);
+        }
+
         String competitionId = Constants.createIdString(request.getCompetitionName());
 
         if (competitionId == null) {
