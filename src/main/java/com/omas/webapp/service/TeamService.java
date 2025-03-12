@@ -219,6 +219,15 @@ public class TeamService {
         return teamRepository.findByCompetitionIdContainingIgnoreCase(search, PageRequest.of(page, size));
     }
 
+    public Page<Team> findByCompetitionIdAndSeries(String id, String series, String search) {
+        String formattedSearch = search.isEmpty() ? "%" : search;
+        if(!search.isEmpty()){
+            formattedSearch = "%" +search.toLowerCase() + "%";
+        }
+        series = series.isEmpty() ? "%" : series;
+        return teamRepository.searchCompetitionTeamsBySeries(PageRequest.of(0, 100), id, series, formattedSearch);
+    }
+
     public Page<Team> findThisClubsTeamsWhichAreInActiveCompetitions(int page, int size, String club) {
         return teamRepository.findThisClubsTeamsWhichAreCompetitionsThatHaveNotEnded(PageRequest.of(page, size), club, new java.sql.Date(System.currentTimeMillis()));
     }

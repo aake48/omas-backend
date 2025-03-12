@@ -161,12 +161,18 @@ public class CompetitionController {
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
-    @GetMapping(params = { "page", "size", "search" }, value = "competition/teams")
+    @GetMapping(params = { "page", "size", "search", "series", "name" }, value = "competition/teams")
     public ResponseEntity<?> queryTeamsByCompetition(
         @RequestParam(value = "page", defaultValue = "0") int page,
         @RequestParam(value = "size", defaultValue = "10") int size,
-        @RequestParam(value = "search", required = false, defaultValue = "") String search
+        @RequestParam(value = "search", required = false, defaultValue = "") String search,
+        @RequestParam(value = "series", required = false, defaultValue = "") String series,
+        @RequestParam(value = "name", required = false, defaultValue = "") String name
     ) {
+        if(size == 0){
+            Page<Team> result =teamService.findByCompetitionIdAndSeries(search, series, name);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
 
         if (page < 0) {
             return new ResponseEntity<>(Map.of("message","Invalid page number."), HttpStatus.BAD_REQUEST);

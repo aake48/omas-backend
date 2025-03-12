@@ -13,10 +13,10 @@ public interface CompetitionRepository extends JpaRepository<Competition, String
 
     Page<Competition> findByCompetitionIdContainingIgnoreCase(String name, PageRequest pageRequest);
 
-    @Query(value = "SELECT * FROM Competition c WHERE c.competition_series = :series", nativeQuery = true)
+    @Query(value = "SELECT * FROM Competition c WHERE :series = ANY(c.competition_series)", nativeQuery = true)
     Page<Competition> findBySeries(@Param("series") String series, PageRequest pageRequest);
 
-    @Query(value = "SELECT * FROM Competition c WHERE c.competition_series = :series AND LOWER(c.competition_id) iLIKE %:search%", nativeQuery = true)
+    @Query(value = "SELECT * FROM Competition c WHERE :series = ANY(c.competition_series) AND LOWER(c.display_name) iLIKE LOWER(%:search%)", nativeQuery = true)
     Page<Competition> findBySeriesContaining(@Param("series") String series, @Param("search") String search, PageRequest pageRequest);
 
     @Query(value = "SELECT * FROM Competition c WHERE EXTRACT(YEAR FROM c.start_date) = :year ORDER BY c.start_date ASC", nativeQuery = true)
