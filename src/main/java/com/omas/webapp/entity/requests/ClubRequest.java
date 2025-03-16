@@ -15,6 +15,8 @@ public class ClubRequest {
     @Size( min = 3, message = "Club name cannot be fewer than 3 characters.")
     private String clubName;
 
-    private String passkey = null;
+    @Size(max = 20, message = "Club pass key cannot be larger than 20 characters.")
+    @Size( min = 3, message = "Club pass key cannot be fewer than 3 characters.")
+    private String passKey;
 
 }
