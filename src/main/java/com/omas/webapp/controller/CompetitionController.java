@@ -18,8 +18,6 @@ import com.omas.webapp.table.TeamMemberScore;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -164,12 +161,18 @@ public class CompetitionController {
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
-    @GetMapping(params = { "page", "size", "search" }, value = "competition/teams")
+    @GetMapping(params = { "page", "size", "search", "series", "name" }, value = "competition/teams")
     public ResponseEntity<?> queryTeamsByCompetition(
         @RequestParam(value = "page", defaultValue = "0") int page,
         @RequestParam(value = "size", defaultValue = "10") int size,
-        @RequestParam(value = "search", required = false, defaultValue = "") String search
+        @RequestParam(value = "search", required = false, defaultValue = "") String search,
+        @RequestParam(value = "series", required = false, defaultValue = "") String series,
+        @RequestParam(value = "name", required = false, defaultValue = "") String name
     ) {
+        if(size == 0){
+            Page<Team> result =teamService.findByCompetitionIdAndSeries(search, series, name);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
 
         if (page < 0) {
             return new ResponseEntity<>(Map.of("message","Invalid page number."), HttpStatus.BAD_REQUEST);
@@ -266,7 +269,7 @@ public class CompetitionController {
                     .put("type", competition.getType())
                     .put("displayName", competition.getDisplayName())
                     .put("competitionType", competition.getType())
-                    .put("competitionSeries", competition.getCompetitionSeries())
+                    .put("competitionSeries", competition.getCompetitionSeries().toString())
                     .put("creationDate", competition.getCreationDate().toLocalDateTime().format(formatter))
                     .put("startDate", competition.getStartDate().toLocalDateTime().format(formatter))
                     .put("endDate", competition.getEndDate().toLocalDateTime().format(formatter))

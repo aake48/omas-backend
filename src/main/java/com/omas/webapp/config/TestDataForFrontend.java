@@ -239,27 +239,27 @@ public class TestDataForFrontend implements CommandLineRunner {
             long endDate = startDate + (day * competitionLength);
 
             String competitionId = Constants.createIdString(competitionName);
-            String competitionSeries;
-            int i=random.nextInt(1, 4);
+            String[] competitionSeries = {};            
+            int i=random.nextInt(1, 5);
             switch (i) {
                 case 1: {
-                    competitionSeries = Constants.COMPETITION_SERIES;
+                    competitionSeries = new String[]{Constants.COMPETITION_SERIES};
                     break;
                 }
                 case 2: {
-                    competitionSeries = Constants.COMPETITION_SERIES2;
+                    competitionSeries = new String[]{Constants.COMPETITION_SERIES, Constants.COMPETITION_SERIES2};
                     break;
                 }
                 case 3: {
-                    competitionSeries = Constants.COMPETITION_SERIES3;
+                    competitionSeries = new String[]{Constants.COMPETITION_SERIES, Constants.COMPETITION_SERIES2, Constants.COMPETITION_SERIES3};
                     break;
                 }
                 case 4: {
-                    competitionSeries = Constants.COMPETITION_SERIES4;
+                    competitionSeries = new String[]{Constants.COMPETITION_SERIES, Constants.COMPETITION_SERIES2, Constants.COMPETITION_SERIES3, Constants.COMPETITION_SERIES4};
                     break;
                 }
                 default: {
-                    competitionSeries = Constants.COMPETITION_SERIES;
+                    competitionSeries = new String[]{};
                     break;
                 }
             }
@@ -289,7 +289,7 @@ public class TestDataForFrontend implements CommandLineRunner {
             for (Club club : clubRepository.findAll()) {
 
                 // Generate 1-3 teams for each club
-                int teamCount = ThreadLocalRandom.current().nextInt(1, 4);
+                int teamCount = ThreadLocalRandom.current().nextInt(1, 5);
 
                 for (int i = 1; i <= teamCount; i++) {
 
@@ -303,7 +303,13 @@ public class TestDataForFrontend implements CommandLineRunner {
 
                     TeamId teamId = new TeamId(comp.getCompetitionId(), teamName);
 
-                    Team team = new Team(teamId, teamDisplayName, club.getName(), teamDisplayShort);
+                    int compSeriesAmount = comp.getCompetitionSeries().length;
+
+                    int randomSeries = ThreadLocalRandom.current().nextInt(compSeriesAmount);
+
+                    String teamSeries = comp.getCompetitionSeries()[randomSeries];
+
+                    Team team = new Team(teamId, teamDisplayName, club.getName(), teamDisplayShort, teamSeries);
 
                     System.out.printf("creating team: %s (%s) for competition %s (%s)\n", team.getTeamDisplayName(), team.getTeamName(), comp.getDisplayName(), comp.getCompetitionId());
 
