@@ -40,6 +40,7 @@ public class ClubController {
     public ResponseEntity<?> newClub(@Valid @RequestBody ClubRequest request) {
 
         String clubName = request.getClubName();
+        String passKey = !request.getPassKey().trim().equals("") ? request.getPassKey().trim() : null;
         String clubId = Constants.createIdString(clubName);
 
         if (clubId == null) {
@@ -48,7 +49,7 @@ public class ClubController {
 
         UserInfoDetails userDetails = UserInfoDetails.getDetails();
 
-        Club createdClub = clubService.registerClub(new Club(clubName, clubId, userDetails.getId()));
+        Club createdClub = clubService.registerClub(new Club(clubName, clubId, userDetails.getId(), passKey));
 
         if (createdClub == null) {
             return new ResponseEntity<>(Map.of("message","Club name has already been taken."), HttpStatus.BAD_REQUEST);
@@ -77,7 +78,7 @@ public class ClubController {
         }
 
         try {
-            clubService.checkPasskeyMatch(clubId, club.getPasskey());
+            clubService.checkPasskeyMatch(clubId, club.getPassKey());
 
             // Attempt to join the club
             boolean joined = userService.joinClub(userDetails.getId(), clubId);

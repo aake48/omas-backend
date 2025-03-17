@@ -35,4 +35,12 @@ public class Club {
 		this.creationDate = new Timestamp(Instant.now().toEpochMilli());
 		this.passkey=null;
 	}
+
+	public Club(String clubName, String clubId, long creatorId, String passKey) {
+		this.name = clubId.toLowerCase();
+		this.nameNonId = clubName;
+		this.idCreator = creatorId;
+		this.creationDate = new Timestamp(Instant.now().toEpochMilli());
+		this.passkey=passKey;
+	}
 } 

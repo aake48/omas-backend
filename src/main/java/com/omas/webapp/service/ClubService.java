@@ -86,8 +86,8 @@ public class ClubService {
 
         Club club = optional.get();
 
-        // both are null check
-        if (club.getPasskey() == null && passKey == null) {
+        // both are null check and password check if exists
+        if ((club.getPasskey() == null && passKey == null) || (club.getPasskey() != null && club.getPasskey().equals(passKey.trim()))) {
             return;
         }
 
