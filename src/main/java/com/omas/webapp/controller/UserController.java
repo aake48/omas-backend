@@ -7,7 +7,6 @@ import java.security.SecureRandom;
 import java.util.*;
 import com.omas.webapp.service.*;
 import com.omas.webapp.table.Team;
-import com.omas.webapp.table.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -221,14 +220,16 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/user/roles")
+    @GetMapping("/user/role")
     public ResponseEntity<?> getUserRoles() {
 
         Long userId = UserInfoDetails.getDetails().getId();
 
-        List<Role> role = service.getUserRoles(userId);
+        List<String> role = service.getUserRoles(userId);
 
-        return new ResponseEntity<>(role, HttpStatus.OK);
+        System.out.println(String.join(",", role));
+
+        return new ResponseEntity<>((String.join(",", role)), HttpStatus.OK);
     }
 
    
