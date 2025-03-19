@@ -35,6 +35,9 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
     private @Getter @Id String teamName;
 
     @Getter
+    private Long scoreSubmitterId;
+
+    @Getter
     private double sum;
 
     @Getter
@@ -55,6 +58,7 @@ public class TeamMemberScore implements Comparable<TeamMemberScore> {
         this.competitionId = teamMemberId.getCompetitionId();
         this.teamName = teamMemberId.getTeamName();
         this.creationDate = new Timestamp(Instant.now().toEpochMilli());
+        
     }
 
     @JsonIgnore
