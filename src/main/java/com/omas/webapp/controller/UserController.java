@@ -221,15 +221,11 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/user/role")
-    public ResponseEntity<?> getUserRoles() {
+    public ResponseEntity<?> getUserRoles(@RequestParam(name = "userId") Long userId) {
 
-        Long userId = UserInfoDetails.getDetails().getId();
+        List<String> roles = service.getUserRoles(userId);
 
-        List<String> role = service.getUserRoles(userId);
-
-        System.out.println(String.join(",", role));
-
-        return new ResponseEntity<>((String.join(",", role)), HttpStatus.OK);
+        return new ResponseEntity<>(roles.toArray(), HttpStatus.OK);
     }
 
    

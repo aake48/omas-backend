@@ -1,8 +1,10 @@
 package com.omas.webapp.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.omas.webapp.entity.requests.AdminAddScoreRequest;
 import com.omas.webapp.entity.requests.DeleteRequest;
@@ -81,6 +83,13 @@ public class AdminController {
         if (!userService.userExists(request.getUserId())) {
             return new ResponseEntity<>((Map.of("message", "There is no user with the given userId")), HttpStatus.BAD_REQUEST);
         }
+        Optional<User> user = userService.getUserByUserId(request.getUserId());
+        if(user.isPresent()){
+            List<String> roleList = user.get().getRoles().stream().map(Role::getRole).collect(Collectors.toList());
+            if(roleList.contains(request.getRole())){
+                return new ResponseEntity<>((Map.of("message", "User already has the given role")), HttpStatus.BAD_REQUEST);
+            }
+        }
 
         Role role = roleService.addRole(request.getUserId(), request.getRole());
 
@@ -101,9 +110,9 @@ public class AdminController {
             return new ResponseEntity<>("You may not demote yourself", HttpStatus.BAD_REQUEST);
         }
 
-        if (request.getRole().equals("ROLE_ADMIN")) {
-            return new ResponseEntity<>(Map.of("message","You may not demote admin roles"), HttpStatus.BAD_REQUEST);
-        }
+        //if (request.getRole().equals("ROLE_ADMIN")) {
+        //    return new ResponseEntity<>(Map.of("message","You may not demote admin roles"), HttpStatus.BAD_REQUEST);
+        //}
 
         if (!roleService.hasRole(request.getUserId(), request.getRole())) {
             return new ResponseEntity<>(Map.of("message","Cannot delete nonexistent role"), HttpStatus.BAD_REQUEST);

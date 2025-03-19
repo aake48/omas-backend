@@ -228,8 +228,8 @@ public class UserService implements UserDetailsService {
         return repository.findById(userId);
     }
 
-    public List<String> getUserRoles(Long role) {
-        return repository.getRoles(role);
+    public List<String> getUserRoles(Long userId) {
+        return repository.getRoles(userId);
     }
 
 }
