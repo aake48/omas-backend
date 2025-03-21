@@ -132,7 +132,7 @@ public class AdminController {
         try {
 
             TeamMemberScore score = teamMemberScoreService.modifyScoreSum(
-                teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType()
+                teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType(), 0L
             );
 
             return new ResponseEntity<>(score, HttpStatus.OK);
