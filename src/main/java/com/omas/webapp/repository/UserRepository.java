@@ -7,8 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import com.omas.webapp.table.Role;
 import com.omas.webapp.table.User;
 
 public interface UserRepository extends JpaRepository<User, Long> { 
@@ -18,7 +18,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     public Page<User> findByLegalNameContaining(String search, PageRequest pageRequest);
 
-    @Query(value = "SELECT * FROM Role r WHERE r.user_id = :userid", nativeQuery = true)
-    public List<Role> getRoles(Long userid);
+    @Query(value = "SELECT role FROM role r WHERE r.user_id = :user_id", nativeQuery = true)
+    public List<String> getRoles(@Param("user_id") Long userId);
         
 }

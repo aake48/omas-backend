@@ -149,6 +149,8 @@ public class TeamMemberController {
 
         try {
 
+            long userId = UserInfoDetails.getDetails().getId();
+
             String clubId = Constants.createIdString(request.getClubName());
 
             if (clubId == null) {
@@ -184,7 +186,7 @@ public class TeamMemberController {
                     request.getTeamName());
 
             TeamMemberScore score = teamMemberScoreService.modifyScoreSum(
-                teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType()
+                teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType(), userId
             );
 
             return new ResponseEntity<>(score, HttpStatus.OK);
@@ -197,6 +199,8 @@ public class TeamMemberController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/score/add/sum")
     public ResponseEntity<?> addScoresSum(@Valid @RequestBody AddTeamMemberScoreAsSumRequest request) {
+
+        Long userId = UserInfoDetails.getDetails().getId();
 
         Optional<Competition> competitionOptional = competitionService.getCompetition(request.getCompetitionName());
 
@@ -216,7 +220,7 @@ public class TeamMemberController {
             TeamMemberId teamMemberId = teamsService.resolveTeamMemberId(request.getUserId(), request.getCompetitionName(), request.getTeamName());
 
             TeamMemberScore score = teamMemberScoreService.modifyScoreSum(
-                teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType()
+                teamMemberId, request.getBullsEyeCount(), request.getScore(), request.getRequestType(), userId
             );
 
             return new ResponseEntity<>(score, HttpStatus.OK);

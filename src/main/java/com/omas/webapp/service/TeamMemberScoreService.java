@@ -48,7 +48,7 @@ public class TeamMemberScoreService {
      * Adds the scores and bullseyes directly
      * @return the saved {@link TeamMemberScore}
      */
-    public TeamMemberScore setSum(TeamMemberId teamMemberId, int bullsEyeCount, double score, int round) throws IllegalArgumentException {
+    public TeamMemberScore setSum(TeamMemberId teamMemberId, int bullsEyeCount, double score, int round, Long scoreSubmitterId) throws IllegalArgumentException {
 
         if (score > Constants.MAX_SCORE) {
             throw new IllegalArgumentException("Score exceeds maximum score");
@@ -58,20 +58,20 @@ public class TeamMemberScoreService {
             throw new IllegalArgumentException("Bulls eye count exceeds maximum bulls eye count");
         }
 
-        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, score, bullsEyeCount, round));
+        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, score, bullsEyeCount, round, scoreSubmitterId));
     }
 
     /**
      * Updates the scores and bullseyes directly
      * @return the saved {@link TeamMemberScore}
      */
-    public TeamMemberScore addSum(TeamMemberId teamMemberId, int bullsEyeCount, double score) throws IllegalArgumentException {
+    public TeamMemberScore addSum(TeamMemberId teamMemberId, int bullsEyeCount, double score, Long scoreSubmitterId) throws IllegalArgumentException {
 
         Optional<TeamMemberScore> optional = teamMemberScoreRepository.findById(teamMemberId);
 
         // If there is no score, just set it
         if (optional.isEmpty()) {
-            return setSum(teamMemberId, bullsEyeCount, score, 1);
+            return setSum(teamMemberId, bullsEyeCount, score, 1, scoreSubmitterId);
         }
 
         TeamMemberScore teamMemberScore = optional.get();
@@ -92,7 +92,8 @@ public class TeamMemberScoreService {
             throw new IllegalArgumentException("New bulls eye count exceeds maximum bulls eye count");
         }
 
-        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, newScore, newBullsEyeCount, newRound));
+        return teamMemberScoreRepository.save(new TeamMemberScore(teamMemberId, newScore, newBullsEyeCount, newRound, scoreSubmitterId));
+        
     }
 
     /**
@@ -101,14 +102,14 @@ public class TeamMemberScoreService {
      * <br>{@link Constants#ADD_METHOD_UPDATE} will attempt to add to the existing score or set it if it does not exist yet
      * @return the modified or set {@link TeamMemberScore}
      */
-    public TeamMemberScore modifyScoreSum(TeamMemberId teamMemberId, int bullsEyeCount, double score, String addMethod) throws IllegalArgumentException {
+    public TeamMemberScore modifyScoreSum(TeamMemberId teamMemberId, int bullsEyeCount, double score, String addMethod, Long scoreSubmitterId) throws IllegalArgumentException {
 
         switch (addMethod) {
             case Constants.ADD_METHOD_SET -> {
-                return setSum(teamMemberId, bullsEyeCount, score, Constants.MAX_ROUND);
+                return setSum(teamMemberId, bullsEyeCount, score, Constants.MAX_ROUND, scoreSubmitterId);
             }
             case Constants.ADD_METHOD_UPDATE -> {
-                return addSum(teamMemberId, bullsEyeCount, score);
+                return addSum(teamMemberId, bullsEyeCount, score, scoreSubmitterId);
             }
             default -> {
                 throw new IllegalArgumentException("Invalid add method");
