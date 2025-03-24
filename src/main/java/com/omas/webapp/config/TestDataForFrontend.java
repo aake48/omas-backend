@@ -344,7 +344,7 @@ public class TestDataForFrontend implements CommandLineRunner {
 
                 teamMemberRepository.save(member);
 
-                TeamMemberScore score = new TeamMemberScore(member.getId(), give60shots(), 10, 10);
+                TeamMemberScore score = new TeamMemberScore(member.getId(), give60shots(), 10, 5);
 
                 teamMemberScoreRepository.save(score);
             }
