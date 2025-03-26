@@ -5,6 +5,7 @@ import com.omas.webapp.table.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -56,8 +57,17 @@ public class CompetitionService {
         return competitionRepository.findById(name.toLowerCase());
     }
 
-    public Page<Competition> findWithPaginatedSearch(int page, int size, String search) {
-        return competitionRepository.findByCompetitionIdContainingIgnoreCase(search, PageRequest.of(page, size));
+    public Page<Competition> findWithPaginatedSearch(int page, int size, String search, String series, String sortType, String sortOrder) {
+        if(sortType.isEmpty()){
+            if(!series.isEmpty()){
+                return competitionRepository.findByCompetitionNameAndSeries(search, series, PageRequest.of(page, size));
+            }
+            return competitionRepository.findByCompetitionIdContainingIgnoreCase(search, PageRequest.of(page, size));
+        }
+        else{
+            return competitionRepository.findByCompetitionNameAndSeries(search, series, 
+                                        PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortType)));
+        }
     }
 
     public Page<Competition> firstPaginated(int page, int size) {
