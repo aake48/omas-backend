@@ -2,11 +2,11 @@ package com.omas.webapp.controller;
 
 import com.omas.webapp.entity.requests.ClubRequest;
 import com.omas.webapp.entity.requests.SetPasskeyRequest;
-import com.omas.webapp.service.ClubService;
-import com.omas.webapp.service.RoleService;
-import com.omas.webapp.service.UserInfoDetails;
-import com.omas.webapp.service.UserService;
+import com.omas.webapp.service.*;
 import com.omas.webapp.table.Club;
+import com.omas.webapp.table.Team;
+import com.omas.webapp.table.TeamId;
+import com.omas.webapp.table.TeamMemberId;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +34,9 @@ public class ClubController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private TeamService teamService;
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping("/auth/club/new")
@@ -97,6 +100,7 @@ public class ClubController {
     @PostMapping("/auth/club/leave")
     public ResponseEntity<?> leaveClub() {
         UserInfoDetails userDetails = UserInfoDetails.getDetails();
+        Long userId = userDetails.getId();
 
         try {
             // Check if the user is in a club
@@ -105,16 +109,42 @@ public class ClubController {
                 return new ResponseEntity<>(Map.of("message", "User is not in any club."), HttpStatus.BAD_REQUEST);
             }
 
+            // Remove user from teams
+            int teamsLeft = removeUserFromAllTeamsInClub(userId, currentClub);
+
             // Remove user from the club
             boolean leftClub = userService.leaveClub(userDetails.getId());
             if (!leftClub) {
                 return new ResponseEntity<>(Map.of("message", "Failed to leave the club."), HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
-            return new ResponseEntity<>(Map.of("message", "Successfully left the club."), HttpStatus.OK);
+            return new ResponseEntity<>(Map.of("message", "Successfully left the club and " + teamsLeft + " team(s)."), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private int removeUserFromAllTeamsInClub(Long userId, String currentClub) {
+        List<Team> userTeams = teamService.getUserTeams(userId);
+        if (userTeams.isEmpty()) {
+            return 0;
+        }
+
+        int removed = 0;
+
+        for (Team team : userTeams) {
+            if (team.getClubName().equalsIgnoreCase(currentClub)) {
+                TeamId teamId = team.getTeamId();
+                try {
+                    teamService.removeTeamMember(new TeamMemberId(userId, teamId.getCompetitionId(), teamId.getTeamName()));
+                    removed++;
+                } catch (Exception e) {
+                    System.err.println("Failed to remove user " + userId + " from team " + teamId + ": " + e.getMessage());
+                }
+            }
+        }
+
+        return removed;
     }
 
     @GetMapping("club/{name}")
