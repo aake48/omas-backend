@@ -179,8 +179,8 @@ public class CompetitionController {
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
-    @GetMapping("competition/{name}")
-    public ResponseEntity<?> getCompetition(@PathVariable String name) {
+    @GetMapping(params = {"id"}, value = "competition")
+    public ResponseEntity<?> getCompetition(@RequestParam(value = "id") String name) {
         try {
             return new ResponseEntity<>(competitionService.getCompetition(name), HttpStatus.OK);
         } catch (Exception e) {
@@ -202,8 +202,8 @@ public class CompetitionController {
      *         name.
      */
     
-    @GetMapping(value = "/competition/result/{name}", produces = "application/json")
-    public ResponseEntity<?> getResultsForCompetition(@PathVariable String name) {
+    @GetMapping(params = "name", value = "/competition/result", produces = "application/json")
+    public ResponseEntity<?> getResultsForCompetition(@RequestParam(value = "name") String name) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
