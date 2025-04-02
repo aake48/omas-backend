@@ -335,8 +335,9 @@ public class TestDataForFrontend implements CommandLineRunner {
                 user.setUsername(generateRandomString(10));
                 user.setLegalName(generateRandomName());
                 user.setPartOfClub(team.getClubName());
-
+                
                 user = userRepository.save(user);
+                roleService.addUserRole(user.getId());
 
                 System.out.printf("userId: %d, creating %s and their scores for team %s (%s)\n", user.getId(), user.getLegalName(), team.getTeamDisplayName(), team.getTeamName());
 

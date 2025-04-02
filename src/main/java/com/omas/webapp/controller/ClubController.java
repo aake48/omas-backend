@@ -147,8 +147,8 @@ public class ClubController {
         return removed;
     }
 
-    @GetMapping("club/{name}")
-    public ResponseEntity<?> getClub(@PathVariable String name) {
+    @GetMapping(params = "id", value = "club")
+    public ResponseEntity<?> getClub(@RequestParam(value="id") String name) {
         try {
             return new ResponseEntity<>(clubService.getClub(name), HttpStatus.OK);
         } catch (Exception e) {

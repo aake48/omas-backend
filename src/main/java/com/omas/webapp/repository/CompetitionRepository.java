@@ -36,11 +36,11 @@ public interface CompetitionRepository extends JpaRepository<Competition, String
     Page<Competition> findByYearContaining(@Param("year") int year, @Param("search") String search, PageRequest pageRequest);
 
     @Query(value = "SELECT * FROM Competition c WHERE c.start_date <= :now AND c.end_date >= :now ORDER BY c.start_date ASC", nativeQuery = true)
-    Page<Competition> findActiveCompetitions(Date now, PageRequest of);
+    Page<Competition> findActiveCompetitions(@Param("now") Date now, PageRequest of);
 
     @Query(value = "SELECT * FROM Competition c WHERE c.end_date <= :now ORDER BY c.start_date ASC", nativeQuery = true)
-    Page<Competition> findInactiveCompetitions(Date now, PageRequest of);
+    Page<Competition> findInactiveCompetitions(@Param("now") Date now, PageRequest of);
 
     @Query(value = "SELECT * FROM Competition c WHERE c.start_date > :now ORDER BY c.start_date ASC", nativeQuery = true)
-    Page<Competition> findUpcomingCompetitions(Date now, PageRequest of);
+    Page<Competition> findUpcomingCompetitions(@Param("now") Date now, PageRequest of);
 }
