@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.omas.webapp.table.TeamMember;
 import com.omas.webapp.table.TeamMemberId;
@@ -22,7 +23,7 @@ public interface TeamMemberRepository extends JpaRepository<TeamMember, TeamMemb
     List<TeamMember> findByUserId(Long userId);
 
     @Query(value = "SELECT tm.* FROM Team_member tm JOIN Competition c ON tm.competition_id = c.competition_id WHERE tm.user_id = :userId AND c.end_date > :now", nativeQuery = true)
-    List<TeamMember> findThisUsersTeamMembershipsForActiveCompetitions(Long userId,  Date now);
+    List<TeamMember> findThisUsersTeamMembershipsForActiveCompetitions(@Param("userId") Long userId,  @Param("now") Date now);
 
     TeamMember findByUserIdAndCompetitionIdIgnoreCase(Long userId, String competitionId);
 
