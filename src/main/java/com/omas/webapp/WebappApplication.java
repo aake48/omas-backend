@@ -29,7 +29,7 @@ public class WebappApplication {
 		corsConfiguration.setAllowCredentials(true);
 		corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000/", "https://localhost:3000/",
 				"https://omas-frontend.vercel.app/", "https://omas-frontend-git-live-omas-front.vercel.app",
-				"https://omas-frontend2.vercel.app", "https://omas-frontend2.vercel.app/"));
+				"https://omas-frontend.vercel.app", "https://omas-frontend.vercel.app/"));
 		corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
 				"Accept", "Authorization", "Origin, Accept", "X-Requested-With",
 				"Access-Control-Request-Method", "Access-Control-Request-Headers"));
