@@ -33,5 +33,10 @@ public class RegistrationRequest {
 	@Size(min = 6, message = "Password cannot be fewer than 6 characters")
 	private String password;
 
+	//@NotEmpty(message = "Role cannot be empty")
+	private String role;
+
+	private String club;
+
   
 }

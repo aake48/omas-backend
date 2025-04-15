@@ -26,6 +26,11 @@ public class RoleService {
         return repository.save(userRole);
     }
 
+    public Role addUserRole(long id, String role) {
+        Role userRole = new Role(id, role);
+        return repository.save(userRole);
+    }
+
     public Role addAdminRole(long id) {
         Role userRole = new Role(id, "ROLE_ADMIN");
         return repository.save(userRole);
