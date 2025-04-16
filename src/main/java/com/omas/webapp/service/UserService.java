@@ -112,7 +112,12 @@ public class UserService implements UserDetailsService {
         user.setPassword(encoder.encode(user.getPassword()));
         try {
             User createdUser = repository.save(user);
-            roleService.addUserRole(createdUser.getId(), request.getRole() != null && request.getRole().equals("admin") ? "ROLE_ADMIN" : "ROLE_USER");
+            if(request.getRole() == null){
+                roleService.addUserRole(createdUser.getId(), "ROLE_USER");
+            }
+            else{
+                roleService.addUserRole(createdUser.getId(), request.getRole().equals("admin") ? "ROLE_ADMIN" : "ROLE_USER");
+            }
         } catch (DataIntegrityViolationException e) {
             throw new Exception("The provided email is already in use.");
                 }
