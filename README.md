@@ -126,7 +126,36 @@ OMAS_BAN_DURATION=86400000
 #either prod, dev or 'dev,TestDataForFrontend' //if TestDataForFrontend is present, TestDataForFrontend.java will be run. This should be removed when running backend's tests.
 OMAS_PROFILES=dev,TestDataForFrontend
 ```
-## 3rd run 
+## 3rd create keystore and certificate
+Create a keystore folder in resources folder
+
+Create a key in terminal with the following command:
+
+keytool -genkeypair -alias omas -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore omas.p12 -validity 365 -ext san=dns:localhost  
+
+Create a certificate with the following command:   
+keytool -export -keystore omas.p12 -alias omas -file omas-cert.crt  
+Move both files to the keystore folder you created  
+
+If you are using Windows, open the certificate:  
+![Certificate install](./docs/certificate_install1.png)
+
+Press install certificate  
+This window should popup:  
+
+![Certificate install2](./docs/certificate_install2.png)
+
+Press next  
+Select "Place all certificates in the following store" and click browse  
+
+![Certificate install3](./docs/certificate_install3.png)  
+
+Select Trusted Root Certification Authorities and press ok  
+
+![Certificate install4](./docs/certificate_install4.png)  
+Select next and finish.
+
+## 4th run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>
 
 # API endpoints 
@@ -300,14 +329,14 @@ Note: this endpoint requires admin role
 
 ## club admin related
 ### update team member's scores
-Update/add your fellow teamMember's Scores with this, when you have clubAdmin Role in your club
+Update/add your fellow teamMember's Scores with this
 
 requestType determines the operation used to update the user's scores. It has two possible values:
 "set" sets the score overwriting any previous while
 "update" adds to the previous score or sets the score if there are none yet
 ```
 POST https://localhost:8080/api/competition/team/member/score/add/sum/admin
-Authorization: required "{clubName}/admin" role required
+Authorization: 'Bearer ' + token,
 Content-Type: application/json
 {
   competitionName:string,
@@ -443,7 +472,7 @@ Note: backend will remove any whitespaces and äöå from the competitionName an
 Unaltered version of the name will be saved to [competitionId](#competition). Only [a-zA-Z0-9-_] chars are allowed to be in the name, after the alterations. 
 If there are any others the result will be code 400.
 
-startDate and endDate are optional. If they are not provided, backend will set them automatically start date to now and end date now + 7d. If provided: start can range from now-1 to now +365d and end from now to +364d
+startDate can range from now-1 to now +365d and endDate from now to +364d
 ```
 POST https://localhost:8080/api/auth/competition/new
 Authorization: required
@@ -461,6 +490,7 @@ returns [competition](#competition)
   "competitionId": string,
   "displayName": string,
   "type": "rifle" || "pistol"
+  "competitionSeries": string[],
   "startDate": number,
   "endDate": number,
   "creationDate": string
@@ -723,10 +753,11 @@ Deletes a file by the given id. The fileName must be provided.
   "competitionId": string,
   "displayName": string,
   "competitionType": string,
+  "competitionSeries: string[],
   "creationDate": number,
   "startDate": number,
   "endDate": number,
-  "teams": CompetitionTeamResponse[]
+
 }
 ```
 Note: used to be called competitionResults
@@ -760,12 +791,12 @@ Note: used to be called competitionResults.team.scores
 ```
 {
   "userId": number,
+  "scoreSubmitterId": number,
   "competitionId": string,
   "teamName": string,
   "sum": number,
   "bullsEyeCount": number,
   "round": number,
-  "scorePerShot": string,
   "creationDate": string
 }
 ```
@@ -811,8 +842,9 @@ Mm. onnistunut kilpailun luominen palauttaa tälläisen.
     "competitionId": string,
     "displayName": string,
     "type": "rifle" || "pistol"
-    "startDate": number,
-    "endDate": number,
+    "competitionSeries": string[];
+    "startDate": string,
+    "endDate": string,
     "creationDate": string
 }
 ```
@@ -823,7 +855,8 @@ Mm. onnistunut seuran luominen palauttaa tälläisen.
   "name": string, // @id
   "nameNonId": string,
   "creationDate": number,
-  "idCreator": number
+  "idCreator": number,
+  "passKey": string
 }
 ```
 
@@ -841,6 +874,7 @@ Mm. onnistunut seuran luominen palauttaa tälläisen.
 {
   teamName: string,
   teamDisplayName: string,
+  teamDisplayShort: string,
   competitionId: string,
   teamMembers: teamMember[]
 }
