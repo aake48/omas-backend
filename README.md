@@ -131,27 +131,26 @@ Create a keystore folder in resources folder
 
 Create a key in terminal with the following command:
 
-keytool -genkeypair -alias omas -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore omas.p12 -validity 365 -ext san=dns:localhost
+keytool -genkeypair -alias omas -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore omas.p12 -validity 365 -ext san=dns:localhost  
 
-Create a certificate keytool -export -keystore omas.p12 -alias omas -file omas-cert.crt
+Create a certificate keytool -export -keystore omas.p12 -alias omas -file omas-cert.crt  
 
-If you are using Windows, open the certificate:
+If you are using Windows, open the certificate:  
 ![Certificate install](./docs/certificate_install1.png)
 
-Press install certificate
-This window should popup:
+Press install certificate  
+This window should popup:  
 
 ![Certificate install2](./docs/certificate_install2.png)
 
-Press next
-Select "Place all certificate in the following store"
+Press next  
+Select "Place all certificate in the following store"  
 
-![Certificate install3](./docs/certificate_install3.png)
+![Certificate install3](./docs/certificate_install3.png)  
 
-Select Trusted Root Certification Authorities
+Select Trusted Root Certification Authorities  
 
-![Certificate install4](./docs/certificate_install4.png)
-
+![Certificate install4](./docs/certificate_install4.png)  
 Select next and finish.
 
 ## 4th run 
