@@ -300,14 +300,14 @@ Note: this endpoint requires admin role
 
 ## club admin related
 ### update team member's scores
-Update/add your fellow teamMember's Scores with this, when you have clubAdmin Role in your club
+Update/add your fellow teamMember's Scores with this
 
 requestType determines the operation used to update the user's scores. It has two possible values:
 "set" sets the score overwriting any previous while
 "update" adds to the previous score or sets the score if there are none yet
 ```
 POST https://localhost:8080/api/competition/team/member/score/add/sum/admin
-Authorization: required "{clubName}/admin" role required
+Authorization: 'Bearer ' + token,
 Content-Type: application/json
 {
   competitionName:string,
