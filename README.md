@@ -150,7 +150,7 @@ Select "Place all certificates in the following store" and click browse
 
 ![Certificate install3](./docs/certificate_install3.png)  
 
-Select Trusted Root Certification Authorities  
+Select Trusted Root Certification Authorities and press ok  
 
 ![Certificate install4](./docs/certificate_install4.png)  
 Select next and finish.
