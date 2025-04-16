@@ -126,7 +126,25 @@ OMAS_BAN_DURATION=86400000
 #either prod, dev or 'dev,TestDataForFrontend' //if TestDataForFrontend is present, TestDataForFrontend.java will be run. This should be removed when running backend's tests.
 OMAS_PROFILES=dev,TestDataForFrontend
 ```
-## 3rd run 
+## 3rd create keystore and certificate
+Create a keystore folder in resources folder
+
+Create a key in terminal with the following command:
+
+keytool -genkeypair -alias omas -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore omas.p12 -validity 365 -ext san=dns:localhost
+
+Create a certificate keytool -export -keystore omas.p12 -alias omas -file omas-cert.crt
+
+If you are using Windows, open the certificate:![Certificate install](./docs/certificate_install1.png)
+Press install certificate
+This window should popup: ![Certificate install2](./docs/certificate_install2.png)
+Press next
+Select "Place all certificate in the following store" ![Certificate install3](./docs/certificate_install3.png)
+![Certificate install4](./docs/certificate_install4.png)
+Select Trusted Root Certification Authorities
+Select next and finish.
+
+## 4th run 
 Run main found in <ins>src/main/java/com/omas/webapp/WebappApplication.java</ins>
 
 # API endpoints 
