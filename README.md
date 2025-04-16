@@ -144,7 +144,7 @@ This window should popup:
 ![Certificate install2](./docs/certificate_install2.png)
 
 Press next  
-Select "Place all certificate in the following store"  
+Select "Place all certificates in the following store" and click browse  
 
 ![Certificate install3](./docs/certificate_install3.png)  
 
