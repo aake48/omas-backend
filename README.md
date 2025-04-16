@@ -443,7 +443,7 @@ Note: backend will remove any whitespaces and äöå from the competitionName an
 Unaltered version of the name will be saved to [competitionId](#competition). Only [a-zA-Z0-9-_] chars are allowed to be in the name, after the alterations. 
 If there are any others the result will be code 400.
 
-startDate and endDate are optional. If they are not provided, backend will set them automatically start date to now and end date now + 7d. If provided: start can range from now-1 to now +365d and end from now to +364d
+startDate can range from now-1 to now +365d and endDate from now to +364d
 ```
 POST https://localhost:8080/api/auth/competition/new
 Authorization: required
@@ -461,6 +461,7 @@ returns [competition](#competition)
   "competitionId": string,
   "displayName": string,
   "type": "rifle" || "pistol"
+  "competitionSeries": string[],
   "startDate": number,
   "endDate": number,
   "creationDate": string
@@ -723,10 +724,11 @@ Deletes a file by the given id. The fileName must be provided.
   "competitionId": string,
   "displayName": string,
   "competitionType": string,
+  "competitionSeries: string[],
   "creationDate": number,
   "startDate": number,
   "endDate": number,
-  "teams": CompetitionTeamResponse[]
+
 }
 ```
 Note: used to be called competitionResults
@@ -760,12 +762,12 @@ Note: used to be called competitionResults.team.scores
 ```
 {
   "userId": number,
+  "scoreSubmitterId": number,
   "competitionId": string,
   "teamName": string,
   "sum": number,
   "bullsEyeCount": number,
   "round": number,
-  "scorePerShot": string,
   "creationDate": string
 }
 ```
@@ -811,8 +813,9 @@ Mm. onnistunut kilpailun luominen palauttaa tälläisen.
     "competitionId": string,
     "displayName": string,
     "type": "rifle" || "pistol"
-    "startDate": number,
-    "endDate": number,
+    "competitionSeries": string[];
+    "startDate": string,
+    "endDate": string,
     "creationDate": string
 }
 ```
@@ -823,7 +826,8 @@ Mm. onnistunut seuran luominen palauttaa tälläisen.
   "name": string, // @id
   "nameNonId": string,
   "creationDate": number,
-  "idCreator": number
+  "idCreator": number,
+  "passKey": string
 }
 ```
 
@@ -841,6 +845,7 @@ Mm. onnistunut seuran luominen palauttaa tälläisen.
 {
   teamName: string,
   teamDisplayName: string,
+  teamDisplayShort: string,
   competitionId: string,
   teamMembers: teamMember[]
 }
