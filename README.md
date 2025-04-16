@@ -133,7 +133,9 @@ Create a key in terminal with the following command:
 
 keytool -genkeypair -alias omas -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore omas.p12 -validity 365 -ext san=dns:localhost  
 
-Create a certificate keytool -export -keystore omas.p12 -alias omas -file omas-cert.crt  
+Create a certificate with the following command:   
+keytool -export -keystore omas.p12 -alias omas -file omas-cert.crt  
+Move both files to the keystore folder you created  
 
 If you are using Windows, open the certificate:  
 ![Certificate install](./docs/certificate_install1.png)
