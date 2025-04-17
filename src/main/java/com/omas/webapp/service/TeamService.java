@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.omas.webapp.repository.TeamMemberRepository;
+import com.omas.webapp.repository.TeamMemberScoreRepository;
 import com.omas.webapp.repository.TeamRepository;
 import com.omas.webapp.table.Role;
 import com.omas.webapp.table.RoleId;
@@ -23,6 +24,9 @@ public class TeamService {
 
     @Autowired
     private TeamMemberRepository teamMemberRepository;
+
+    @Autowired
+    private TeamMemberScoreRepository teamMemberScoreRepository;
 
     @Autowired RoleService roleService;
 
@@ -90,6 +94,9 @@ public class TeamService {
     public TeamMember removeTeamMember(TeamMemberId teamMemberId) throws Exception{
         if(thisUserIsTeamMember(teamMemberId)){
             TeamMember member = teamMemberRepository.getReferenceById(teamMemberId);
+            //Deletes all team member scores with the given teamMemberId to prevent errors when leaving a team.
+            //This may not be an optimal solution for the final version.
+            teamMemberScoreRepository.deleteById(teamMemberId);
             teamMemberRepository.deleteById(teamMemberId);
             return member;
         }

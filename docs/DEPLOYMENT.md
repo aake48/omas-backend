@@ -3,6 +3,7 @@
 
 - [<ins>__How to deploy to cloud__</ins> (?)](#how-to-deploy-to-cloud)
 
+- [<ins>__How to deploy to Render__</ins> (?)](#how-to-deploy-to-render)
 
 # How to run docker-compose.prod
 
@@ -58,7 +59,7 @@ The projects should be structured like this:
 ## then run the docker-compose.prod.yml file to setup the containers
 `docker-compose -f docker-compose.prod.yml up`
 
-# how to deploy to cloud
+# How to deploy to cloud
 
 Deployment to cloud depends on the cloud provider you are using. Here is a general guide on how to deploy to a cloud provider, but you should consult the documentation of the cloud provider you are using for more information.
 
@@ -84,3 +85,32 @@ Redeploy the application to the cloud provider's services to apply the changes. 
 ## 6. Update the .env file
 Update the `.env` file with the API URL for the cloud provider's services.
 
+
+# How to deploy to Render
+Go to dashboard.render.com and follow the previous instructions. 
+
+After creating a project in step 1, in the project select "Create new service" and "Web services". 
+
+Import the git project and as the language, select "Docker". 
+
+Select the free instance type and add the environment variables found in the env.properties file in the following format.
+```
+OMAS_DATABASE_URL=jdbc:postgresql://<database hostname>:<database port>/<database dbname e.g. omas_3yt5>
+OMAS_DATABASE_USERNAME=#username of database
+OMAS_DATABASE_PASSWORD=#password of database
+OMAS_SECRET_KEY=48794134879942idontlikedogs1323572342328789
+OMAS_SMTP_HOST=smtp.gmail.com
+OMAS_SMTP_USERNAME=
+OMAS_SMTP_PASSWORD=
+OMAS_SMTP_PORT= 
+OMAS_RECOVERY_PAGE_URL=https://<front-end-url>/recovery
+OMAS_TOKEN_VALIDITY_DURATION=28800000
+OMAS_MAX_LOGIN_ATTEMPTS=10
+OMAS_BAN_DURATION=86400000
+OMAS_PROFILES=prod
+```
+Database hostname, port, dbname, username and password can be found in the database's info after creating it.
+
+Create the database by selecting "Create new service" and "Postgres". Fill in name and optionally dbname and username. Select PostgreSQL Version 16 and free instance type.
+
+Continue by following the general instructions. Steps 2, 3 and 4 can now be skipped. Finally, add the web-service URL in the front-end deployment's environment variables as NEXT_PUBLIC_API_URL.
