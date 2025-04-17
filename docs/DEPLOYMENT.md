@@ -3,6 +3,7 @@
 
 - [<ins>__How to deploy to cloud__</ins> (?)](#how-to-deploy-to-cloud)
 
+- [<ins>__How to deploy to Render__</ins> (?)](#how-to-deploy-to-render)
 
 # How to run docker-compose.prod
 
