@@ -39,11 +39,11 @@ public class FileController {
     @PostMapping("/upload")
     public ResponseEntity<?> uploadFiles(
         @RequestParam("competitionId") String competitionId,
-        @RequestParam("file") MultipartFile file
+        @RequestParam("file") MultipartFile file,
+        @RequestParam("userid") String userid
     ) {
 
-        Long userId = UserInfoDetails.getDetails().getId();
-        TeamMemberScore score = this.scoreService.getUsersScore(userId, competitionId);
+        TeamMemberScore score = this.scoreService.getUsersScore(Long.parseLong(userid), competitionId);
 
         if (score == null) {
             return new ResponseEntity<>(Map.of("message","Could not find a score to associate this image with"), HttpStatus.BAD_REQUEST);
