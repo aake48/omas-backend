@@ -336,7 +336,7 @@ requestType determines the operation used to update the user's scores. It has tw
 "update" adds to the previous score or sets the score if there are none yet
 ```
 POST https://localhost:8080/api/competition/team/member/score/add/sum/admin
-Authorization: 'Bearer ' + token,
+Authorization: required
 Content-Type: application/json
 {
   competitionName:string,
