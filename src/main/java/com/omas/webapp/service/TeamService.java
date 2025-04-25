@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.omas.webapp.repository.TeamMemberRepository;
 import com.omas.webapp.repository.TeamMemberScoreRepository;
 import com.omas.webapp.repository.TeamRepository;
+import com.omas.webapp.table.ImageProofId;
 import com.omas.webapp.table.Role;
 import com.omas.webapp.table.RoleId;
 import com.omas.webapp.table.Team;
@@ -29,6 +30,8 @@ public class TeamService {
     private TeamMemberScoreRepository teamMemberScoreRepository;
 
     @Autowired RoleService roleService;
+
+    @Autowired FileService fileService;
 
     /**
      * Note: this method does not perform any validation to check if the provided competition or club exists.
@@ -94,8 +97,12 @@ public class TeamService {
     public TeamMember removeTeamMember(TeamMemberId teamMemberId) throws Exception{
         if(thisUserIsTeamMember(teamMemberId)){
             TeamMember member = teamMemberRepository.getReferenceById(teamMemberId);
-            //Deletes all team member scores with the given teamMemberId to prevent errors when leaving a team.
+            //Deletes all team member scores and images with the given teamMemberId to prevent errors when leaving a team.
             //This may not be an optimal solution for the final version.
+            List<String> userImageFileNames = fileService.getFileNames(teamMemberId);
+            for(String file : userImageFileNames){
+                fileService.deleteFileById(new ImageProofId(teamMemberId, file));
+            }
             teamMemberScoreRepository.deleteById(teamMemberId);
             teamMemberRepository.deleteById(teamMemberId);
             return member;
